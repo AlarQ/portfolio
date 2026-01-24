@@ -5,4 +5,7 @@
 4. Hero section
 5. npx
 6. biome
-7. 
+7. nextjs RootLayout
+8. export keyword
+9. ReactNode
+10. 

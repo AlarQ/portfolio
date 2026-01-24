@@ -21,10 +21,9 @@ The project uses Next.js 16 with App Router, Material UI 7 for styling, and Veli
 
 **CRITICAL: AI agents are PROHIBITED from generating application code, even when explicitly requested.**
 
-**Exception**: AI agents MAY generate boilerplate configuration files with low learning value:
-- Configuration files: `package.json`, `tsconfig.json`, `.gitignore`, `.eslintrc.json`, `.prettierrc`, `next.config.js`
-- Setup files: `tailwind.config.js`, `postcss.config.js`, `.nvmrc`, `.editorconfig`
-- These files are standard boilerplate and don't teach core concepts
+**Exceptions**: AI agents MAY generate the following:
+- **Configuration files** (low learning value): `package.json`, `tsconfig.json`, `.gitignore`, `.eslintrc.json`, `.prettierrc`, `next.config.js`, `tailwind.config.js`, `postcss.config.js`, `.nvmrc`, `.editorconfig`
+- **Code comments**: Adding explanatory comments to existing code is allowed - comments help document concepts and reinforce learning without generating actual application logic
 
 **Prohibited**: Application code that involves learning concepts:
 - React components (`src/components/BlogCard.tsx`, `src/components/Header.tsx`, etc.)
@@ -568,18 +567,49 @@ console.log("Content data:", data);  // Logs in production, exposes data
 
 ### Conventional Commits Format
 
-- **Use one, maximum two lines for commit messages**
 - **Format**: `<type>(<scope>): <description>`
 - **Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `perf`, `build`, `ci`
 - **Scope**: Optional, kebab-case format (e.g., `blog`, `projects`, `theme`, `mdx`, `ui`, `layout`)
 - **Description**: Sentence-case, minimum 10 characters, no period at end
 - **Max length**: 100 characters for entire commit header
-- **Examples**:
-  - `feat(blog): add tag filtering to blog listing page`
-  - `fix(theme): correct typography scaling on mobile`
-  - `feat(projects): implement project card hover effects`
-  - `refactor(mdx): extract custom components to separate file`
-  - `chore(deps): update Material UI to 7.3.6`
+
+### Commit Message Structure
+
+```
+<type>(<scope>): <description>
+
+Concepts: <concept1>, <concept2>, <concept3>
+```
+
+**Concepts field** (required for learning commits):
+- Lists frontend, TypeScript, and CSS concepts touched/learned during implementation
+- Helps track learning progress and serves as a reference for future review
+- Use comma-separated list of concept names
+- Examples of concepts:
+  - **React/Next.js**: Server Components, Client Components, useServerInsertedHTML, generateStaticParams, App Router, Streaming SSR
+  - **TypeScript**: Type guards, Type predicates, Generics, Union types, Interface vs Type
+  - **CSS/Styling**: CSS-in-JS, Emotion cache, CSS variables, MUI sx prop, Responsive breakpoints
+  - **Patterns**: Provider pattern, Singleton pattern, Context API, SSR hydration
+
+**Example commits:**
+
+```
+feat(theme): implement ThemeRegistry with Emotion SSR support
+
+Concepts: useServerInsertedHTML, Emotion cache, CSS-in-JS, SSR hydration, Provider pattern
+```
+
+```
+feat(blog): add tag filtering to blog listing page
+
+Concepts: Client Components, useState, Array.filter, Controlled components
+```
+
+```
+fix(layout): resolve hydration mismatch in header component
+
+Concepts: Server vs Client Components, Hydration, useEffect for client-only code
+```
 
 **Validation Rules:**
 - Type must be one of the allowed types listed above
@@ -587,6 +617,7 @@ console.log("Content data:", data);  // Logs in production, exposes data
 - Subject must be sentence-case and at least 10 characters
 - No period at the end of the subject line
 - Header cannot exceed 100 characters
+- Concepts field should be included for all learning-related commits (feat, fix, refactor)
 
 ## Security Best Practices
 
