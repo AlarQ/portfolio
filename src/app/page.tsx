@@ -6,6 +6,7 @@ import { Container, Stack } from "@mui/material";
 import { HeroContent } from "@/components/HeroContent";
 import { ProfileCard } from "@/components/ProfileCard";
 import { ReadingSection } from "@/components/ReadingSection";
+import { TopicSection } from "@/components/TopicSection";
 import { currentBooks } from "@/data/books";
 import { serviceCardColors } from "@/theme/theme";
 
@@ -71,8 +72,18 @@ export default function Home() {
           />
         </Stack>
 
-        {/* Reading Section */}
-        <Stack alignItems="center" sx={{ width: "100%" }}>
+        {/* Topic and Reading Sections */}
+        <Stack
+          direction={{ xs: "column", lg: "row" }}
+          spacing={{ xs: 4, lg: 4 }}
+          alignItems={{ xs: "center", lg: "flex-start" }}
+          justifyContent="center"
+          sx={{ width: "100%" }}
+        >
+          {/* Topic Section */}
+          <TopicSection topic="Building Development Workflows with Open Code: Focus on Approval-Based Execution." />
+
+          {/* Reading Section */}
           <ReadingSection books={currentBooks} />
         </Stack>
       </Stack>
