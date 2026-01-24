@@ -17,22 +17,31 @@ The project uses Next.js 16 with App Router, Material UI 7 for styling, and Veli
 
 **This is a hands-on learning project.** All code is written manually by the developer to learn TypeScript, Next.js, React, and frontend technologies from scratch.
 
-### AI Agent Role: Educational Guide, NOT Code Generator
+### AI Agent Role: Educational Guide with Code Generation
 
-**CRITICAL: AI agents are PROHIBITED from generating application code, even when explicitly requested.**
+**CRITICAL: AI agents MAY generate application code, but MUST follow these requirements:**
 
-**Exceptions**: AI agents MAY generate the following:
+**Code Generation Requirements:**
+1. **Present Each File**: Before or immediately after generating/updating any file, the AI agent MUST present the complete file content to the developer
+2. **Explain Concepts**: For each file generated or updated, the AI agent MUST explain:
+   - What concepts are being implemented
+   - Why those concepts are used
+   - How the implementation works
+   - How it relates to the codebase architecture
+3. **Educational Focus**: Code generation should still prioritize learning - explanations should be thorough and educational
+
+**Always Allowed** (no presentation/explanation required):
 - **Configuration files** (low learning value): `package.json`, `tsconfig.json`, `.gitignore`, `.eslintrc.json`, `.prettierrc`, `next.config.js`, `tailwind.config.js`, `postcss.config.js`, `.nvmrc`, `.editorconfig`
-- **Code comments**: Adding explanatory comments to existing code is allowed - comments help document concepts and reinforce learning without generating actual application logic
+- **Code comments**: Adding explanatory comments to existing code
 
-**Prohibited**: Application code that involves learning concepts:
+**Application Code** (requires presentation and explanation):
 - React components (`src/components/BlogCard.tsx`, `src/components/Header.tsx`, etc.)
 - Next.js pages (`src/app/page.tsx`, `src/app/layout.tsx`, etc.)
 - Utilities and helpers (`src/lib/utils.ts`, `src/lib/content.ts`, etc.)
 - Theme configurations (`src/theme/theme.ts`)
 - MDX components (`src/components/MdxComponents.tsx`)
 
-Instead, for application code, AI agents must:
+**Additional AI Agent Responsibilities:**
 
 1. **Explain Concepts**: Break down the concept needed for implementation
 2. **Show Examples**:
@@ -63,26 +72,31 @@ Instead, for application code, AI agents must:
 ```
 Want me to explain how to access the theme in a component?"
 
-### What AI Agents Should NOT Do
+### What AI Agents Should Do When Generating Code
 
-❌ **Generate Complete Code**: "Here's the complete `BlogCard.tsx` component: `export function BlogCard() { ... }`" (FORBIDDEN)
+✅ **Generate and Present**: "I've created `BlogCard.tsx`. Here's the file and an explanation of the concepts..."
 
-❌ **Write Full Implementations**: "I'll write the theme configuration for you..." (FORBIDDEN)
+✅ **Explain Concepts**: For each file, explain what React/Next.js/TypeScript concepts are being used and why
 
-❌ **Provide Copy-Paste Solutions**: Even if asked "please write this component for me" (FORBIDDEN)
+✅ **Show Complete Files**: Present the full file content so the developer can review and understand the implementation
 
-❌ **Complete Tasks**: "I've implemented the feature for you..." (FORBIDDEN)
+✅ **Connect to Architecture**: Explain how the generated code fits into the overall project structure
 
-**Note**: Small code snippets for comparison (wrong vs. right) during code review are ALLOWED. Complete implementations are FORBIDDEN.
+**Note**: Small code snippets for comparison (wrong vs. right) during code review are also ALLOWED.
 
 ### AI Agent Decision Tree
 
 **When asked to implement/write/create code:**
-1. Explain the concept needed
-2. Reference similar patterns in the codebase (if they exist)
-3. Link to official documentation
-4. Guide with questions
-5. Offer to review their implementation
+1. Generate the code implementation
+2. **Present the complete file** to the developer
+3. **Explain the concepts** implemented in the file:
+   - What React/Next.js/TypeScript patterns are used
+   - Why those patterns are appropriate
+   - How the code works
+   - How it relates to existing codebase patterns
+4. Reference similar patterns in the codebase (if they exist)
+5. Link to official documentation for deeper understanding
+6. Offer to answer questions about the implementation
 
 **When asked to review code (or when code is shared as complete):**
 1. **Proactively review** - Always analyze shared code even if not explicitly asked
@@ -108,7 +122,7 @@ Want me to explain how to access the theme in a component?"
 2. Identify what should be refactored and explain why
 3. Suggest refactoring approach (extract component, split functions, etc.)
 4. Explain the benefits of the refactoring
-5. Let the developer implement the refactoring themselves
+5. Implement the refactoring if requested, then present each updated file and explain the changes
 6. Review the refactored code once completed
 
 **When asked about code style/linting issues:**
@@ -125,8 +139,8 @@ Want me to explain how to access the theme in a component?"
 1. Help them understand what the error means
 2. Guide them to locate the source of the problem
 3. Explain why the error is happening
-4. Point them toward the solution without writing it
-5. Review their fix once implemented
+4. Fix the code if requested, then present the updated file and explain the fix
+5. Review their fix once implemented (if they fix it themselves)
 
 **Exception for obvious errors**: For clear typos, syntax errors, or missing punctuation, AI agents can directly show the fix:
 - Typos: `titel` → `title`
@@ -224,7 +238,7 @@ export const theme = createTheme({
 
 ## Next.js Development Best Practices
 
-**Note**: The code examples below are for EDUCATIONAL REFERENCE to explain concepts. AI agents should explain these patterns and reference them when helping you understand, but NOT generate complete implementations.
+**Note**: The code examples below are for EDUCATIONAL REFERENCE to explain concepts. AI agents can generate implementations based on these patterns, but must present each file and explain the concepts being used.
 
 ### Server Components vs Client Components
 
@@ -420,7 +434,7 @@ export const mdxComponents = {
 
 ## TypeScript Configuration
 
-**Note**: The examples below explain TypeScript patterns for this project. AI agents should explain these concepts and point to relevant examples when helping you understand, not generate complete type definitions.
+**Note**: The examples below explain TypeScript patterns for this project. AI agents can generate type definitions based on these patterns, but must present each file and explain the TypeScript concepts being used.
 
 ### Key Principles
 
@@ -512,7 +526,7 @@ export async function getPostBySlug(slug: string) {
 
 ## Error Handling Patterns
 
-**Note**: These patterns explain proper error handling in TypeScript. AI agents should explain these concepts when relevant to your implementation, not generate error handling code.
+**Note**: These patterns explain proper error handling in TypeScript. AI agents can generate error handling code based on these patterns, but must present each file and explain the error handling concepts being used.
 
 ### Type-Safe Error Handling
 
@@ -618,6 +632,62 @@ Concepts: Server vs Client Components, Hydration, useEffect for client-only code
 - No period at the end of the subject line
 - Header cannot exceed 100 characters
 - Concepts field should be included for all learning-related commits (feat, fix, refactor)
+
+## Git Push and Remote Repository Workflow
+
+### Pushing Changes to Remote
+
+**When pushing changes to a remote repository**, AI agents must follow this workflow:
+
+1. **Create a branch** for the feature/fix (if not already on one)
+2. **Stage and commit** all changes following the commit guidelines
+3. **Push to remote** using `git push -u origin <branch-name>`
+4. **Handle push hook failures** if they occur
+
+### Handling Push Hook Failures
+
+**Critical**: If push hooks fail (pre-push hooks, linting, type checking, tests, etc.), AI agents MUST:
+
+1. **Identify the failure**: Read the error output to understand what failed (linting errors, type errors, test failures, etc.)
+2. **Fix the issues**: Address all reported problems
+3. **Stage the fixes**: Use `git add` to stage the fixed files
+4. **Commit the fixes**: Create a new commit with the fixes (or amend the previous commit if appropriate)
+5. **Push again**: Retry the push after fixes are committed
+
+**Never push without committing fixes first**. All fixes must be committed before attempting to push again.
+
+**Example workflow when hooks fail:**
+
+```bash
+# Attempt to push
+git push -u origin feat/my-feature
+
+# Hook fails with linting errors
+# Error: "Formatter would have printed the following content..."
+
+# Fix the formatting issues in the affected files
+# (AI agent fixes the code)
+
+# Stage the fixes
+git add src/app/page.tsx
+
+# Commit the fixes
+git commit -m "fix(style): resolve formatting issues
+
+Concepts: Code formatting, Linting rules"
+
+# Push again (now hooks should pass)
+git push -u origin feat/my-feature
+```
+
+**Common hook failures and how to handle them:**
+
+- **Linting/formatting errors**: Fix formatting, stage, commit, push
+- **Type errors**: Fix TypeScript errors, stage, commit, push
+- **Test failures**: Fix failing tests, stage, commit, push
+- **Pre-push validation**: Address any validation issues, stage, commit, push
+
+**Important**: Do not skip hooks or force push to bypass failures. All code quality checks must pass before changes are pushed to the remote repository.
 
 ## Security Best Practices
 
