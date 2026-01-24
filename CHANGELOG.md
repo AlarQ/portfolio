@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.8](https://github.com/AlarQ/portfolio/compare/v0.1.7...v0.1.8) (2026-01-24)
+
+
+### Features
+
+* **home:** add topic section to homepage ([#6](https://github.com/AlarQ/portfolio/issues/6)) ([e9d85dd](https://github.com/AlarQ/portfolio/commit/e9d85dd6860bea11a45f9722dd458496ee9ac8ab))
+
 ## [0.1.7](https://github.com/AlarQ/portfolio/compare/v0.1.6...v0.1.7) (2026-01-24)
 
 
