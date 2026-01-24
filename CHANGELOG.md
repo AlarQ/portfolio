@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.6](https://github.com/AlarQ/portfolio/compare/v0.1.5...v0.1.6) (2026-01-24)
+
+
+### Features
+
+* **homepage:** update content from CV ([#4](https://github.com/AlarQ/portfolio/issues/4)) ([cf07527](https://github.com/AlarQ/portfolio/commit/cf0752708b827983cff03f9c40a1113eb1f7fb29))
+
 ## [0.1.5](https://github.com/AlarQ/portfolio/compare/v0.1.4...v0.1.5) (2026-01-24)
 
 
