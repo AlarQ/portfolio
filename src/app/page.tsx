@@ -1,39 +1,85 @@
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import Image from "next/image";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LayersIcon from "@mui/icons-material/Layers";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import WebIcon from "@mui/icons-material/Web";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import { Container, Stack } from "@mui/material";
+import { HeroContent } from "@/components/HeroContent";
+import { ProfileCard } from "@/components/ProfileCard";
+import { serviceCardColors } from "@/theme/theme";
+
 export default function Home() {
   return (
-    <Container sx={{ py: 8 }}>
-      <Box
-        sx={{
-          variant: "h2",
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" }, // stack on mobile, row on desktop
-          alignItems: "center",
-          gap: 4,
-        }}
+    <Container
+      maxWidth="xl"
+      sx={{
+        py: { xs: 4, md: 8 },
+        minHeight: "calc(100vh - 64px)",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <Stack
+        direction={{ xs: "column", lg: "row" }}
+        spacing={{ xs: 4, lg: 8 }}
+        alignItems={{ xs: "center", lg: "flex-start" }}
+        sx={{ width: "100%" }}
       >
-        <Image
-          style={{ borderRadius: "50%", boxShadow: "0 4px 20px rgba(0,0,0,0.3)" }}
-          src="/images/profile.jpg"
-          alt="Ernest Bednarczyk"
-          width={300}
-          height={300}
+        {/* Profile Card */}
+        <ProfileCard
+          name="Ernest Bednarczyk"
+          bio="A Software Engineer who has developed countless innovative solutions."
+          imageSrc="/images/profile.jpg"
+          imageAlt="Ernest Bednarczyk"
+          socialLinks={[
+            {
+              icon: <VisibilityIcon />,
+              href: "#",
+              label: "Portfolio",
+            },
+            {
+              icon: <TwitterIcon />,
+              href: "#",
+              label: "Twitter",
+            },
+            {
+              icon: <InstagramIcon />,
+              href: "#",
+              label: "Instagram",
+            },
+            {
+              icon: <YouTubeIcon />,
+              href: "#",
+              label: "YouTube",
+            },
+          ]}
         />
-        <Stack direction="column" spacing={2}>
-          <Typography variant="h1" sx={{ fontStyle: "italic", fontWeight: 300 }}>
-            Ernest Bednarczyk
-          </Typography>
-          <Typography variant="h4">Software Engineer and Team Lead</Typography>
-          <Typography variant="body1">
-            I'm a software engineer and team lead with a passion for building scalable and efficient
-            systems.
-          </Typography>{" "}
-          <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 2 }}>
-            <Button variant="contained">View Projects</Button>
-            <Button variant="outlined">Contact Me</Button>
-          </Stack>
-        </Stack>
-      </Box>
+
+        {/* Hero Content */}
+        <HeroContent
+          title="SOFTWARE"
+          subtitle="ENGINEER"
+          description="Passionate about creating intuitive and engaging user experiences. Specialize in transforming ideas into beautifully crafted products."
+          stats={[
+            { value: "+12", label: "Years of Experience" },
+            { value: "+46", label: "Projects Completed" },
+            { value: "+20", label: "Worldwide Clients" },
+          ]}
+          services={[
+            {
+              title: "Dynamic Animation, Motion Design",
+              icon: <LayersIcon sx={{ fontSize: 40 }} />,
+              backgroundColor: serviceCardColors.orange,
+            },
+            {
+              title: "Framer, Figma, WordPress, ReactJS",
+              icon: <WebIcon sx={{ fontSize: 40 }} />,
+              backgroundColor: serviceCardColors.limeGreen,
+            },
+          ]}
+        />
+      </Stack>
     </Container>
   );
 }
