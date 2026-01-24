@@ -16,7 +16,6 @@ export default function Home() {
       maxWidth="xl"
       sx={{
         py: { xs: 4, md: 8 },
-        minHeight: "calc(100vh - 64px)",
       }}
     >
       <Stack spacing={{ xs: 4, md: 8 }}>
