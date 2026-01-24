@@ -1,7 +1,6 @@
 "use client";
 
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { Box, Card, IconButton, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 interface ServiceCardProps {
@@ -46,27 +45,10 @@ export function ServiceCard({ title, icon, backgroundColor, onClick }: ServiceCa
             textTransform: "uppercase",
             letterSpacing: 0.5,
             flexGrow: 1,
-            mb: 2,
           }}
         >
           {title}
         </Typography>
-
-        {/* Arrow Icon */}
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <IconButton
-            size="small"
-            sx={{
-              backgroundColor: "rgba(255, 255, 255, 0.2)",
-              color: theme.palette.common.white,
-              "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.3)",
-              },
-            }}
-          >
-            <ArrowForwardIcon />
-          </IconButton>
-        </Box>
       </Box>
     </Card>
   );

@@ -22,21 +22,28 @@ export function ProfileCard({ name, bio, imageSrc, imageAlt, socialLinks = [] }:
   return (
     <Card
       sx={{
-        p: 4,
+        p: { xs: 4, md: 5 },
         borderRadius: 4,
         backgroundColor: theme.palette.background.paper,
         border: `2px solid ${theme.palette.divider}`,
         maxWidth: 400,
         width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      <Stack spacing={3} alignItems="center">
+      <Stack
+        spacing={{ xs: 3, md: 4 }}
+        alignItems="center"
+        sx={{ flexGrow: 1, justifyContent: "space-between" }}
+      >
         {/* Profile Image */}
         <Box
           sx={{
             position: "relative",
-            width: 200,
-            height: 200,
+            width: { xs: 200, md: 220 },
+            height: { xs: 200, md: 220 },
             borderRadius: "50%",
             border: `4px solid ${theme.palette.background.paper}`,
             overflow: "hidden",
@@ -105,16 +112,19 @@ export function ProfileCard({ name, bio, imageSrc, imageAlt, socialLinks = [] }:
         </Box>
 
         {/* Bio */}
-        <Typography
-          variant="body1"
-          sx={{
-            textAlign: "center",
-            color: theme.palette.text.secondary,
-            px: 2,
-          }}
-        >
-          {bio}
-        </Typography>
+        <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
+          <Typography
+            variant="body1"
+            sx={{
+              textAlign: "center",
+              color: theme.palette.text.secondary,
+              px: 2,
+              lineHeight: 1.8,
+            }}
+          >
+            {bio}
+          </Typography>
+        </Box>
 
         {/* Social Icons */}
         {socialLinks.length > 0 && (
