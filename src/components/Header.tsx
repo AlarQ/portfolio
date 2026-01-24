@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export function Header() {
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="primary">
       <Toolbar>
         {/* Left side: Your name */}
         <Typography variant="h6" component="div">
