@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.2](https://github.com/AlarQ/portfolio/compare/v0.1.1...v0.1.2) (2026-01-24)
+
+
+### Features
+
+* **ui:** add custom theme and Header navigation component ([4f73248](https://github.com/AlarQ/portfolio/commit/4f732487475a8393c07aa71404a5093f7d2483ce))
+
 ## 0.1.1 (2026-01-24)
 
 
