@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.7](https://github.com/AlarQ/portfolio/compare/v0.1.6...v0.1.7) (2026-01-24)
+
+
+### Features
+
+* **home:** add reading section with slider and improve layout alignment ([#5](https://github.com/AlarQ/portfolio/issues/5)) ([28768d2](https://github.com/AlarQ/portfolio/commit/28768d209395d2c566a25dbb725702df355241f5))
+
 ## [0.1.6](https://github.com/AlarQ/portfolio/compare/v0.1.5...v0.1.6) (2026-01-24)
 
 
