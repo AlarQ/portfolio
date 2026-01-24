@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.5](https://github.com/AlarQ/portfolio/compare/v0.1.4...v0.1.5) (2026-01-24)
+
+
+### Features
+
+* **homepage:** implement hero section with profile card and content ([#3](https://github.com/AlarQ/portfolio/issues/3)) ([ad306fb](https://github.com/AlarQ/portfolio/commit/ad306fb47ee6f7ed9d6800c8d119ebc60fa610a8))
+
 ## 0.1.4 (2026-01-24)
 
 
