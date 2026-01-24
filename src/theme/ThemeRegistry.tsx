@@ -12,10 +12,7 @@ import { useServerInsertedHTML } from "next/navigation";
 const cache = createCache({ key: "mui" });
 
 import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme } from "@mui/material/styles";
-
-const theme = createTheme(); // default MUI theme for now
-
+import { theme } from "./theme";
 export function ThemeRegistry({ children }: { children: React.ReactNode }) {
   // This hook runs during SSR streaming - each time a chunk of HTML is about to be sent
   // It extracts accumulated styles from the cache and injects them as <style> tags
