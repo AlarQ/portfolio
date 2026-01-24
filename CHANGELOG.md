@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.9](https://github.com/AlarQ/portfolio/compare/v0.1.8...v0.1.9) (2026-01-24)
+
+
+### Features
+
+* **ui:** implement floating rounded navbar with resume link ([#7](https://github.com/AlarQ/portfolio/issues/7)) ([05d3fba](https://github.com/AlarQ/portfolio/commit/05d3fba72b2f85a4b80aac30e537fcf6f60e45e1))
+
 ## [0.1.8](https://github.com/AlarQ/portfolio/compare/v0.1.7...v0.1.8) (2026-01-24)
 
 
