@@ -18,6 +18,6 @@ export const theme = createTheme({
 
 // Custom colors for service cards
 export const serviceCardColors = {
-  orange: "#f97316", // Orange
-  limeGreen: "#84cc16", // Lime green
+  orange: "#c55a0d", // Darker orange
+  limeGreen: "#5f9610", // Darker lime green
 };
