@@ -1,0 +1,45 @@
+# Dependencies
+node_modules
+
+# Next.js
+.next
+out
+
+# Vercel
+.vercel
+
+# Velite build output
+.velite
+
+# Cache
+.swc
+.cache
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Build
+dist
+*.tgz
+
+# Environment
+.env
+.env*.local
+# Testing
+coverage
+*.lcov
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+
+# SSL
+*.pem
+
+# IDE
+.idea/
