@@ -4,7 +4,7 @@ This file provides guidance when working with code in this repository.
 
 ## Project Overview
 
-This is a personal portfolio website built as a learning project for mastering Next.js 16, React 19, TypeScript, and modern frontend development. It showcases:
+This is a personal portfolio website built with Next.js 16, React 19, TypeScript, and modern frontend development. It showcases:
 
 1. **Homepage**: Hero section, about, featured projects, recent blog posts
 2. **Blog**: List of blog posts with filtering by tags
@@ -12,161 +12,6 @@ This is a personal portfolio website built as a learning project for mastering N
 4. **MDX Content**: Type-safe content management with frontmatter
 
 The project uses Next.js 16 with App Router, Material UI 7 for styling, and Velite for MDX content processing with static site generation (SSG).
-
-## Learning Philosophy
-
-**This is a hands-on learning project.** All code is written manually by the developer to learn TypeScript, Next.js, React, and frontend technologies from scratch.
-
-### AI Agent Role: Educational Guide with Code Generation
-
-**CRITICAL: AI agents MAY generate application code, but MUST follow these requirements:**
-
-**Code Generation Requirements:**
-1. **Present Each File**: Before or immediately after generating/updating any file, the AI agent MUST present the complete file content to the developer
-2. **Explain Concepts**: For each file generated or updated, the AI agent MUST explain:
-   - What concepts are being implemented
-   - Why those concepts are used
-   - How the implementation works
-   - How it relates to the codebase architecture
-3. **Educational Focus**: Code generation should still prioritize learning - explanations should be thorough and educational
-
-**Always Allowed** (no presentation/explanation required):
-- **Configuration files** (low learning value): `package.json`, `tsconfig.json`, `.gitignore`, `.eslintrc.json`, `.prettierrc`, `next.config.js`, `tailwind.config.js`, `postcss.config.js`, `.nvmrc`, `.editorconfig`
-- **Code comments**: Adding explanatory comments to existing code
-
-**Application Code** (requires presentation and explanation):
-- React components (`src/components/BlogCard.tsx`, `src/components/Header.tsx`, etc.)
-- Next.js pages (`src/app/page.tsx`, `src/app/layout.tsx`, etc.)
-- Utilities and helpers (`src/lib/utils.ts`, `src/lib/content.ts`, etc.)
-- Theme configurations (`src/theme/theme.ts`)
-- MDX components (`src/components/MdxComponents.tsx`)
-
-**Additional AI Agent Responsibilities:**
-
-1. **Explain Concepts**: Break down the concept needed for implementation
-2. **Show Examples**:
-   - **First priority**: Reference and explain relevant code from THIS codebase (when available)
-   - **Second priority**: Link to official documentation examples (Next.js docs, MUI docs, React docs)
-   - **Third priority**: Provide web examples with proper attribution
-   - **Note**: External examples are acceptable throughout the project, especially during initial setup when codebase examples don't exist yet
-3. **Guide Understanding**: Ask questions to verify understanding before moving forward
-4. **Review Code**: Analyze code written by the developer and explain improvements (may include small before/after code snippets to illustrate the difference)
-5. **Point Out Issues**: Identify anti-patterns, bugs, or security concerns with explanations (may show wrong vs. right patterns)
-6. **Provide Resources**: Share documentation links, articles, and learning materials
-
-### What AI Agents Should Do
-
-✅ **Explain**: "To implement static generation in Next.js, you need to use `generateStaticParams`. This function tells Next.js which dynamic routes to pre-render at build time. See the Next.js docs: [Generating Static Params](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)"
-
-✅ **Reference Codebase**: "Looking at your `src/app/blog/page.tsx` at line 12, you're using Server Components correctly. For the filtering feature, you'll need to create a Client Component because it requires `useState`. The pattern is similar to what you'll do for the projects page."
-
-✅ **Guide**: "Before implementing the theme, let's understand the MUI theming system. What parts of the design do you want to customize - colors, typography, spacing, or component defaults?"
-
-✅ **Review**: "In your `BlogCard.tsx` component, you're hardcoding the color `#1976d2` on line 23. This breaks theme consistency. Instead, you should use `theme.palette.primary.main`. Here's the difference:
-```typescript
-// ❌ Wrong - hardcoded color
-<Card sx={{ borderColor: "#1976d2" }}>
-
-// ✅ Right - uses theme
-<Card sx={{ borderColor: theme.palette.primary.main }}>
-```
-Want me to explain how to access the theme in a component?"
-
-### What AI Agents Should Do When Generating Code
-
-✅ **Generate and Present**: "I've created `BlogCard.tsx`. Here's the file and an explanation of the concepts..."
-
-✅ **Explain Concepts**: For each file, explain what React/Next.js/TypeScript concepts are being used and why
-
-✅ **Show Complete Files**: Present the full file content so the developer can review and understand the implementation
-
-✅ **Connect to Architecture**: Explain how the generated code fits into the overall project structure
-
-**Note**: Small code snippets for comparison (wrong vs. right) during code review are also ALLOWED.
-
-### AI Agent Decision Tree
-
-**When asked to implement/write/create code:**
-1. Generate the code implementation
-2. **Present the complete file** to the developer
-3. **Explain the concepts** implemented in the file:
-   - What React/Next.js/TypeScript patterns are used
-   - Why those patterns are appropriate
-   - How the code works
-   - How it relates to existing codebase patterns
-4. Reference similar patterns in the codebase (if they exist)
-5. Link to official documentation for deeper understanding
-6. Offer to answer questions about the implementation
-
-**When asked to review code (or when code is shared as complete):**
-1. **Proactively review** - Always analyze shared code even if not explicitly asked
-2. Analyze the code at all levels:
-   - Style and formatting issues
-   - Bugs and correctness
-   - Architectural patterns and structure
-   - Better approaches using modern patterns
-3. Point out issues with explanations
-4. Suggest improvements with reasoning
-5. Reference best practices from this guide
-6. Ask questions to deepen understanding
-
-**When asked to explain something:**
-1. Break down the concept into digestible parts
-2. Use examples from THIS codebase when possible
-3. Reference official docs with links
-4. Check understanding with follow-up questions
-5. Connect to related concepts they'll need
-
-**When asked to refactor code:**
-1. Analyze the existing code structure
-2. Identify what should be refactored and explain why
-3. Suggest refactoring approach (extract component, split functions, etc.)
-4. Explain the benefits of the refactoring
-5. Implement the refactoring if requested, then present each updated file and explain the changes
-6. Review the refactored code once completed
-
-**When asked about code style/linting issues:**
-1. **Bulk formatting issues** (indentation, quotes, semicolons): Suggest using automated tools (`npm run lint:fix`, `npm run format`)
-2. **Learning-related issues** (unused variables, type errors, missing dependencies): Explain each issue and why it matters
-3. **Mixed scenarios**: Use tools for formatting, explain conceptual issues individually
-
-**When managing todo items:**
-1. Track progress on tasks to help maintain development momentum
-2. Only mark tasks complete after the developer has implemented and tested them
-3. Do not mark configuration-file tasks as complete if AI generated them - those are exceptions to the learning rule
-
-**When asked to debug:**
-1. Help them understand what the error means
-2. Guide them to locate the source of the problem
-3. Explain why the error is happening
-4. Fix the code if requested, then present the updated file and explain the fix
-5. Review their fix once implemented (if they fix it themselves)
-
-**Exception for obvious errors**: For clear typos, syntax errors, or missing punctuation, AI agents can directly show the fix:
-- Typos: `titel` → `title`
-- Missing semicolons, brackets, quotes
-- Incorrect property names: `post.titel` → `post.title`
-
-### How to Reference the Codebase
-
-**When explaining concepts, PRIORITIZE examples from the actual codebase:**
-
-**Good approach:**
-> "Looking at your `src/app/layout.tsx` at line 15, you're already wrapping the app with ThemeRegistry. For the BlogList component, you'll use a similar pattern but with the `'use client'` directive because it needs state for filtering."
-
-**Better approach:**
-> "In your existing `src/components/Header.tsx`, you're using MUI's Box and Typography components (lines 8-12). The ProjectCard will follow a similar pattern but using Card instead of Box. Let me explain the difference between these MUI components..."
-
-**Best approach:**
-> "You've already implemented content loading in `src/lib/utils.ts` for projects (lines 20-25). The blog posts will use the same Velite pattern. Let's break down what that code does:
-> - Line 21: Imports the `projects` collection from Velite
-> - Line 23: Uses `.sort()` to order by date
-> - Line 24: Returns the sorted array
->
-> For blog posts, you'll follow this exact same pattern but import `blog` instead. What do you think the key difference will be in the sorting logic?"
-
-**When no codebase examples exist yet:**
-> "Since you haven't implemented any pages yet, let me explain the Server Component pattern using the Next.js documentation as reference: [link]. Once you create your first page, we can reference that as an example for the others."
 
 ## Architecture
 
@@ -238,8 +83,6 @@ export const theme = createTheme({
 
 ## Next.js Development Best Practices
 
-**Note**: The code examples below are for EDUCATIONAL REFERENCE to explain concepts. AI agents can generate implementations based on these patterns, but must present each file and explain the concepts being used.
-
 ### Server Components vs Client Components
 
 **Concept**: Default to Server Components unless the component needs client-side interactivity.
@@ -252,7 +95,7 @@ export const theme = createTheme({
 
 **Pattern Explanation**: Maximize Server Component usage by fetching data in Server Components and passing it to Client Components for interactivity.
 
-**Educational Example** (for understanding the pattern):
+**Example**:
 ```typescript
 // src/app/blog/page.tsx (Server Component)
 // This component can fetch data on the server
@@ -358,14 +201,14 @@ export function Hero() {
 
 ### MDX and Velite Patterns
 
-**Concept**: Velite processes MDX files at build time into type-safe TypeScript objects. You define a schema, and Velite generates types automatically.
+Velite processes MDX files at build time into type-safe TypeScript objects. You define a schema, and Velite generates types automatically.
 
 **Content Schema Definition Pattern**
 
-Understanding: The schema defines what fields your content has and their types. Velite uses this to validate your MDX frontmatter and generate TypeScript types.
+The schema defines what fields your content has and their types. Velite uses this to validate your MDX frontmatter and generate TypeScript types.
 
 ```typescript
-// velite.config.ts - Educational example
+// velite.config.ts
 import { defineConfig, defineCollection, s } from "velite";
 
 const blog = defineCollection({
@@ -392,10 +235,10 @@ export default defineConfig({
 
 **Loading Content Pattern**
 
-Understanding: Velite generates an array of all content items. You can filter, sort, and manipulate this array using standard JavaScript array methods.
+Velite generates an array of all content items. You can filter, sort, and manipulate this array using standard JavaScript array methods.
 
 ```typescript
-// src/lib/content.ts - Educational example
+// src/lib/content.ts
 import { blog } from "@/.velite";  // Import generated content
 
 export async function getAllPosts() {
@@ -413,10 +256,10 @@ export async function getFeaturedPosts() {
 
 **Custom MDX Components Pattern**
 
-Understanding: You can replace default HTML elements in MDX with custom React components. This lets you use MUI components for consistent styling.
+You can replace default HTML elements in MDX with custom React components. This lets you use MUI components for consistent styling.
 
 ```typescript
-// src/components/MdxComponents.tsx - Educational example
+// src/components/MdxComponents.tsx
 import { Typography, Link } from "@mui/material";
 
 // Map HTML elements to MUI components
@@ -434,8 +277,6 @@ export const mdxComponents = {
 
 ## TypeScript Configuration
 
-**Note**: The examples below explain TypeScript patterns for this project. AI agents can generate type definitions based on these patterns, but must present each file and explain the TypeScript concepts being used.
-
 ### Key Principles
 
 - Define proper interfaces for all props, state, and content types
@@ -446,9 +287,9 @@ export const mdxComponents = {
 
 ### Type Safety for Content
 
-**Concept**: Velite auto-generates TypeScript types from your schema. Use these types for component props to get full type safety and autocomplete.
+Velite auto-generates TypeScript types from your schema. Use these types for component props to get full type safety and autocomplete.
 
-**Educational Example**:
+**Example**:
 ```typescript
 // Import the auto-generated type
 import type { Blog } from "@/.velite";
@@ -474,9 +315,9 @@ export function BlogCard({ post, variant = "default" }: BlogCardProps) {
 
 ### Type Guard Utilities
 
-**Concept**: Type guards help you safely validate data at runtime while maintaining TypeScript's type safety.
+Type guards help you safely validate data at runtime while maintaining TypeScript's type safety.
 
-**Educational Example**:
+**Example**:
 ```typescript
 // Type predicate function (note the 'slug is string' return type)
 function isValidSlug(slug: unknown): slug is string {
@@ -526,11 +367,9 @@ export async function getPostBySlug(slug: string) {
 
 ## Error Handling Patterns
 
-**Note**: These patterns explain proper error handling in TypeScript. AI agents can generate error handling code based on these patterns, but must present each file and explain the error handling concepts being used.
-
 ### Type-Safe Error Handling
 
-**Concept**: In TypeScript, caught errors have type `unknown`, not `Error`. You must validate the error type before accessing properties.
+In TypeScript, caught errors have type `unknown`, not `Error`. You must validate the error type before accessing properties.
 
 **Correct Pattern**:
 ```typescript
@@ -558,7 +397,7 @@ try {
 
 ### Development-Only Logging
 
-**Concept**: Console statements should only run in development to avoid exposing data in production and cluttering production logs.
+Console statements should only run in development to avoid exposing data in production and cluttering production logs.
 
 **Correct Pattern**:
 ```typescript
@@ -591,38 +430,20 @@ console.log("Content data:", data);  // Logs in production, exposes data
 
 ```
 <type>(<scope>): <description>
-
-Concepts: <concept1>, <concept2>, <concept3>
 ```
-
-**Concepts field** (required for learning commits):
-- Lists frontend, TypeScript, and CSS concepts touched/learned during implementation
-- Helps track learning progress and serves as a reference for future review
-- Use comma-separated list of concept names
-- Examples of concepts:
-  - **React/Next.js**: Server Components, Client Components, useServerInsertedHTML, generateStaticParams, App Router, Streaming SSR
-  - **TypeScript**: Type guards, Type predicates, Generics, Union types, Interface vs Type
-  - **CSS/Styling**: CSS-in-JS, Emotion cache, CSS variables, MUI sx prop, Responsive breakpoints
-  - **Patterns**: Provider pattern, Singleton pattern, Context API, SSR hydration
 
 **Example commits:**
 
 ```
 feat(theme): implement ThemeRegistry with Emotion SSR support
-
-Concepts: useServerInsertedHTML, Emotion cache, CSS-in-JS, SSR hydration, Provider pattern
 ```
 
 ```
 feat(blog): add tag filtering to blog listing page
-
-Concepts: Client Components, useState, Array.filter, Controlled components
 ```
 
 ```
 fix(layout): resolve hydration mismatch in header component
-
-Concepts: Server vs Client Components, Hydration, useEffect for client-only code
 ```
 
 **Validation Rules:**
@@ -631,7 +452,6 @@ Concepts: Server vs Client Components, Hydration, useEffect for client-only code
 - Subject must be sentence-case and at least 10 characters
 - No period at the end of the subject line
 - Header cannot exceed 100 characters
-- Concepts field should be included for all learning-related commits (feat, fix, refactor)
 
 ## Git Push and Remote Repository Workflow
 
@@ -672,9 +492,7 @@ git push -u origin feat/my-feature
 git add src/app/page.tsx
 
 # Commit the fixes
-git commit -m "fix(style): resolve formatting issues
-
-Concepts: Code formatting, Linting rules"
+git commit -m "fix(style): resolve formatting issues"
 
 # Push again (now hooks should pass)
 git push -u origin feat/my-feature
