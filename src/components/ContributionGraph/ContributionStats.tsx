@@ -53,6 +53,12 @@ export function ContributionStats({ stats }: ContributionStatsProps) {
       color: theme.palette.error.main,
     },
     {
+      icon: <TrophyIcon />,
+      label: "Longest Streak",
+      value: `${stats.longestStreak} day${stats.longestStreak !== 1 ? "s" : ""}`,
+      color: theme.palette.warning.main,
+    },
+    {
       icon: <CalendarIcon />,
       label: "Most Active Day",
       value: stats.mostActiveDay,
