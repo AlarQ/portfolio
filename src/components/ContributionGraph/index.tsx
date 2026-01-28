@@ -13,7 +13,7 @@
  */
 
 import { Box, Paper, Skeleton, Typography } from "@mui/material";
-import { calculateStats, fetchGitHubContributions } from "@/lib/github";
+import { calculateStats, fetchGitHubContributions, fetchRepositoryLineCounts } from "@/lib/github";
 import { ContributionGraph as ContributionGraphClient } from "./ContributionGraph";
 
 interface ContributionGraphContainerProps {
@@ -44,9 +44,19 @@ export async function ContributionGraph({ username }: ContributionGraphContainer
     // Calculate statistics from the fetched data
     const stats = calculateStats(data);
 
+    // Fetch repository line counts
+    const lineCounts = await fetchRepositoryLineCounts(username);
+
+    // Merge line counts with stats
+    const mergedStats = {
+      ...stats,
+      totalLinesOfCode: lineCounts.totalLinesOfCode,
+      linesByLanguage: lineCounts.linesByLanguage,
+    };
+
     // Pass the fetched data and stats to the Client Component
     // The Client Component handles all interactivity (hover, tooltips, etc.)
-    return <ContributionGraphClient data={data} stats={stats} />;
+    return <ContributionGraphClient data={data} stats={mergedStats} />;
   } catch (error) {
     /**
      * Error handling in Server Components

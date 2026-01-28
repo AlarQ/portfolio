@@ -6,6 +6,56 @@
  */
 
 /**
+ * Represents a language with its size in a repository
+ * @property name - Language name (e.g., "TypeScript", "JavaScript")
+ * @property size - Size in bytes
+ */
+export interface RepositoryLanguage {
+  name: string;
+  size: number;
+}
+
+/**
+ * Represents line count data for a repository
+ * @property name - Repository name
+ * @property primaryLanguage - Primary language of the repository
+ * @property totalSize - Total size in bytes
+ * @property languages - Array of languages with their sizes
+ */
+export interface RepositoryLineCount {
+  name: string;
+  primaryLanguage: string | null;
+  totalSize: number;
+  languages: RepositoryLanguage[];
+}
+
+/**
+ * GraphQL API response structure for repository line counts
+ */
+export interface RepositoryLineCountsResponse {
+  data: {
+    user: {
+      repositories: {
+        nodes: Array<{
+          name: string;
+          primaryLanguage: {
+            name: string;
+          } | null;
+          languages: {
+            edges: Array<{
+              size: number;
+              node: {
+                name: string;
+              };
+            }>;
+          };
+        }>;
+      };
+    };
+  };
+}
+
+/**
  * Represents a single day's contribution data
  * @property date - ISO 8601 date string (YYYY-MM-DD)
  * @property contributionCount - Number of contributions on this day
@@ -49,6 +99,8 @@ export interface ContributionCalendar {
  * @property currentStreak - Current consecutive day streak with contributions
  * @property longestStreak - Longest consecutive day streak with contributions
  * @property mostActiveDay - Day of the week with most contributions
+ * @property totalLinesOfCode - Total lines of code across repositories (formatted string)
+ * @property linesByLanguage - Top languages with percentages (formatted string)
  */
 export interface ContributionStats {
   totalCommits: number;
@@ -57,6 +109,8 @@ export interface ContributionStats {
   currentStreak: number;
   longestStreak: number;
   mostActiveDay: string;
+  totalLinesOfCode: string;
+  linesByLanguage: string;
 }
 
 /**

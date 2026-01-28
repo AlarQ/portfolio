@@ -365,6 +365,439 @@ export async function getPostBySlug(slug: string) {
 - **Import Organization**: Group imports: external, internal (@/), relative.
 - **Component Props**: Always define explicit prop interfaces.
 
+## DRY Principles
+
+### Custom Hooks for Stateful Logic
+
+**Concept**: Extract reusable stateful logic into custom hooks to avoid duplication across components.
+
+**Correct Pattern**:
+```typescript
+// Reusable hook for form inputs
+function useFormInput(initialValue: string) {
+  const [value, setValue] = useState(initialValue);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+  return { value, onChange: handleChange };
+}
+
+// Usage in multiple components
+function ContactForm() {
+  const email = useFormInput('');
+  const name = useFormInput('');
+  return (
+    <form>
+      <input {...email} placeholder="Email" />
+      <input {...name} placeholder="Name" />
+    </form>
+  );
+}
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Duplicating useState and handlers in every form component
+function ContactForm() {
+  const [email, setEmail] = useState('');
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+  const [name, setName] = useState('');
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+  // ... repeated in every form
+}
+```
+
+**Why This Matters**: Custom hooks let you share logic without sharing state. Each component gets its own independent state, and you can reuse the same logic across multiple components without code duplication.
+
+### TypeScript Utility Types for Type Reuse
+
+**Concept**: Leverage TypeScript's built-in utility types to derive new types from existing ones without redefining fields.
+
+**Correct Pattern**:
+```typescript
+// Base type from API or Velite schema
+interface BlogPost {
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+  image?: string;
+  featured: boolean;
+  content: string;
+}
+
+// Derive component props using utility types
+type BlogCardProps = Pick<BlogPost, 'title' | 'description' | 'image' | 'featured'>;
+type BlogFormProps = Omit<BlogPost, 'content' | 'featured'>;
+type BlogEditProps = Partial<BlogPost>;
+type BlogRequired = Required<Pick<BlogPost, 'title' | 'content'>>;
+
+// Combining utility types
+interface BlogListProps {
+  posts: BlogPost[];
+  loading?: boolean;
+}
+
+type FilterableBlogListProps = BlogListProps & {
+  selectedTag?: string;
+};
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Duplicating field definitions everywhere
+interface BlogCardProps {
+  title: string;
+  description: string;
+  image?: string;
+  featured: boolean;
+}
+
+interface BlogFormProps {
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+  image?: string;
+}
+// Same fields repeated, breaking single source of truth
+```
+
+**Why This Matters**: Utility types maintain a single source of truth for type definitions. When the base type changes, all derived types update automatically, reducing maintenance burden and ensuring consistency.
+
+### Component Composition Over Duplication
+
+**Concept**: Use composition and shared base components instead of duplicating similar components.
+
+**Correct Pattern**:
+```typescript
+// Base reusable card component
+function BaseCard({ children, variant = "default" }: BaseCardProps) {
+  const theme = useTheme();
+  const borderColor = variant === "featured"
+    ? theme.palette.primary.main
+    : theme.palette.divider;
+
+  return (
+    <Card
+      sx={{
+        borderColor,
+        borderWidth: variant === "featured" ? 2 : 1,
+        borderRadius: 2,
+      }}
+    >
+      {children}
+    </Card>
+  );
+}
+
+// Compose specialized cards using the base
+function BlogCard({ post }: { post: BlogPost }) {
+  return (
+    <BaseCard variant={post.featured ? "featured" : "default"}>
+      <CardMedia image={post.image} />
+      <CardContent>
+        <Typography variant="h5">{post.title}</Typography>
+        <Typography variant="body2">{post.description}</Typography>
+      </CardContent>
+    </BaseCard>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <BaseCard variant="default">
+      <CardContent>
+        <Typography variant="h5">{project.title}</Typography>
+        <Typography variant="body2">{project.description}</Typography>
+      </CardContent>
+    </BaseCard>
+  );
+}
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Duplicating card structure and styling
+function BlogCard({ post }: { post: BlogPost }) {
+  return (
+    <Card
+      sx={{
+        borderColor: post.featured ? "#1976d2" : "rgba(0,0,0,0.12)",
+        borderWidth: post.featured ? 2 : 1,
+        borderRadius: 2,
+      }}
+    >
+      {/* Card content */}
+    </Card>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <Card
+      sx={{
+        borderColor: "rgba(0,0,0,0.12)",
+        borderWidth: 1,
+        borderRadius: 2,
+      }}
+    >
+      {/* Card content - duplicated structure */}
+    </Card>
+  );
+}
+```
+
+**Why This Matters**: Composition eliminates duplication while allowing flexibility. Base components handle shared structure and styling, while specialized components handle their specific content. Changes to the base component automatically propagate to all usages.
+
+### Shared Utility Functions
+
+**Concept**: Centralize reusable logic (formatters, validators, constants) in utility modules to avoid duplication across the codebase.
+
+**Correct Pattern**:
+```typescript
+// src/lib/formatters.ts - Pure functions for data formatting
+export function formatDate(date: string | Date): string {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date(date));
+}
+
+export function truncateText(text: string, maxLength: number): string {
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+}
+
+export function formatTechStack(techStack: string[]): string {
+  return techStack.join(', ');
+}
+
+// src/lib/validators.ts - Pure functions for validation
+export function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+export function isValidUrl(url: string): boolean {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// src/lib/constants.ts - Centralized constants
+export const DEFAULT_PAGE_SIZE = 10;
+export const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+export const SUPPORTED_IMAGE_FORMATS = ['jpg', 'jpeg', 'png', 'webp'] as const;
+
+// Usage across components
+function BlogCard({ post }: { post: BlogPost }) {
+  return (
+    <Card>
+      <Typography variant="caption">
+        {formatDate(post.date)}
+      </Typography>
+      <Typography variant="body1">
+        {truncateText(post.description, 150)}
+      </Typography>
+    </Card>
+  );
+}
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Duplicating formatting logic in each component
+function BlogCard({ post }: { post: BlogPost }) {
+  const formatDate = (date: string) => {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(new Date(date));
+  };
+  return <Typography>{formatDate(post.date)}</Typography>;
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  const formatDate = (date: string) => {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(new Date(date));
+  };
+  return <Typography>{formatDate(project.date)}</Typography>;
+}
+```
+
+**Why This Matters**: Shared utility functions are easier to test, maintain, and reuse. Pure functions without side effects are predictable and can be imported wherever needed without duplicating logic.
+
+### Theme-Driven Styling
+
+**Concept**: Define design tokens once in the theme and reference them consistently instead of duplicating values.
+
+**Correct Pattern**:
+```typescript
+// src/theme/theme.ts - Define once
+export const theme = createTheme({
+  palette: {
+    primary: { main: '#1976d2' },
+    secondary: { main: '#dc004e' },
+    success: { main: '#2e7d32' },
+  },
+  typography: {
+    h1: { fontSize: '2.5rem', fontWeight: 700 },
+    h2: { fontSize: '2rem', fontWeight: 600 },
+  },
+  spacing: 8, // Base spacing unit
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        },
+      },
+    },
+  },
+});
+
+// Usage - Reference theme tokens
+function ProjectCard({ featured }: { featured: boolean }) {
+  const theme = useTheme();
+  return (
+    <Card
+      sx={{
+        borderColor: featured
+          ? theme.palette.primary.main
+          : theme.palette.divider,
+        padding: theme.spacing(3),
+      }}
+    >
+      <Typography variant="h1">Project Title</Typography>
+    </Card>
+  );
+}
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Hardcoding values throughout components
+function ProjectCard({ featured }: { featured: boolean }) {
+  return (
+    <Card
+      sx={{
+        borderColor: featured ? '#1976d2' : 'rgba(0,0,0,0.12)',
+        padding: 24, // Magic number, unclear reference
+        borderRadius: 8, // Duplicated across components
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)', // Repeated
+      }}
+    >
+      <Typography
+        sx={{
+          fontSize: '2.5rem', // Duplicated from theme
+          fontWeight: 700, // Duplicated from theme
+        }}
+      >
+        Project Title
+      </Typography>
+    </Card>
+  );
+}
+```
+
+**Why This Matters**: Theme-driven styling ensures consistency, enables easy theme updates, and supports dark mode. Changing a color in the theme automatically updates all components using it.
+
+### Content Schema Reuse
+
+**Concept**: Reuse MDX component mappings and content loading patterns to avoid duplication across blog and project sections.
+
+**Correct Pattern**:
+```typescript
+// src/lib/mdx.ts - Shared MDX configuration
+import { Typography, Link, Box } from '@mui/material';
+
+export const mdxComponents = {
+  h1: (props) => <Typography variant="h1" gutterBottom {...props} />,
+  h2: (props) => <Typography variant="h2" gutterBottom {...props} />,
+  p: (props) => <Typography variant="body1" paragraph {...props} />,
+  a: (props) => <Link {...props} />,
+  Box: (props) => <Box {...props} />,
+};
+
+// src/lib/content.ts - Shared content utilities
+import { blog, projects } from '@/.velite';
+
+type ContentType = 'blog' | 'projects';
+
+async function getContentByTag(
+  collection: ContentType,
+  tag: string,
+  limit?: number
+) {
+  const items = collection === 'blog' ? blog : projects;
+  const filtered = items.filter(item =>
+    item.tags?.includes(tag)
+  );
+  return limit ? filtered.slice(0, limit) : filtered;
+}
+
+async function getFeaturedItems(
+  collection: ContentType,
+  limit = 3
+) {
+  const items = collection === 'blog' ? blog : projects;
+  return items.filter(item => item.featured).slice(0, limit);
+}
+
+// Usage in blog and project pages
+async function BlogPage() {
+  const posts = await getFeaturedItems('blog');
+  return <PostGrid items={posts} />;
+}
+
+async function ProjectsPage() {
+  const projects = await getFeaturedItems('projects');
+  return <ProjectGrid items={projects} />;
+}
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Duplicating MDX component mappings
+// src/app/blog/[slug]/page.tsx
+export const blogComponents = {
+  h1: (props) => <Typography variant="h1" {...props} />,
+  h2: (props) => <Typography variant="h2" {...props} />,
+  p: (props) => <Typography variant="body1" {...props} />,
+};
+
+// src/app/projects/[slug]/page.tsx
+export const projectComponents = {
+  h1: (props) => <Typography variant="h1" {...props} />,
+  h2: (props) => <Typography variant="h2" {...props} />,
+  p: (props) => <Typography variant="body1" {...props} />,
+};
+
+// Duplicating filtering logic
+async function getFeaturedBlogPosts() {
+  return blog.filter(post => post.featured).slice(0, 3);
+}
+
+async function getFeaturedProjects() {
+  return projects.filter(project => project.featured).slice(0, 3);
+}
+```
+
+**Why This Matters**: Shared content schemas and utilities ensure consistent behavior across different content types. Changes to MDX components or loading logic propagate automatically, reducing maintenance overhead.
+
 ## Error Handling Patterns
 
 ### Type-Safe Error Handling

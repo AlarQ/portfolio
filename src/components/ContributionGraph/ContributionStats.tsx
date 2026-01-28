@@ -3,6 +3,7 @@
 import {
   BarChart as BarChartIcon,
   CalendarToday as CalendarIcon,
+  Code as CodeIcon,
   LocalFireDepartment as FireIcon,
   Folder as FolderIcon,
   MergeType as PullRequestIcon,
@@ -34,16 +35,22 @@ export function ContributionStats({ stats }: ContributionStatsProps) {
       color: theme.palette.info.main,
     },
     {
+      icon: <CodeIcon />,
+      label: "Lines of Code",
+      value: stats.totalLinesOfCode,
+      color: theme.palette.primary.dark,
+    },
+    {
+      icon: <TrophyIcon />,
+      label: "Top Languages",
+      value: stats.linesByLanguage,
+      color: theme.palette.secondary.dark,
+    },
+    {
       icon: <FireIcon />,
       label: "Current Streak",
       value: `${stats.currentStreak} day${stats.currentStreak !== 1 ? "s" : ""}`,
       color: theme.palette.error.main,
-    },
-    {
-      icon: <TrophyIcon />,
-      label: "Longest Streak",
-      value: `${stats.longestStreak} day${stats.longestStreak !== 1 ? "s" : ""}`,
-      color: theme.palette.warning.main,
     },
     {
       icon: <CalendarIcon />,

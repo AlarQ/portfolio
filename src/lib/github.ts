@@ -17,6 +17,7 @@ import type {
   ContributionCalendar,
   ContributionStats,
   GitHubContributionsResponse,
+  RepositoryLineCountsResponse,
 } from "@/types/contributions";
 
 /**
@@ -45,6 +46,42 @@ const GET_CONTRIBUTIONS_QUERY = `
               date
               contributionCount
               color
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * GraphQL query to fetch repository language statistics
+ *
+ * This query retrieves:
+ * - ~20 most recently updated repositories
+ * - Primary language for each repository
+ * - Language breakdown with sizes in bytes
+ *
+ * We use bytes as a proxy for lines of code (roughly 40 bytes per line).
+ */
+const GET_REPOSITORIES_QUERY = `
+  query GetRepositories($username: String!) {
+    user(login: $username) {
+      repositories(
+        first: 20
+        orderBy: { field: PUSHED_AT, direction: DESC }
+      ) {
+        nodes {
+          name
+          primaryLanguage {
+            name
+          }
+          languages(first: 10) {
+            edges {
+              size
+              node {
+                name
+              }
             }
           }
         }
@@ -186,6 +223,8 @@ export function calculateStats(data: ContributionCalendar): ContributionStats {
     currentStreak: calculateCurrentStreak(data.weeks),
     longestStreak: calculateLongestStreak(data.weeks),
     mostActiveDay: calculateMostActiveDay(data.weeks),
+    totalLinesOfCode: "0",
+    linesByLanguage: "N/A",
   };
 }
 
@@ -310,4 +349,112 @@ export function formatContributionDate(dateString: string): string {
 export function getDayOfWeek(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", { weekday: "long" });
+}
+
+/**
+ * Formats a number with appropriate units (k for thousands)
+ *
+ * @param num - Number to format
+ * @returns Formatted string (e.g., "1.5k", "123", "15.2k")
+ */
+function formatNumber(num: number): string {
+  if (num >= 1000) {
+    return `${(num / 1000).toFixed(1)}k`;
+  }
+  return num.toString();
+}
+
+/**
+ * Fetches repository line counts for a user
+ *
+ * This function:
+ * - Fetches ~20 most recently updated repositories
+ * - Calculates total lines (divide bytes by 40 for rough LOC)
+ * - Aggregates lines by language
+ * - Returns formatted statistics
+ *
+ * @param username - GitHub username to fetch repositories for
+ * @returns Object with totalLinesOfCode and linesByLanguage strings
+ */
+export async function fetchRepositoryLineCounts(username: string): Promise<{
+  totalLinesOfCode: string;
+  linesByLanguage: string;
+}> {
+  const token = process.env.GITHUB_TOKEN;
+
+  if (!token) {
+    return { totalLinesOfCode: "0", linesByLanguage: "N/A" };
+  }
+
+  try {
+    const response = await fetch("https://api.github.com/graphql", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: GET_REPOSITORIES_QUERY,
+        variables: { username },
+      }),
+      next: {
+        revalidate: 21600, // 6 hours
+        tags: ["github-repositories"],
+      },
+    });
+
+    if (!response.ok) {
+      return { totalLinesOfCode: "0", linesByLanguage: "N/A" };
+    }
+
+    const result: RepositoryLineCountsResponse | { errors: Array<{ message: string }> } =
+      await response.json();
+
+    if ("errors" in result && result.errors) {
+      if (process.env.NODE_ENV === "development") {
+        console.error("GitHub GraphQL error:", result.errors[0]?.message);
+      }
+      return { totalLinesOfCode: "0", linesByLanguage: "N/A" };
+    }
+
+    if (!("data" in result) || !result.data?.user?.repositories?.nodes) {
+      return { totalLinesOfCode: "0", linesByLanguage: "N/A" };
+    }
+
+    const repositories = result.data.user.repositories.nodes;
+
+    const languageTotals = new Map<string, number>();
+
+    for (const repo of repositories) {
+      for (const langEdge of repo.languages.edges) {
+        const langName = langEdge.node.name;
+        const bytes = langEdge.size;
+        languageTotals.set(langName, (languageTotals.get(langName) || 0) + bytes);
+      }
+    }
+
+    const totalBytes = Array.from(languageTotals.values()).reduce((sum, val) => sum + val, 0);
+    const totalLines = Math.round(totalBytes / 40);
+
+    const sortedLanguages = Array.from(languageTotals.entries())
+      .map(([name, bytes]) => ({ name, bytes, lines: Math.round(bytes / 40) }))
+      .sort((a, b) => b.lines - a.lines);
+
+    const top3Languages = sortedLanguages.slice(0, 3);
+    const languageStrings = top3Languages.map(
+      (lang) => `${lang.name} (${formatNumber(lang.lines)})`
+    );
+
+    const linesByLanguage = languageStrings.length > 0 ? languageStrings.join(", ") : "N/A";
+
+    return {
+      totalLinesOfCode: formatNumber(totalLines),
+      linesByLanguage,
+    };
+  } catch (error: unknown) {
+    if (error instanceof Error && process.env.NODE_ENV === "development") {
+      console.error("Failed to fetch repository line counts:", error.message);
+    }
+    return { totalLinesOfCode: "0", linesByLanguage: "N/A" };
+  }
 }
