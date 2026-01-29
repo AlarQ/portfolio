@@ -3,6 +3,8 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import GroupsIcon from "@mui/icons-material/Groups";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Container, Stack } from "@mui/material";
+import { Suspense } from "react";
+import { ContributionGraph, ContributionGraphSkeleton } from "@/components/ContributionGraph";
 import { HeroContent } from "@/components/HeroContent";
 import { ProfileCard } from "@/components/ProfileCard";
 import { ReadingSection } from "@/components/ReadingSection";
@@ -85,6 +87,11 @@ export default function Home() {
           {/* Reading Section */}
           <ReadingSection books={currentBooks} />
         </Stack>
+
+        {/* GitHub Contributions Section */}
+        <Suspense fallback={<ContributionGraphSkeleton />}>
+          <ContributionGraph username="AlarQ" />
+        </Suspense>
       </Stack>
     </Container>
   );

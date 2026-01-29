@@ -4,7 +4,7 @@ This file provides guidance when working with code in this repository.
 
 ## Project Overview
 
-This is a personal portfolio website built as a learning project for mastering Next.js 16, React 19, TypeScript, and modern frontend development. It showcases:
+This is a personal portfolio website built with Next.js 16, React 19, TypeScript, and modern frontend development. It showcases:
 
 1. **Homepage**: Hero section, about, featured projects, recent blog posts
 2. **Blog**: List of blog posts with filtering by tags
@@ -12,161 +12,6 @@ This is a personal portfolio website built as a learning project for mastering N
 4. **MDX Content**: Type-safe content management with frontmatter
 
 The project uses Next.js 16 with App Router, Material UI 7 for styling, and Velite for MDX content processing with static site generation (SSG).
-
-## Learning Philosophy
-
-**This is a hands-on learning project.** All code is written manually by the developer to learn TypeScript, Next.js, React, and frontend technologies from scratch.
-
-### AI Agent Role: Educational Guide with Code Generation
-
-**CRITICAL: AI agents MAY generate application code, but MUST follow these requirements:**
-
-**Code Generation Requirements:**
-1. **Present Each File**: Before or immediately after generating/updating any file, the AI agent MUST present the complete file content to the developer
-2. **Explain Concepts**: For each file generated or updated, the AI agent MUST explain:
-   - What concepts are being implemented
-   - Why those concepts are used
-   - How the implementation works
-   - How it relates to the codebase architecture
-3. **Educational Focus**: Code generation should still prioritize learning - explanations should be thorough and educational
-
-**Always Allowed** (no presentation/explanation required):
-- **Configuration files** (low learning value): `package.json`, `tsconfig.json`, `.gitignore`, `.eslintrc.json`, `.prettierrc`, `next.config.js`, `tailwind.config.js`, `postcss.config.js`, `.nvmrc`, `.editorconfig`
-- **Code comments**: Adding explanatory comments to existing code
-
-**Application Code** (requires presentation and explanation):
-- React components (`src/components/BlogCard.tsx`, `src/components/Header.tsx`, etc.)
-- Next.js pages (`src/app/page.tsx`, `src/app/layout.tsx`, etc.)
-- Utilities and helpers (`src/lib/utils.ts`, `src/lib/content.ts`, etc.)
-- Theme configurations (`src/theme/theme.ts`)
-- MDX components (`src/components/MdxComponents.tsx`)
-
-**Additional AI Agent Responsibilities:**
-
-1. **Explain Concepts**: Break down the concept needed for implementation
-2. **Show Examples**:
-   - **First priority**: Reference and explain relevant code from THIS codebase (when available)
-   - **Second priority**: Link to official documentation examples (Next.js docs, MUI docs, React docs)
-   - **Third priority**: Provide web examples with proper attribution
-   - **Note**: External examples are acceptable throughout the project, especially during initial setup when codebase examples don't exist yet
-3. **Guide Understanding**: Ask questions to verify understanding before moving forward
-4. **Review Code**: Analyze code written by the developer and explain improvements (may include small before/after code snippets to illustrate the difference)
-5. **Point Out Issues**: Identify anti-patterns, bugs, or security concerns with explanations (may show wrong vs. right patterns)
-6. **Provide Resources**: Share documentation links, articles, and learning materials
-
-### What AI Agents Should Do
-
-✅ **Explain**: "To implement static generation in Next.js, you need to use `generateStaticParams`. This function tells Next.js which dynamic routes to pre-render at build time. See the Next.js docs: [Generating Static Params](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)"
-
-✅ **Reference Codebase**: "Looking at your `src/app/blog/page.tsx` at line 12, you're using Server Components correctly. For the filtering feature, you'll need to create a Client Component because it requires `useState`. The pattern is similar to what you'll do for the projects page."
-
-✅ **Guide**: "Before implementing the theme, let's understand the MUI theming system. What parts of the design do you want to customize - colors, typography, spacing, or component defaults?"
-
-✅ **Review**: "In your `BlogCard.tsx` component, you're hardcoding the color `#1976d2` on line 23. This breaks theme consistency. Instead, you should use `theme.palette.primary.main`. Here's the difference:
-```typescript
-// ❌ Wrong - hardcoded color
-<Card sx={{ borderColor: "#1976d2" }}>
-
-// ✅ Right - uses theme
-<Card sx={{ borderColor: theme.palette.primary.main }}>
-```
-Want me to explain how to access the theme in a component?"
-
-### What AI Agents Should Do When Generating Code
-
-✅ **Generate and Present**: "I've created `BlogCard.tsx`. Here's the file and an explanation of the concepts..."
-
-✅ **Explain Concepts**: For each file, explain what React/Next.js/TypeScript concepts are being used and why
-
-✅ **Show Complete Files**: Present the full file content so the developer can review and understand the implementation
-
-✅ **Connect to Architecture**: Explain how the generated code fits into the overall project structure
-
-**Note**: Small code snippets for comparison (wrong vs. right) during code review are also ALLOWED.
-
-### AI Agent Decision Tree
-
-**When asked to implement/write/create code:**
-1. Generate the code implementation
-2. **Present the complete file** to the developer
-3. **Explain the concepts** implemented in the file:
-   - What React/Next.js/TypeScript patterns are used
-   - Why those patterns are appropriate
-   - How the code works
-   - How it relates to existing codebase patterns
-4. Reference similar patterns in the codebase (if they exist)
-5. Link to official documentation for deeper understanding
-6. Offer to answer questions about the implementation
-
-**When asked to review code (or when code is shared as complete):**
-1. **Proactively review** - Always analyze shared code even if not explicitly asked
-2. Analyze the code at all levels:
-   - Style and formatting issues
-   - Bugs and correctness
-   - Architectural patterns and structure
-   - Better approaches using modern patterns
-3. Point out issues with explanations
-4. Suggest improvements with reasoning
-5. Reference best practices from this guide
-6. Ask questions to deepen understanding
-
-**When asked to explain something:**
-1. Break down the concept into digestible parts
-2. Use examples from THIS codebase when possible
-3. Reference official docs with links
-4. Check understanding with follow-up questions
-5. Connect to related concepts they'll need
-
-**When asked to refactor code:**
-1. Analyze the existing code structure
-2. Identify what should be refactored and explain why
-3. Suggest refactoring approach (extract component, split functions, etc.)
-4. Explain the benefits of the refactoring
-5. Implement the refactoring if requested, then present each updated file and explain the changes
-6. Review the refactored code once completed
-
-**When asked about code style/linting issues:**
-1. **Bulk formatting issues** (indentation, quotes, semicolons): Suggest using automated tools (`npm run lint:fix`, `npm run format`)
-2. **Learning-related issues** (unused variables, type errors, missing dependencies): Explain each issue and why it matters
-3. **Mixed scenarios**: Use tools for formatting, explain conceptual issues individually
-
-**When managing todo items:**
-1. Track progress on tasks to help maintain development momentum
-2. Only mark tasks complete after the developer has implemented and tested them
-3. Do not mark configuration-file tasks as complete if AI generated them - those are exceptions to the learning rule
-
-**When asked to debug:**
-1. Help them understand what the error means
-2. Guide them to locate the source of the problem
-3. Explain why the error is happening
-4. Fix the code if requested, then present the updated file and explain the fix
-5. Review their fix once implemented (if they fix it themselves)
-
-**Exception for obvious errors**: For clear typos, syntax errors, or missing punctuation, AI agents can directly show the fix:
-- Typos: `titel` → `title`
-- Missing semicolons, brackets, quotes
-- Incorrect property names: `post.titel` → `post.title`
-
-### How to Reference the Codebase
-
-**When explaining concepts, PRIORITIZE examples from the actual codebase:**
-
-**Good approach:**
-> "Looking at your `src/app/layout.tsx` at line 15, you're already wrapping the app with ThemeRegistry. For the BlogList component, you'll use a similar pattern but with the `'use client'` directive because it needs state for filtering."
-
-**Better approach:**
-> "In your existing `src/components/Header.tsx`, you're using MUI's Box and Typography components (lines 8-12). The ProjectCard will follow a similar pattern but using Card instead of Box. Let me explain the difference between these MUI components..."
-
-**Best approach:**
-> "You've already implemented content loading in `src/lib/utils.ts` for projects (lines 20-25). The blog posts will use the same Velite pattern. Let's break down what that code does:
-> - Line 21: Imports the `projects` collection from Velite
-> - Line 23: Uses `.sort()` to order by date
-> - Line 24: Returns the sorted array
->
-> For blog posts, you'll follow this exact same pattern but import `blog` instead. What do you think the key difference will be in the sorting logic?"
-
-**When no codebase examples exist yet:**
-> "Since you haven't implemented any pages yet, let me explain the Server Component pattern using the Next.js documentation as reference: [link]. Once you create your first page, we can reference that as an example for the others."
 
 ## Architecture
 
@@ -238,8 +83,6 @@ export const theme = createTheme({
 
 ## Next.js Development Best Practices
 
-**Note**: The code examples below are for EDUCATIONAL REFERENCE to explain concepts. AI agents can generate implementations based on these patterns, but must present each file and explain the concepts being used.
-
 ### Server Components vs Client Components
 
 **Concept**: Default to Server Components unless the component needs client-side interactivity.
@@ -252,7 +95,7 @@ export const theme = createTheme({
 
 **Pattern Explanation**: Maximize Server Component usage by fetching data in Server Components and passing it to Client Components for interactivity.
 
-**Educational Example** (for understanding the pattern):
+**Example**:
 ```typescript
 // src/app/blog/page.tsx (Server Component)
 // This component can fetch data on the server
@@ -358,14 +201,14 @@ export function Hero() {
 
 ### MDX and Velite Patterns
 
-**Concept**: Velite processes MDX files at build time into type-safe TypeScript objects. You define a schema, and Velite generates types automatically.
+Velite processes MDX files at build time into type-safe TypeScript objects. You define a schema, and Velite generates types automatically.
 
 **Content Schema Definition Pattern**
 
-Understanding: The schema defines what fields your content has and their types. Velite uses this to validate your MDX frontmatter and generate TypeScript types.
+The schema defines what fields your content has and their types. Velite uses this to validate your MDX frontmatter and generate TypeScript types.
 
 ```typescript
-// velite.config.ts - Educational example
+// velite.config.ts
 import { defineConfig, defineCollection, s } from "velite";
 
 const blog = defineCollection({
@@ -392,10 +235,10 @@ export default defineConfig({
 
 **Loading Content Pattern**
 
-Understanding: Velite generates an array of all content items. You can filter, sort, and manipulate this array using standard JavaScript array methods.
+Velite generates an array of all content items. You can filter, sort, and manipulate this array using standard JavaScript array methods.
 
 ```typescript
-// src/lib/content.ts - Educational example
+// src/lib/content.ts
 import { blog } from "@/.velite";  // Import generated content
 
 export async function getAllPosts() {
@@ -413,10 +256,10 @@ export async function getFeaturedPosts() {
 
 **Custom MDX Components Pattern**
 
-Understanding: You can replace default HTML elements in MDX with custom React components. This lets you use MUI components for consistent styling.
+You can replace default HTML elements in MDX with custom React components. This lets you use MUI components for consistent styling.
 
 ```typescript
-// src/components/MdxComponents.tsx - Educational example
+// src/components/MdxComponents.tsx
 import { Typography, Link } from "@mui/material";
 
 // Map HTML elements to MUI components
@@ -434,8 +277,6 @@ export const mdxComponents = {
 
 ## TypeScript Configuration
 
-**Note**: The examples below explain TypeScript patterns for this project. AI agents can generate type definitions based on these patterns, but must present each file and explain the TypeScript concepts being used.
-
 ### Key Principles
 
 - Define proper interfaces for all props, state, and content types
@@ -446,9 +287,9 @@ export const mdxComponents = {
 
 ### Type Safety for Content
 
-**Concept**: Velite auto-generates TypeScript types from your schema. Use these types for component props to get full type safety and autocomplete.
+Velite auto-generates TypeScript types from your schema. Use these types for component props to get full type safety and autocomplete.
 
-**Educational Example**:
+**Example**:
 ```typescript
 // Import the auto-generated type
 import type { Blog } from "@/.velite";
@@ -474,9 +315,9 @@ export function BlogCard({ post, variant = "default" }: BlogCardProps) {
 
 ### Type Guard Utilities
 
-**Concept**: Type guards help you safely validate data at runtime while maintaining TypeScript's type safety.
+Type guards help you safely validate data at runtime while maintaining TypeScript's type safety.
 
-**Educational Example**:
+**Example**:
 ```typescript
 // Type predicate function (note the 'slug is string' return type)
 function isValidSlug(slug: unknown): slug is string {
@@ -524,13 +365,444 @@ export async function getPostBySlug(slug: string) {
 - **Import Organization**: Group imports: external, internal (@/), relative.
 - **Component Props**: Always define explicit prop interfaces.
 
-## Error Handling Patterns
+## DRY Principles
 
-**Note**: These patterns explain proper error handling in TypeScript. AI agents can generate error handling code based on these patterns, but must present each file and explain the error handling concepts being used.
+### Custom Hooks for Stateful Logic
+
+**Concept**: Extract reusable stateful logic into custom hooks to avoid duplication across components.
+
+**Correct Pattern**:
+```typescript
+// Reusable hook for form inputs
+function useFormInput(initialValue: string) {
+  const [value, setValue] = useState(initialValue);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+  return { value, onChange: handleChange };
+}
+
+// Usage in multiple components
+function ContactForm() {
+  const email = useFormInput('');
+  const name = useFormInput('');
+  return (
+    <form>
+      <input {...email} placeholder="Email" />
+      <input {...name} placeholder="Name" />
+    </form>
+  );
+}
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Duplicating useState and handlers in every form component
+function ContactForm() {
+  const [email, setEmail] = useState('');
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+  const [name, setName] = useState('');
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+  // ... repeated in every form
+}
+```
+
+**Why This Matters**: Custom hooks let you share logic without sharing state. Each component gets its own independent state, and you can reuse the same logic across multiple components without code duplication.
+
+### TypeScript Utility Types for Type Reuse
+
+**Concept**: Leverage TypeScript's built-in utility types to derive new types from existing ones without redefining fields.
+
+**Correct Pattern**:
+```typescript
+// Base type from API or Velite schema
+interface BlogPost {
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+  image?: string;
+  featured: boolean;
+  content: string;
+}
+
+// Derive component props using utility types
+type BlogCardProps = Pick<BlogPost, 'title' | 'description' | 'image' | 'featured'>;
+type BlogFormProps = Omit<BlogPost, 'content' | 'featured'>;
+type BlogEditProps = Partial<BlogPost>;
+type BlogRequired = Required<Pick<BlogPost, 'title' | 'content'>>;
+
+// Combining utility types
+interface BlogListProps {
+  posts: BlogPost[];
+  loading?: boolean;
+}
+
+type FilterableBlogListProps = BlogListProps & {
+  selectedTag?: string;
+};
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Duplicating field definitions everywhere
+interface BlogCardProps {
+  title: string;
+  description: string;
+  image?: string;
+  featured: boolean;
+}
+
+interface BlogFormProps {
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+  image?: string;
+}
+// Same fields repeated, breaking single source of truth
+```
+
+**Why This Matters**: Utility types maintain a single source of truth for type definitions. When the base type changes, all derived types update automatically, reducing maintenance burden and ensuring consistency.
+
+### Component Composition Over Duplication
+
+**Concept**: Use composition and shared base components instead of duplicating similar components.
+
+**Correct Pattern**:
+```typescript
+// Base reusable card component
+function BaseCard({ children, variant = "default" }: BaseCardProps) {
+  const theme = useTheme();
+  const borderColor = variant === "featured"
+    ? theme.palette.primary.main
+    : theme.palette.divider;
+
+  return (
+    <Card
+      sx={{
+        borderColor,
+        borderWidth: variant === "featured" ? 2 : 1,
+        borderRadius: 2,
+      }}
+    >
+      {children}
+    </Card>
+  );
+}
+
+// Compose specialized cards using the base
+function BlogCard({ post }: { post: BlogPost }) {
+  return (
+    <BaseCard variant={post.featured ? "featured" : "default"}>
+      <CardMedia image={post.image} />
+      <CardContent>
+        <Typography variant="h5">{post.title}</Typography>
+        <Typography variant="body2">{post.description}</Typography>
+      </CardContent>
+    </BaseCard>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <BaseCard variant="default">
+      <CardContent>
+        <Typography variant="h5">{project.title}</Typography>
+        <Typography variant="body2">{project.description}</Typography>
+      </CardContent>
+    </BaseCard>
+  );
+}
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Duplicating card structure and styling
+function BlogCard({ post }: { post: BlogPost }) {
+  return (
+    <Card
+      sx={{
+        borderColor: post.featured ? "#1976d2" : "rgba(0,0,0,0.12)",
+        borderWidth: post.featured ? 2 : 1,
+        borderRadius: 2,
+      }}
+    >
+      {/* Card content */}
+    </Card>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <Card
+      sx={{
+        borderColor: "rgba(0,0,0,0.12)",
+        borderWidth: 1,
+        borderRadius: 2,
+      }}
+    >
+      {/* Card content - duplicated structure */}
+    </Card>
+  );
+}
+```
+
+**Why This Matters**: Composition eliminates duplication while allowing flexibility. Base components handle shared structure and styling, while specialized components handle their specific content. Changes to the base component automatically propagate to all usages.
+
+### Shared Utility Functions
+
+**Concept**: Centralize reusable logic (formatters, validators, constants) in utility modules to avoid duplication across the codebase.
+
+**Correct Pattern**:
+```typescript
+// src/lib/formatters.ts - Pure functions for data formatting
+export function formatDate(date: string | Date): string {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date(date));
+}
+
+export function truncateText(text: string, maxLength: number): string {
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+}
+
+export function formatTechStack(techStack: string[]): string {
+  return techStack.join(', ');
+}
+
+// src/lib/validators.ts - Pure functions for validation
+export function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+export function isValidUrl(url: string): boolean {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// src/lib/constants.ts - Centralized constants
+export const DEFAULT_PAGE_SIZE = 10;
+export const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+export const SUPPORTED_IMAGE_FORMATS = ['jpg', 'jpeg', 'png', 'webp'] as const;
+
+// Usage across components
+function BlogCard({ post }: { post: BlogPost }) {
+  return (
+    <Card>
+      <Typography variant="caption">
+        {formatDate(post.date)}
+      </Typography>
+      <Typography variant="body1">
+        {truncateText(post.description, 150)}
+      </Typography>
+    </Card>
+  );
+}
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Duplicating formatting logic in each component
+function BlogCard({ post }: { post: BlogPost }) {
+  const formatDate = (date: string) => {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(new Date(date));
+  };
+  return <Typography>{formatDate(post.date)}</Typography>;
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  const formatDate = (date: string) => {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(new Date(date));
+  };
+  return <Typography>{formatDate(project.date)}</Typography>;
+}
+```
+
+**Why This Matters**: Shared utility functions are easier to test, maintain, and reuse. Pure functions without side effects are predictable and can be imported wherever needed without duplicating logic.
+
+### Theme-Driven Styling
+
+**Concept**: Define design tokens once in the theme and reference them consistently instead of duplicating values.
+
+**Correct Pattern**:
+```typescript
+// src/theme/theme.ts - Define once
+export const theme = createTheme({
+  palette: {
+    primary: { main: '#1976d2' },
+    secondary: { main: '#dc004e' },
+    success: { main: '#2e7d32' },
+  },
+  typography: {
+    h1: { fontSize: '2.5rem', fontWeight: 700 },
+    h2: { fontSize: '2rem', fontWeight: 600 },
+  },
+  spacing: 8, // Base spacing unit
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        },
+      },
+    },
+  },
+});
+
+// Usage - Reference theme tokens
+function ProjectCard({ featured }: { featured: boolean }) {
+  const theme = useTheme();
+  return (
+    <Card
+      sx={{
+        borderColor: featured
+          ? theme.palette.primary.main
+          : theme.palette.divider,
+        padding: theme.spacing(3),
+      }}
+    >
+      <Typography variant="h1">Project Title</Typography>
+    </Card>
+  );
+}
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Hardcoding values throughout components
+function ProjectCard({ featured }: { featured: boolean }) {
+  return (
+    <Card
+      sx={{
+        borderColor: featured ? '#1976d2' : 'rgba(0,0,0,0.12)',
+        padding: 24, // Magic number, unclear reference
+        borderRadius: 8, // Duplicated across components
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)', // Repeated
+      }}
+    >
+      <Typography
+        sx={{
+          fontSize: '2.5rem', // Duplicated from theme
+          fontWeight: 700, // Duplicated from theme
+        }}
+      >
+        Project Title
+      </Typography>
+    </Card>
+  );
+}
+```
+
+**Why This Matters**: Theme-driven styling ensures consistency, enables easy theme updates, and supports dark mode. Changing a color in the theme automatically updates all components using it.
+
+### Content Schema Reuse
+
+**Concept**: Reuse MDX component mappings and content loading patterns to avoid duplication across blog and project sections.
+
+**Correct Pattern**:
+```typescript
+// src/lib/mdx.ts - Shared MDX configuration
+import { Typography, Link, Box } from '@mui/material';
+
+export const mdxComponents = {
+  h1: (props) => <Typography variant="h1" gutterBottom {...props} />,
+  h2: (props) => <Typography variant="h2" gutterBottom {...props} />,
+  p: (props) => <Typography variant="body1" paragraph {...props} />,
+  a: (props) => <Link {...props} />,
+  Box: (props) => <Box {...props} />,
+};
+
+// src/lib/content.ts - Shared content utilities
+import { blog, projects } from '@/.velite';
+
+type ContentType = 'blog' | 'projects';
+
+async function getContentByTag(
+  collection: ContentType,
+  tag: string,
+  limit?: number
+) {
+  const items = collection === 'blog' ? blog : projects;
+  const filtered = items.filter(item =>
+    item.tags?.includes(tag)
+  );
+  return limit ? filtered.slice(0, limit) : filtered;
+}
+
+async function getFeaturedItems(
+  collection: ContentType,
+  limit = 3
+) {
+  const items = collection === 'blog' ? blog : projects;
+  return items.filter(item => item.featured).slice(0, limit);
+}
+
+// Usage in blog and project pages
+async function BlogPage() {
+  const posts = await getFeaturedItems('blog');
+  return <PostGrid items={posts} />;
+}
+
+async function ProjectsPage() {
+  const projects = await getFeaturedItems('projects');
+  return <ProjectGrid items={projects} />;
+}
+```
+
+**Wrong Pattern** (DO NOT USE):
+```typescript
+// Duplicating MDX component mappings
+// src/app/blog/[slug]/page.tsx
+export const blogComponents = {
+  h1: (props) => <Typography variant="h1" {...props} />,
+  h2: (props) => <Typography variant="h2" {...props} />,
+  p: (props) => <Typography variant="body1" {...props} />,
+};
+
+// src/app/projects/[slug]/page.tsx
+export const projectComponents = {
+  h1: (props) => <Typography variant="h1" {...props} />,
+  h2: (props) => <Typography variant="h2" {...props} />,
+  p: (props) => <Typography variant="body1" {...props} />,
+};
+
+// Duplicating filtering logic
+async function getFeaturedBlogPosts() {
+  return blog.filter(post => post.featured).slice(0, 3);
+}
+
+async function getFeaturedProjects() {
+  return projects.filter(project => project.featured).slice(0, 3);
+}
+```
+
+**Why This Matters**: Shared content schemas and utilities ensure consistent behavior across different content types. Changes to MDX components or loading logic propagate automatically, reducing maintenance overhead.
+
+## Error Handling Patterns
 
 ### Type-Safe Error Handling
 
-**Concept**: In TypeScript, caught errors have type `unknown`, not `Error`. You must validate the error type before accessing properties.
+In TypeScript, caught errors have type `unknown`, not `Error`. You must validate the error type before accessing properties.
 
 **Correct Pattern**:
 ```typescript
@@ -558,7 +830,7 @@ try {
 
 ### Development-Only Logging
 
-**Concept**: Console statements should only run in development to avoid exposing data in production and cluttering production logs.
+Console statements should only run in development to avoid exposing data in production and cluttering production logs.
 
 **Correct Pattern**:
 ```typescript
@@ -591,38 +863,20 @@ console.log("Content data:", data);  // Logs in production, exposes data
 
 ```
 <type>(<scope>): <description>
-
-Concepts: <concept1>, <concept2>, <concept3>
 ```
-
-**Concepts field** (required for learning commits):
-- Lists frontend, TypeScript, and CSS concepts touched/learned during implementation
-- Helps track learning progress and serves as a reference for future review
-- Use comma-separated list of concept names
-- Examples of concepts:
-  - **React/Next.js**: Server Components, Client Components, useServerInsertedHTML, generateStaticParams, App Router, Streaming SSR
-  - **TypeScript**: Type guards, Type predicates, Generics, Union types, Interface vs Type
-  - **CSS/Styling**: CSS-in-JS, Emotion cache, CSS variables, MUI sx prop, Responsive breakpoints
-  - **Patterns**: Provider pattern, Singleton pattern, Context API, SSR hydration
 
 **Example commits:**
 
 ```
 feat(theme): implement ThemeRegistry with Emotion SSR support
-
-Concepts: useServerInsertedHTML, Emotion cache, CSS-in-JS, SSR hydration, Provider pattern
 ```
 
 ```
 feat(blog): add tag filtering to blog listing page
-
-Concepts: Client Components, useState, Array.filter, Controlled components
 ```
 
 ```
 fix(layout): resolve hydration mismatch in header component
-
-Concepts: Server vs Client Components, Hydration, useEffect for client-only code
 ```
 
 **Validation Rules:**
@@ -631,7 +885,6 @@ Concepts: Server vs Client Components, Hydration, useEffect for client-only code
 - Subject must be sentence-case and at least 10 characters
 - No period at the end of the subject line
 - Header cannot exceed 100 characters
-- Concepts field should be included for all learning-related commits (feat, fix, refactor)
 
 ## Git Push and Remote Repository Workflow
 
@@ -672,9 +925,7 @@ git push -u origin feat/my-feature
 git add src/app/page.tsx
 
 # Commit the fixes
-git commit -m "fix(style): resolve formatting issues
-
-Concepts: Code formatting, Linting rules"
+git commit -m "fix(style): resolve formatting issues"
 
 # Push again (now hooks should pass)
 git push -u origin feat/my-feature

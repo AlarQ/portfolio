@@ -37,6 +37,7 @@
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "commit-and-tag-version": "^12.6.1",
+    "dotenv": "^17.2.3",
     "husky": "^9",
     "typescript": "^5"
   }
