@@ -65,12 +65,25 @@ test.describe("Homepage", () => {
   });
 
   /**
+   * POSITIVE TEST: Verify only one h1 heading exists on the page
+   * Objective: Ensure proper heading hierarchy for accessibility
+   */
+  test("has exactly one h1 heading for accessibility", async ({ page }) => {
+    // Arrange: Page is loaded
+    // Act: Find all h1 headings
+    const h1Headings = page.getByRole("heading", { level: 1 });
+
+    // Assert: Check that only one h1 exists
+    await expect(h1Headings).toHaveCount(1);
+  });
+
+  /**
    * POSITIVE TEST: Verify hero content displays subtitle
-   * Objective: Ensure HeroContent component renders with correct subtitle
+   * Objective: Ensure HeroContent component renders with correct subtitle as h2
    */
   test("displays hero content with correct subtitle", async ({ page }) => {
     // Arrange: Page is loaded
-    // Act: Find hero subtitle by role (heading with h2)
+    // Act: Find hero subtitle by role (heading with h2 - not h1 to maintain proper hierarchy)
     const heroSubtitle = page.getByRole("heading", { name: "TEAM LEADER", level: 2 });
 
     // Assert: Check subtitle is visible
@@ -83,11 +96,11 @@ test.describe("Homepage", () => {
    */
   test("displays experience stats", async ({ page }) => {
     // Arrange: Page is loaded
-    // Act: Wait for stats to be visible
-    await page.waitForTimeout(500); // Small wait for animation
+    // Act: Wait for stats to be visible using proper waiting strategy
+    const yearsOfExperience = page.getByText("Years of Experience");
+    await expect(yearsOfExperience).toBeVisible();
 
     // Assert: Check stats sections are present
-    const yearsOfExperience = page.getByText("Years of Experience");
     await expect(yearsOfExperience).toBeVisible();
 
     const engineersLed = page.getByText("Engineers Led");
@@ -103,11 +116,11 @@ test.describe("Homepage", () => {
    */
   test("displays service cards", async ({ page }) => {
     // Arrange: Page is loaded
-    // Act: Wait for services to render
-    await page.waitForTimeout(500);
+    // Act: Find service cards using semantic selectors
+    const backendService = page.getByText("Backend Development");
+    await expect(backendService).toBeVisible();
 
     // Assert: Check backend development service
-    const backendService = page.getByText("Backend Development");
     await expect(backendService).toBeVisible();
     await expect(backendService).toContainText("Scala, Rust, Microservices");
 
@@ -159,10 +172,7 @@ test.describe("Homepage", () => {
     // Arrange: Page is loaded, known book titles from books.ts
     const bookTitles = ["The Courage To Be Disliked", "OATHBRINGER"];
 
-    // Act: Wait for reading section to render
-    await page.waitForTimeout(500);
-
-    // Assert: Check that actual book titles are displayed
+    // Act & Assert: Check that actual book titles are displayed using proper waiting
     for (const bookTitle of bookTitles) {
       const bookElement = page.getByText(bookTitle, { exact: false });
       await expect(bookElement).toBeVisible();
@@ -175,11 +185,18 @@ test.describe("Homepage", () => {
    */
   test("displays GitHub contribution graph", async ({ page }) => {
     // Arrange: Page is loaded
-    // Act: Wait for contribution graph to load (with longer timeout for async component)
-    const contributionGraph = page.getByTestId("contribution-graph");
+    // Act: Wait for contribution graph to load using semantic selector (heading)
+    const contributionGraphHeading = page.getByRole("heading", {
+      name: "GitHub Contributions",
+      level: 2,
+    });
 
-    // Assert: Check graph becomes visible (give it more time to load)
-    await expect(contributionGraph).toBeVisible({ timeout: 15000 });
+    // Assert: Check graph heading becomes visible (give it more time to load for async component)
+    await expect(contributionGraphHeading).toBeVisible({ timeout: 15000 });
+
+    // Assert: Check contribution count text is also visible
+    const contributionText = page.getByText(/contributions in the last year/i);
+    await expect(contributionText).toBeVisible();
   });
 
   /**

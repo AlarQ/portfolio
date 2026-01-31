@@ -154,7 +154,6 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
 
           {/* Scrollable container for the grid */}
           <Box
-            data-testid="contribution-graph"
             sx={{
               overflowX: "auto",
               overflowY: "hidden",

@@ -46,7 +46,6 @@ export function ProjectCard({ title, description, mvpProgress }: ProjectCardProp
 
   return (
     <Card
-      data-testid="project-card"
       sx={{
         height: "100%",
         backgroundColor: theme.palette.background.paper,
@@ -68,7 +67,6 @@ export function ProjectCard({ title, description, mvpProgress }: ProjectCardProp
       >
         {/* Title */}
         <Typography
-          data-testid="project-title"
           variant="h5"
           component="h2"
           sx={{
@@ -82,7 +80,6 @@ export function ProjectCard({ title, description, mvpProgress }: ProjectCardProp
 
         {/* Description */}
         <Typography
-          data-testid="project-description"
           variant="body1"
           sx={{
             color: theme.palette.text.secondary,
