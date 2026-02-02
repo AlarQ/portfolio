@@ -34,7 +34,6 @@ export function Header() {
           border: `1px solid ${theme.palette.divider}`,
         }}
       >
-        {/* Left side: Your name */}
         <Typography
           variant="h6"
           component="div"
@@ -47,10 +46,8 @@ export function Header() {
           Ernest Bednarczyk
         </Typography>
 
-        {/* Spacer - pushes nav to the right */}
         <Box sx={{ flexGrow: 1 }} />
 
-        {/* Right side: Nav links */}
         <Box sx={{ display: "flex", gap: { xs: 0.5, sm: 1 } }}>
           <Button
             component={Link}

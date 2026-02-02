@@ -21,14 +21,12 @@ export default function Home() {
       }}
     >
       <Stack spacing={{ xs: 4, md: 8 }}>
-        {/* Main Content Row */}
         <Stack
           direction={{ xs: "column", lg: "row" }}
           spacing={{ xs: 4, lg: 8 }}
           alignItems={{ xs: "center", lg: "stretch" }}
           sx={{ width: "100%" }}
         >
-          {/* Profile Card */}
           <ProfileCard
             name="Ernest Bednarczyk"
             bio="Engineering Team Leader with 6+ years of commercial software development experience, including 3+ years leading backend and full-stack teams within the iGaming domain."
@@ -48,7 +46,6 @@ export default function Home() {
             ]}
           />
 
-          {/* Hero Content */}
           <HeroContent
             title="ENGINEERING"
             subtitle="TEAM LEADER"
@@ -73,7 +70,6 @@ export default function Home() {
           />
         </Stack>
 
-        {/* Topic and Reading Sections */}
         <Stack
           direction={{ xs: "column", lg: "row" }}
           spacing={{ xs: 4, lg: 4 }}
@@ -81,14 +77,11 @@ export default function Home() {
           justifyContent="center"
           sx={{ width: "100%" }}
         >
-          {/* Topic Section */}
           <TopicSection topic="Building Development Workflows with Open Code: Focus on Approval-Based Execution." />
 
-          {/* Reading Section */}
           <ReadingSection books={currentBooks} />
         </Stack>
 
-        {/* GitHub Contributions Section */}
         <Suspense fallback={<ContributionGraphSkeleton />}>
           <ContributionGraph username="AlarQ" />
         </Suspense>

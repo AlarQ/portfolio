@@ -24,11 +24,11 @@ interface ReadingSectionProps {
 }
 
 const categoryColors: Record<ReadingCategory, string> = {
-  IT: "#0ea5e9", // Sky blue (primary)
-  "Self-Development": "#84cc16", // Lime green
-  Business: "#f97316", // Orange (secondary)
-  Fiction: "#a855f7", // Purple
-  Other: "#64748b", // Slate
+  IT: "#0ea5e9",
+  "Self-Development": "#84cc16",
+  Business: "#f97316",
+  Fiction: "#a855f7",
+  Other: "#64748b",
 };
 
 export function ReadingSection({ books = [] }: ReadingSectionProps) {
@@ -36,7 +36,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const prevBooksLengthRef = useRef(books.length);
 
-  // Reset index when books array length changes
   useEffect(() => {
     if (books.length !== prevBooksLengthRef.current) {
       setCurrentIndex(0);
@@ -48,7 +47,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
     return null;
   }
 
-  // Ensure currentIndex is within bounds
   const safeIndex = Math.min(currentIndex, books.length - 1);
 
   const handlePrevious = () => {
@@ -63,7 +61,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
     setCurrentIndex(index);
   };
 
-  // Shared styles for navigation arrows
   const arrowButtonStyles = {
     position: "absolute" as const,
     top: "50%",
@@ -92,7 +89,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
       }}
     >
       <Stack spacing={3}>
-        {/* Header */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Box
             sx={{
@@ -120,7 +116,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
           </Typography>
         </Box>
 
-        {/* Slider Container */}
         <Box
           sx={{
             position: "relative",
@@ -137,7 +132,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
               px: { xs: 0, sm: 6 },
             }}
           >
-            {/* Books Slider */}
             <Box
               sx={{
                 display: "flex",
@@ -159,7 +153,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
                     spacing={3}
                     alignItems={{ xs: "flex-start", md: "flex-start" }}
                   >
-                    {/* Book Cover */}
                     {book.coverImage && (
                       <Box
                         sx={{
@@ -182,13 +175,11 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
                       </Box>
                     )}
 
-                    {/* Book Details and Quote */}
                     <Stack
                       direction={{ xs: "column", sm: "row" }}
                       spacing={3}
                       sx={{ flex: 1, width: "100%" }}
                     >
-                      {/* Book Details */}
                       <Stack spacing={2} sx={{ flex: 1, textAlign: { xs: "center", sm: "left" } }}>
                         <Box>
                           <Typography
@@ -213,7 +204,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
                           )}
                         </Box>
 
-                        {/* Category Chip */}
                         <Box
                           sx={{
                             display: "flex",
@@ -232,7 +222,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
                         </Box>
                       </Stack>
 
-                      {/* Quote */}
                       {book.quote && (
                         <Box
                           sx={{
@@ -277,7 +266,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
             </Box>
           </Box>
 
-          {/* Navigation Arrows */}
           {books.length > 1 && (
             <>
               <IconButton
@@ -304,7 +292,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
           )}
         </Box>
 
-        {/* Dot Indicators */}
         {books.length > 1 && (
           <Box
             sx={{

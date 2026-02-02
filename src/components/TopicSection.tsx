@@ -23,7 +23,6 @@ export function TopicSection({ topic }: TopicSectionProps) {
       }}
     >
       <Stack spacing={3}>
-        {/* Header */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Box
             sx={{
@@ -51,7 +50,6 @@ export function TopicSection({ topic }: TopicSectionProps) {
           </Typography>
         </Box>
 
-        {/* Topic Content */}
         <Box
           sx={{
             py: 2,

@@ -16,7 +16,7 @@ interface ProfileCardProps {
   }>;
 }
 
-export function ProfileCard({ name, bio, imageSrc, imageAlt, socialLinks = [] }: ProfileCardProps) {
+export function ProfileCard({ bio, imageSrc, imageAlt, socialLinks = [] }: ProfileCardProps) {
   const theme = useTheme();
 
   return (
@@ -38,7 +38,6 @@ export function ProfileCard({ name, bio, imageSrc, imageAlt, socialLinks = [] }:
         alignItems="center"
         sx={{ flexGrow: 1, justifyContent: "space-between" }}
       >
-        {/* Profile Image */}
         <Box
           sx={{
             position: "relative",
@@ -53,20 +52,6 @@ export function ProfileCard({ name, bio, imageSrc, imageAlt, socialLinks = [] }:
           <Image src={imageSrc} alt={imageAlt} fill style={{ objectFit: "cover" }} />
         </Box>
 
-        {/* Name */}
-        <Typography
-          variant="h4"
-          component="h1"
-          sx={{
-            fontWeight: 700,
-            color: theme.palette.text.primary,
-            textAlign: "center",
-          }}
-        >
-          {name}
-        </Typography>
-
-        {/* Decorative Icon and Line */}
         <Box
           sx={{
             position: "relative",
@@ -111,7 +96,6 @@ export function ProfileCard({ name, bio, imageSrc, imageAlt, socialLinks = [] }:
           </Box>
         </Box>
 
-        {/* Bio */}
         <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
           <Typography
             variant="body1"
@@ -126,7 +110,6 @@ export function ProfileCard({ name, bio, imageSrc, imageAlt, socialLinks = [] }:
           </Typography>
         </Box>
 
-        {/* Social Icons */}
         {socialLinks.length > 0 && (
           <Stack direction="row" spacing={2} justifyContent="center">
             {socialLinks.map((link) => (

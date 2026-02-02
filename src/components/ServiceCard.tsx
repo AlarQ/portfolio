@@ -33,10 +33,8 @@ export function ServiceCard({ title, icon, backgroundColor, onClick }: ServiceCa
       }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-        {/* Icon */}
         <Box sx={{ mb: 2 }}>{icon}</Box>
 
-        {/* Title */}
         <Typography
           variant="h6"
           sx={{
