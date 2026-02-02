@@ -2,17 +2,6 @@ import { Container, Grid, Typography } from "@mui/material";
 import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
 
-/**
- * Projects Page
- *
- * Server Component that displays a grid of project cards.
- * Each card shows project title, description, and MVP progress.
- *
- * Architecture:
- * - Server Component for data fetching (no interactivity needed)
- * - ProjectCard is a Client Component for MUI styling
- * - Responsive grid layout: 2 columns on desktop, 1 on mobile
- */
 export default function ProjectsPage() {
   return (
     <Container
@@ -21,7 +10,6 @@ export default function ProjectsPage() {
         py: { xs: 4, md: 8 },
       }}
     >
-      {/* Page Heading */}
       <Typography
         variant="h1"
         sx={{
@@ -34,7 +22,6 @@ export default function ProjectsPage() {
         My Projects
       </Typography>
 
-      {/* Projects Grid */}
       <Grid container spacing={{ xs: 3, md: 4 }}>
         {projects.map((project) => (
           <Grid key={project.id} size={{ xs: 12, md: 6 }}>

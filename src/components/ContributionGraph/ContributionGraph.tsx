@@ -1,18 +1,3 @@
-/**
- * ContributionGraph Client Component
- *
- * This is a Client Component (marked with 'use client') that renders the
- * interactive contribution grid and stats panel. It receives pre-fetched data
- * from the Server Component and handles all client-side interactivity.
- *
- * Key concepts demonstrated:
- * - Client Components with MUI for interactivity
- * - CSS Grid for layout
- * - MUI Tooltip for hover information
- * - Responsive design with overflow scrolling
- * - Theme integration with MUI
- */
-
 "use client";
 
 import { Box, Paper, Tooltip, Typography, useTheme } from "@mui/material";
@@ -28,13 +13,6 @@ interface ContributionGraphProps {
   stats: ContributionStatsType;
 }
 
-/**
- * Maps light theme colors from GitHub API to dark theme colors
- * GitHub API returns light theme colors by default, so we need to convert them
- *
- * @param color - Hex color code from GitHub API (light theme)
- * @returns Hex color code for dark theme
- */
 function getContributionColor(color: string): string {
   if (!color || color === "") {
     return "#161b22";
@@ -51,11 +29,6 @@ function getContributionColor(color: string): string {
   return colorMap[color] || color;
 }
 
-/**
- * Gets month labels with proper positioning
- * Returns an array of 53 elements (one for each week column)
- * where each element is either a month label or null
- */
 function getMonthLabelRow(weeks: ContributionCalendar["weeks"]): Array<string | null> {
   const row: Array<string | null> = new Array(53).fill(null);
   let lastMonth: number | null = null;
@@ -63,14 +36,12 @@ function getMonthLabelRow(weeks: ContributionCalendar["weeks"]): Array<string | 
   weeks.forEach((week, weekIndex) => {
     if (weekIndex >= 53) return;
 
-    // Get the first day of the week
     const firstDay = week.contributionDays[0];
     if (!firstDay) return;
 
     const date = new Date(firstDay.date);
     const month = date.getMonth();
 
-    // Only add label when month changes
     if (month !== lastMonth) {
       const monthNames = [
         "Jan",
@@ -94,10 +65,6 @@ function getMonthLabelRow(weeks: ContributionCalendar["weeks"]): Array<string | 
   return row;
 }
 
-/**
- * GitHub's official contribution colors for the legend
- * These match exactly what GitHub displays
- */
 const GITHUB_CONTRIBUTION_COLORS = {
   0: "#161b22",
   1: "#0e4429",
@@ -118,7 +85,6 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
         gap: 3,
       }}
     >
-      {/* Left side: Contribution Graph */}
       <Box>
         <Paper
           elevation={0}
@@ -129,7 +95,6 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
             borderRadius: 2,
           }}
         >
-          {/* Header with title and total count */}
           <Box sx={{ mb: 2 }}>
             <Typography
               variant="h6"
@@ -152,7 +117,6 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
             </Typography>
           </Box>
 
-          {/* Scrollable container for the grid */}
           <Box
             sx={{
               overflowX: "auto",
@@ -172,7 +136,6 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
               },
             }}
           >
-            {/* Main grid container */}
             <Box
               sx={{
                 display: "grid",
@@ -182,7 +145,6 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
                 minWidth: "max-content",
               }}
             >
-              {/* Month labels row */}
               {monthLabelRow.map((label, index) => {
                 const labelKey = label ? `month-${label}-col-${index}` : `empty-col-${index}`;
                 return (
@@ -203,7 +165,6 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
                 );
               })}
 
-              {/* Contribution days grid - organized by week columns */}
               {data.weeks.slice(0, 53).map((week, weekIndex) =>
                 week.contributionDays.map((day, dayIndex) => {
                   const color = getContributionColor(day.color);
@@ -262,7 +223,6 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
             </Box>
           </Box>
 
-          {/* Legend */}
           <Box
             sx={{
               display: "flex",
@@ -292,7 +252,6 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
         </Paper>
       </Box>
 
-      {/* Right side: Stats Panel */}
       <Box>
         <ContributionStats stats={stats} />
       </Box>

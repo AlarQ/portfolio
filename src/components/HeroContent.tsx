@@ -31,7 +31,6 @@ export function HeroContent({ title, subtitle, description, stats, services }: H
   return (
     <Box sx={{ flex: 1, maxWidth: 800 }}>
       <Stack spacing={4}>
-        {/* Title Section */}
         <Box>
           <Typography
             variant="h1"
@@ -60,7 +59,6 @@ export function HeroContent({ title, subtitle, description, stats, services }: H
           </Typography>
         </Box>
 
-        {/* Description */}
         <Typography
           variant="body1"
           sx={{
@@ -73,7 +71,6 @@ export function HeroContent({ title, subtitle, description, stats, services }: H
           {description}
         </Typography>
 
-        {/* Statistics */}
         <Grid container spacing={4}>
           {stats.map((stat) => (
             <Grid size={4} key={stat.label}>
@@ -82,7 +79,6 @@ export function HeroContent({ title, subtitle, description, stats, services }: H
           ))}
         </Grid>
 
-        {/* Service Cards */}
         <Grid container spacing={3}>
           {services.map((service) => (
             <Grid size={{ xs: 12, sm: 6 }} key={service.title}>

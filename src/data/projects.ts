@@ -1,26 +1,10 @@
-/**
- * Project data structure and sample projects
- * Following DRY principles with TypeScript utility types
- */
-
-/**
- * Project interface defining the structure of a project
- */
 export interface Project {
-  /** Unique identifier for the project */
   id: string;
-  /** Project title displayed on the card */
   title: string;
-  /** Brief description of the project */
   description: string;
-  /** MVP progress percentage (0-100) */
   mvpProgress: number;
 }
 
-/**
- * Sample projects with varying MVP progress levels
- * Exported as a readonly array to prevent mutation
- */
 export const projects: readonly Project[] = [
   {
     id: "ecommerce-platform",
@@ -52,10 +36,6 @@ export const projects: readonly Project[] = [
   },
 ];
 
-/**
- * Type guard to validate project data
- * Ensures runtime type safety when working with project objects
- */
 export function isValidProject(project: unknown): project is Project {
   return (
     typeof project === "object" &&
@@ -73,19 +53,10 @@ export function isValidProject(project: unknown): project is Project {
   );
 }
 
-/**
- * Get projects filtered by MVP progress threshold
- * @param minProgress - Minimum MVP progress percentage (inclusive)
- * @returns Array of projects meeting the threshold
- */
 export function getProjectsByProgress(minProgress: number): readonly Project[] {
   return projects.filter((project) => project.mvpProgress >= minProgress);
 }
 
-/**
- * Get projects sorted by MVP progress (descending)
- * @returns Sorted array of projects
- */
 export function getProjectsSortedByProgress(): readonly Project[] {
   return [...projects].sort((a, b) => b.mvpProgress - a.mvpProgress);
 }

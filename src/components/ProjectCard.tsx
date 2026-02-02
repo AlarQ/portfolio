@@ -3,41 +3,15 @@
 import { Box, Card, CardContent, LinearProgress, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-/**
- * Props interface for ProjectCard component
- * Uses TypeScript utility types for flexible usage
- */
 export interface ProjectCardProps {
-  /** Project title displayed prominently */
   title: string;
-  /** Project description text */
   description: string;
-  /** MVP progress percentage (0-100) */
   mvpProgress: number;
 }
 
-/**
- * ProjectCard Component
- *
- * Displays a project with title, description, and an MVP progress bar.
- * Uses Material UI components with theme-driven styling.
- *
- * @example
- * ```tsx
- * <ProjectCard
- *   title="My Project"
- *   description="A great project description"
- *   mvpProgress={75}
- * />
- * ```
- */
 export function ProjectCard({ title, description, mvpProgress }: ProjectCardProps) {
   const theme = useTheme();
 
-  /**
-   * Determine progress bar color based on completion percentage
-   * Using theme palette for consistency
-   */
   const getProgressColor = (progress: number): string => {
     if (progress >= 80) return theme.palette.success.main;
     if (progress >= 50) return theme.palette.primary.main;
@@ -65,7 +39,6 @@ export function ProjectCard({ title, description, mvpProgress }: ProjectCardProp
           height: "100%",
         }}
       >
-        {/* Title */}
         <Typography
           variant="h5"
           component="h2"
@@ -78,7 +51,6 @@ export function ProjectCard({ title, description, mvpProgress }: ProjectCardProp
           {title}
         </Typography>
 
-        {/* Description */}
         <Typography
           variant="body1"
           sx={{
@@ -91,7 +63,6 @@ export function ProjectCard({ title, description, mvpProgress }: ProjectCardProp
           {description}
         </Typography>
 
-        {/* MVP Progress Section */}
         <Box sx={{ mt: "auto" }}>
           <Box
             sx={{
@@ -121,7 +92,6 @@ export function ProjectCard({ title, description, mvpProgress }: ProjectCardProp
             </Typography>
           </Box>
 
-          {/* Progress Bar */}
           <LinearProgress
             variant="determinate"
             value={mvpProgress}

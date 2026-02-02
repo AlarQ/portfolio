@@ -364,6 +364,149 @@ export async function getPostBySlug(slug: string) {
 - **Consistent Naming**: Use PascalCase for components, camelCase for functions/variables.
 - **Import Organization**: Group imports: external, internal (@/), relative.
 - **Component Props**: Always define explicit prop interfaces.
+- **Minimal Comments**: Avoid obvious comments. Code should be self-explanatory through clear naming and TypeScript types.
+
+## Comment Quality Guidelines
+
+### When NOT to Comment
+
+Comments that state the obvious add visual noise without value. Avoid comments that:
+
+- **Restate what the code clearly does**:
+  ```typescript
+  // WRONG - Comment restates the code
+  // Initialize state
+  const [count, setCount] = useState(0);
+  
+  // WRONG - Component name already says this
+  {/* Profile Card */}
+  <ProfileCard ... />
+  
+  // WRONG - Variable name is self-explanatory
+  // Total price calculation
+  const totalPrice = price * quantity;
+  ```
+
+- **Explain basic language/framework features**:
+  ```typescript
+  // WRONG - This is standard React
+  // useEffect runs after render
+  useEffect(() => { ... }, []);
+  
+  // WRONG - This is standard TypeScript
+  // Type guard to check if it's a string
+  if (typeof value === 'string') { ... }
+  ```
+
+- **Describe visual sections in JSX** when component names already indicate purpose:
+  ```tsx
+  // WRONG - Component names are self-evident
+  {/* Header */}
+  <Header />
+  
+  {/* Navigation Links */}
+  <Box sx={{ display: 'flex' }}>
+    <Button>Home</Button>
+    <Button>About</Button>
+  </Box>
+  ```
+
+- **Document types that are already self-evident**:
+  ```typescript
+  // WRONG - Interface properties are obvious
+  interface Project {
+    /** Unique identifier for the project */  // Redundant
+    id: string;
+    /** Project title displayed on the card */  // Redundant
+    title: string;
+  }
+  ```
+
+### When TO Comment
+
+Comments should explain **why**, not **what**:
+
+- **Business logic and domain knowledge**:
+  ```typescript
+  // User can have max 3 active sessions per subscription tier
+  const MAX_ACTIVE_SESSIONS = 3;
+  ```
+
+- **Non-obvious design decisions**:
+  ```typescript
+  // Using 40 bytes as rough estimate for average line length
+  // GitHub API returns bytes, we want approximate LOC
+  const estimatedLines = totalBytes / 40;
+  ```
+
+- **Complex algorithms or workarounds**:
+  ```typescript
+  // GitHub returns light theme colors, we need to map to dark theme
+  // for consistent UI appearance
+  const darkColor = colorMap[lightColor] || lightColor;
+  ```
+
+- **Temporary fixes or TODOs**:
+  ```typescript
+  // TODO: Remove this workaround after upgrading to MUI v6
+  // See: https://github.com/mui/material-ui/issues/12345
+  ```
+
+### JSDoc Guidelines
+
+- **Skip JSDoc for simple functions** when TypeScript types make the signature clear:
+  ```typescript
+  // WRONG - Function signature is self-explanatory
+  /**
+   * Formats a date string for display
+   * @param date - The date to format
+   * @returns Formatted date string
+   */
+  function formatDate(date: string): string { ... }
+  
+  // CORRECT - TypeScript already documents this
+  function formatDate(date: string): string { ... }
+  ```
+
+- **Use JSDoc for public APIs** with complex parameters or return values:
+  ```typescript
+  /**
+   * Fetches paginated results with cursor-based pagination.
+   * 
+   * @param cursor - Opaque cursor from previous page, null for first page
+   * @param limit - Max items per page (1-100)
+   * @returns Paginated result with next cursor, or null if no more pages
+   */
+  async function fetchPaginated(
+    cursor: string | null,
+    limit: number
+  ): Promise<PaginatedResult<T>> { ... }
+  ```
+
+### Configuration Files
+
+Avoid commenting every property in config files:
+
+```typescript
+// WRONG - Property names are self-explanatory
+export default defineConfig({
+  // Test directory
+  testDir: './e2e',
+  // Output directories
+  outputDir: './test-results',
+  // Full configuration mode
+  fullyParallel: true,
+});
+
+// CORRECT - Only comment non-obvious values
+export default defineConfig({
+  testDir: './e2e',
+  outputDir: './test-results',
+  fullyParallel: true,
+  // Lower in CI to avoid rate limits
+  workers: process.env.CI ? 1 : undefined,
+});
+```
 
 ## DRY Principles
 

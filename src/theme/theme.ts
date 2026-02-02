@@ -3,21 +3,19 @@ import { createTheme } from "@mui/material/styles";
 export const theme = createTheme({
   palette: {
     mode: "dark",
-    primary: { main: "#0ea5e9" }, // Sky blue
-    secondary: { main: "#f97316" }, // Orange
+    primary: { main: "#0ea5e9" },
+    secondary: { main: "#f97316" },
     background: {
       default: "#0a1118",
       paper: "#141b22",
     },
   },
   typography: {
-    fontFamily: "var(--font-geist-sans)", // matches your CSS variable from layout.tsx
-    // h1, h2, body1, etc. overrides here
+    fontFamily: "var(--font-geist-sans)",
   },
 });
 
-// Custom colors for service cards
 export const serviceCardColors = {
-  orange: "#c55a0d", // Darker orange
-  limeGreen: "#5f9610", // Darker lime green
+  orange: "#c55a0d",
+  limeGreen: "#5f9610",
 };
