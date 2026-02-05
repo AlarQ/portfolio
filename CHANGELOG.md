@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.11](https://github.com/AlarQ/portfolio/compare/v0.1.10...v0.1.11) (2026-02-05)
+
+
+### Features
+
+* ALA-120 - embedded GitHub pages ([#10](https://github.com/AlarQ/portfolio/issues/10)) ([888b0c7](https://github.com/AlarQ/portfolio/commit/888b0c7b1e4cae504b0ac3bdf60b4a2d77891d0f))
+
 ## [0.1.10](https://github.com/AlarQ/portfolio/compare/v0.1.9...v0.1.10) (2026-01-29)
 
 
