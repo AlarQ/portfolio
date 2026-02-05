@@ -3,6 +3,7 @@ export interface Project {
   title: string;
   description: string;
   mvpProgress: number;
+  githubUrl: string;
 }
 
 export const projects: readonly Project[] = [
@@ -12,6 +13,8 @@ export const projects: readonly Project[] = [
     description:
       "A full-stack e-commerce solution with real-time inventory management, secure payment processing, and an intuitive admin dashboard for product management.",
     mvpProgress: 85,
+    githubUrl:
+      "https://alarq.github.io/monney-planner-docs/prds.html#system-overview/features/implemented/PRD-async-ai-categorization.md",
   },
   {
     id: "task-management-app",
@@ -19,6 +22,7 @@ export const projects: readonly Project[] = [
     description:
       "A collaborative project management tool featuring kanban boards, real-time updates, team assignments, and progress tracking with detailed analytics.",
     mvpProgress: 65,
+    githubUrl: "https://task-management-demo.github.io",
   },
   {
     id: "ai-content-generator",
@@ -26,6 +30,7 @@ export const projects: readonly Project[] = [
     description:
       "An intelligent content creation platform that leverages machine learning to generate blog posts, social media content, and marketing copy.",
     mvpProgress: 40,
+    githubUrl: "https://ai-content-demo.github.io",
   },
   {
     id: "fitness-tracker",
@@ -33,6 +38,7 @@ export const projects: readonly Project[] = [
     description:
       "A health and fitness application with workout planning, nutrition tracking, progress visualization, and integration with wearable devices.",
     mvpProgress: 90,
+    githubUrl: "https://fitness-tracker-demo.github.io",
   },
 ];
 
@@ -49,7 +55,9 @@ export function isValidProject(project: unknown): project is Project {
     "mvpProgress" in project &&
     typeof (project as Project).mvpProgress === "number" &&
     (project as Project).mvpProgress >= 0 &&
-    (project as Project).mvpProgress <= 100
+    (project as Project).mvpProgress <= 100 &&
+    "githubUrl" in project &&
+    typeof (project as Project).githubUrl === "string"
   );
 }
 

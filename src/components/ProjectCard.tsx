@@ -7,9 +7,17 @@ export interface ProjectCardProps {
   title: string;
   description: string;
   mvpProgress: number;
+  onClick?: () => void;
+  isExpanded?: boolean;
 }
 
-export function ProjectCard({ title, description, mvpProgress }: ProjectCardProps) {
+export function ProjectCard({
+  title,
+  description,
+  mvpProgress,
+  onClick,
+  isExpanded,
+}: ProjectCardProps) {
   const theme = useTheme();
 
   const getProgressColor = (progress: number): string => {
@@ -20,14 +28,17 @@ export function ProjectCard({ title, description, mvpProgress }: ProjectCardProp
 
   return (
     <Card
+      onClick={onClick}
       sx={{
         height: "100%",
         backgroundColor: theme.palette.background.paper,
         borderRadius: 2,
+        cursor: onClick ? "pointer" : "default",
         transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
+        border: isExpanded ? `2px solid ${theme.palette.primary.main}` : "none",
         "&:hover": {
-          transform: "translateY(-4px)",
-          boxShadow: theme.shadows[8],
+          transform: onClick ? "translateY(-4px)" : "none",
+          boxShadow: onClick ? theme.shadows[8] : theme.shadows[1],
         },
       }}
     >
