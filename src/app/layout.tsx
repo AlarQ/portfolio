@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Header } from "@/components/Header";
+import { Navigation } from "@/components/navigation";
 import { ThemeRegistry } from "@/theme/ThemeRegistry";
 import "./globals.css";
 
@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeRegistry>
-          <Header />
+          <Navigation />
           <Box sx={{ pt: { xs: 7, sm: 8 } }}>{children}</Box>
         </ThemeRegistry>
       </body>
