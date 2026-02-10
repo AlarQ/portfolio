@@ -58,8 +58,7 @@ export interface ContributionStats {
   currentStreak: number;
   longestStreak: number;
   mostActiveDay: string;
-  totalLinesOfCode: string;
-  linesByLanguage: string;
+  topLanguages: string;
 }
 
 export interface GitHubContributionsResponse {

@@ -7,7 +7,6 @@ import {
   LocalFireDepartment as FireIcon,
   Folder as FolderIcon,
   MergeType as PullRequestIcon,
-  EmojiEvents as TrophyIcon,
 } from "@mui/icons-material";
 import { Box, Paper, Typography, useTheme } from "@mui/material";
 import type { ContributionStatsProps } from "@/types/contributions";
@@ -36,21 +35,21 @@ export function ContributionStats({ stats }: ContributionStatsProps) {
     },
     {
       icon: <CodeIcon />,
-      label: "Lines of Code",
-      value: stats.totalLinesOfCode,
-      color: theme.palette.primary.dark,
-    },
-    {
-      icon: <TrophyIcon />,
       label: "Top Languages",
-      value: stats.linesByLanguage,
-      color: theme.palette.secondary.dark,
+      value: stats.topLanguages,
+      color: theme.palette.primary.dark,
     },
     {
       icon: <FireIcon />,
       label: "Current Streak",
       value: `${stats.currentStreak} day${stats.currentStreak !== 1 ? "s" : ""}`,
       color: theme.palette.error.main,
+    },
+    {
+      icon: <FireIcon />,
+      label: "Longest Streak",
+      value: `${stats.longestStreak} day${stats.longestStreak !== 1 ? "s" : ""}`,
+      color: theme.palette.warning.main,
     },
     {
       icon: <CalendarIcon />,

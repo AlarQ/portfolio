@@ -1,5 +1,5 @@
 import { Box, Paper, Skeleton, Typography } from "@mui/material";
-import { calculateStats, fetchGitHubContributions, fetchRepositoryLineCounts } from "@/lib/github";
+import { calculateStats, fetchTwoYearContributions } from "@/lib/github";
 import { ContributionGraph as ContributionGraphClient } from "./ContributionGraph";
 
 interface ContributionGraphContainerProps {
@@ -8,17 +8,15 @@ interface ContributionGraphContainerProps {
 
 export async function ContributionGraph({ username }: ContributionGraphContainerProps) {
   try {
-    const data = await fetchGitHubContributions(username);
-    const stats = calculateStats(data);
-    const lineCounts = await fetchRepositoryLineCounts(username);
+    // Fetch 2-year stats, recent calendar, and language data
+    const { twoYearStats, recentCalendar, topLanguages } =
+      await fetchTwoYearContributions(username);
 
-    const mergedStats = {
-      ...stats,
-      totalLinesOfCode: lineCounts.totalLinesOfCode,
-      linesByLanguage: lineCounts.linesByLanguage,
-    };
+    // Calculate stats using both 2-year and recent data, including languages
+    const stats = calculateStats(twoYearStats, recentCalendar, topLanguages);
 
-    return <ContributionGraphClient data={data} stats={mergedStats} />;
+    // Pass 2-year data for heatmap visualization (shows 2025 + 2026)
+    return <ContributionGraphClient data={twoYearStats} stats={stats} />;
   } catch (error) {
     console.error("Failed to render contribution graph:", error);
 
