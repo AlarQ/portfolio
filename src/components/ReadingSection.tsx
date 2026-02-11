@@ -4,7 +4,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import BookIcon from "@mui/icons-material/Book";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
-import { Box, Card, Chip, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -77,15 +77,22 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
   };
 
   return (
-    <Card
+    <Box
       sx={{
-        p: 4,
-        borderRadius: 4,
-        backgroundColor: theme.palette.background.paper,
-        border: `2px solid ${theme.palette.divider}`,
-        width: "100%",
-        maxWidth: 800,
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
         position: "relative",
+        transition: "border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+        border: "3px solid transparent",
+        borderRadius: 2,
+        p: 3,
+        "&:hover": {
+          borderColor: theme.palette.primary.main,
+          boxShadow: `0 0 20px ${theme.palette.primary.main}40`,
+        },
+        width: "100%",
+        height: "100%",
       }}
     >
       <Stack spacing={3}>
@@ -121,7 +128,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
             position: "relative",
             overflow: "visible",
             borderRadius: 2,
-            mx: { xs: 0, sm: -4 },
           }}
         >
           <Box
@@ -129,7 +135,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
               position: "relative",
               overflow: "hidden",
               borderRadius: 2,
-              px: { xs: 0, sm: 6 },
+              px: { xs: 0, sm: 4 },
             }}
           >
             <Box
@@ -272,7 +278,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
                 onClick={handlePrevious}
                 sx={{
                   ...arrowButtonStyles,
-                  left: { xs: 4, sm: -20 },
+                  left: { xs: 4, sm: 8 },
                 }}
                 aria-label="Previous book"
               >
@@ -282,7 +288,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
                 onClick={handleNext}
                 sx={{
                   ...arrowButtonStyles,
-                  right: { xs: 4, sm: -20 },
+                  right: { xs: 4, sm: 8 },
                 }}
                 aria-label="Next book"
               >
@@ -325,6 +331,6 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
           </Box>
         )}
       </Stack>
-    </Card>
+    </Box>
   );
 }

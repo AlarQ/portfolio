@@ -1,7 +1,7 @@
 "use client";
 
 import ExploreIcon from "@mui/icons-material/Explore";
-import { Box, Card, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 interface TopicSectionProps {
@@ -12,14 +12,22 @@ export function TopicSection({ topic }: TopicSectionProps) {
   const theme = useTheme();
 
   return (
-    <Card
+    <Box
       sx={{
-        p: 4,
-        borderRadius: 4,
-        backgroundColor: theme.palette.background.paper,
-        border: `2px solid ${theme.palette.divider}`,
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+        transition: "border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+        border: "3px solid transparent",
+        borderRadius: 2,
+        p: 3,
+        "&:hover": {
+          borderColor: theme.palette.primary.main,
+          boxShadow: `0 0 20px ${theme.palette.primary.main}40`,
+        },
         width: "100%",
-        maxWidth: 800,
+        height: "100%",
       }}
     >
       <Stack spacing={3}>
@@ -66,12 +74,27 @@ export function TopicSection({ topic }: TopicSectionProps) {
               color: topic ? theme.palette.text.primary : theme.palette.text.secondary,
               textAlign: "center",
               fontStyle: topic ? "normal" : "italic",
+              mb: 3,
             }}
           >
-            {topic || "Coming soon..."}
+            {topic ||
+              "Building Development Workflows with Open Code: Focus on Approval-Based Execution"}
+          </Typography>
+
+          <Typography
+            variant="body1"
+            sx={{
+              color: theme.palette.text.secondary,
+              lineHeight: 1.7,
+              textAlign: "left",
+            }}
+          >
+            Exploring how modern AI agents can integrate into development workflows through
+            approval-based execution patterns, emphasizing human oversight while leveraging
+            autonomous capabilities for routine tasks.
           </Typography>
         </Box>
       </Stack>
-    </Card>
+    </Box>
   );
 }

@@ -465,7 +465,6 @@ export function calculateStats(
     totalPullRequests: twoYearData.totalPullRequestContributions,
     activeRepositories: twoYearData.totalRepositoryContributions,
     longestStreak: calculateLongestStreak(twoYearData.weeks),
-    mostActiveDay: calculateMostActiveDay(twoYearData.weeks),
 
     // Recent stats (current year only)
     currentStreak: calculateCurrentStreak(recentData.weeks),
@@ -509,24 +508,6 @@ function calculateLongestStreak(weeks: ContributionCalendar["weeks"]): number {
   }
 
   return Math.max(maxStreak, currentStreak);
-}
-
-function calculateMostActiveDay(weeks: ContributionCalendar["weeks"]): string {
-  const dayTotals = [0, 0, 0, 0, 0, 0, 0];
-  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-  for (const week of weeks) {
-    for (const day of week.contributionDays) {
-      const dayOfWeek = new Date(day.date).getDay();
-      dayTotals[dayOfWeek] += day.contributionCount;
-    }
-  }
-
-  const maxTotal = Math.max(...dayTotals);
-  if (maxTotal === 0) return "None";
-
-  const mostActiveDayIndex = dayTotals.indexOf(maxTotal);
-  return dayNames[mostActiveDayIndex];
 }
 
 export function formatContributionCount(count: number): string {
