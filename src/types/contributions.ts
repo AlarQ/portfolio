@@ -57,7 +57,7 @@ export interface ContributionStats {
   activeRepositories: number;
   currentStreak: number;
   longestStreak: number;
-  mostActiveDay: string;
+  mostActiveDay?: string;
   topLanguages: string;
 }
 

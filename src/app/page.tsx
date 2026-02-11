@@ -1,6 +1,6 @@
 import CodeIcon from "@mui/icons-material/Code";
 import GroupsIcon from "@mui/icons-material/Groups";
-import { Container, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import { Suspense } from "react";
 import { ContributionGraph, ContributionGraphSkeleton } from "@/components/ContributionGraph";
 import { HeroContent } from "@/components/HeroContent";
@@ -54,13 +54,16 @@ export default function Home() {
         <Stack
           direction={{ xs: "column", lg: "row" }}
           spacing={{ xs: 4, lg: 4 }}
-          alignItems={{ xs: "center", lg: "flex-start" }}
-          justifyContent="center"
+          alignItems="stretch"
           sx={{ width: "100%" }}
         >
-          <TopicSection topic="Building Development Workflows with Open Code: Focus on Approval-Based Execution." />
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <TopicSection topic="Building Development Workflows with Open Code: Focus on Approval-Based Execution." />
+          </Box>
 
-          <ReadingSection books={currentBooks} />
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <ReadingSection books={currentBooks} />
+          </Box>
         </Stack>
 
         <Suspense fallback={<ContributionGraphSkeleton />}>

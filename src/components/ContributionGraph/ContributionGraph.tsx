@@ -1,12 +1,18 @@
 "use client";
 
+import {
+  BarChart as BarChartIcon,
+  Code as CodeIcon,
+  LocalFireDepartment as FireIcon,
+  Folder as FolderIcon,
+  MergeType as PullRequestIcon,
+} from "@mui/icons-material";
 import { Box, Paper, Tooltip, Typography, useTheme } from "@mui/material";
 import { formatContributionCount, formatContributionDate } from "@/lib/github";
 import type {
   ContributionCalendar,
   ContributionStats as ContributionStatsType,
 } from "@/types/contributions";
-import { ContributionStats } from "./ContributionStats";
 
 interface ContributionGraphProps {
   data: ContributionCalendar;
@@ -75,184 +81,278 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
   const theme = useTheme();
   const monthLabelRow = getMonthLabelRow(data.weeks);
 
+  const statItems = [
+    {
+      icon: <BarChartIcon />,
+      label: "Total Commits",
+      value: stats.totalCommits.toString(),
+      color: theme.palette.primary.main,
+    },
+    {
+      icon: <PullRequestIcon />,
+      label: "Pull Requests",
+      value: stats.totalPullRequests.toString(),
+      color: theme.palette.secondary.main,
+    },
+    {
+      icon: <FolderIcon />,
+      label: "Active Repos",
+      value: stats.activeRepositories.toString(),
+      color: theme.palette.info.main,
+    },
+    {
+      icon: <CodeIcon />,
+      label: "Top Languages",
+      value: stats.topLanguages,
+      color: theme.palette.primary.dark,
+    },
+    {
+      icon: <FireIcon />,
+      label: "Current Streak",
+      value: `${stats.currentStreak} day${stats.currentStreak !== 1 ? "s" : ""}`,
+      color: theme.palette.error.main,
+    },
+    {
+      icon: <FireIcon />,
+      label: "Longest Streak",
+      value: `${stats.longestStreak} day${stats.longestStreak !== 1 ? "s" : ""}`,
+      color: theme.palette.warning.main,
+    },
+  ];
+
   return (
-    <Box
+    <Paper
+      elevation={0}
       sx={{
-        display: "grid",
-        gridTemplateColumns: { xs: "1fr", lg: "minmax(0, 1.2fr) minmax(0, 0.8fr)" },
-        gap: 3,
+        p: { xs: 2, md: 3 },
+        backgroundColor: theme.palette.background.paper,
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: 2,
       }}
     >
-      <Box>
-        <Paper
-          elevation={0}
+      <Box sx={{ mb: 2 }}>
+        <Typography
+          variant="h6"
+          component="h2"
           sx={{
-            p: { xs: 2, md: 3 },
-            backgroundColor: theme.palette.background.paper,
-            border: `1px solid ${theme.palette.divider}`,
-            borderRadius: 2,
+            fontWeight: 600,
+            color: theme.palette.text.primary,
           }}
         >
-          <Box sx={{ mb: 2 }}>
-            <Typography
-              variant="h6"
-              component="h2"
-              sx={{
-                fontWeight: 600,
-                color: theme.palette.text.primary,
-              }}
-            >
-              GitHub Contributions
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                color: theme.palette.text.secondary,
-                mt: 0.5,
-              }}
-            >
-              {formatContributionCount(data.totalContributions)} in the last 2 years
-            </Typography>
-          </Box>
+          GitHub Contributions
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            color: theme.palette.text.secondary,
+            mt: 0.5,
+          }}
+        >
+          {formatContributionCount(data.totalContributions)} in the last 2 years
+        </Typography>
+      </Box>
 
+      <Box
+        sx={{
+          mb: 1.5,
+        }}
+      >
+        <Box
+          sx={{
+            overflowX: "auto",
+            overflowY: "hidden",
+            pb: 1,
+            scrollBehavior: "smooth",
+            "&::-webkit-scrollbar": {
+              height: "6px",
+            },
+            "&::-webkit-scrollbar-track": {
+              background: theme.palette.background.default,
+              borderRadius: "3px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: theme.palette.divider,
+              borderRadius: "3px",
+            },
+          }}
+        >
           <Box
             sx={{
-              overflowX: "auto",
-              overflowY: "hidden",
-              pb: 1,
-              scrollBehavior: "smooth",
-              "&::-webkit-scrollbar": {
-                height: "6px",
-              },
-              "&::-webkit-scrollbar-track": {
-                background: theme.palette.background.default,
-                borderRadius: "3px",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                background: theme.palette.divider,
-                borderRadius: "3px",
-              },
+              display: "grid",
+              gridTemplateColumns: `repeat(${data.weeks.length}, 12px)`,
+              gridTemplateRows: "auto repeat(7, 12px)",
+              gap: "3px",
+              minWidth: "max-content",
+            }}
+          >
+            {monthLabelRow.map((label, index) => {
+              const labelKey = label ? `month-${label}-col-${index}` : `empty-col-${index}`;
+              return (
+                <Box
+                  key={labelKey}
+                  sx={{
+                    gridRow: 1,
+                    gridColumn: index + 1,
+                    fontSize: "10px",
+                    color: theme.palette.text.secondary,
+                    height: "14px",
+                    lineHeight: "14px",
+                    visibility: label ? "visible" : "hidden",
+                  }}
+                >
+                  {label || "\u00A0"}
+                </Box>
+              );
+            })}
+
+            {data.weeks.map((week, weekIndex) =>
+              week.contributionDays.map((day, dayIndex) => {
+                const color = getContributionColor(day.color);
+
+                return (
+                  <Tooltip
+                    key={day.date}
+                    title={
+                      <Box>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                          {formatContributionCount(day.contributionCount)}
+                        </Typography>
+                        <Typography variant="caption" sx={{ opacity: 0.8 }}>
+                          {formatContributionDate(day.date)}
+                        </Typography>
+                      </Box>
+                    }
+                    arrow
+                    placement="top"
+                    slotProps={{
+                      tooltip: {
+                        sx: {
+                          backgroundColor: theme.palette.background.paper,
+                          color: theme.palette.text.primary,
+                          border: `1px solid ${theme.palette.divider}`,
+                          "& .MuiTooltip-arrow": {
+                            color: theme.palette.background.paper,
+                          },
+                        },
+                      },
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 12,
+                        height: 12,
+                        backgroundColor: color,
+                        borderRadius: "2px",
+                        cursor: "pointer",
+                        transition: "all 0.15s ease-in-out",
+                        gridColumn: weekIndex + 1,
+                        gridRow: dayIndex + 2,
+                        "&:hover": {
+                          filter: "brightness(1.3)",
+                          transform: "scale(1.15)",
+                          zIndex: 1,
+                        },
+                      }}
+                      aria-label={`${formatContributionCount(day.contributionCount)} on ${formatContributionDate(day.date)}`}
+                      role="img"
+                    />
+                  </Tooltip>
+                );
+              })
+            )}
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            gap: 1,
+            mt: 0.5,
+            fontSize: "11px",
+            color: theme.palette.text.secondary,
+          }}
+        >
+          <Typography variant="caption">Less</Typography>
+          {[0, 1, 2, 3, 4].map((level) => (
+            <Box
+              key={level}
+              sx={{
+                width: 12,
+                height: 12,
+                backgroundColor:
+                  GITHUB_CONTRIBUTION_COLORS[level as keyof typeof GITHUB_CONTRIBUTION_COLORS],
+                borderRadius: "2px",
+              }}
+            />
+          ))}
+          <Typography variant="caption">More</Typography>
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
+          gap: 2,
+          mt: 1.5,
+        }}
+      >
+        {statItems.map((item) => (
+          <Box
+            key={item.label}
+            sx={{
+              p: 2,
+              backgroundColor: theme.palette.background.default,
+              border: `1px solid ${theme.palette.divider}`,
+              borderRadius: 1.5,
+              display: "flex",
+              alignItems: "center",
+              gap: 1.5,
             }}
           >
             <Box
               sx={{
-                display: "grid",
-                gridTemplateColumns: `repeat(${data.weeks.length}, 12px)`,
-                gridTemplateRows: "auto repeat(7, 12px)",
-                gap: "3px",
-                minWidth: "max-content",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 40,
+                height: 40,
+                borderRadius: 1,
+                backgroundColor: `${item.color}20`,
+                color: item.color,
               }}
             >
-              {monthLabelRow.map((label, index) => {
-                const labelKey = label ? `month-${label}-col-${index}` : `empty-col-${index}`;
-                return (
-                  <Box
-                    key={labelKey}
-                    sx={{
-                      gridRow: 1,
-                      gridColumn: index + 1,
-                      fontSize: "10px",
-                      color: theme.palette.text.secondary,
-                      height: "14px",
-                      lineHeight: "14px",
-                      visibility: label ? "visible" : "hidden",
-                    }}
-                  >
-                    {label || "\u00A0"}
-                  </Box>
-                );
-              })}
-
-              {data.weeks.map((week, weekIndex) =>
-                week.contributionDays.map((day, dayIndex) => {
-                  const color = getContributionColor(day.color);
-
-                  return (
-                    <Tooltip
-                      key={day.date}
-                      title={
-                        <Box>
-                          <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                            {formatContributionCount(day.contributionCount)}
-                          </Typography>
-                          <Typography variant="caption" sx={{ opacity: 0.8 }}>
-                            {formatContributionDate(day.date)}
-                          </Typography>
-                        </Box>
-                      }
-                      arrow
-                      placement="top"
-                      slotProps={{
-                        tooltip: {
-                          sx: {
-                            backgroundColor: theme.palette.background.paper,
-                            color: theme.palette.text.primary,
-                            border: `1px solid ${theme.palette.divider}`,
-                            "& .MuiTooltip-arrow": {
-                              color: theme.palette.background.paper,
-                            },
-                          },
-                        },
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: 12,
-                          height: 12,
-                          backgroundColor: color,
-                          borderRadius: "2px",
-                          cursor: "pointer",
-                          transition: "all 0.15s ease-in-out",
-                          gridColumn: weekIndex + 1,
-                          gridRow: dayIndex + 2,
-                          "&:hover": {
-                            filter: "brightness(1.3)",
-                            transform: "scale(1.15)",
-                            zIndex: 1,
-                          },
-                        }}
-                        aria-label={`${formatContributionCount(day.contributionCount)} on ${formatContributionDate(day.date)}`}
-                        role="img"
-                      />
-                    </Tooltip>
-                  );
-                })
-              )}
+              {item.icon}
+            </Box>
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: theme.palette.text.secondary,
+                  display: "block",
+                  fontSize: "0.75rem",
+                }}
+              >
+                {item.label}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: theme.palette.text.primary,
+                  fontWeight: 600,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {item.value}
+              </Typography>
             </Box>
           </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              gap: 1,
-              mt: 2,
-              fontSize: "11px",
-              color: theme.palette.text.secondary,
-            }}
-          >
-            <Typography variant="caption">Less</Typography>
-            {[0, 1, 2, 3, 4].map((level) => (
-              <Box
-                key={level}
-                sx={{
-                  width: 12,
-                  height: 12,
-                  backgroundColor:
-                    GITHUB_CONTRIBUTION_COLORS[level as keyof typeof GITHUB_CONTRIBUTION_COLORS],
-                  borderRadius: "2px",
-                }}
-              />
-            ))}
-            <Typography variant="caption">More</Typography>
-          </Box>
-        </Paper>
+        ))}
       </Box>
-
-      <Box>
-        <ContributionStats stats={stats} />
-      </Box>
-    </Box>
+    </Paper>
   );
 }

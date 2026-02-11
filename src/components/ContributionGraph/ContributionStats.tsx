@@ -2,7 +2,6 @@
 
 import {
   BarChart as BarChartIcon,
-  CalendarToday as CalendarIcon,
   Code as CodeIcon,
   LocalFireDepartment as FireIcon,
   Folder as FolderIcon,
@@ -51,12 +50,6 @@ export function ContributionStats({ stats }: ContributionStatsProps) {
       value: `${stats.longestStreak} day${stats.longestStreak !== 1 ? "s" : ""}`,
       color: theme.palette.warning.main,
     },
-    {
-      icon: <CalendarIcon />,
-      label: "Most Active Day",
-      value: stats.mostActiveDay,
-      color: theme.palette.success.main,
-    },
   ];
 
   return (
@@ -68,6 +61,8 @@ export function ContributionStats({ stats }: ContributionStatsProps) {
         border: `1px solid ${theme.palette.divider}`,
         borderRadius: 2,
         height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Typography variant="h6" component="h2" gutterBottom sx={{ fontWeight: 600 }}>
