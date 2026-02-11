@@ -13,8 +13,7 @@ export const projects: readonly Project[] = [
     description:
       "A full-stack e-commerce solution with real-time inventory management, secure payment processing, and an intuitive admin dashboard for product management.",
     mvpProgress: 85,
-    githubUrl:
-      "https://alarq.github.io/monney-planner-docs/money-planner-showcase.html"
+    githubUrl: "https://alarq.github.io/monney-planner-docs/money-planner-showcase.html",
   },
   {
     id: "task-management-app",

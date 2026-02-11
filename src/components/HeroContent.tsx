@@ -85,9 +85,9 @@ export function HeroContent({
           {/* Titles and Stats Container */}
           <Stack
             direction={{ xs: "column", md: "row" }}
-            spacing={{ xs: 4, md: 4 }}
+            spacing={{ xs: 4, md: 16 }}
             alignItems={{ xs: "center", md: "center" }}
-            sx={{ flex: 1, minWidth: 0, justifyContent: { md: "space-between" } }}
+            sx={{ flex: 1, minWidth: 0 }}
           >
             {/* Title with horizontal separator */}
             <Stack spacing={0} sx={{ flexShrink: 0 }}>
@@ -126,7 +126,7 @@ export function HeroContent({
             <Stack
               direction="row"
               spacing={0}
-              sx={{ ml: { md: "auto" } }}
+              sx={{ ml: { md: -12 } }}
               divider={
                 <Divider
                   orientation="vertical"

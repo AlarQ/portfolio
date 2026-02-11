@@ -49,8 +49,7 @@ export function EmptyState() {
           mt: 2,
           opacity: 0.7,
         }}
-      >
-      </Typography>
+      ></Typography>
     </Paper>
   );
 }
