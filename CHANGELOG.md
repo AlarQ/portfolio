@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.14](https://github.com/AlarQ/portfolio/compare/v0.1.13...v0.1.14) (2026-02-11)
+
+
+### Bug Fixes
+
+* contribution graph ([#13](https://github.com/AlarQ/portfolio/issues/13)) ([4eb9d4c](https://github.com/AlarQ/portfolio/commit/4eb9d4cf3abc8a671838d9ff7c50c0abc709336e))
+
 ## [0.1.13](https://github.com/AlarQ/portfolio/compare/v0.1.12...v0.1.13) (2026-02-11)
 
 
