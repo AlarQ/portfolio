@@ -1,7 +1,7 @@
 "use client";
 
 import ExploreIcon from "@mui/icons-material/Explore";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Link, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 interface TopicSectionProps {
@@ -89,9 +89,25 @@ export function TopicSection({ topic }: TopicSectionProps) {
               textAlign: "left",
             }}
           >
-            Exploring how modern AI agents can integrate into development workflows through
-            approval-based execution patterns, emphasizing human oversight while leveraging
-            autonomous capabilities for routine tasks.
+            Currently exploring{" "}
+            <Link
+              href="https://github.com/darrenhinde/OpenAgentsControl"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                color: theme.palette.primary.main,
+                textDecoration: "none",
+                fontWeight: 600,
+                "&:hover": {
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              Darren Hinde's OpenAgentsControl
+            </Link>{" "}
+            framework, an AI agent system for plan-first development workflows with approval-based
+            execution. It provides pattern control, smart context discovery, and multi-language
+            support (TypeScript, Python, Go, Rust) with built-in testing and validation.
           </Typography>
         </Box>
       </Stack>

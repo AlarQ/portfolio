@@ -58,7 +58,7 @@ export default function Home() {
           sx={{ width: "100%" }}
         >
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <TopicSection topic="Building Development Workflows with Open Code: Focus on Approval-Based Execution." />
+            <TopicSection topic="Exploring OpenAgentsControl: AI Agent Framework for Approval-Based Development Workflows." />
           </Box>
 
           <Box sx={{ flex: 1, minWidth: 0 }}>
