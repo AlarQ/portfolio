@@ -3,6 +3,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { HamburgerButton } from "./HamburgerButton";
@@ -11,7 +12,6 @@ import { NavLink } from "./NavLink";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
-  { href: "/cv/Ernest_Bednarczyk_CV_01_2025.pdf", label: "Resume", external: true },
 ];
 
 export function MobileNav() {
@@ -161,12 +161,7 @@ export function MobileNav() {
                     alignItems: "center",
                   }}
                 >
-                  <NavLink
-                    href={item.href}
-                    label={item.label}
-                    external={item.external}
-                    onClick={closeDrawer}
-                  />
+                  <NavLink href={item.href} label={item.label} onClick={closeDrawer} />
                 </Box>
               ))}
             </Box>
@@ -187,18 +182,49 @@ export function MobileNav() {
         }}
       >
         {/* Logo/Name */}
-        <Typography
-          variant="h6"
-          component="div"
+        <Box
+          component={Link}
+          href="/"
           sx={{
-            color: "#ffffff",
-            fontWeight: 700,
-            fontSize: "1rem",
-            textShadow: "0 2px 4px rgba(0, 0, 0, 0.4)",
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            textDecoration: "none",
           }}
         >
-          Ernest Bednarczyk
-        </Typography>
+          <Box
+            sx={{
+              width: 32,
+              height: 32,
+              borderRadius: "10px",
+              background: "linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontWeight: 700,
+              fontSize: "0.875rem",
+              color: "#fff",
+              boxShadow: "0 4px 12px rgba(14, 165, 233, 0.4)",
+            }}
+          >
+            EB
+          </Box>
+          <Typography
+            variant="h6"
+            sx={{
+              fontFamily: "var(--font-orbitron), sans-serif",
+              fontWeight: 600,
+              fontSize: "0.8rem",
+              letterSpacing: "0.06em",
+              background: "linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Ernest Bednarczyk
+          </Typography>
+        </Box>
 
         <Box sx={{ flexGrow: 1 }} />
 

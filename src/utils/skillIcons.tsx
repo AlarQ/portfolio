@@ -16,7 +16,6 @@ import RouterIcon from "@mui/icons-material/Router";
 import SchoolIcon from "@mui/icons-material/School";
 import SettingsIcon from "@mui/icons-material/Settings";
 import StorageIcon from "@mui/icons-material/Storage";
-import SyncAltIcon from "@mui/icons-material/SyncAlt";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import WorkIcon from "@mui/icons-material/Work";
 import type React from "react";
@@ -40,13 +39,8 @@ export function getSkillIcon(skillName: string): React.ReactElement {
     Confluence: <WorkIcon />,
 
     // Languages
-    Scala: <CodeIcon />,
-    Cats: <CodeIcon />,
-    http4s: <ApiIcon />,
-    doobie: <StorageIcon />,
-    circe: <SyncAltIcon />,
-    "🦀 Rust": <TerminalIcon />,
-    Tokio: <TerminalIcon />,
+    "Scala (Cats)": <CodeIcon fontSize="large" />,
+    "Rust (Tokio)": <TerminalIcon fontSize="large" />,
 
     // Architecture
     Microservices: <AccountTreeIcon />,

@@ -22,7 +22,7 @@ export const leadershipAchievements: readonly Achievement[] = [
 // Technical Achievements
 export const technicalAchievements: readonly Achievement[] = [
   {
-    description: "6+ years of expertise in Scala and 2+ years in Rust",
+    description: "Built Rust integration library accelerating external service delivery",
   },
   {
     description: "Designed and implemented microservices & event-driven architectures",

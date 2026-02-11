@@ -50,7 +50,6 @@ export function EmptyState() {
           opacity: 0.7,
         }}
       >
-        Click on any project card to see its GitHub Pages
       </Typography>
     </Paper>
   );

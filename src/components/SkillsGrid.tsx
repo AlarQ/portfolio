@@ -45,12 +45,16 @@ export function SkillsGrid({
             width: 40,
             height: 40,
             borderRadius: 1,
-            backgroundColor: `${categoryColor}20`,
-            color: categoryColor,
+            backgroundColor: `${categoryColor}15`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
+            "& svg": {
+              color: categoryColor,
+              fontSize: "1.5rem",
+              fontWeight: 700,
+            },
           }}
         >
           {getSkillIcon(skill.name)}

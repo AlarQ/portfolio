@@ -8,6 +8,7 @@ import {
   MergeType as PullRequestIcon,
 } from "@mui/icons-material";
 import { Box, Paper, Tooltip, Typography, useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
 import { formatContributionCount, formatContributionDate } from "@/lib/github";
 import type {
   ContributionCalendar,
@@ -79,7 +80,27 @@ const GITHUB_CONTRIBUTION_COLORS = {
 
 export function ContributionGraph({ data, stats }: ContributionGraphProps) {
   const theme = useTheme();
+  const [mounted, setMounted] = useState(false);
   const monthLabelRow = getMonthLabelRow(data.weeks);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <Paper
+        elevation={0}
+        sx={{
+          p: { xs: 2, md: 3 },
+          backgroundColor: "background.paper",
+          border: (theme) => `1px solid ${theme.palette.divider}`,
+          borderRadius: 2,
+          minHeight: 300,
+        }}
+      />
+    );
+  }
 
   const statItems = [
     {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import type { Achievement } from "@/data/experience";
@@ -63,8 +63,8 @@ export function HeroContent({
         {/* Profile Image + Title Area */}
         <Stack
           direction={{ xs: "column", md: "row" }}
-          spacing={{ xs: 3, md: 4 }}
-          alignItems={{ xs: "center", md: "flex-start" }}
+          spacing={{ xs: 3, md: 6 }}
+          alignItems="center"
         >
           {/* Circular Profile Image */}
           <Box
@@ -82,43 +82,67 @@ export function HeroContent({
             <Image src={imageSrc} alt={imageAlt} fill style={{ objectFit: "cover" }} />
           </Box>
 
-          {/* Title and Subtitle */}
-          <Box>
-            <Typography
-              variant="h1"
-              component="h1"
-              sx={{
-                fontWeight: 700,
-                color: theme.palette.text.primary,
-                fontSize: { xs: "3rem", md: "4.5rem" },
-                lineHeight: 1.1,
-                mb: 1,
-              }}
-            >
-              {title}
-            </Typography>
-            <Typography
-              variant="h2"
-              component="h2"
-              sx={{
-                fontWeight: 700,
-                color: theme.palette.text.secondary,
-                fontSize: { xs: "2.5rem", md: "3.5rem" },
-                lineHeight: 1.1,
-              }}
-            >
-              {subtitle}
-            </Typography>
-          </Box>
-        </Stack>
+          {/* Titles and Stats Container */}
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={{ xs: 4, md: 4 }}
+            alignItems={{ xs: "center", md: "center" }}
+            sx={{ flex: 1, minWidth: 0, justifyContent: { md: "space-between" } }}
+          >
+            {/* Title with horizontal separator */}
+            <Stack spacing={0} sx={{ flexShrink: 0 }}>
+              <Typography
+                variant="h1"
+                component="h1"
+                sx={{
+                  fontWeight: 700,
+                  color: theme.palette.text.primary,
+                  fontSize: { xs: "1.5rem", md: "1.85rem" },
+                  lineHeight: 1.2,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {title}
+              </Typography>
 
-        <Grid container spacing={4}>
-          {stats.map((stat) => (
-            <Grid size={4} key={stat.label}>
-              <StatCard value={stat.value} label={stat.label} />
-            </Grid>
-          ))}
-        </Grid>
+              <Divider sx={{ borderColor: theme.palette.primary.main, my: 1 }} />
+
+              <Typography
+                variant="h1"
+                component="h1"
+                sx={{
+                  fontWeight: 700,
+                  color: theme.palette.text.primary,
+                  fontSize: { xs: "1.5rem", md: "1.85rem" },
+                  lineHeight: 1.2,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {subtitle}
+              </Typography>
+            </Stack>
+
+            {/* Stats - Horizontal layout */}
+            <Stack
+              direction="row"
+              spacing={0}
+              sx={{ ml: { md: "auto" } }}
+              divider={
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{ borderColor: theme.palette.divider }}
+                />
+              }
+            >
+              {stats.map((stat) => (
+                <Box key={stat.label} sx={{ px: { xs: 1.5, md: 2.5 } }}>
+                  <StatCard value={stat.value} label={stat.label} />
+                </Box>
+              ))}
+            </Stack>
+          </Stack>
+        </Stack>
 
         {/* Leadership & Technical Sections - Side by Side on Desktop */}
         <Stack

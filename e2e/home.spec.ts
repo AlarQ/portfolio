@@ -45,49 +45,45 @@ test.describe("Homepage", () => {
     // Assert: Check name is displayed in heading
     await expect(profileCardHeading).toHaveText("Ernest Bednarczyk");
 
-    // Assert: Check bio is present (partial match)
-    const bio = page.getByText("Engineering Team Leader");
-    await expect(bio).toBeVisible();
-    await expect(bio).toContainText("6+ years of commercial software development");
+    // Assert: Check titles are present
+    const softwareEngineer = page.getByText("SOFTWARE ENGINEER");
+    await expect(softwareEngineer).toBeVisible();
+    const teamLeader = page.getByText("TEAM LEADER");
+    await expect(teamLeader).toBeVisible();
   });
 
   /**
    * POSITIVE TEST: Verify hero content displays correct title
    * Objective: Ensure HeroContent component renders with "ENGINEERING" title
    */
-  test("displays hero content with correct title", async ({ page }) => {
+  test("displays hero content with correct titles", async ({ page }) => {
     // Arrange: Page is loaded
-    // Act: Find hero title by role (heading with h1)
-    const heroTitle = page.getByRole("heading", { name: "ENGINEERING", level: 1 });
+    // Act: Find hero titles by role (heading with h1)
+    const softwareEngineerTitle = page.getByRole("heading", {
+      name: "SOFTWARE ENGINEER",
+      level: 1,
+    });
+    const teamLeaderTitle = page.getByRole("heading", {
+      name: "TEAM LEADER",
+      level: 1,
+    });
 
-    // Assert: Check title is visible
-    await expect(heroTitle).toBeVisible();
+    // Assert: Check both titles are visible
+    await expect(softwareEngineerTitle).toBeVisible();
+    await expect(teamLeaderTitle).toBeVisible();
   });
 
   /**
-   * POSITIVE TEST: Verify only one h1 heading exists on the page
-   * Objective: Ensure proper heading hierarchy for accessibility
+   * POSITIVE TEST: Verify two h1 headings exist on the page
+   * Objective: Ensure proper heading hierarchy for accessibility (SOFTWARE ENGINEER and TEAM LEADER)
    */
-  test("has exactly one h1 heading for accessibility", async ({ page }) => {
+  test("has two h1 headings for accessibility", async ({ page }) => {
     // Arrange: Page is loaded
     // Act: Find all h1 headings
     const h1Headings = page.getByRole("heading", { level: 1 });
 
-    // Assert: Check that only one h1 exists
-    await expect(h1Headings).toHaveCount(1);
-  });
-
-  /**
-   * POSITIVE TEST: Verify hero content displays subtitle
-   * Objective: Ensure HeroContent component renders with correct subtitle as h2
-   */
-  test("displays hero content with correct subtitle", async ({ page }) => {
-    // Arrange: Page is loaded
-    // Act: Find hero subtitle by role (heading with h2 - not h1 to maintain proper hierarchy)
-    const heroSubtitle = page.getByRole("heading", { name: "TEAM LEADER", level: 2 });
-
-    // Assert: Check subtitle is visible
-    await expect(heroSubtitle).toBeVisible();
+    // Assert: Check that two h1s exist
+    await expect(h1Headings).toHaveCount(2);
   });
 
   /**

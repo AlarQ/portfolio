@@ -18,7 +18,7 @@ export default function Home() {
         <HeroContent
           imageSrc="/images/profile.jpg"
           imageAlt="Ernest Bednarczyk"
-          title="ENGINEERING"
+          title="SOFTWARE ENGINEER"
           subtitle="TEAM LEADER"
           stats={[
             { value: "6+", label: "Years of Experience" },
@@ -40,7 +40,7 @@ export default function Home() {
             description:
               "6+ years building scalable systems in Scala and Rust. Expert in microservices, event-driven architectures, and distributed systems on Kubernetes/GCP.",
             service: {
-              title: "Backend Development: Scala, Rust, Microservices",
+              title: "Backend Development: Rust, Scala, Microservices",
               icon: <CodeIcon sx={{ fontSize: 40 }} />,
               backgroundColor: serviceCardColors.orange,
             },
