@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.13](https://github.com/AlarQ/portfolio/compare/v0.1.12...v0.1.13) (2026-02-11)
+
+
+### Features
+
+* home page refactor ([#11](https://github.com/AlarQ/portfolio/issues/11)) ([#12](https://github.com/AlarQ/portfolio/issues/12)) ([0a1d7c8](https://github.com/AlarQ/portfolio/commit/0a1d7c8c5fe11c9fac3179f63ed79f7d2ff65276))
+
 ## [0.1.12](https://github.com/AlarQ/portfolio/compare/v0.1.11...v0.1.12) (2026-02-10)
 
 
