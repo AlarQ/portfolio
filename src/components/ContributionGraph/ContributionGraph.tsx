@@ -30,12 +30,10 @@ function getContributionColor(color: string): string {
 }
 
 function getMonthLabelRow(weeks: ContributionCalendar["weeks"]): Array<string | null> {
-  const row: Array<string | null> = new Array(53).fill(null);
+  const row: Array<string | null> = new Array(weeks.length).fill(null);
   let lastMonth: number | null = null;
 
   weeks.forEach((week, weekIndex) => {
-    if (weekIndex >= 53) return;
-
     const firstDay = week.contributionDays[0];
     if (!firstDay) return;
 
@@ -113,7 +111,7 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
                 mt: 0.5,
               }}
             >
-              {formatContributionCount(data.totalContributions)} in the last year
+              {formatContributionCount(data.totalContributions)} in the last 2 years
             </Typography>
           </Box>
 
@@ -139,7 +137,7 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
             <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: `repeat(${Math.min(data.weeks.length, 53)}, 12px)`,
+                gridTemplateColumns: `repeat(${data.weeks.length}, 12px)`,
                 gridTemplateRows: "auto repeat(7, 12px)",
                 gap: "3px",
                 minWidth: "max-content",
@@ -165,7 +163,7 @@ export function ContributionGraph({ data, stats }: ContributionGraphProps) {
                 );
               })}
 
-              {data.weeks.slice(0, 53).map((week, weekIndex) =>
+              {data.weeks.map((week, weekIndex) =>
                 week.contributionDays.map((day, dayIndex) => {
                   const color = getContributionColor(day.color);
 
