@@ -11,7 +11,6 @@ import { expect, test } from "@playwright/test";
  * - HeroContent displays correct title and stats
  * - Social links are present
  * - Topic and reading sections render
- * - GitHub contribution graph loads (with Suspense)
  */
 
 test.describe("Homepage", () => {
@@ -173,26 +172,6 @@ test.describe("Homepage", () => {
       const bookElement = page.getByText(bookTitle, { exact: false });
       await expect(bookElement).toBeVisible();
     }
-  });
-
-  /**
-   * POSITIVE TEST: Verify GitHub contribution graph loads
-   * Objective: Ensure ContributionGraph component renders (may take time due to async Suspense)
-   */
-  test("displays GitHub contribution graph", async ({ page }) => {
-    // Arrange: Page is loaded
-    // Act: Wait for contribution graph to load using semantic selector (heading)
-    const contributionGraphHeading = page.getByRole("heading", {
-      name: "GitHub Contributions",
-      level: 2,
-    });
-
-    // Assert: Check graph heading becomes visible (give it more time to load for async component)
-    await expect(contributionGraphHeading).toBeVisible({ timeout: 15000 });
-
-    // Assert: Check contribution count text is also visible
-    const contributionText = page.getByText(/contributions in the last year/i);
-    await expect(contributionText).toBeVisible();
   });
 
   /**

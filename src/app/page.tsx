@@ -1,8 +1,6 @@
 import CodeIcon from "@mui/icons-material/Code";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { Box, Container, Stack } from "@mui/material";
-import { Suspense } from "react";
-import { ContributionGraph, ContributionGraphSkeleton } from "@/components/ContributionGraph";
 import { HeroContent } from "@/components/HeroContent";
 import { ReadingSection } from "@/components/ReadingSection";
 import { TopicSection } from "@/components/TopicSection";
@@ -65,10 +63,6 @@ export default function Home() {
             <ReadingSection books={currentBooks} />
           </Box>
         </Stack>
-
-        <Suspense fallback={<ContributionGraphSkeleton />}>
-          <ContributionGraph username="AlarQ" />
-        </Suspense>
       </Stack>
     </Container>
   );
