@@ -1,8 +1,9 @@
 import Box from "@mui/material/Box";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Orbitron } from "next/font/google";
 import { Navigation } from "@/components/navigation";
-import { ThemeRegistry } from "@/theme/ThemeRegistry";
+import { ThemeProvider } from "@/theme/ThemeProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,10 +35,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable}`}>
-        <ThemeRegistry>
-          <Navigation />
-          <Box sx={{ pt: { xs: 7, sm: 8 } }}>{children}</Box>
-        </ThemeRegistry>
+        <AppRouterCacheProvider>
+          <ThemeProvider>
+            <Navigation />
+            <Box sx={{ pt: { xs: 7, sm: 8 } }}>{children}</Box>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
