@@ -19,53 +19,38 @@ import StorageIcon from "@mui/icons-material/Storage";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import WorkIcon from "@mui/icons-material/Work";
 import type React from "react";
+import type { IconKey } from "@/data/skills";
 
 /**
- * Maps skill names to Material-UI icons
- * Returns CodeIcon as fallback for unmapped skills
+ * Exhaustive registry mapping every IconKey to a Material-UI icon. The
+ * `Record<IconKey, ...>` type forces a mapping for every key — a Skill can
+ * never resolve to a missing icon, and there is no silent string-match
+ * fallback. Adding an IconKey without an entry here is a compile error.
  */
-export function getSkillIcon(skillName: string): React.ReactElement {
-  const iconMap: Record<string, React.ReactElement> = {
-    // Leadership skills
-    "Team Leadership": <GroupsIcon />,
-    Mentoring: <SchoolIcon />,
-    "Delivery Ownership": <AssignmentIcon />,
-    "Stakeholder Management": <HandshakeIcon />,
-    "Cross-Team Collaboration": <HubIcon />,
-    "Technical Standards (ADRs)": <FactCheckIcon />,
-    "Tech Debt Management": <BuildIcon />,
-    "Agile/Scrum": <AccountTreeIcon />,
-    Jira: <WorkIcon />,
-    Confluence: <WorkIcon />,
+const SKILL_ICONS: Record<IconKey, React.ReactElement> = {
+  groups: <GroupsIcon />,
+  school: <SchoolIcon />,
+  assignment: <AssignmentIcon />,
+  handshake: <HandshakeIcon />,
+  hub: <HubIcon />,
+  factCheck: <FactCheckIcon />,
+  build: <BuildIcon />,
+  accountTree: <AccountTreeIcon />,
+  work: <WorkIcon />,
+  code: <CodeIcon />,
+  terminal: <TerminalIcon />,
+  architecture: <ArchitectureIcon />,
+  dynamicForm: <DynamicFormIcon />,
+  api: <ApiIcon />,
+  integration: <IntegrationInstructionsIcon />,
+  router: <RouterIcon />,
+  cloud: <CloudIcon />,
+  storage: <StorageIcon />,
+  settings: <SettingsIcon />,
+  monitorHeart: <MonitorHeartIcon />,
+};
 
-    // Languages
-    "Scala (Cats)": <CodeIcon fontSize="large" />,
-    "Rust (Tokio)": <TerminalIcon fontSize="large" />,
-
-    // Architecture
-    Microservices: <AccountTreeIcon />,
-    "Monolithic Architectures": <ArchitectureIcon />,
-    "Distributed Systems": <HubIcon />,
-    "Event-Driven Systems": <DynamicFormIcon />,
-    "API Design": <ApiIcon />,
-    "System Integration": <IntegrationInstructionsIcon />,
-
-    // Infrastructure
-    Kafka: <RouterIcon />,
-    Kubernetes: <CloudIcon />,
-    GCP: <CloudIcon />,
-
-    // Databases
-    PostgreSQL: <StorageIcon />,
-    ScyllaDB: <StorageIcon />,
-    Elasticsearch: <StorageIcon />,
-
-    // Tools
-    "GitLab CI": <SettingsIcon />,
-    "GitHub Actions": <SettingsIcon />,
-    "ELK Stack": <MonitorHeartIcon />,
-    Datadog: <MonitorHeartIcon />,
-  };
-
-  return iconMap[skillName] || <CodeIcon />;
+/** Resolve a Skill's typed IconKey to its Material-UI icon. */
+export function skillIcon(key: IconKey): React.ReactElement {
+  return SKILL_ICONS[key];
 }

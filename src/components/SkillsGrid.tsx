@@ -3,7 +3,7 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import type { Skill } from "@/data/skills";
 import { skillCategoryColors } from "@/data/skills";
-import { getSkillIcon } from "@/utils/skillIcons";
+import { skillIcon } from "@/utils/skillIcons";
 
 interface SkillsGridProps {
   skills: readonly Skill[];
@@ -57,7 +57,7 @@ export function SkillsGrid({
             },
           }}
         >
-          {getSkillIcon(skill.name)}
+          {skillIcon(skill.icon)}
         </Box>
 
         {/* Skill name */}
