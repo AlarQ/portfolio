@@ -1,9 +1,8 @@
 "use client";
 
 import { Box, Typography, useTheme } from "@mui/material";
-import type { Skill } from "@/data/skills";
-import { skillCategoryColors } from "@/data/skills";
-import { skillIcon } from "@/utils/skillIcons";
+import type { Skill, SkillCategory } from "@/data/skills";
+import { categoryColor, skillPresentation } from "@/utils/skillPresentation";
 
 interface SkillsGridProps {
   skills: readonly Skill[];
@@ -23,7 +22,7 @@ export function SkillsGrid({
   const theme = useTheme();
 
   const renderSkillItem = (skill: Skill) => {
-    const categoryColor = skillCategoryColors[skill.category];
+    const { icon, color } = skillPresentation(skill);
 
     return (
       <Box
@@ -45,19 +44,19 @@ export function SkillsGrid({
             width: 40,
             height: 40,
             borderRadius: 1,
-            backgroundColor: `${categoryColor}15`,
+            backgroundColor: `${color}15`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
             "& svg": {
-              color: categoryColor,
+              color,
               fontSize: "1.5rem",
               fontWeight: 700,
             },
           }}
         >
-          {skillIcon(skill.icon)}
+          {icon}
         </Box>
 
         {/* Skill name */}
@@ -97,7 +96,7 @@ export function SkillsGrid({
             <Typography
               variant="subtitle2"
               sx={{
-                color: skillCategoryColors[category as keyof typeof skillCategoryColors],
+                color: categoryColor(category as SkillCategory),
                 fontWeight: 600,
                 mb: 2,
               }}

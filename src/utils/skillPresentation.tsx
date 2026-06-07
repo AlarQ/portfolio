@@ -19,14 +19,16 @@ import StorageIcon from "@mui/icons-material/Storage";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import WorkIcon from "@mui/icons-material/Work";
 import type React from "react";
-import type { IconKey } from "@/data/skills";
+import type { IconKey, Skill, SkillCategory } from "@/data/skills";
 
 /**
- * Exhaustive registry mapping every IconKey to a Material-UI icon. The
- * `Record<IconKey, ...>` type forces a mapping for every key — a Skill can
- * never resolve to a missing icon, and there is no silent string-match
- * fallback. Adding an IconKey without an entry here is a compile error.
+ * Single seam for how a Skill is presented. Everything a caller needs to render
+ * a Skill — its icon and its category color — is resolved here, so the rest of
+ * the app never reaches for the icon registry or color map directly. Both maps
+ * are exhaustive (`Record<IconKey, ...>` / `Record<SkillCategory, ...>`): a
+ * missing entry is a compile error, never a silent runtime gap.
  */
+
 const SKILL_ICONS: Record<IconKey, React.ReactElement> = {
   groups: <GroupsIcon />,
   school: <SchoolIcon />,
@@ -50,7 +52,29 @@ const SKILL_ICONS: Record<IconKey, React.ReactElement> = {
   monitorHeart: <MonitorHeartIcon />,
 };
 
-/** Resolve a Skill's typed IconKey to its Material-UI icon. */
-export function skillIcon(key: IconKey): React.ReactElement {
-  return SKILL_ICONS[key];
+const CATEGORY_COLORS: Record<SkillCategory, string> = {
+  Leadership: "#5f9610", // limeGreen from theme
+  Languages: "#c55a0d", // orange from theme
+  Architecture: "#0ea5e9", // primary.main from theme
+  Infrastructure: "#f97316", // secondary.main from theme
+  Databases: "#84cc16", // lime from ReadingSection
+  Tools: "#64748b", // slate from ReadingSection
+};
+
+export interface SkillPresentation {
+  icon: React.ReactElement;
+  color: string;
+}
+
+/** The color used to present a SkillCategory (e.g. group headers). */
+export function categoryColor(category: SkillCategory): string {
+  return CATEGORY_COLORS[category];
+}
+
+/** Everything needed to render a single Skill: its icon and its category color. */
+export function skillPresentation(skill: Skill): SkillPresentation {
+  return {
+    icon: SKILL_ICONS[skill.icon],
+    color: CATEGORY_COLORS[skill.category],
+  };
 }
