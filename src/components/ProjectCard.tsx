@@ -2,6 +2,7 @@
 
 import { Box, Card, CardContent, LinearProgress, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { mvpProgressTone } from "@/utils/projectPresentation";
 
 export interface ProjectCardProps {
   title: string;
@@ -19,12 +20,7 @@ export function ProjectCard({
   isExpanded,
 }: ProjectCardProps) {
   const theme = useTheme();
-
-  const getProgressColor = (progress: number): string => {
-    if (progress >= 80) return theme.palette.success.main;
-    if (progress >= 50) return theme.palette.primary.main;
-    return theme.palette.secondary.main;
-  };
+  const progressColor = theme.palette[mvpProgressTone(mvpProgress)].main;
 
   return (
     <Card
@@ -95,7 +91,7 @@ export function ProjectCard({
             <Typography
               variant="subtitle2"
               sx={{
-                color: getProgressColor(mvpProgress),
+                color: progressColor,
                 fontWeight: 600,
               }}
             >
@@ -111,7 +107,7 @@ export function ProjectCard({
               borderRadius: 4,
               backgroundColor: theme.palette.action.disabledBackground,
               "& .MuiLinearProgress-bar": {
-                backgroundColor: getProgressColor(mvpProgress),
+                backgroundColor: progressColor,
                 borderRadius: 4,
               },
             }}
