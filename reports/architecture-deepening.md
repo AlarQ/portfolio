@@ -43,7 +43,7 @@ instead of hand-wiring leadership-vs-technical twins.
 
 ---
 
-## 2. Achievement + Project missing presentation seams (Skill/Reading have them)
+## 2. Achievement + Project missing presentation seams (Skill/Reading have them) — RESOLVED (2026-06-07)
 
 **Files:** `src/components/AchievementsList.tsx:27-33`, `src/components/ProjectCard.tsx:23-27`
 
