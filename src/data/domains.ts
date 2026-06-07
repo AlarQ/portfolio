@@ -1,3 +1,4 @@
+import { brand } from "@/theme/theme";
 import type { Achievement } from "./experience";
 import { leadershipAchievements, technicalAchievements } from "./experience";
 import type { IconKey, Skill } from "./skills";
@@ -5,9 +6,9 @@ import { leadershipSkills, technicalSkills } from "./skills";
 
 // A Domain Area is a field of expertise (see CONTEXT.md): evidenced by
 // Achievements and rated by Skills — two views of one area. This module is the
-// single home for that concept. It stays free of MUI/JSX: `icon` is a typed
-// IconKey resolved by the presentation seam, and `color` is a raw token (a
-// later step hoists brand colors into the theme).
+// single home for that concept. It declares no JSX: `icon` is a typed IconKey
+// resolved by the presentation seam, and `color` is a brand token from the
+// theme seam.
 
 export type DomainAreaName = "Leadership" | "Backend";
 
@@ -43,7 +44,7 @@ export const domainAreas: readonly DomainArea[] = [
     blurb:
       "Led teams of 14 engineers across Sportsbook and Casino domains, delivering complex microservice-based systems. Focused on mentoring, technical excellence, and stakeholder collaboration.",
     serviceTitle: "Leadership & Management: Team Growth, Delivery",
-    color: "#5f9610",
+    color: brand.limeDark,
     icon: "groups",
     achievements: leadershipAchievements,
     skills: leadershipSkills,
@@ -55,7 +56,7 @@ export const domainAreas: readonly DomainArea[] = [
     blurb:
       "6+ years building scalable systems in Scala and Rust. Expert in microservices, event-driven architectures, and distributed systems on Kubernetes/GCP.",
     serviceTitle: "Backend Development: Rust, Scala, Microservices",
-    color: "#c55a0d",
+    color: brand.orangeDark,
     icon: "code",
     achievements: technicalAchievements,
     skills: technicalSkills,

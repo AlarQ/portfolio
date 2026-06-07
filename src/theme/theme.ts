@@ -1,13 +1,32 @@
 import { createTheme } from "@mui/material/styles";
 
+/**
+ * The single brand color seam. Every named hue lives here once; presentation
+ * seams (`skillPresentation`, `readingPresentation`) and domain data import
+ * these tokens instead of re-typing raw hex. Change a brand color in one place.
+ */
+export const brand = {
+  sky: "#0ea5e9",
+  skyLight: "#38bdf8",
+  skyDark: "#0284c7",
+  lime: "#84cc16",
+  limeDark: "#5f9610",
+  orange: "#f97316",
+  orangeDark: "#c55a0d",
+  violet: "#a855f7",
+  slate: "#64748b",
+  backgroundDefault: "#0a1118",
+  backgroundPaper: "#141b22",
+} as const;
+
 export const theme = createTheme({
   palette: {
     mode: "dark",
-    primary: { main: "#0ea5e9" },
-    secondary: { main: "#f97316" },
+    primary: { main: brand.sky },
+    secondary: { main: brand.orange },
     background: {
-      default: "#0a1118",
-      paper: "#141b22",
+      default: brand.backgroundDefault,
+      paper: brand.backgroundPaper,
     },
   },
   typography: {

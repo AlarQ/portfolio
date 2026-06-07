@@ -21,6 +21,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import type { SvgIconProps } from "@mui/material";
 import type React from "react";
 import type { IconKey, Skill, SkillCategory } from "@/data/skills";
+import { brand } from "@/theme/theme";
 
 /**
  * Single seam for how a Skill is presented. Everything a caller needs to render
@@ -54,12 +55,12 @@ const SKILL_ICONS: Record<IconKey, React.ReactElement<SvgIconProps>> = {
 };
 
 const CATEGORY_COLORS: Record<SkillCategory, string> = {
-  Leadership: "#5f9610", // limeGreen from theme
-  Languages: "#c55a0d", // orange from theme
-  Architecture: "#0ea5e9", // primary.main from theme
-  Infrastructure: "#f97316", // secondary.main from theme
-  Databases: "#84cc16", // lime from ReadingSection
-  Tools: "#64748b", // slate from ReadingSection
+  Leadership: brand.limeDark,
+  Languages: brand.orangeDark,
+  Architecture: brand.sky,
+  Infrastructure: brand.orange,
+  Databases: brand.lime,
+  Tools: brand.slate,
 };
 
 export interface SkillPresentation {
