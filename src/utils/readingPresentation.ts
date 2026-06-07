@@ -1,4 +1,5 @@
 import type { ReadingCategory } from "@/data/books";
+import { brand } from "@/theme/theme";
 
 /**
  * Single seam for how a Reading is presented. The category color a caller needs
@@ -8,11 +9,11 @@ import type { ReadingCategory } from "@/data/books";
  */
 
 const CATEGORY_COLORS: Record<ReadingCategory, string> = {
-  IT: "#0ea5e9",
-  "Self-Development": "#84cc16",
-  Business: "#f97316",
-  Fiction: "#a855f7",
-  Other: "#64748b",
+  IT: brand.sky,
+  "Self-Development": brand.lime,
+  Business: brand.orange,
+  Fiction: brand.violet,
+  Other: brand.slate,
 };
 
 /** The color used to present a ReadingCategory (e.g. its chip). */
