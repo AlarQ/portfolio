@@ -106,7 +106,7 @@ colors once.
 
 ---
 
-## 5. (Minor) Carousel logic welded into ReadingSection render
+## 5. (Minor) Carousel logic welded into ReadingSection render — RESOLVED (2026-06-07)
 
 **Files:** `src/components/ReadingSection.tsx:18-47`
 
