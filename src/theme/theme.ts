@@ -14,8 +14,3 @@ export const theme = createTheme({
     fontFamily: "var(--font-geist-sans)",
   },
 });
-
-export const serviceCardColors = {
-  orange: "#c55a0d",
-  limeGreen: "#5f9610",
-};

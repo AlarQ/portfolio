@@ -18,6 +18,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import StorageIcon from "@mui/icons-material/Storage";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import WorkIcon from "@mui/icons-material/Work";
+import type { SvgIconProps } from "@mui/material";
 import type React from "react";
 import type { IconKey, Skill, SkillCategory } from "@/data/skills";
 
@@ -29,7 +30,7 @@ import type { IconKey, Skill, SkillCategory } from "@/data/skills";
  * missing entry is a compile error, never a silent runtime gap.
  */
 
-const SKILL_ICONS: Record<IconKey, React.ReactElement> = {
+const SKILL_ICONS: Record<IconKey, React.ReactElement<SvgIconProps>> = {
   groups: <GroupsIcon />,
   school: <SchoolIcon />,
   assignment: <AssignmentIcon />,
@@ -69,6 +70,11 @@ export interface SkillPresentation {
 /** The color used to present a SkillCategory (e.g. group headers). */
 export function categoryColor(category: SkillCategory): string {
   return CATEGORY_COLORS[category];
+}
+
+/** Resolves an IconKey to its MUI icon — the single icon registry for the app. */
+export function skillIcon(icon: IconKey): React.ReactElement<SvgIconProps> {
+  return SKILL_ICONS[icon];
 }
 
 /** Everything needed to render a single Skill: its icon and its category color. */
