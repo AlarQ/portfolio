@@ -1,4 +1,12 @@
-import type { ReadingItem } from "@/components/ReadingSection";
+export type ReadingCategory = "IT" | "Self-Development" | "Business" | "Fiction" | "Other";
+
+export interface ReadingItem {
+  title: string;
+  author?: string;
+  category: ReadingCategory;
+  coverImage?: string;
+  quote?: string;
+}
 
 export const currentBooks: ReadingItem[] = [
   {
