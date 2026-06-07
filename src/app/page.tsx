@@ -1,13 +1,8 @@
-import CodeIcon from "@mui/icons-material/Code";
-import GroupsIcon from "@mui/icons-material/Groups";
 import { Box, Container, Stack } from "@mui/material";
 import { HeroContent } from "@/components/HeroContent";
 import { ReadingSection } from "@/components/ReadingSection";
 import { TopicSection } from "@/components/TopicSection";
 import { currentBooks } from "@/data/books";
-import { leadershipAchievements, technicalAchievements } from "@/data/experience";
-import { leadershipSkills, technicalSkills } from "@/data/skills";
-import { serviceCardColors } from "@/theme/theme";
 
 export default function Home() {
   return (
@@ -23,30 +18,6 @@ export default function Home() {
             { value: "14", label: "Engineers Led" },
             { value: "3+", label: "Years Leading Teams" },
           ]}
-          leadershipSection={{
-            title: "Leadership & Engineering Management",
-            description:
-              "Led teams of 14 engineers across Sportsbook and Casino domains, delivering complex microservice-based systems. Focused on mentoring, technical excellence, and stakeholder collaboration.",
-            service: {
-              title: "Leadership & Management: Team Growth, Delivery",
-              icon: <GroupsIcon sx={{ fontSize: 40 }} />,
-              backgroundColor: serviceCardColors.limeGreen,
-            },
-          }}
-          technicalSection={{
-            title: "Technical Development Expertise",
-            description:
-              "6+ years building scalable systems in Scala and Rust. Expert in microservices, event-driven architectures, and distributed systems on Kubernetes/GCP.",
-            service: {
-              title: "Backend Development: Rust, Scala, Microservices",
-              icon: <CodeIcon sx={{ fontSize: 40 }} />,
-              backgroundColor: serviceCardColors.orange,
-            },
-          }}
-          leadershipSkills={leadershipSkills}
-          leadershipAchievements={leadershipAchievements}
-          technicalSkills={technicalSkills}
-          technicalAchievements={technicalAchievements}
         />
 
         <Stack
