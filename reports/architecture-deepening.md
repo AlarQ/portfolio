@@ -86,7 +86,7 @@ with the named brand colors. Presentation seams pull from the theme, not from li
 
 ---
 
-## 4. Navigation presentation duplicated across 4 files (real seam, 2+ adapters)
+## 4. Navigation presentation duplicated across 4 files (real seam, 2+ adapters) — RESOLVED (2026-06-07)
 
 **Files:** `src/components/navigation/DesktopNav.tsx:39,58`,
 `src/components/navigation/MobileNav.tsx:200,219`,

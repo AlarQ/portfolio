@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { brand } from "@/theme/theme";
+import { logoGradient, logoShadow, nameGradient } from "@/utils/navPresentation";
 import { HamburgerButton } from "./HamburgerButton";
 import { NavLink } from "./NavLink";
 
@@ -197,14 +199,14 @@ export function MobileNav() {
               width: 32,
               height: 32,
               borderRadius: "10px",
-              background: "linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%)",
+              background: logoGradient,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontWeight: 700,
               fontSize: "0.875rem",
-              color: "#fff",
-              boxShadow: "0 4px 12px rgba(14, 165, 233, 0.4)",
+              color: brand.white,
+              boxShadow: logoShadow,
             }}
           >
             EB
@@ -216,7 +218,7 @@ export function MobileNav() {
               fontWeight: 600,
               fontSize: "0.8rem",
               letterSpacing: "0.06em",
-              background: "linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)",
+              background: nameGradient,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
