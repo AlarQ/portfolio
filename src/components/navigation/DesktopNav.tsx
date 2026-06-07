@@ -3,6 +3,8 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import { brand } from "@/theme/theme";
+import { logoGradient, logoShadow, nameGradient } from "@/utils/navPresentation";
 import { NavLink } from "./NavLink";
 
 const navItems = [
@@ -36,14 +38,14 @@ export function DesktopNav() {
             width: 40,
             height: 40,
             borderRadius: "12px",
-            background: "linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%)",
+            background: logoGradient,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontWeight: 700,
             fontSize: "1.1rem",
-            color: "#fff",
-            boxShadow: "0 4px 12px rgba(14, 165, 233, 0.4)",
+            color: brand.white,
+            boxShadow: logoShadow,
           }}
         >
           EB
@@ -55,7 +57,7 @@ export function DesktopNav() {
             fontWeight: 600,
             fontSize: "1rem",
             letterSpacing: "0.08em",
-            background: "linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)",
+            background: nameGradient,
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",

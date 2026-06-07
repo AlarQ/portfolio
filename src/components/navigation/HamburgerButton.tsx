@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import { useTheme } from "@mui/material/styles";
 import { motion } from "framer-motion";
+import { navHoverBg } from "@/utils/navPresentation";
 
 interface HamburgerButtonProps {
   isOpen: boolean;
@@ -22,7 +23,7 @@ export function HamburgerButton({ isOpen, onClick }: HamburgerButtonProps) {
       sx={{
         padding: 1,
         "&:hover": {
-          backgroundColor: "rgba(14, 165, 233, 0.1)",
+          backgroundColor: navHoverBg,
         },
       }}
     >

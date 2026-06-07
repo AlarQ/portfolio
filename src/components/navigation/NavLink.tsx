@@ -5,6 +5,7 @@ import { useTheme } from "@mui/material/styles";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { navLinkColor, navLinkHoverColor } from "@/utils/navPresentation";
 
 interface NavLinkProps {
   href: string;
@@ -28,7 +29,7 @@ export function NavLink({ href, label, external = false, onClick }: NavLinkProps
       sx={{
         position: "relative",
         display: "inline-block",
-        color: isActive ? "#38bdf8" : "#0ea5e9",
+        color: navLinkColor(isActive),
         textTransform: "uppercase",
         fontWeight: 700,
         fontSize: { xs: "0.8125rem", sm: "0.9375rem" },
@@ -38,7 +39,7 @@ export function NavLink({ href, label, external = false, onClick }: NavLinkProps
         textShadow: "0 2px 4px rgba(0, 0, 0, 0.4)",
         transition: "color 0.2s ease, transform 0.2s ease",
         "&:hover": {
-          color: "#7dd3fc",
+          color: navLinkHoverColor,
           transform: "translateY(-1px)",
         },
         // Active indicator - animated underline
