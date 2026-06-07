@@ -7,7 +7,7 @@ export type SkillCategory =
   | "Tools";
 
 // Typed icon identity for a Skill. Resolved to a concrete MUI icon by the
-// exhaustive registry in utils/skillIcons.tsx. Keeping this a string union
+// presentation seam in utils/skillPresentation.tsx. Keeping this a string union
 // (not a ReactElement) keeps this data module free of MUI/JSX.
 export type IconKey =
   | "groups"
@@ -43,16 +43,6 @@ export interface SkillGroup {
   category: SkillCategory;
   skills: Skill[];
 }
-
-// Category color mapping following ReadingSection pattern
-export const skillCategoryColors: Record<SkillCategory, string> = {
-  Leadership: "#5f9610", // limeGreen from theme
-  Languages: "#c55a0d", // orange from theme
-  Architecture: "#0ea5e9", // primary.main from theme
-  Infrastructure: "#f97316", // secondary.main from theme
-  Databases: "#84cc16", // lime from ReadingSection
-  Tools: "#64748b", // slate from ReadingSection
-};
 
 // Leadership Skills
 export const leadershipSkills: readonly Skill[] = [
