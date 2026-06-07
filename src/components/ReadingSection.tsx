@@ -7,8 +7,8 @@ import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import { Box, Chip, IconButton, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 import type { ReadingItem } from "@/data/books";
+import { useCarousel } from "@/hooks/useCarousel";
 import { readingCategoryColor } from "@/utils/readingPresentation";
 
 interface ReadingSectionProps {
@@ -17,33 +17,11 @@ interface ReadingSectionProps {
 
 export function ReadingSection({ books = [] }: ReadingSectionProps) {
   const theme = useTheme();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const prevBooksLengthRef = useRef(books.length);
-
-  useEffect(() => {
-    if (books.length !== prevBooksLengthRef.current) {
-      setCurrentIndex(0);
-      prevBooksLengthRef.current = books.length;
-    }
-  }, [books.length]);
+  const { index: safeIndex, next, previous, goTo } = useCarousel(books.length);
 
   if (books.length === 0) {
     return null;
   }
-
-  const safeIndex = Math.min(currentIndex, books.length - 1);
-
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? books.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === books.length - 1 ? 0 : prev + 1));
-  };
-
-  const handleDotClick = (index: number) => {
-    setCurrentIndex(index);
-  };
 
   const arrowButtonStyles = {
     position: "absolute" as const,
@@ -259,7 +237,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
           {books.length > 1 && (
             <>
               <IconButton
-                onClick={handlePrevious}
+                onClick={previous}
                 sx={{
                   ...arrowButtonStyles,
                   left: { xs: 4, sm: 8 },
@@ -269,7 +247,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
                 <ArrowBackIosIcon sx={{ fontSize: 20 }} />
               </IconButton>
               <IconButton
-                onClick={handleNext}
+                onClick={next}
                 sx={{
                   ...arrowButtonStyles,
                   right: { xs: 4, sm: 8 },
@@ -293,7 +271,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
             {books.map((book, index) => (
               <Box
                 key={`dot-${book.title}`}
-                onClick={() => handleDotClick(index)}
+                onClick={() => goTo(index)}
                 sx={{
                   width: 8,
                   height: 8,
