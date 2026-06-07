@@ -65,7 +65,7 @@ already solved for other concepts.
 
 ---
 
-## 3. Theme is shallow — brand colors scattered as raw hex, not tokens
+## 3. Theme is shallow — brand colors scattered as raw hex, not tokens — RESOLVED (2026-06-07)
 
 **Files:** `src/theme/theme.ts` (only 4 palette entries), `src/utils/skillPresentation.tsx:55-62`,
 navigation files, `HeroContent`
