@@ -8,28 +8,12 @@ import { Box, Chip, IconButton, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-
-export type ReadingCategory = "IT" | "Self-Development" | "Business" | "Fiction" | "Other";
-
-export interface ReadingItem {
-  title: string;
-  author?: string;
-  category: ReadingCategory;
-  coverImage?: string;
-  quote?: string;
-}
+import type { ReadingItem } from "@/data/books";
+import { readingCategoryColor } from "@/utils/readingPresentation";
 
 interface ReadingSectionProps {
   books?: ReadingItem[];
 }
-
-const categoryColors: Record<ReadingCategory, string> = {
-  IT: "#0ea5e9",
-  "Self-Development": "#84cc16",
-  Business: "#f97316",
-  Fiction: "#a855f7",
-  Other: "#64748b",
-};
 
 export function ReadingSection({ books = [] }: ReadingSectionProps) {
   const theme = useTheme();
@@ -219,7 +203,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
                           <Chip
                             label={book.category}
                             sx={{
-                              backgroundColor: categoryColors[book.category],
+                              backgroundColor: readingCategoryColor(book.category),
                               color: theme.palette.common.white,
                               fontWeight: 600,
                               width: "fit-content",
