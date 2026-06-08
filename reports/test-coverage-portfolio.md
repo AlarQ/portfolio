@@ -5,7 +5,7 @@
 
 ---
 
-## [test-coverage] Presentation seams carry untested business rules — the interface is the test surface
+## [test-coverage] Presentation seams carry untested business rules — the interface is the test surface — RESOLVED (2026-06-08, #26)
 
 **Severity**: Medium
 
