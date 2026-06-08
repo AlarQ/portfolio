@@ -9,11 +9,10 @@ test.describe("Navigation", () => {
     test("should display all navigation links", async ({ page }) => {
       await page.goto("/");
 
-      // Verify all links are visible
-      await expect(page.locator('nav a[href="/"]')).toBeVisible();
-      await expect(page.locator('nav a[href="/blog"]')).toBeVisible();
-      await expect(page.locator('nav a[href="/projects"]')).toBeVisible();
-      await expect(page.locator('a[href="/cv/Ernest_Bednarczyk_CV_01_2025.pdf"]')).toBeVisible();
+      // The two real nav links. getByRole excludes the hidden mobile <nav>
+      // and disambiguates from the logo link (named "EB Ernest Bednarczyk").
+      await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
+      await expect(page.getByRole("link", { name: "Projects" })).toBeVisible();
     });
 
     test("should navigate to projects page", async ({ page }) => {
@@ -30,16 +29,10 @@ test.describe("Navigation", () => {
     test("should highlight home link on home page", async ({ page }) => {
       await page.goto("/");
 
-      await expect(page.locator('nav a[href="/"]')).toHaveAttribute("aria-current", "page");
-    });
-
-    test("should open resume in new tab", async ({ page }) => {
-      await page.goto("/");
-
-      // Verify resume link has target="_blank"
-      const resumeLink = page.locator('a[href="/cv/Ernest_Bednarczyk_CV_01_2025.pdf"]');
-      await expect(resumeLink).toHaveAttribute("target", "_blank");
-      await expect(resumeLink).toHaveAttribute("rel", "noopener noreferrer");
+      await expect(page.getByRole("link", { name: "Home" })).toHaveAttribute(
+        "aria-current",
+        "page"
+      );
     });
   });
 
@@ -142,10 +135,7 @@ test.describe("Navigation", () => {
       for (let i = 0; i < 5; i++) {
         await page.keyboard.press("Tab");
         const href = await page.evaluate(() => document.activeElement?.getAttribute("href"));
-        if (
-          href &&
-          ["/", "/blog", "/projects", "/cv/Ernest_Bednarczyk_CV_01_2025.pdf"].includes(href)
-        ) {
+        if (href && ["/", "/projects"].includes(href)) {
           // Successfully focused a nav link
           expect(href).toBeTruthy();
           return;
@@ -153,7 +143,7 @@ test.describe("Navigation", () => {
       }
 
       // If we get here, verify at least that navigation links exist
-      await expect(page.locator('nav a[href="/"]')).toBeVisible();
+      await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
     });
 
     test("should focus first link when mobile drawer opens", async ({ page }) => {
@@ -193,8 +183,9 @@ test.describe("Navigation", () => {
     test("should have nav landmark", async ({ page }) => {
       await page.goto("/");
 
-      // Verify nav element exists
-      await expect(page.locator("nav")).toBeVisible();
+      // Two responsive <nav> elements render (desktop + mobile); only one is
+      // visible at a given viewport. getByRole excludes the hidden one.
+      await expect(page.getByRole("navigation").first()).toBeVisible();
     });
 
     test("should have aria-current on active page", async ({ page }) => {
