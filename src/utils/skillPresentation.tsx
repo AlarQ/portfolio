@@ -21,7 +21,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import type { SvgIconProps } from "@mui/material";
 import type React from "react";
 import type { IconKey, Skill, SkillCategory } from "@/data/skills";
-import { brand } from "@/theme/theme";
+import { brand, withAlpha } from "@/theme/theme";
 
 /**
  * Single seam for how a Skill is presented. Everything a caller needs to render
@@ -66,6 +66,7 @@ const CATEGORY_COLORS: Record<SkillCategory, string> = {
 export interface SkillPresentation {
   icon: React.ReactElement;
   color: string;
+  iconBoxBg: string;
 }
 
 /** The color used to present a SkillCategory (e.g. group headers). */
@@ -80,8 +81,10 @@ export function skillIcon(icon: IconKey): React.ReactElement<SvgIconProps> {
 
 /** Everything needed to render a single Skill: its icon and its category color. */
 export function skillPresentation(skill: Skill): SkillPresentation {
+  const color = CATEGORY_COLORS[skill.category];
   return {
     icon: SKILL_ICONS[skill.icon],
-    color: CATEGORY_COLORS[skill.category],
+    color,
+    iconBoxBg: withAlpha(color, 0.15),
   };
 }

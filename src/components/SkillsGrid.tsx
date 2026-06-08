@@ -22,7 +22,7 @@ export function SkillsGrid({
   const theme = useTheme();
 
   const renderSkillItem = (skill: Skill) => {
-    const { icon, color } = skillPresentation(skill);
+    const { icon, color, iconBoxBg } = skillPresentation(skill);
 
     return (
       <Box
@@ -44,7 +44,7 @@ export function SkillsGrid({
             width: 40,
             height: 40,
             borderRadius: 1,
-            backgroundColor: `${color}15`,
+            backgroundColor: iconBoxBg,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
