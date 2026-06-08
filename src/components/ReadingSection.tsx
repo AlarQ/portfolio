@@ -9,6 +9,7 @@ import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import type { ReadingItem } from "@/data/books";
 import { useCarousel } from "@/hooks/useCarousel";
+import { glowCardSx } from "@/utils/glowCardPresentation";
 import { readingCategoryColor } from "@/utils/readingPresentation";
 
 interface ReadingSectionProps {
@@ -45,14 +46,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
         display: "flex",
         flexDirection: "column",
         position: "relative",
-        transition: "border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-        border: "3px solid transparent",
-        borderRadius: 2,
-        p: 3,
-        "&:hover": {
-          borderColor: theme.palette.primary.main,
-          boxShadow: `0 0 20px ${theme.palette.primary.main}40`,
-        },
+        ...glowCardSx(theme.palette.primary.main),
         width: "100%",
         height: "100%",
       }}
