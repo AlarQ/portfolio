@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { brand } from "@/theme/theme";
-import { categoryColor } from "./skillPresentation";
+import { brand, withAlpha } from "@/theme/theme";
+import { categoryColor, skillPresentation } from "./skillPresentation";
+import type { Skill } from "@/data/skills";
 
 describe("categoryColor", () => {
   it.each([
@@ -12,5 +13,13 @@ describe("categoryColor", () => {
     ["Tools", brand.slate],
   ] as const)("%s → expected brand token", (category, expected) => {
     expect(categoryColor(category)).toBe(expected);
+  });
+});
+
+describe("skillPresentation", () => {
+  it("iconBoxBg is category color at 15% opacity via withAlpha", () => {
+    const skill: Skill = { name: "TypeScript", category: "Languages", icon: "code" };
+    const { color, iconBoxBg } = skillPresentation(skill);
+    expect(iconBoxBg).toBe(withAlpha(color, 0.15));
   });
 });
