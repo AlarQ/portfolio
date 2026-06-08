@@ -3,13 +3,10 @@
 import ExploreIcon from "@mui/icons-material/Explore";
 import { Box, Link, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { currentTopic } from "@/data/topic";
 import { glowCardSx } from "@/utils/glowCardPresentation";
 
-interface TopicSectionProps {
-  topic?: string;
-}
-
-export function TopicSection({ topic }: TopicSectionProps) {
+export function TopicSection() {
   const theme = useTheme();
 
   return (
@@ -65,14 +62,12 @@ export function TopicSection({ topic }: TopicSectionProps) {
             variant="h6"
             sx={{
               fontWeight: 600,
-              color: topic ? theme.palette.text.primary : theme.palette.text.secondary,
+              color: theme.palette.text.primary,
               textAlign: "center",
-              fontStyle: topic ? "normal" : "italic",
               mb: 3,
             }}
           >
-            {topic ||
-              "Building Development Workflows with Open Code: Focus on Approval-Based Execution"}
+            {currentTopic.title}
           </Typography>
 
           <Typography
@@ -83,9 +78,9 @@ export function TopicSection({ topic }: TopicSectionProps) {
               textAlign: "left",
             }}
           >
-            Currently exploring{" "}
+            {currentTopic.descriptionBefore}
             <Link
-              href="https://github.com/darrenhinde/OpenAgentsControl"
+              href={currentTopic.link.href}
               target="_blank"
               rel="noopener noreferrer"
               sx={{
@@ -97,11 +92,9 @@ export function TopicSection({ topic }: TopicSectionProps) {
                 },
               }}
             >
-              Darren Hinde's OpenAgentsControl
-            </Link>{" "}
-            framework, an AI agent system for plan-first development workflows with approval-based
-            execution. It provides pattern control, smart context discovery, and multi-language
-            support (TypeScript, Python, Go, Rust) with built-in testing and validation.
+              {currentTopic.link.label}
+            </Link>
+            {currentTopic.descriptionAfter}
           </Typography>
         </Box>
       </Stack>
