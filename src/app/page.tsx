@@ -8,17 +8,7 @@ export default function Home() {
   return (
     <Container maxWidth="xl" sx={{ py: { xs: 4, md: 8 } }}>
       <Stack spacing={{ xs: 4, md: 8 }}>
-        <HeroContent
-          imageSrc="/images/profile.jpg"
-          imageAlt="Ernest Bednarczyk"
-          title="SOFTWARE ENGINEER"
-          subtitle="TEAM LEADER"
-          stats={[
-            { value: "6+", label: "Years of Experience" },
-            { value: "14", label: "Engineers Led" },
-            { value: "3+", label: "Years Leading Teams" },
-          ]}
-        />
+        <HeroContent />
 
         <Stack
           direction={{ xs: "column", lg: "row" }}
