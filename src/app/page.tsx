@@ -27,7 +27,7 @@ export default function Home() {
           sx={{ width: "100%" }}
         >
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <TopicSection topic="Exploring OpenAgentsControl: AI Agent Framework for Approval-Based Development Workflows." />
+            <TopicSection />
           </Box>
 
           <Box sx={{ flex: 1, minWidth: 0 }}>
