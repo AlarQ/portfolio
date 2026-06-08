@@ -1,10 +1,11 @@
 "use client";
 
 import { Box, Divider, Stack, Typography } from "@mui/material";
-import { alpha, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import { cloneElement } from "react";
 import { domainAreas } from "@/data/domains";
+import { glowCardSx } from "@/utils/glowCardPresentation";
 import { skillIcon } from "@/utils/skillPresentation";
 import { AchievementsList } from "./AchievementsList";
 import { ServiceCard } from "./ServiceCard";
@@ -138,14 +139,7 @@ export function HeroContent({ imageSrc, imageAlt, title, subtitle, stats }: Hero
                 display: "flex",
                 flexDirection: "column",
                 position: "relative",
-                transition: "border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-                border: "3px solid transparent",
-                borderRadius: 2,
-                p: 3,
-                "&:hover": {
-                  borderColor: area.color,
-                  boxShadow: `0 0 20px ${alpha(area.color, 0.4)}`,
-                },
+                ...glowCardSx(area.color),
               }}
             >
               <Box sx={{ flex: 1 }}>
