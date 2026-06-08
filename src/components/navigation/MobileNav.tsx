@@ -4,8 +4,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useDrawerA11y } from "@/hooks/useDrawerA11y";
 import { brand } from "@/theme/theme";
 import { logoGradient, logoShadow, nameGradient } from "@/utils/navPresentation";
 import { HamburgerButton } from "./HamburgerButton";
@@ -19,7 +20,6 @@ const navItems = [
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const firstLinkRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -33,40 +33,7 @@ export function MobileNav() {
     setIsOpen(false);
   }, []);
 
-  // Handle Escape key
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isOpen) {
-        closeDrawer();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen, closeDrawer]);
-
-  // Focus management - focus first link when drawer opens
-  useEffect(() => {
-    if (isOpen && firstLinkRef.current) {
-      // Small delay to ensure drawer is rendered
-      setTimeout(() => {
-        const firstLink = firstLinkRef.current?.querySelector("a");
-        firstLink?.focus();
-      }, 100);
-    }
-  }, [isOpen]);
-
-  // Prevent body scroll when drawer is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+  const firstLinkRef = useDrawerA11y(isOpen, closeDrawer);
 
   const drawerVariants = {
     closed: {
