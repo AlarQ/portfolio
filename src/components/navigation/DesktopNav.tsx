@@ -3,8 +3,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { brand } from "@/theme/theme";
-import { logoGradient, logoShadow, nameGradient } from "@/utils/navPresentation";
+import { logoGradient, logoShadow, logoTextColor, nameGradient } from "@/utils/navPresentation";
 import { NavLink } from "./NavLink";
 
 const navItems = [
@@ -44,7 +43,7 @@ export function DesktopNav() {
             justifyContent: "center",
             fontWeight: 700,
             fontSize: "1.1rem",
-            color: brand.white,
+            color: logoTextColor,
             boxShadow: logoShadow,
           }}
         >

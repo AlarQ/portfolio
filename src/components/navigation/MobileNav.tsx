@@ -8,7 +8,13 @@ import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useDrawerA11y } from "@/hooks/useDrawerA11y";
 import { brand } from "@/theme/theme";
-import { logoGradient, logoShadow, nameGradient } from "@/utils/navPresentation";
+import {
+  drawerShadow,
+  logoGradient,
+  logoShadow,
+  logoTextColor,
+  nameGradient,
+} from "@/utils/navPresentation";
 import { HamburgerButton } from "./HamburgerButton";
 import { NavLink } from "./NavLink";
 
@@ -77,7 +83,7 @@ export function MobileNav() {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              backgroundColor: brand.scrim,
               zIndex: 1200,
             }}
           />
@@ -97,10 +103,10 @@ export function MobileNav() {
               bottom: 0,
               width: "80%",
               maxWidth: 320,
-              backgroundColor: "rgba(20, 27, 34, 0.95)",
+              backgroundColor: brand.paperOverlay95,
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
-              boxShadow: "-8px 0 32px rgba(0, 0, 0, 0.5)",
+              boxShadow: drawerShadow,
               zIndex: 1300,
               display: "flex",
               flexDirection: "column",
@@ -172,7 +178,7 @@ export function MobileNav() {
               justifyContent: "center",
               fontWeight: 700,
               fontSize: "0.875rem",
-              color: brand.white,
+              color: logoTextColor,
               boxShadow: logoShadow,
             }}
           >
