@@ -5,6 +5,7 @@ import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import { cloneElement } from "react";
 import { domainAreas } from "@/data/domains";
+import { ownerProfile } from "@/data/profile";
 import { glowCardSx } from "@/utils/glowCardPresentation";
 import { skillIcon } from "@/utils/skillPresentation";
 import { AchievementsList } from "./AchievementsList";
@@ -12,20 +13,8 @@ import { ServiceCard } from "./ServiceCard";
 import { SkillsGrid } from "./SkillsGrid";
 import { StatCard } from "./StatCard";
 
-interface Stat {
-  value: string;
-  label: string;
-}
-
-interface HeroContentProps {
-  imageSrc: string;
-  imageAlt: string;
-  title: string;
-  subtitle: string;
-  stats: Stat[];
-}
-
-export function HeroContent({ imageSrc, imageAlt, title, subtitle, stats }: HeroContentProps) {
+export function HeroContent() {
+  const { imageSrc, imageAlt, title, subtitle, stats } = ownerProfile;
   const theme = useTheme();
 
   return (
