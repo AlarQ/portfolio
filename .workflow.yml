@@ -1,0 +1,6 @@
+kind: repo-gate-pool
+gate_pool:
+  - { id: ts-lint,      command: "npm run lint",       applies_to: [typescript], category: style,   blocking: true }
+  - { id: ts-typecheck, command: "npm run type-check", applies_to: [typescript], category: testing, blocking: true }
+  - { id: ts-e2e,       command: "npm run test:e2e",   applies_to: [typescript], category: testing, blocking: true }
+  - { id: ts-build,     command: "npm run build",      applies_to: [typescript], category: testing, blocking: true }

@@ -1,6 +1,22 @@
 import { createTheme } from "@mui/material/styles";
 
 /**
+ * Compose an `rgba()` string from a 6-digit hex token and an alpha in [0, 1].
+ * Overlay/scrim/border tokens derive from base hues through this helper so a
+ * hue change propagates instead of silently drifting against a hand-typed rgba.
+ */
+export function withAlpha(hex: string, alpha: number): string {
+  const r = Number.parseInt(hex.slice(1, 3), 16);
+  const g = Number.parseInt(hex.slice(3, 5), 16);
+  const b = Number.parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+const backgroundPaper = "#141b22";
+const black = "#000000";
+const white = "#ffffff";
+
+/**
  * The single brand color seam. Every named hue lives here once; presentation
  * seams (`skillPresentation`, `readingPresentation`) and domain data import
  * these tokens instead of re-typing raw hex. Change a brand color in one place.
@@ -19,9 +35,15 @@ export const brand = {
   violet: "#a855f7",
   slate: "#64748b",
   slateLight: "#e2e8f0",
-  white: "#ffffff",
+  white,
+  black,
   backgroundDefault: "#0a1118",
-  backgroundPaper: "#141b22",
+  backgroundPaper,
+  // Overlay / elevation tokens — derived from base hues, never re-typed by hand.
+  paperOverlay85: withAlpha(backgroundPaper, 0.85),
+  paperOverlay95: withAlpha(backgroundPaper, 0.95),
+  scrim: withAlpha(black, 0.5),
+  borderSubtle: withAlpha(white, 0.12),
 } as const;
 
 export const theme = createTheme({
