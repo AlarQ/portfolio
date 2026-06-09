@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
+import type { Skill } from "@/data/skills";
 import { brand, withAlpha } from "@/theme/theme";
 import { categoryColor, skillPresentation } from "./skillPresentation";
-import type { Skill } from "@/data/skills";
 
 describe("categoryColor", () => {
   it.each([
