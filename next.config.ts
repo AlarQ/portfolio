@@ -1,8 +1,17 @@
+import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
 };
 
-export default nextConfig;
+// Turbopack requires rehype plugins as serializable [name, options] tuples
+// (function references cannot cross the Rust loader boundary).
+const withMDX = createMDX({
+  options: {
+    rehypePlugins: ["rehype-sanitize", ["rehype-pretty-code", { theme: "github-dark" }]],
+  },
+});
+
+export default withMDX(nextConfig);
