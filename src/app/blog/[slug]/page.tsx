@@ -1,23 +1,14 @@
-import { readdirSync } from "node:fs";
-import { join } from "node:path";
 import { notFound } from "next/navigation";
+import { getPosts } from "@/data/posts";
 
-const POSTS_DIR = join(process.cwd(), "content", "posts");
-const SLUG_PATTERN = /^[a-z0-9-]+$/;
-
-function discoverSlugs(): string[] {
-  return readdirSync(POSTS_DIR)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => file.replace(/\.mdx$/, ""))
-    .filter((slug) => SLUG_PATTERN.test(slug));
-}
-
-// Computed once at module load (build time) — no per-render FS reads.
-const SLUGS = discoverSlugs();
-const SLUG_SET = new Set(SLUGS);
+// Build-time snapshot of the loader's already-validated Post set. The loader is
+// the SINGLE slug-validation gate; this route maps its output and never
+// re-validates — invalid slugs are unrepresentable past the loader seam.
+const POSTS = getPosts();
+const SLUG_SET = new Set(POSTS.map((post) => post.slug));
 
 export function generateStaticParams(): Array<{ slug: string }> {
-  return SLUGS.map((slug) => ({ slug }));
+  return POSTS.map((post) => ({ slug: post.slug }));
 }
 
 export const dynamicParams = false;
@@ -29,11 +20,12 @@ interface PostPageProps {
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
 
-  // O(1) check against build-time snapshot — no TOCTOU window, no FS read.
+  // O(1) membership check against the build-time Post set — no FS read, no
+  // TOCTOU window. A slug absent from the loader output has no Post.
   if (!SLUG_SET.has(slug)) notFound();
 
-  // Dynamic import uses a webpack context over content/posts; slug is pre-validated
-  // against SLUG_SET above so only whitelisted paths can reach this call.
+  // Dynamic import over content/posts; slug is a member of the loader's
+  // already-validated set, so only whitelisted paths can reach this call.
   const { default: PostBody } = await import(`../../../../content/posts/${slug}.mdx`);
 
   return <PostBody />;
