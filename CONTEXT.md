@@ -32,12 +32,21 @@ _Avoid_: Bookshelf, library, reading list, book tracker
 The owner's single current learning/exploration focus. Singular by design — exactly one at a time.
 _Avoid_: Interests, subjects, focus areas
 
+**Post**:
+A single published piece of writing on the **Blog**, authored as MDX. Standalone — it carries no link to a **Project**, **Domain Area**, or **Topic**. Published-only: a Post that exists is live (presence in `content/posts/` = published); there is no draft state in the model.
+_Avoid_: Article, entry, blog post, writing
+
+**Blog**:
+The collection of **Posts** and the section of the site that lists and renders them. The container; a **Post** is one item in it.
+_Avoid_: Journal, news, articles section
+
 ## Relationships
 
 - A **Project** has exactly one **MVP Progress**
 - A **Domain Area** is evidenced by zero or more **Achievements** and rated by zero or more **Skills**
 - An **Achievement** and a **Skill** describe the same **Domain Area** from different angles (did vs. can)
 - There is exactly one current **Topic** and zero or more current **Reading** items
+- A **Blog** contains zero or more **Posts**; a **Post** belongs to exactly one **Blog** and references no other concept
 
 ## Example dialogue
 
@@ -46,10 +55,13 @@ _Avoid_: Interests, subjects, focus areas
 >
 > **Dev:** "Leadership shows up as both an **Achievement** group and a **Skill** category. Same thing?"
 > **Owner:** "Same **Domain Area**. The **Achievement** is proof I led 14 engineers; the **Skill** is the rating of that capability. Two views, one area."
+>
+> **Dev:** "A **Post** about my work on a **Project** — should it link to that Project?"
+> **Owner:** "No. A **Post** is standalone. It might mention a Project in prose, but the model doesn't connect them. And if a Post exists, it's published — I don't keep drafts in there."
 
 ## Flagged ambiguities
 
 - "Leadership" was used for both an Achievement group and a Skill category — resolved: both reference the same **Domain Area**; **Achievement** (evidence) and **Skill** (rating) are distinct views of it.
 - "Project" implied shipped-only — resolved: spans the full lifecycle; maturity lives in **MVP Progress**.
 - `ServiceCard` component exists but has no live usage — resolved: "Service" is **not** a domain concept; component is dead code, omitted from glossary.
-- README describes an MDX/Velite blog model that does not exist in code — actual content is static data modules. Glossary follows the code, not the README.
+- README described an MDX/Velite blog model that did not exist in code — actual content was static data modules. Glossary followed the code, not the README. _Update 2026-06-09: the **Blog** is now being built for real as an MDX feature (see [ADR-0001](docs/adr/0001-mdx-for-blog-posts.md)); the model is **Post** + **Blog** as defined above. The stale-README note is resolved by building the thing, not deleting the claim._
