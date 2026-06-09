@@ -109,7 +109,6 @@ describe("buildPostSet — slug gate", () => {
 
     // Then only the slug-valid file survives — invalid slugs are unrepresentable
     expect(posts.map((p) => p.slug)).toEqual(["valid-slug"]);
-    expect(posts.every((p) => /^[a-z0-9-]+$/.test(p.slug))).toBe(true);
   });
 });
 

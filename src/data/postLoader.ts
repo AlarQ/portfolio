@@ -1,21 +1,9 @@
 import type { Post } from "./posts";
 
 const WORDS_PER_MINUTE = 200;
+const ALLOWED_KEYS = new Set(["title", "dek", "date"]);
+const MAX_VALUE_LENGTH = 512;
 const SLUG_PATTERN = /^[a-z0-9-]+$/;
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-] as const;
 
 /**
  * A raw post file as read off disk by the fs rind: the filename (e.g.
@@ -72,11 +60,14 @@ function toPost(file: RawPostFile): Post {
 }
 
 function formatDate(isoDate: string): string {
-  const match = isoDate.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!match) return isoDate;
-  const [, year, month, day] = match;
-  const monthName = MONTHS[Number(month) - 1] ?? month;
-  return `${Number(day)} ${monthName} ${year}`;
+  const date = new Date(`${isoDate}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return isoDate;
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(date);
 }
 
 function readingTime(body: string): number {
@@ -101,12 +92,16 @@ function splitFrontmatter(content: string): ParsedContent {
 }
 
 function parseFrontmatter(raw: string): Record<string, string> {
-  return raw.split("\n").reduce<Record<string, string>>((acc, line) => {
-    const separator = line.indexOf(":");
-    if (separator === -1) return acc;
-    const key = line.slice(0, separator).trim();
-    const value = line.slice(separator + 1).trim();
-    if (key.length > 0) acc[key] = value;
-    return acc;
-  }, {});
+  return Object.fromEntries(
+    raw
+      .split("\n")
+      .filter((line) => line.includes(":"))
+      .map((line) => {
+        const sep = line.indexOf(":");
+        const key = line.slice(0, sep).trim();
+        const value = line.slice(sep + 1, sep + 1 + MAX_VALUE_LENGTH).trim();
+        return [key, value] as const;
+      })
+      .filter(([key]) => key.length > 0 && ALLOWED_KEYS.has(key))
+  );
 }

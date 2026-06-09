@@ -28,12 +28,24 @@ const POSTS_DIR = join(process.cwd(), "content", "posts");
  * and `/blog/[slug]` detail route consume this one source of truth.
  */
 export function getPosts(): readonly Post[] {
-  const rawFiles: RawPostFile[] = readdirSync(POSTS_DIR)
-    .filter((filename) => filename.endsWith(".mdx"))
-    .map((filename) => ({
-      filename,
-      content: readFileSync(join(POSTS_DIR, filename), "utf-8"),
-    }));
+  let filenames: string[];
+  try {
+    filenames = readdirSync(POSTS_DIR).filter((f) => f.endsWith(".mdx"));
+  } catch (err) {
+    const code = (err as NodeJS.ErrnoException).code;
+    console.error(`[posts] cannot read posts directory (${code ?? "unknown"})`);
+    return [];
+  }
+
+  const rawFiles: RawPostFile[] = filenames.flatMap((filename) => {
+    try {
+      return [{ filename, content: readFileSync(join(POSTS_DIR, filename), "utf-8") }];
+    } catch (err) {
+      const code = (err as NodeJS.ErrnoException).code;
+      console.error(`[posts] skipping "${filename}": read failed (${code ?? "unknown"})`);
+      return [];
+    }
+  });
 
   return buildPostSet(rawFiles);
 }

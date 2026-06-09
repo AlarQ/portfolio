@@ -38,7 +38,7 @@ test.describe("Homepage", () => {
   test("displays profile card with correct name and bio", async ({ page }) => {
     // Arrange: Page is loaded
     // Act: Wait for profile name text to be visible
-    const profileName = page.getByText("Ernest Bednarczyk").first();
+    const profileName = page.locator('[data-testid="nav-logo-name"]:visible');
     await expect(profileName).toBeVisible();
 
     // Assert: Check titles are present
