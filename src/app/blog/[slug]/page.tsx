@@ -12,8 +12,12 @@ function discoverSlugs(): string[] {
     .filter((slug) => SLUG_PATTERN.test(slug));
 }
 
+// Computed once at module load (build time) — no per-render FS reads.
+const SLUGS = discoverSlugs();
+const SLUG_SET = new Set(SLUGS);
+
 export function generateStaticParams(): Array<{ slug: string }> {
-  return discoverSlugs().map((slug) => ({ slug }));
+  return SLUGS.map((slug) => ({ slug }));
 }
 
 export const dynamicParams = false;
@@ -25,10 +29,11 @@ interface PostPageProps {
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
 
-  if (!discoverSlugs().includes(slug)) {
-    notFound();
-  }
+  // O(1) check against build-time snapshot — no TOCTOU window, no FS read.
+  if (!SLUG_SET.has(slug)) notFound();
 
+  // Dynamic import uses a webpack context over content/posts; slug is pre-validated
+  // against SLUG_SET above so only whitelisted paths can reach this call.
   const { default: PostBody } = await import(`../../../../content/posts/${slug}.mdx`);
 
   return <PostBody />;

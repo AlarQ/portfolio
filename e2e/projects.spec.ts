@@ -51,7 +51,7 @@ test.describe("Projects Page", () => {
   test("displays project cards grid", async ({ page }) => {
     // Arrange: Page is loaded
     // Act: Find all project cards using semantic selector (articles with h2 headings)
-    const projectCards = page.locator("article:has(h2)");
+    const projectCards = page.locator(".MuiCard-root");
 
     // Assert: Check that at least one project card is visible
     await expect(projectCards.first()).toBeVisible();
@@ -68,7 +68,7 @@ test.describe("Projects Page", () => {
   test("displays project cards with titles", async ({ page }) => {
     // Arrange: Page is loaded
     // Act: Find project card titles using semantic role selector (h2 headings within articles)
-    const cardHeadings = page.locator("article h2");
+    const cardHeadings = page.locator(".MuiCard-root h2");
 
     // Assert: Check that at least one heading is visible
     await expect(cardHeadings.first()).toBeVisible();
@@ -88,7 +88,7 @@ test.describe("Projects Page", () => {
   test("displays project cards with descriptions", async ({ page }) => {
     // Arrange: Page is loaded
     // Act: Find project card descriptions using semantic selector (paragraphs within articles)
-    const cardDescriptions = page.locator("article p");
+    const cardDescriptions = page.locator(".MuiCard-root p");
 
     // Assert: Check that descriptions are visible
     await expect(cardDescriptions.first()).toBeVisible();
@@ -107,7 +107,7 @@ test.describe("Projects Page", () => {
    */
   test("displays responsive grid layout", async ({ page }) => {
     // Arrange: Page is loaded
-    const projectCards = page.locator("article:has(h2)");
+    const projectCards = page.locator(".MuiCard-root");
 
     // Act: Test desktop layout (multiple columns expected)
     await page.setViewportSize({ width: 1200, height: 800 });

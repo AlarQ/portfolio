@@ -8,11 +8,9 @@ const nextConfig: NextConfig = {
 
 // Turbopack requires rehype plugins as serializable [name, options] tuples
 // (function references cannot cross the Rust loader boundary).
-// Theme is a bundled Shiki theme for now; the brand-sourced `--shiki-*`
-// CSS-var bridge (ADR-0001, FR-3) is a later task.
 const withMDX = createMDX({
   options: {
-    rehypePlugins: [["rehype-pretty-code", { theme: "github-dark" }]],
+    rehypePlugins: ["rehype-sanitize", ["rehype-pretty-code", { theme: "github-dark" }]],
   },
 });
 

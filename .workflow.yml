@@ -1,7 +1,7 @@
 kind: repo-gate-pool
 gate_pool:
-  - { id: lint,        command: "npm run lint",         applies_to: [typescript], category: style,   blocking: true }
-  - { id: format-check, command: "npm run format:check", applies_to: [typescript], category: style,   blocking: true }
-  - { id: type-check,  command: "npm run type-check",   applies_to: [typescript], category: style,   blocking: true }
-  - { id: unit-test,   command: "npm run test:unit",    applies_to: [typescript], category: testing, blocking: true }
-  - { id: e2e-test,    command: "npm run test:e2e",     applies_to: [typescript], category: testing, blocking: false }
+  - { id: lint,        command: "npm run lint",         applies_to: [typescript, nextjs], category: style,   blocking: true }
+  - { id: format-check, command: "npm run format:check", applies_to: [typescript, nextjs], category: style,   blocking: true }
+  - { id: type-check,  command: "npm run type-check",   applies_to: [typescript, nextjs], category: style,   blocking: true }
+  - { id: unit-test,   command: "npm run test:unit",    applies_to: [typescript, nextjs], category: testing, blocking: true }
+  - { id: e2e-test,    command: "npm run test:e2e",     applies_to: [typescript, nextjs], category: testing, blocking: false }
