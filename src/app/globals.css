@@ -1,6 +1,22 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /*
+   * Shiki code-block palette — the second surface of the brand seam (ADR-0001).
+   * MIRROR of `shikiVars` in `src/theme/theme.ts`; values come ONLY from `brand`
+   * tokens. Do not hand-edit a hue here without changing its `brand` source —
+   * `src/theme/shikiVars.test.ts` asserts this block equals the theme seam and
+   * fails CI on drift. No new raw hue originates in this file.
+   */
+  --shiki-bg: #141b22;
+  --shiki-fg: #e2e8f0;
+  --shiki-token-comment: #64748b;
+  --shiki-token-keyword: #38bdf8;
+  --shiki-token-string: #84cc16;
+  --shiki-token-constant: #f97316;
+  --shiki-token-function: #a855f7;
+  --shiki-token-variable: #7dd3fc;
 }
 
 @media (prefers-color-scheme: dark) {

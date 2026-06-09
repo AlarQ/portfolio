@@ -1,8 +1,9 @@
 import type { MDXComponents } from "mdx/types";
+import { mdxComponents } from "@/utils/mdxPresentation";
 
-// Required by @next/mdx in the App Router. The full MDX→MUI presentation seam
-// (FR-6) is a later task; for this slice MDX elements render as their default
-// HTML elements.
+// Required by @next/mdx in the App Router. Every Post body renders through the
+// single MDX→MUI presentation seam (`mdxComponents`, FR-6); caller-supplied
+// components still win on collision so per-render overrides remain possible.
 export function useMDXComponents(components: MDXComponents): MDXComponents {
-  return components;
+  return { ...mdxComponents, ...components };
 }
