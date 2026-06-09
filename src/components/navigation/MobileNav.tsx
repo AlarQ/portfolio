@@ -186,6 +186,7 @@ export function MobileNav() {
           </Box>
           <Typography
             variant="h6"
+            data-testid="nav-logo-name"
             sx={{
               fontFamily: "var(--font-orbitron), sans-serif",
               fontWeight: 600,

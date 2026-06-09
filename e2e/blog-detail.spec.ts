@@ -24,4 +24,22 @@ test.describe("Blog Post detail", () => {
     const bodyProse = page.getByText("This is the very first Post on the Blog.", { exact: false });
     await expect(bodyProse).toBeVisible();
   });
+
+  /**
+   * NEGATIVE TEST: unknown slug returns the not-found response (FR-2)
+   * Scenario: detail-unknown-slug-404
+   * - Given no Post file maps to slug `does-not-exist`
+   * - When a reader visits /blog/does-not-exist
+   * - Then the site returns its not-found response and no Post is rendered
+   *
+   * generateStaticParams maps the loader output; a slug not in that set is not
+   * pre-rendered (dynamicParams=false) and resolves to the 404 response.
+   */
+  test("returns the not-found response for a slug not in the Post set", async ({ page }) => {
+    // Arrange + Act: request a slug with no backing Post file
+    const response = await page.goto("/blog/does-not-exist");
+
+    // Assert: the site returns its not-found response (HTTP 404)
+    expect(response?.status()).toBe(404);
+  });
 });
