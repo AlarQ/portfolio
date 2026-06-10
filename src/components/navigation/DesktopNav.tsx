@@ -3,13 +3,9 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import { navItems } from "@/data/navItems";
 import { logoGradient, logoShadow, logoTextColor, nameGradient } from "@/utils/navPresentation";
 import { NavLink } from "./NavLink";
-
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-];
 
 export function DesktopNav() {
   return (
