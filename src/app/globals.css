@@ -9,14 +9,14 @@
    * `src/theme/shikiVars.test.ts` asserts this block equals the theme seam and
    * fails CI on drift. No new raw hue originates in this file.
    */
-  --shiki-bg: #141b22;
-  --shiki-fg: #e2e8f0;
-  --shiki-token-comment: #64748b;
-  --shiki-token-keyword: #38bdf8;
-  --shiki-token-string: #84cc16;
-  --shiki-token-constant: #f97316;
-  --shiki-token-function: #a855f7;
-  --shiki-token-variable: #7dd3fc;
+  --shiki-bg: oklch(0.21 0.022 243);
+  --shiki-fg: oklch(0.92 0.014 255);
+  --shiki-token-comment: oklch(0.5 0.04 255);
+  --shiki-token-keyword: oklch(0.74 0.135 220);
+  --shiki-token-string: oklch(0.76 0.175 129);
+  --shiki-token-constant: oklch(0.7 0.183 46);
+  --shiki-token-function: oklch(0.59 0.22 293);
+  --shiki-token-variable: oklch(0.82 0.098 216);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -7,17 +7,9 @@ const nextConfig: NextConfig = {
 };
 
 /**
- * Shiki theme whose every color is a `var(--shiki-*)` reference rather than a
- * literal hue — the build-time bridge for ADR-0001's *one source of color truth,
- * two surfaces*. rehype-pretty-code highlights code at build time (zero runtime
- * highlighting JS); because the resolved colors are CSS vars, the actual hues
- * come from `globals.css` → `brand` tokens, never from this theme or the `.mdx`
- * file. The matching `--shiki-*` vars are declared in `src/app/globals.css` and
- * locked to `brand` by `src/theme/shikiVars.test.ts`.
- *
- * (Shiki v4 dropped the packaged `css-variables` theme; supplying a JSON theme
- * — detected by its `tokenColors` key — whose foregrounds are CSS vars is the
- * supported replacement.)
+ * Shiki v4 removed the packaged `css-variables` theme string (it now throws), so
+ * the supported replacement is a JSON theme object whose every foreground is a
+ * `var(--shiki-*)` reference — keeping all real hues in globals.css brand tokens.
  */
 const shikiCssVarTheme = {
   name: "brand-css-vars",
