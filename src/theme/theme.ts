@@ -46,6 +46,30 @@ export const brand = {
   borderSubtle: withAlpha(white, 0.12),
 } as const;
 
+/**
+ * The `--shiki-*` CSS-var bridge — the *second surface* of the brand seam
+ * (ADR-0001). Shiki emits static, build-time HTML that cannot read the MUI
+ * runtime theme, so code-block colors flow through CSS custom properties whose
+ * values are sourced **only** from `brand` tokens here. `globals.css` mirrors
+ * this map verbatim; `shikiVars.test.ts` asserts the two stay equal, so a
+ * `brand` change that fails to reach the CSS var fails CI instead of silently
+ * splitting the syntax-highlighting palette. Every value MUST be a `brand`
+ * token — no raw hex lives in this map or in the `globals.css` mirror.
+ *
+ * Foreground/background pairs are chosen for WCAG-AA contrast against
+ * `backgroundPaper`: `slateLight` (#e2e8f0) on `backgroundPaper` (#141b22).
+ */
+export const shikiVars = {
+  "--shiki-bg": brand.backgroundPaper,
+  "--shiki-fg": brand.slateLight,
+  "--shiki-token-comment": brand.slate,
+  "--shiki-token-keyword": brand.skyLight,
+  "--shiki-token-string": brand.lime,
+  "--shiki-token-constant": brand.orange,
+  "--shiki-token-function": brand.violet,
+  "--shiki-token-variable": brand.skyLighter,
+} as const satisfies Record<string, string>;
+
 export const theme = createTheme({
   palette: {
     mode: "dark",

@@ -11,3 +11,16 @@ JavaScript for the prose itself.
 The point of this slice is narrow: prove that a single authored MDX body can
 travel from `content/posts/*.mdx`, through the build-time compile pipeline, and
 out as rendered HTML on a statically generated `/blog/[slug]` detail page.
+
+## A code block
+
+Code is highlighted at build time and styled from `brand` tokens:
+
+```js
+const greeting = "hello world";
+function greet(name) {
+  return `${greeting}, ${name}`;
+}
+```
+
+See the [project source](https://example.com/source) for more context.
