@@ -174,7 +174,7 @@ test.describe("Post detail readability & a11y", () => {
         const n = hex.replace("#", "");
         const channels = [0, 2, 4]
           .map((i) => parseInt(n.slice(i, i + 2), 16) / 255)
-          .map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+          .map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
         return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
       };
       const a = lum(fg);
@@ -187,20 +187,28 @@ test.describe("Post detail readability & a11y", () => {
   });
 
   // link-focus-visible (FR-11): a prose link shows a visible focus ring under
-  // keyboard focus (:focus-visible only matches on real keyboard focus)
+  // keyboard focus. Uses programmatic .focus() to sidestep the WebKit/Safari
+  // "Tab to links" setting (off by default), making the assertion reliable on
+  // all configured browsers. :focus-visible applies when focus is set
+  // programmatically in a page with no prior pointer interaction.
   test("in-prose link shows a visible focus ring on keyboard focus", async ({ page }) => {
     await page.goto("/blog/hello-world");
 
     const link = page.getByRole("link", { name: /project source/i });
     await link.scrollIntoViewIfNeeded();
-    for (let i = 0; i < 40; i++) {
-      if (await link.evaluate((el) => el === document.activeElement)) break;
-      await page.keyboard.press("Tab");
-    }
+
+    // Drive focus directly — reliable on chromium, webkit, and Mobile Safari.
+    await link.focus();
     await expect(link).toBeFocused();
 
-    const outlineWidth = await link.evaluate((el) => getComputedStyle(el).outlineWidth);
-    expect(parseFloat(outlineWidth)).toBeGreaterThan(0);
+    // Verify a visible focus affordance: outline or box-shadow must be present.
+    const { outlineWidth, boxShadow } = await link.evaluate((el) => {
+      const s = getComputedStyle(el);
+      return { outlineWidth: s.outlineWidth, boxShadow: s.boxShadow };
+    });
+    const hasOutline = parseFloat(outlineWidth) > 0;
+    const hasBoxShadow = boxShadow !== "none" && boxShadow !== "";
+    expect(hasOutline || hasBoxShadow).toBe(true);
   });
 
   // reduced-motion-respected (FR-11): prefers-reduced-motion suppresses the
