@@ -3,7 +3,6 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
-import { cloneElement } from "react";
 import { domainAreas } from "@/data/domains";
 import { ownerProfile } from "@/data/profile";
 import { glowCardSx } from "@/utils/glowCardPresentation";
@@ -174,7 +173,7 @@ export function HeroContent() {
               <Box sx={{ mt: 4 }}>
                 <ServiceCard
                   title={area.serviceTitle}
-                  icon={cloneElement(skillIcon(area.icon), { sx: { fontSize: 40 } })}
+                  icon={skillIcon(area.icon, { sx: { fontSize: 40 } })}
                   backgroundColor={area.color}
                 />
               </Box>

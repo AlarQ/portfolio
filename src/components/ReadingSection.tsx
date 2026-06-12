@@ -10,6 +10,7 @@ import Image from "next/image";
 import type { ReadingItem } from "@/data/books";
 import { useCarousel } from "@/hooks/useCarousel";
 import { glowCardSx } from "@/utils/glowCardPresentation";
+import { iconTileSx } from "@/utils/iconTilePresentation";
 import { readingCategoryColor } from "@/utils/readingPresentation";
 
 interface ReadingSectionProps {
@@ -55,13 +56,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Box
             sx={{
-              width: 48,
-              height: 48,
-              borderRadius: 2,
-              backgroundColor: theme.palette.primary.main,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              ...iconTileSx(48, theme.palette.primary.main),
               color: theme.palette.common.white,
             }}
           >

@@ -41,15 +41,6 @@ export function EmptyState() {
       >
         Select a project to view details
       </Typography>
-      <Typography
-        variant="body1"
-        sx={{
-          color: theme.palette.text.secondary,
-          textAlign: "center",
-          mt: 2,
-          opacity: 0.7,
-        }}
-      ></Typography>
     </Paper>
   );
 }
