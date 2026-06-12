@@ -49,3 +49,12 @@ export function getPosts(): readonly Post[] {
 
   return buildPostSet(rawFiles);
 }
+
+/**
+ * The one per-slug lookup over the Post set. The detail route's metadata and
+ * page both ask for *a Post* through here instead of fetching *all Posts* and
+ * filtering inline, so the `slug === slug` match lives in exactly one place.
+ */
+export function getPost(slug: string): Post | undefined {
+  return getPosts().find((post) => post.slug === slug);
+}
