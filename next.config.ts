@@ -51,10 +51,7 @@ const shikiCssVarTheme = {
 // above is plain JSON, so it crosses that boundary intact.
 const withMDX = createMDX({
   options: {
-    rehypePlugins: [
-      "rehype-sanitize",
-      ["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }],
-    ],
+    rehypePlugins: [["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }]],
   },
 });
 
