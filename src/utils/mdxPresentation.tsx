@@ -8,7 +8,25 @@ import { Anchor, heading, InlineCode, Paragraph } from "./mdxPresentationText";
  * file never carries a raw hue or styling literal — visual treatment lives only
  * here. Code-block surfaces inherit the build-time `--shiki-*` palette (also
  * brand-sourced, ADR-0001); this seam owns everything around them.
+ *
+ * Security (FR-5, sec-external-link-rel): external anchors are hardened with
+ * `rel="noopener noreferrer"` at the `a` mapping below. Active-content elements
+ * a Post body must never embed — `<script>` and `<iframe>` — are mapped to
+ * no-render neutralizers here, so the protection holds by leverage at the seam
+ * rather than by author vigilance. MDX is trusted ONLY while 100% owner-authored
+ * (CONTEXT.md, ADR-0001): admitting any external/PR-submitted MDX requires
+ * `rehype-sanitize` + a CSP before merge.
  */
+
+/** Drops a `<script>` from the Post body — active third-party JS is never embedded. */
+function NoScript(): null {
+  return null;
+}
+
+/** Drops an `<iframe>` from the Post body — third-party embeds are never injected. */
+function NoIframe(): null {
+  return null;
+}
 
 /**
  * The exhaustive Post-body element map. `mdx-components.tsx` spreads this into
@@ -28,4 +46,8 @@ export const mdxComponents: MDXComponents = {
   ul: UnorderedList,
   ol: OrderedList,
   li: ListItem,
+  // Active-content neutralizers: a Post body never embeds live third-party JS
+  // or third-party frames (sec-external-link-rel).
+  script: NoScript,
+  iframe: NoIframe,
 };

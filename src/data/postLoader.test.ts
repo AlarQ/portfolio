@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { buildPostSet, type RawPostFile } from "./postLoader";
 
 /**
@@ -109,6 +109,74 @@ describe("buildPostSet — slug gate", () => {
 
     // Then only the slug-valid file survives — invalid slugs are unrepresentable
     expect(posts.map((p) => p.slug)).toEqual(["valid-slug"]);
+  });
+});
+
+describe("buildPostSet — slug-pattern rejection (sec)", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("skips a slug failing ^[a-z0-9-]+$ with a warning, never reaching the Post set", () => {
+    // Given a file whose derived slug violates the pattern (uppercase + underscore)
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const files: RawPostFile[] = [
+      rawFile("Bad_Slug.mdx", { title: "Bad", dek: "d", date: "2026-01-01" }, "b"),
+    ];
+
+    // When the single slug gate runs
+    const posts = buildPostSet(files);
+
+    // Then the file is absent from the set and a build warning was emitted
+    expect(posts).toHaveLength(0);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0][0]).toContain("Bad_Slug.mdx");
+  });
+});
+
+describe("generateStaticParams — allowlist-only (maps loader output verbatim)", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.resetModules();
+  });
+
+  it("maps the loader's Post set verbatim, performing no slug validation of its own", async () => {
+    // Given the loader is the single gate, generateStaticParams must NOT re-filter.
+    // We stub getPosts() so its set is the only source — if generateStaticParams
+    // added a second filter, a slug present in the loader set would be dropped here.
+    const loaderSet = [{ slug: "alpha" }, { slug: "beta" }, { slug: "gamma" }] as ReadonlyArray<{
+      slug: string;
+    }>;
+    vi.doMock("./posts", () => ({ getPosts: () => loaderSet }));
+
+    const { generateStaticParams } = await import("../app/blog/[slug]/page");
+    const params = generateStaticParams();
+
+    // Then params are exactly the loader's slugs mapped to { slug } — one-to-one,
+    // same order, nothing added or removed (no re-validation seam).
+    expect(params).toEqual(loaderSet.map((p) => ({ slug: p.slug })));
+  });
+});
+
+describe("buildPostSet — traversal rejection (sec)", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("rejects a traversal-shaped filename at the gate, never admitting it to the Post set", () => {
+    // Given a traversal-shaped candidate alongside a legitimate Post
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const files: RawPostFile[] = [
+      rawFile("../etc/passwd.mdx", { title: "Pwn", dek: "d", date: "2026-01-01" }, "b"),
+      rawFile("safe-post.mdx", { title: "Safe", dek: "d", date: "2026-01-02" }, "b"),
+    ];
+
+    // When the single slug-validation gate runs
+    const posts = buildPostSet(files);
+
+    // Then only the safe Post survives; the traversal slug is unrepresentable past the seam
+    expect(posts.map((p) => p.slug)).toEqual(["safe-post"]);
+    expect(posts.every((p) => /^[a-z0-9-]+$/.test(p.slug))).toBe(true);
   });
 });
 

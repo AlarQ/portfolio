@@ -6,7 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Personal portfolio site. Next.js 16 (App Router, SSG) + React 19 + MUI 7, TypeScript strict. Content is self-authored static data — there is **no CMS, no database, no external input**.
 
-> The `README.md` is stale: it describes an MDX/Velite blog and a `content/` directory that **do not exist**. Trust `CONTEXT.md` and the code, not the README. There is no blog. Routes are `/` and `/projects` only.
+There **is** a **Blog** of **Posts**: long-form prose authored as MDX files under `content/posts/`, rendered statically at build time (see [ADR-0001](docs/adr/0001-mdx-for-blog-posts.md) and the **Post**/**Blog** glossary in `CONTEXT.md`). Routes are `/`, `/projects`, `/blog`, and `/blog/[slug]`. The `README.md` is stale (it predates the real build and may describe a different model) — trust `CONTEXT.md`, the ADRs, and the code, not the README.
+
+### MDX trust boundary (security)
+
+The MDX render pipeline renders raw HTML/JSX from Post bodies **as trusted content, and that trust is load-bearing**. It holds ONLY while every Post is **100% owner-authored**. The rationale and "single slug-validation gate" seam are recorded in `CONTEXT.md` (2026-06-09 build decision) and [ADR-0001](docs/adr/0001-mdx-for-blog-posts.md); the slice's security scenarios live in the blog `spec.md` (FR-5). Concretely:
+
+- **Slug safety** is enforced in exactly one place — the loader's pure core `buildPostSet` in `src/data/postLoader.ts` validates every candidate against `^[a-z0-9-]+$` (skip + build warning) and never joins arbitrary input to the filesystem. `generateStaticParams` (`src/app/blog/[slug]/page.tsx`) only *maps* that already-validated set and re-validates nothing.
+- **MDX body hardening** lives at the single presentation seam (`src/utils/mdxPresentation.tsx`): external links carry `rel="noopener noreferrer"`, and `<script>`/`<iframe>` are mapped to no-render neutralizers so a body cannot embed live third-party active content.
+- **If this ever changes** — accepting any external, PR-submitted, or otherwise untrusted MDX — the trust assumption breaks (Elevation of Privilege). Before merging such a change you MUST introduce `rehype-sanitize` in the MDX pipeline **and** a Content-Security-Policy. Do not relax the "owner-authored only" rule without both.
 
 ## Commands
 
