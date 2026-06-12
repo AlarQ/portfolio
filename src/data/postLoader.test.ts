@@ -140,10 +140,8 @@ describe("generateStaticParams — allowlist-only (maps loader output verbatim)"
     vi.resetModules();
   });
 
-  it("maps the loader's Post set verbatim, performing no slug validation of its own", async () => {
-    // Given the loader is the single gate, generateStaticParams must NOT re-filter.
-    // We stub getPosts() so its set is the only source — if generateStaticParams
-    // added a second filter, a slug present in the loader set would be dropped here.
+  it("returns one { slug } param per loader Post, in loader order", async () => {
+    // Given a known loader Post set
     const loaderSet = [{ slug: "alpha" }, { slug: "beta" }, { slug: "gamma" }] as ReadonlyArray<{
       slug: string;
     }>;
@@ -152,8 +150,7 @@ describe("generateStaticParams — allowlist-only (maps loader output verbatim)"
     const { generateStaticParams } = await import("../app/blog/[slug]/page");
     const params = generateStaticParams();
 
-    // Then params are exactly the loader's slugs mapped to { slug } — one-to-one,
-    // same order, nothing added or removed (no re-validation seam).
+    // Then params are exactly the loader's slugs mapped to { slug }, one-to-one, same order
     expect(params).toEqual(loaderSet.map((p) => ({ slug: p.slug })));
   });
 });
@@ -176,7 +173,6 @@ describe("buildPostSet — traversal rejection (sec)", () => {
 
     // Then only the safe Post survives; the traversal slug is unrepresentable past the seam
     expect(posts.map((p) => p.slug)).toEqual(["safe-post"]);
-    expect(posts.every((p) => /^[a-z0-9-]+$/.test(p.slug))).toBe(true);
   });
 });
 

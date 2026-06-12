@@ -1,13 +1,16 @@
 # Secret scan (sec-secret-scan-blocks-build): block a commit that stages a
 # detectable secret before it ever lands in history. Runs gitleaks over the
-# STAGED diff; a non-zero exit aborts the commit. If gitleaks is not installed
-# locally the hook warns and continues — CI runs the same scan as the
-# authoritative gate (.github/workflows/ci.yml), so a missing local binary
-# cannot let a secret through the pipeline.
+# STAGED diff; a non-zero exit aborts the commit. FAILS CLOSED locally —
+# if gitleaks is not installed the hook aborts the commit and prints an install
+# instruction. CI is the only bypass: when CI=true the hook defers to the
+# authoritative gitleaks-action in .github/workflows/ci.yml instead.
 if command -v gitleaks >/dev/null 2>&1; then
   gitleaks git --staged --redact --no-banner
+elif [ "$CI" = "true" ]; then
+  echo "[pre-commit] gitleaks not on PATH; CI gitleaks-action is the authoritative scan."
 else
-  echo "[pre-commit] gitleaks not installed — skipping local secret scan (CI enforces it). Install: brew install gitleaks"
+  echo "[pre-commit] gitleaks not installed — local secret scan cannot run. Install it: brew install gitleaks"
+  exit 1
 fi
 
 npm run lint

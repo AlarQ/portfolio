@@ -55,6 +55,7 @@ export function Anchor({
   const safeHref = SAFE_HREF.test(href) ? href : "#";
   const isExternal = /^https?:\/\//i.test(safeHref);
   // External links are hardened (sec-external-link-rel): noopener noreferrer.
+  // externalProps is spread AFTER caller props so callers cannot clobber rel/target.
   const externalProps = isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
   return (
     <Link
@@ -64,8 +65,8 @@ export function Anchor({
         textDecorationColor: withAlpha(brand.sky, 0.4),
         "&:focus-visible": { outline: `2px solid ${brand.skyLight}`, outlineOffset: 2 },
       }}
-      {...externalProps}
       {...props}
+      {...externalProps}
     >
       {children}
     </Link>

@@ -18,12 +18,10 @@ import { Anchor, heading, InlineCode, Paragraph } from "./mdxPresentationText";
  * `rehype-sanitize` + a CSP before merge.
  */
 
-/** Drops a `<script>` from the Post body — active third-party JS is never embedded. */
 function NoScript(): null {
   return null;
 }
 
-/** Drops an `<iframe>` from the Post body — third-party embeds are never injected. */
 function NoIframe(): null {
   return null;
 }

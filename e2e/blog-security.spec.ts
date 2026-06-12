@@ -14,7 +14,7 @@ import { expect, test } from "@playwright/test";
  */
 
 test.describe("Blog MDX body security", () => {
-  test("external link renders rel=noopener noreferrer and no third-party script/iframe is injected", async ({
+  test("external link in body renders rel=noopener noreferrer and target=_blank", async ({
     page,
   }) => {
     await page.goto("/blog/hello-world");
@@ -27,6 +27,10 @@ test.describe("Blog MDX body security", () => {
     const rel = (await external.getAttribute("rel")) ?? "";
     expect(rel).toContain("noopener");
     expect(rel).toContain("noreferrer");
+  });
+
+  test("no third-party script or iframe is injected into the article", async ({ page }) => {
+    await page.goto("/blog/hello-world");
 
     // No live third-party <script> sourced from an external origin is embedded
     // by the Post body. (Next.js framework chunks are same-origin /_next/*.)
