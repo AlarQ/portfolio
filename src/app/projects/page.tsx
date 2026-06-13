@@ -6,7 +6,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { ProjectSidebar } from "@/components/ProjectSidebar";
 import type { Project } from "@/data/projects";
 import { projects } from "@/data/projects";
-import { pageShellSx } from "@/theme/layout";
+import { pageShellSx, pageTitleSx } from "@/theme/layout";
 
 export default function ProjectsPage() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -17,15 +17,7 @@ export default function ProjectsPage() {
 
   return (
     <Container maxWidth="xl" sx={pageShellSx}>
-      <Typography
-        variant="h1"
-        sx={{
-          fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
-          fontWeight: 700,
-          mb: { xs: 3, md: 5 },
-          textAlign: "center",
-        }}
-      >
+      <Typography variant="h1" sx={pageTitleSx}>
         My Projects
       </Typography>
 

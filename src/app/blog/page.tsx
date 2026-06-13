@@ -2,7 +2,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { PostList } from "@/components/PostList";
 import { getPosts } from "@/data/posts";
-import { pageShellSx } from "@/theme/layout";
+import { pageShellSx, pageTitleSx } from "@/theme/layout";
 
 /**
  * The `/blog` index. A server component: it reads the single Post source
@@ -15,15 +15,7 @@ export default function BlogPage() {
 
   return (
     <Container maxWidth="md" sx={pageShellSx}>
-      <Typography
-        variant="h1"
-        sx={{
-          fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
-          fontWeight: 700,
-          mb: { xs: 3, md: 5 },
-          textAlign: "center",
-        }}
-      >
+      <Typography variant="h1" sx={pageTitleSx}>
         Blog
       </Typography>
 
