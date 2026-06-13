@@ -58,6 +58,6 @@ When adding a domain concept, follow this layering: type+data in `src/data/`, an
 
 ## Notes
 
-- `src/components/ServiceCard.tsx` is **dead code** — "Service" is not a domain concept. Don't build on it.
+- `src/components/AreaHeadlineCard.tsx` renders a **Domain Area**'s headline card (the bottom card stating the area's offering), driven by `DomainArea.headline`. The old `ServiceCard`/`serviceTitle` naming is gone — "Service" was never a domain concept.
 - `reports/` holds architecture-audit findings (some marked RESOLVED); `docs/testing.md` is the Playwright guide; `features/` holds PRDs for unbuilt work.
 - e2e webkit/mobile suites have known pre-existing failures (profile-card heading mismatch); chromium is the reliable signal.

@@ -24,9 +24,9 @@ export interface DomainArea {
   heading: string;
   /** Short prose describing the area. */
   blurb: string;
-  /** Title of the area's service card. */
-  serviceTitle: string;
-  /** Brand accent for the area (hover border + service card background). */
+  /** Headline stating the area's offering, shown on the area's headline card. */
+  headline: string;
+  /** Brand accent for the area (hover border + headline card background). */
   color: string;
   /** Icon identity, resolved to a concrete MUI icon by the presentation seam. */
   icon: IconKey;
@@ -43,7 +43,7 @@ export const domainAreas: readonly DomainArea[] = [
     heading: "Leadership & Engineering Management",
     blurb:
       "Led teams of 14 engineers across Sportsbook and Casino domains, delivering complex microservice-based systems. Focused on mentoring, technical excellence, and stakeholder collaboration.",
-    serviceTitle: "Leadership & Management: Team Growth, Delivery",
+    headline: "Leadership & Management: Team Growth, Delivery",
     color: brand.limeDark,
     icon: "groups",
     achievements: leadershipAchievements,
@@ -55,7 +55,7 @@ export const domainAreas: readonly DomainArea[] = [
     heading: "Technical Development Expertise",
     blurb:
       "6+ years building scalable systems in Scala and Rust. Expert in microservices, event-driven architectures, and distributed systems on Kubernetes/GCP.",
-    serviceTitle: "Backend Development: Rust, Scala, Microservices",
+    headline: "Backend Development: Rust, Scala, Microservices",
     color: brand.orangeDark,
     icon: "code",
     achievements: technicalAchievements,

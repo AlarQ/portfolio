@@ -63,5 +63,5 @@ _Avoid_: Journal, news, articles section
 
 - "Leadership" was used for both an Achievement group and a Skill category — resolved: both reference the same **Domain Area**; **Achievement** (evidence) and **Skill** (rating) are distinct views of it.
 - "Project" implied shipped-only — resolved: spans the full lifecycle; maturity lives in **MVP Progress**.
-- `ServiceCard` component exists but has no live usage — resolved: "Service" is **not** a domain concept; component is dead code, omitted from glossary.
+- `ServiceCard`/`serviceTitle` named a non-concept ("Service") while rendering live — resolved: the card is a **Domain Area**'s headline (its offering). Renamed to `AreaHeadlineCard` / `DomainArea.headline`; "Service" is gone from the code.
 - README described an MDX/Velite blog model that did not exist in code — actual content was static data modules. Glossary followed the code, not the README. _Update 2026-06-09: the **Blog** is now being built for real as an MDX feature (see [ADR-0001](docs/adr/0001-mdx-for-blog-posts.md)); the model is **Post** + **Blog** as defined above. The stale-README note is resolved by building the thing, not deleting the claim._

@@ -3,14 +3,19 @@
 import { Box, Card, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-interface ServiceCardProps {
+/**
+ * The headline card for a Domain Area — the bottom card that states the area's
+ * offering (e.g. "Backend Development: Rust, Scala, Microservices"). Driven by
+ * `DomainArea.headline` and the area's accent color. See CONTEXT.md.
+ */
+interface AreaHeadlineCardProps {
   title: string;
   icon: React.ReactNode;
   backgroundColor: string;
   onClick?: () => void;
 }
 
-export function ServiceCard({ title, icon, backgroundColor, onClick }: ServiceCardProps) {
+export function AreaHeadlineCard({ title, icon, backgroundColor, onClick }: AreaHeadlineCardProps) {
   const theme = useTheme();
 
   return (
