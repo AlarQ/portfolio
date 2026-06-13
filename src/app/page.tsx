@@ -3,10 +3,11 @@ import { HeroContent } from "@/components/HeroContent";
 import { ReadingSection } from "@/components/ReadingSection";
 import { TopicSection } from "@/components/TopicSection";
 import { currentBooks } from "@/data/books";
+import { pageShellSx } from "@/theme/layout";
 
 export default function Home() {
   return (
-    <Container maxWidth="xl" sx={{ py: { xs: 4, md: 8 } }}>
+    <Container maxWidth="xl" sx={pageShellSx}>
       <Stack spacing={{ xs: 4, md: 8 }}>
         <HeroContent />
 

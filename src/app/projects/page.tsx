@@ -6,6 +6,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { ProjectSidebar } from "@/components/ProjectSidebar";
 import type { Project } from "@/data/projects";
 import { projects } from "@/data/projects";
+import { pageShellSx } from "@/theme/layout";
 
 export default function ProjectsPage() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -15,12 +16,7 @@ export default function ProjectsPage() {
   };
 
   return (
-    <Container
-      maxWidth="xl"
-      sx={{
-        py: { xs: 4, md: 8 },
-      }}
-    >
+    <Container maxWidth="xl" sx={pageShellSx}>
       <Typography
         variant="h1"
         sx={{

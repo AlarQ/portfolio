@@ -2,6 +2,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { PostList } from "@/components/PostList";
 import { getPosts } from "@/data/posts";
+import { pageShellSx } from "@/theme/layout";
 
 /**
  * The `/blog` index. A server component: it reads the single Post source
@@ -13,7 +14,7 @@ export default function BlogPage() {
   const posts = getPosts();
 
   return (
-    <Container maxWidth="md" sx={{ py: { xs: 4, md: 8 } }}>
+    <Container maxWidth="md" sx={pageShellSx}>
       <Typography
         variant="h1"
         sx={{
