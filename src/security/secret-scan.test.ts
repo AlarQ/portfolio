@@ -4,11 +4,9 @@ import { describe, expect, it } from "vitest";
 
 /**
  * Regression tests for acceptance criterion #3 of task 006-security-hardening:
- * "gitleaks configured pre-commit AND in CI; a commit/build containing a
- * detectable secret is blocked by the secret scan."
- *
- * These tests read the actual config files from disk and assert that gitleaks
- * is wired up in both the pre-commit hook and the CI workflow.
+ * "gitleaks blocks a commit/push containing a detectable secret." The scan is
+ * wired into both the pre-commit hook (staged diff) and the pre-push hook
+ * (full gate) — GitHub Actions runs no checks.
  */
 
 const ROOT = resolve(__dirname, "../..");
@@ -24,28 +22,20 @@ describe("secret-scan — pre-commit hook", () => {
   });
 });
 
-describe("secret-scan — CI workflow", () => {
-  it("includes a gitleaks secret-scan step", () => {
-    // Given the CI workflow file on disk
-    const ci = readFileSync(resolve(ROOT, ".github/workflows/ci.yml"), "utf-8");
+describe("secret-scan — pre-push hook", () => {
+  it("invokes gitleaks as part of the push gate", () => {
+    // Given the pre-push hook file on disk
+    const hook = readFileSync(resolve(ROOT, ".husky/pre-push"), "utf-8");
 
-    // Then it contains a step that uses or runs gitleaks
-    expect(ci).toMatch(/gitleaks/i);
+    // Then it contains a gitleaks invocation
+    expect(hook).toMatch(/gitleaks\s+git/);
   });
 
-  it("uses the gitleaks-action in the security job", () => {
-    // Given the CI workflow file on disk
-    const ci = readFileSync(resolve(ROOT, ".github/workflows/ci.yml"), "utf-8");
+  it("fails closed when gitleaks is not installed", () => {
+    // Given the pre-push hook file on disk
+    const hook = readFileSync(resolve(ROOT, ".husky/pre-push"), "utf-8");
 
-    // Then the gitleaks action is referenced (tolerant to minor version changes)
-    expect(ci).toMatch(/gitleaks\/gitleaks-action/);
-  });
-
-  it("checks out with full history so gitleaks can scan the commit range", () => {
-    // Given the CI workflow file on disk
-    const ci = readFileSync(resolve(ROOT, ".github/workflows/ci.yml"), "utf-8");
-
-    // Then fetch-depth: 0 is set (full history required by gitleaks on push)
-    expect(ci).toMatch(/fetch-depth\s*:\s*0/);
+    // Then a missing gitleaks binary aborts the push (exit 1), never skips it
+    expect(hook).toMatch(/exit 1/);
   });
 });

@@ -1,1 +1,21 @@
-npm run lint && npm run type-check
+set -e
+
+# Pre-push is the authoritative quality + supply-chain gate. GitHub Actions is
+# reserved for deployment (Vercel); it runs no checks, so every gate below MUST
+# pass locally before a push leaves the machine.
+npm run lint
+npm run type-check
+npm run test:unit
+
+# Fail the push on any high+ severity advisory over the committed lockfile.
+npm audit --audit-level=high
+
+# Secret scan (sec-secret-scan-blocks-build). FAILS CLOSED: with no CI gitleaks
+# step remaining, an uninstalled gitleaks aborts the push rather than skipping
+# the scan.
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks git --redact --no-banner
+else
+  echo "[pre-push] gitleaks not installed — secret scan cannot run. Install it: brew install gitleaks"
+  exit 1
+fi
