@@ -4,7 +4,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { navItems } from "@/data/navItems";
-import { logoGradient, logoShadow, logoTextColor, nameGradient } from "@/utils/navPresentation";
+import { nameGradient } from "@/utils/navPresentation";
+import { LogoTile } from "./LogoTile";
 import { NavLink } from "./NavLink";
 
 export function DesktopNav() {
@@ -28,23 +29,7 @@ export function DesktopNav() {
           textDecoration: "none",
         }}
       >
-        <Box
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: "12px",
-            background: logoGradient,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontWeight: 700,
-            fontSize: "1.1rem",
-            color: logoTextColor,
-            boxShadow: logoShadow,
-          }}
-        >
-          EB
-        </Box>
+        <LogoTile size="lg" />
         <Typography
           variant="h6"
           data-testid="nav-logo-name"

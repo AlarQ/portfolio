@@ -9,14 +9,9 @@ import { createPortal } from "react-dom";
 import { navItems } from "@/data/navItems";
 import { useDrawerA11y } from "@/hooks/useDrawerA11y";
 import { brand } from "@/theme/theme";
-import {
-  drawerShadow,
-  logoGradient,
-  logoShadow,
-  logoTextColor,
-  nameGradient,
-} from "@/utils/navPresentation";
+import { drawerShadow, nameGradient } from "@/utils/navPresentation";
 import { HamburgerButton } from "./HamburgerButton";
+import { LogoTile } from "./LogoTile";
 import { NavLink } from "./NavLink";
 
 export function MobileNav() {
@@ -163,23 +158,7 @@ export function MobileNav() {
             textDecoration: "none",
           }}
         >
-          <Box
-            sx={{
-              width: 32,
-              height: 32,
-              borderRadius: "10px",
-              background: logoGradient,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontWeight: 700,
-              fontSize: "0.875rem",
-              color: logoTextColor,
-              boxShadow: logoShadow,
-            }}
-          >
-            EB
-          </Box>
+          <LogoTile size="sm" />
           <Typography
             variant="h6"
             data-testid="nav-logo-name"

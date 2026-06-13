@@ -1,8 +1,8 @@
 "use client";
 
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import type { Achievement } from "@/data/experience";
-import { achievementIcon, achievementTone } from "@/utils/achievementPresentation";
 
 interface AchievementsListProps {
   achievements: readonly Achievement[];
@@ -24,14 +24,14 @@ export function AchievementsList({ achievements, maxItems = 4 }: AchievementsLis
             gap: 1.5,
           }}
         >
-          {achievementIcon({
-            sx: {
+          <CheckCircleIcon
+            sx={{
               fontSize: 20,
-              color: theme.palette[achievementTone].main,
+              color: theme.palette.primary.main,
               mt: 0.2,
               flexShrink: 0,
-            },
-          })}
+            }}
+          />
           <Typography
             variant="body2"
             sx={{

@@ -3,12 +3,13 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
+import { cloneElement } from "react";
 import { domainAreas } from "@/data/domains";
 import { ownerProfile } from "@/data/profile";
 import { glowCardSx } from "@/utils/glowCardPresentation";
 import { skillIcon } from "@/utils/skillPresentation";
 import { AchievementsList } from "./AchievementsList";
-import { ServiceCard } from "./ServiceCard";
+import { AreaHeadlineCard } from "./AreaHeadlineCard";
 import { SkillsGrid } from "./SkillsGrid";
 import { StatCard } from "./StatCard";
 
@@ -171,9 +172,9 @@ export function HeroContent() {
               <AchievementsList achievements={area.achievements} maxItems={4} />
 
               <Box sx={{ mt: 4 }}>
-                <ServiceCard
-                  title={area.serviceTitle}
-                  icon={skillIcon(area.icon, { sx: { fontSize: 40 } })}
+                <AreaHeadlineCard
+                  title={area.headline}
+                  icon={cloneElement(skillIcon(area.icon), { sx: { fontSize: 40 } })}
                   backgroundColor={area.color}
                 />
               </Box>
