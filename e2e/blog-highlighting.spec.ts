@@ -56,16 +56,9 @@ test.describe("Blog build-time syntax highlighting", () => {
     await expect(keywordSpan).toHaveCount(1);
 
     // The computed color RESOLVES to the brand token wired into that --shiki var.
-    const computed = await keywordSpan.evaluate((el) => {
-      const canvas = document.createElement("canvas");
-      canvas.width = canvas.height = 1;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) throw new Error("2d canvas context unavailable");
-      ctx.fillStyle = getComputedStyle(el).color;
-      ctx.fillRect(0, 0, 1, 1);
-      const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-      return `rgb(${r}, ${g}, ${b})`;
-    });
+    // getComputedStyle().color always returns a normalized `rgb(r, g, b)` string,
+    // so we can compare it directly.
+    const computed = await keywordSpan.evaluate((el) => getComputedStyle(el).color);
     expect(computed).toBe(KEYWORD_RGB);
   });
 });
