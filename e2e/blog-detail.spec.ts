@@ -12,15 +12,10 @@ import { expect, test } from "@playwright/test";
  */
 
 test.describe("Blog Post detail", () => {
-  /**
-   * POSITIVE TEST: Verify the authored MDX body renders as HTML
-   * Objective: Ensure /blog/<slug> renders the Post's MDX body as rendered HTML
-   */
   test("renders the authored MDX body as HTML", async ({ page }) => {
-    // Arrange + Act: visit the detail route for the one authored Post
     await page.goto("/blog/hello-world");
 
-    // Assert: a distinctive sentence from the MDX body appears as rendered text
+    // A distinctive sentence from the MDX body appears as rendered text.
     const bodyProse = page.getByText("This is the very first Post on the Blog.", { exact: false });
     await expect(bodyProse).toBeVisible();
   });
@@ -34,13 +29,11 @@ test.describe("Blog Post detail", () => {
    * the loader). See reports/architecture-data.md finding 1.
    */
   test("does not leak raw frontmatter into the rendered body", async ({ page }) => {
-    // Arrange + Act: visit the detail route for the one authored Post
     await page.goto("/blog/hello-world");
 
-    // Assert: the raw `title:` frontmatter line is absent from the rendered body
+    // The raw `title:` frontmatter line is absent, and no thematic break stands
+    // in for the stripped `---...---` block.
     await expect(page.getByText("title: Hello World", { exact: false })).toHaveCount(0);
-
-    // Assert: the article body has no thematic break standing in for the block
     await expect(page.locator("article hr")).toHaveCount(0);
   });
 
@@ -55,10 +48,8 @@ test.describe("Blog Post detail", () => {
    * pre-rendered (dynamicParams=false) and resolves to the 404 response.
    */
   test("returns the not-found response for a slug not in the Post set", async ({ page }) => {
-    // Arrange + Act: request a slug with no backing Post file
     const response = await page.goto("/blog/does-not-exist");
 
-    // Assert: the site returns its not-found response (HTTP 404)
     expect(response?.status()).toBe(404);
   });
 });

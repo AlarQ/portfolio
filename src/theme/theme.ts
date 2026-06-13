@@ -52,8 +52,8 @@ export const brand = {
  * runtime theme, so code-block colors flow through CSS custom properties whose
  * values are sourced **only** from `brand` tokens here. `globals.css` mirrors
  * this map verbatim; `shikiVars.test.ts` asserts the two stay equal, so a
- * `brand` change that fails to reach the CSS var fails CI instead of silently
- * splitting the syntax-highlighting palette. Every value MUST be a `brand`
+ * `brand` change that fails to reach the CSS var fails the pre-push gate instead
+ * of silently splitting the syntax-highlighting palette. Every value MUST be a `brand`
  * token — no raw hex lives in this map or in the `globals.css` mirror.
  *
  * Foreground/background pairs are chosen for WCAG-AA contrast against

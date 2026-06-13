@@ -7,7 +7,7 @@
    * MIRROR of `shikiVars` in `src/theme/theme.ts`; values come ONLY from `brand`
    * tokens. Do not hand-edit a hue here without changing its `brand` source —
    * `src/theme/shikiVars.test.ts` asserts this block equals the theme seam and
-   * fails CI on drift. No new raw hue originates in this file.
+   * fails the pre-push gate on drift. No new raw hue originates in this file.
    */
   --shiki-bg: #141b22;
   --shiki-fg: #e2e8f0;
