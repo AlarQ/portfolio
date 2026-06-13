@@ -20,6 +20,7 @@ import TerminalIcon from "@mui/icons-material/Terminal";
 import WorkIcon from "@mui/icons-material/Work";
 import type { SvgIconProps } from "@mui/material";
 import type React from "react";
+import { cloneElement } from "react";
 import type { IconKey, Skill, SkillCategory } from "@/data/skills";
 import { brand, withAlpha } from "@/theme/theme";
 
@@ -74,9 +75,13 @@ export function categoryColor(category: SkillCategory): string {
   return CATEGORY_COLORS[category];
 }
 
-/** Resolves an IconKey to its MUI icon — the single icon registry for the app. */
-export function skillIcon(icon: IconKey): React.ReactElement<SvgIconProps> {
-  return SKILL_ICONS[icon];
+/**
+ * Resolves an IconKey to its MUI icon — the single icon registry for the app.
+ * Optional `props` (e.g. `{ sx: { fontSize: 40 } }`) are applied on the seam
+ * side so callers never `cloneElement` through the resolved output to size it.
+ */
+export function skillIcon(icon: IconKey, props?: SvgIconProps): React.ReactElement<SvgIconProps> {
+  return props ? cloneElement(SKILL_ICONS[icon], props) : SKILL_ICONS[icon];
 }
 
 /** Everything needed to render a single Skill: its icon and its category color. */

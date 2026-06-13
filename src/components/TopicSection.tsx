@@ -5,6 +5,7 @@ import { Box, Link, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { currentTopic } from "@/data/topic";
 import { glowCardSx } from "@/utils/glowCardPresentation";
+import { iconTileSx } from "@/utils/iconTilePresentation";
 
 export function TopicSection() {
   const theme = useTheme();
@@ -25,13 +26,7 @@ export function TopicSection() {
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Box
             sx={{
-              width: 48,
-              height: 48,
-              borderRadius: 2,
-              backgroundColor: theme.palette.primary.main,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              ...iconTileSx(48, theme.palette.primary.main),
               color: theme.palette.common.white,
             }}
           >

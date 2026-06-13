@@ -59,3 +59,6 @@ yarn-error.log*
 
 # Architecture-pipeline scratch (uncommitted findings)
 /reports/
+
+# spec-workflow drift snapshot (read by /ship, not committed)
+.monitor-context-snapshot

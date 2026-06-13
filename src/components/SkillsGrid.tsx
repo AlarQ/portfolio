@@ -2,6 +2,7 @@
 
 import { Box, Typography, useTheme } from "@mui/material";
 import type { Skill, SkillCategory } from "@/data/skills";
+import { iconTileSx } from "@/utils/iconTilePresentation";
 import { categoryColor, skillPresentation } from "@/utils/skillPresentation";
 
 interface SkillsGridProps {
@@ -41,13 +42,7 @@ export function SkillsGrid({
         {/* Icon box following ContributionStats pattern */}
         <Box
           sx={{
-            width: 40,
-            height: 40,
-            borderRadius: 1,
-            backgroundColor: iconBoxBg,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            ...iconTileSx(40, iconBoxBg, 1),
             flexShrink: 0,
             "& svg": {
               color,

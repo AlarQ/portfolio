@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { navItems } from "@/data/navItems";
 import { useDrawerA11y } from "@/hooks/useDrawerA11y";
 import { brand } from "@/theme/theme";
 import {
@@ -17,11 +18,6 @@ import {
 } from "@/utils/navPresentation";
 import { HamburgerButton } from "./HamburgerButton";
 import { NavLink } from "./NavLink";
-
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-];
 
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -186,6 +182,7 @@ export function MobileNav() {
           </Box>
           <Typography
             variant="h6"
+            data-testid="nav-logo-name"
             sx={{
               fontFamily: "var(--font-orbitron), sans-serif",
               fontWeight: 600,
