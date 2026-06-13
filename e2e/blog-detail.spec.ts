@@ -26,6 +26,25 @@ test.describe("Blog Post detail", () => {
   });
 
   /**
+   * REGRESSION GUARD: the `---` frontmatter block must NOT render in the body.
+   * Without `remark-frontmatter` in the MDX pipeline (next.config.ts), the
+   * leading `---...---` block renders as a thematic break (<hr>) plus raw
+   * `title:/dek:/date:` text atop every Post. This pins the body to start at the
+   * authored prose — the unit suite can't cover it (Next compiles the body, not
+   * the loader). See reports/architecture-data.md finding 1.
+   */
+  test("does not leak raw frontmatter into the rendered body", async ({ page }) => {
+    // Arrange + Act: visit the detail route for the one authored Post
+    await page.goto("/blog/hello-world");
+
+    // Assert: the raw `title:` frontmatter line is absent from the rendered body
+    await expect(page.getByText("title: Hello World", { exact: false })).toHaveCount(0);
+
+    // Assert: the article body has no thematic break standing in for the block
+    await expect(page.locator("article hr")).toHaveCount(0);
+  });
+
+  /**
    * NEGATIVE TEST: unknown slug returns the not-found response (FR-2)
    * Scenario: detail-unknown-slug-404
    * - Given no Post file maps to slug `does-not-exist`

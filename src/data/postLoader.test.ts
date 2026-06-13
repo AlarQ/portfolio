@@ -176,6 +176,76 @@ describe("buildPostSet — traversal rejection (sec)", () => {
   });
 });
 
+describe("buildPostSet — fail fast on malformed frontmatter (authoring bugs)", () => {
+  it("throws when a slug-valid Post has an empty/missing title", () => {
+    // Given a slug-valid file whose title is empty (a frontmatter typo)
+    const files: RawPostFile[] = [
+      {
+        filename: "no-title.mdx",
+        content: "---\ntitle: \ndek: d\ndate: 2026-01-01\n---\n\nbody\n",
+      },
+    ];
+
+    // When the pure core builds the set, the authoring bug fails the build loudly
+    expect(() => buildPostSet(files)).toThrow(/no-title\.mdx/);
+  });
+
+  it("throws when a slug-valid Post has a non-ISO date", () => {
+    // Given a slug-valid file whose date is not YYYY-MM-DD
+    const files: RawPostFile[] = [
+      rawFile("bad-date.mdx", { title: "T", dek: "d", date: "June 9th" }, "body"),
+    ];
+
+    // When the pure core builds the set, the unparseable date fails the build
+    expect(() => buildPostSet(files)).toThrow(/bad-date\.mdx/);
+  });
+
+  it("throws on an impossible calendar date that JS would silently roll over", () => {
+    // Given a shape-valid but impossible date (Feb 30 — JS rolls it to March 2)
+    const files: RawPostFile[] = [
+      rawFile("rollover.mdx", { title: "T", dek: "d", date: "2026-02-30" }, "body"),
+    ];
+
+    // When the pure core builds the set, the rollover is rejected, not absorbed
+    expect(() => buildPostSet(files)).toThrow(/rollover\.mdx/);
+  });
+
+  it("keeps an unquoted YAML date as a literal ISO string (no Date auto-cast)", () => {
+    // Given an unquoted YAML date — the default YAML schema would cast it to a
+    // JS Date (and roll impossible days over); the loader's JSON-schema engine
+    // keeps it a string so requireDate stays authoritative
+    const files: RawPostFile[] = [
+      {
+        filename: "unquoted-date.mdx",
+        content: "---\ntitle: T\ndek: d\ndate: 2026-06-09\n---\n\nbody\n",
+      },
+    ];
+
+    // When the pure core derives the date
+    const [post] = buildPostSet(files);
+
+    // Then it is the exact ISO string, formatted from that same value
+    expect(post.date).toBe("2026-06-09");
+    expect(post.formattedDate).toBe("9 June 2026");
+  });
+
+  it("parses a quoted frontmatter value to its unquoted string (gray-matter YAML)", () => {
+    // Given a title wrapped in double quotes (valid YAML the hand-rolled regex mangled)
+    const files: RawPostFile[] = [
+      {
+        filename: "quoted.mdx",
+        content: '---\ntitle: "Hello: World"\ndek: d\ndate: 2026-01-01\n---\n\nbody\n',
+      },
+    ];
+
+    // When the pure core parses frontmatter via gray-matter
+    const [post] = buildPostSet(files);
+
+    // Then the colon-bearing quoted value survives intact, unquoted
+    expect(post.title).toBe("Hello: World");
+  });
+});
+
 describe("buildPostSet — formatted date derivation", () => {
   it("derives a human display date from the ISO date, deterministically", () => {
     // Given a file with an ISO YYYY-MM-DD date

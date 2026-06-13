@@ -1,9 +1,18 @@
+import matter from "gray-matter";
+import { JSON_SCHEMA, load as loadYaml } from "js-yaml";
 import type { Post } from "./posts";
 
+// Parse frontmatter under YAML's JSON schema so every value stays a primitive
+// string — in particular, an unquoted `date: 2026-02-30` is NOT auto-cast to a
+// JS Date (the default schema rolls it silently to March 2 before the loader
+// can reject it). Keeping it a string makes `requireDate` the single authority.
+const FRONTMATTER_OPTIONS = {
+  engines: { yaml: (raw: string) => loadYaml(raw, { schema: JSON_SCHEMA }) as object },
+};
+
 const WORDS_PER_MINUTE = 200;
-const ALLOWED_KEYS = new Set(["title", "dek", "date"]);
-const MAX_VALUE_LENGTH = 512;
 const SLUG_PATTERN = /^[a-z0-9-]+$/;
+const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 /**
  * A raw post file as read off disk by the fs rind: the filename (e.g.
@@ -46,22 +55,55 @@ function byNewestThenSlug(a: Post, b: Post): number {
 
 function toPost(file: RawPostFile): Post {
   const slug = file.filename.replace(/\.mdx$/, "");
-  const { frontmatter, body } = splitFrontmatter(file.content);
+  const { data, content: body } = matter(file.content, FRONTMATTER_OPTIONS);
+
+  const title = requireField(file, "title", data.title);
+  const date = requireDate(file, data.date);
 
   return {
     slug,
-    title: frontmatter.title ?? "",
-    dek: frontmatter.dek ?? "",
-    date: frontmatter.date ?? "",
+    title,
+    dek: requireField(file, "dek", data.dek),
+    date,
     readingTimeMinutes: readingTime(body),
-    formattedDate: formatDate(frontmatter.date ?? ""),
+    formattedDate: formatDate(date),
     published: true,
   };
 }
 
+/**
+ * Fail fast on a missing/empty frontmatter string. Posts are 100%
+ * owner-authored at build time (CLAUDE.md, ADR-0001), so a blank field is an
+ * authoring bug to surface loudly — not a runtime condition to absorb with a
+ * silent `?? ""`. The thrown message names the offending file for `npm run build`.
+ */
+function requireField(file: RawPostFile, key: string, value: unknown): string {
+  if (typeof value === "string" && value.trim().length > 0) return value;
+  throw new Error(`[posts] "${file.filename}": frontmatter "${key}" is missing or empty`);
+}
+
+/**
+ * Fail fast on a missing, non-ISO, or impossible date — same authoring-bug
+ * rationale. The shape regex alone is not enough: JS rolls `2026-02-30` over to
+ * March 2 instead of rejecting it, so a real calendar date must round-trip back
+ * to the same string (that round-trip also rejects `2026-13-45`, whose Date is
+ * NaN). The value is always a string here — FRONTMATTER_OPTIONS keeps YAML dates
+ * unparsed — so this check is the single authority on date validity.
+ */
+function requireDate(file: RawPostFile, value: unknown): string {
+  if (typeof value === "string" && ISO_DATE_PATTERN.test(value)) {
+    const parsed = new Date(`${value}T00:00:00Z`);
+    if (!Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value) {
+      return value;
+    }
+  }
+  throw new Error(
+    `[posts] "${file.filename}": frontmatter "date" must be a real ISO YYYY-MM-DD date`
+  );
+}
+
 function formatDate(isoDate: string): string {
   const date = new Date(`${isoDate}T00:00:00Z`);
-  if (Number.isNaN(date.getTime())) return isoDate;
   return new Intl.DateTimeFormat("en-GB", {
     day: "numeric",
     month: "long",
@@ -73,35 +115,4 @@ function formatDate(isoDate: string): string {
 function readingTime(body: string): number {
   const wordCount = body.split(/\s+/).filter((word) => word.length > 0).length;
   return Math.ceil(wordCount / WORDS_PER_MINUTE);
-}
-
-interface ParsedContent {
-  readonly frontmatter: Readonly<Record<string, string>>;
-  readonly body: string;
-}
-
-function splitFrontmatter(content: string): ParsedContent {
-  const match = content.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  if (!match) {
-    return { frontmatter: {}, body: content };
-  }
-
-  const [, rawFrontmatter, body] = match;
-  const frontmatter = parseFrontmatter(rawFrontmatter);
-  return { frontmatter, body };
-}
-
-function parseFrontmatter(raw: string): Record<string, string> {
-  return Object.fromEntries(
-    raw
-      .split("\n")
-      .filter((line) => line.includes(":"))
-      .map((line) => {
-        const sep = line.indexOf(":");
-        const key = line.slice(0, sep).trim();
-        const value = line.slice(sep + 1, sep + 1 + MAX_VALUE_LENGTH).trim();
-        return [key, value] as const;
-      })
-      .filter(([key]) => key.length > 0 && ALLOWED_KEYS.has(key))
-  );
 }

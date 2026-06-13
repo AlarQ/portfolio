@@ -46,11 +46,18 @@ const shikiCssVarTheme = {
   ],
 };
 
-// Turbopack requires rehype plugins as serializable [name, options] tuples
-// (function references cannot cross the Rust loader boundary). The theme object
-// above is plain JSON, so it crosses that boundary intact.
+// Turbopack requires plugins as serializable [name, options] tuples (function
+// references cannot cross the Rust loader boundary). The theme object above is
+// plain JSON, so it crosses that boundary intact.
+//
+// `remark-frontmatter` tokenizes the leading `---...---` block as a frontmatter
+// node so MDX excludes it from the rendered body. Without it the block renders
+// as a thematic break + raw `title:/dek:/date:` text atop every Post. The
+// loader (`postLoader.ts`) reads that same frontmatter independently via
+// gray-matter for Post metadata — two reads of one file, each now frontmatter-aware.
 const withMDX = createMDX({
   options: {
+    remarkPlugins: [["remark-frontmatter"]],
     rehypePlugins: [["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }]],
   },
 });
