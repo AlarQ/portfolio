@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.14](https://github.com/AlarQ/portfolio/compare/v0.1.13...v0.1.14) (2026-06-15)
+
+
+### Features
+
+* **blog, nav:** dev workflow blog post, show Home and Projects tabs in dev only ([#36](https://github.com/AlarQ/portfolio/issues/36)) ([f0af544](https://github.com/AlarQ/portfolio/commit/f0af544dfc629bd27dc205afa7007a18ec7cf663))
+* **blog:** MDX blog — /blog index + /blog/[slug], build-time highlighting, a11y, security ([#34](https://github.com/AlarQ/portfolio/issues/34)) ([c42353c](https://github.com/AlarQ/portfolio/commit/c42353cf6e1dd35e204c56d418e4277661d98ada))
+* **data:** extract Topic concept into src/data/topic.ts ([#25](https://github.com/AlarQ/portfolio/issues/25)) ([f579896](https://github.com/AlarQ/portfolio/commit/f5798967f0808152a81f523bcd7c71774aa11d1a))
+* something ([c149d5c](https://github.com/AlarQ/portfolio/commit/c149d5c6987c068ba83821146c1d5b84fea7d8ac))
+
+
+### Bug Fixes
+
+* contribution graph ([#13](https://github.com/AlarQ/portfolio/issues/13)) ([4eb9d4c](https://github.com/AlarQ/portfolio/commit/4eb9d4cf3abc8a671838d9ff7c50c0abc709336e))
+* hero ([d183d44](https://github.com/AlarQ/portfolio/commit/d183d449bedfe5c6453d28a1900a6e2a9c0c52dd))
+* homepage sections ([92a9779](https://github.com/AlarQ/portfolio/commit/92a9779986ab74100a94b5921ae00b25ac0841f3))
+* move skill icon-box opacity rule into skillPresentation seam ([#27](https://github.com/AlarQ/portfolio/issues/27)) ([c25ada1](https://github.com/AlarQ/portfolio/commit/c25ada181ee3e13f3b1a3ee1249bb40e82f1803e))
+
+
+### Documentation
+
+* add architecture deepening findings reports ([6448056](https://github.com/AlarQ/portfolio/commit/64480565d35dea9183fb879eca7189310c98edcc))
+* add CONTEXT.md domain glossary ([7108694](https://github.com/AlarQ/portfolio/commit/710869485a9a294d51f5b8614d6109b37d4699ec))
+
+
+### Code Refactoring
+
+* add Achievement + Project presentation seams ([#17](https://github.com/AlarQ/portfolio/issues/17)) ([30ee67c](https://github.com/AlarQ/portfolio/commit/30ee67c7a61edeb6c6087504eac94fcc20db3b5c))
+* deepen Skill module with typed icon-key ([aa7cab2](https://github.com/AlarQ/portfolio/commit/aa7cab276ead1152c64d386077859c8353a0af60))
+* extract glowCardSx presentation seam ([#21](https://github.com/AlarQ/portfolio/issues/21)) ([89761d0](https://github.com/AlarQ/portfolio/commit/89761d06a6a7f6b8ec17520d785f923aa98b671e))
+* extract useCarousel hook from ReadingSection (finding [#5](https://github.com/AlarQ/portfolio/issues/5)) ([#20](https://github.com/AlarQ/portfolio/issues/20)) ([18cea1b](https://github.com/AlarQ/portfolio/commit/18cea1b9b425eb73e3c004cdb134c5c7f200655a))
+* extract useDrawerA11y seam from MobileNav ([#22](https://github.com/AlarQ/portfolio/issues/22)) ([cf4e2b2](https://github.com/AlarQ/portfolio/commit/cf4e2b2c7149ee0824eacd728cb927183ee82eb8))
+* introduce DomainArea module, map areas instead of leadership/technical twins ([#16](https://github.com/AlarQ/portfolio/issues/16)) ([7913ebb](https://github.com/AlarQ/portfolio/commit/7913ebb0fd2966f3b5b039ab2ab4edf45008f74b))
+* make theme the single brand-color seam (finding [#3](https://github.com/AlarQ/portfolio/issues/3)) ([#18](https://github.com/AlarQ/portfolio/issues/18)) ([ca6066c](https://github.com/AlarQ/portfolio/commit/ca6066c0bcfa6ee84706f3931cedd2b4898f6227))
+* move owner identity and stats into src/data/profile.ts ([#24](https://github.com/AlarQ/portfolio/issues/24)) ([a193d55](https://github.com/AlarQ/portfolio/commit/a193d558083a03477aaef87754234e7973190927))
+* move Reading domain type out of UI into data + presentation seam ([#15](https://github.com/AlarQ/portfolio/issues/15)) ([1931422](https://github.com/AlarQ/portfolio/commit/193142234cea2c3c61d8ced51c5d205db2951d15))
+* navPresentation seam for nav gradients + colors (finding [#4](https://github.com/AlarQ/portfolio/issues/4)) ([#19](https://github.com/AlarQ/portfolio/issues/19)) ([6cc6032](https://github.com/AlarQ/portfolio/commit/6cc6032298dde33ef9346745aa33e585a6f60628))
+* resolve architecture findings across nav, components, utils ([#35](https://github.com/AlarQ/portfolio/issues/35)) ([36734d1](https://github.com/AlarQ/portfolio/commit/36734d17ea688afd17289b3da06ae817501fbdc3))
+* route nav overlay colors through brand seam ([#23](https://github.com/AlarQ/portfolio/issues/23)) ([90f348d](https://github.com/AlarQ/portfolio/commit/90f348d87d60740da58f04eebe11f4975ce8c240))
+* unify Skill icon + category color into one presentation seam ([#14](https://github.com/AlarQ/portfolio/issues/14)) ([0dbaedd](https://github.com/AlarQ/portfolio/commit/0dbaeddc67b2969ca2c774b748d71db8eeefe36e))
+
 ## [0.1.13](https://github.com/AlarQ/portfolio/compare/v0.1.12...v0.1.13) (2026-02-11)
 
 
