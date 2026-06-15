@@ -26,6 +26,30 @@ export function Pre({ children, ...props }: ComponentPropsWithoutRef<"pre">) {
   );
 }
 
+export function MdxImage({ alt, ...props }: ComponentPropsWithoutRef<"img">) {
+  // The only images in a Post body today are build-time Mermaid diagrams
+  // (`rehype-mermaid`, `strategy: "img-svg"` → an SVG data-URI). This seam owns
+  // their layout: centered, scaled to the column, brand-framed. `alt` is kept
+  // so the diagram stays accessible.
+  return (
+    <Box
+      component="img"
+      alt={alt ?? ""}
+      sx={{
+        display: "block",
+        mx: "auto",
+        my: 3,
+        maxWidth: "100%",
+        height: "auto",
+        p: 2,
+        borderRadius: 2,
+        border: `1px solid ${brand.borderSubtle}`,
+      }}
+      {...props}
+    />
+  );
+}
+
 export function ListItem({ children, ...props }: { children?: ReactNode }) {
   return (
     <Typography component="li" variant="body1" sx={{ ...proseTextSx, my: 0.5 }} {...props}>

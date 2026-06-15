@@ -55,10 +55,21 @@ const shikiCssVarTheme = {
 // as a thematic break + raw `title:/dek:/date:` text atop every Post. The
 // loader (`postLoader.ts`) reads that same frontmatter independently via
 // gray-matter for Post metadata — two reads of one file, each now frontmatter-aware.
+//
+// `rehype-mermaid` runs BEFORE `rehype-pretty-code` so it claims every
+// ```mermaid fence and renders it to a self-contained `<img>` at build time
+// (`strategy: "img-svg"` → an SVG data-URI; zero runtime JS, no client mermaid,
+// and no raw inline-SVG attribute casing for MDX to choke on). Fences left for
+// Shiki — js/ts/bash/etc. — fall through untouched to `rehype-pretty-code`.
+// Both options objects are plain JSON, so they survive the Turbopack
+// serializable-tuple boundary (see note above).
 const withMDX = createMDX({
   options: {
     remarkPlugins: [["remark-frontmatter"]],
-    rehypePlugins: [["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }]],
+    rehypePlugins: [
+      ["rehype-mermaid", { strategy: "img-svg", dark: true }],
+      ["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }],
+    ],
   },
 });
 

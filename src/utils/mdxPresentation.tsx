@@ -1,5 +1,6 @@
 import type { MDXComponents } from "mdx/types";
-import { ListItem, OrderedList, Pre, UnorderedList } from "./mdxPresentationBlock";
+import { Callout } from "@/components/Callout";
+import { ListItem, MdxImage, OrderedList, Pre, UnorderedList } from "./mdxPresentationBlock";
 import { Anchor, heading, InlineCode, Paragraph } from "./mdxPresentationText";
 
 /**
@@ -44,8 +45,12 @@ export const mdxComponents: MDXComponents = {
   ul: UnorderedList,
   ol: OrderedList,
   li: ListItem,
+  // Post-body images are build-time Mermaid diagrams (rehype-mermaid img-svg).
+  img: MdxImage,
   // Active-content neutralizers: a Post body never embeds live third-party JS
   // or third-party frames (sec-external-link-rel).
   script: NoScript,
   iframe: NoIframe,
+  // Owner-authored emphasized callout (trust boundary unchanged — owner-only).
+  Callout,
 };
