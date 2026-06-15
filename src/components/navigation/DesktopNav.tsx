@@ -3,7 +3,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { navItems } from "@/data/navItems";
+import { visibleNavItems } from "@/data/navItems";
 import { nameGradient } from "@/utils/navPresentation";
 import { LogoTile } from "./LogoTile";
 import { NavLink } from "./NavLink";
@@ -52,7 +52,7 @@ export function DesktopNav() {
 
       {/* Navigation Links */}
       <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-        {navItems.map((item) => (
+        {visibleNavItems.map((item) => (
           <NavLink key={item.href} href={item.href} label={item.label} />
         ))}
       </Box>
