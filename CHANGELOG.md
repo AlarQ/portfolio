@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.17](https://github.com/AlarQ/portfolio/compare/v0.1.16...v0.1.17) (2026-06-16)
+
+
+### Documentation
+
+* **blog:** drop planned Dashboard line from spec-driven post ([23e150c](https://github.com/AlarQ/portfolio/commit/23e150c03890a3d633aa7c3ff8820505befb7ca9))
+
 ## [0.1.16](https://github.com/AlarQ/portfolio/compare/v0.1.15...v0.1.16) (2026-06-16)
 
 
