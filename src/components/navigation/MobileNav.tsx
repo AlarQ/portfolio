@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { visibleNavItems } from "@/data/navItems";
+import { navItems } from "@/data/navItems";
 import { useDrawerA11y } from "@/hooks/useDrawerA11y";
 import { brand } from "@/theme/theme";
 import { drawerShadow, nameGradient } from "@/utils/navPresentation";
@@ -114,7 +114,7 @@ export function MobileNav() {
                 gap: 4,
               }}
             >
-              {visibleNavItems.map((item, index) => (
+              {navItems.map((item, index) => (
                 <Box
                   key={item.href}
                   component={motion.div}
@@ -150,7 +150,7 @@ export function MobileNav() {
         {/* Logo/Name */}
         <Box
           component={Link}
-          href="/"
+          href="/blog"
           sx={{
             display: "flex",
             alignItems: "center",

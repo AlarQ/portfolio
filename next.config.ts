@@ -4,6 +4,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactCompiler: true,
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  // Blog-only surface: `/` redirects to the blog index, and the home layout
+  // (`src/app/page.tsx`) is shadowed by this rule (Next.js applies config
+  // redirects before filesystem routes). `temporary` (307) keeps the option to
+  // restore a real home page later open.
+  async redirects() {
+    return [{ source: "/", destination: "/blog", permanent: false }];
+  },
 };
 
 /**
@@ -56,20 +63,18 @@ const shikiCssVarTheme = {
 // loader (`postLoader.ts`) reads that same frontmatter independently via
 // gray-matter for Post metadata — two reads of one file, each now frontmatter-aware.
 //
-// `rehype-mermaid` runs BEFORE `rehype-pretty-code` so it claims every
-// ```mermaid fence and renders it to a self-contained `<img>` at build time
-// (`strategy: "img-svg"` → an SVG data-URI; zero runtime JS, no client mermaid,
-// and no raw inline-SVG attribute casing for MDX to choke on). Fences left for
-// Shiki — js/ts/bash/etc. — fall through untouched to `rehype-pretty-code`.
-// Both options objects are plain JSON, so they survive the Turbopack
-// serializable-tuple boundary (see note above).
+// Mermaid is NOT rendered here. `rehype-mermaid` launched a headless Chromium
+// during `next build`, which broke Vercel's browserless build image. Diagrams
+// are now pre-rendered to committed SVGs by a pre-commit step
+// (`scripts/prerender-mermaid.mjs`) and referenced from Post bodies via the
+// `<Diagram>` component — so `next build` runs no browser. The only MDX plugin
+// left that touches code is `rehype-pretty-code`, which highlights js/ts/bash/
+// etc. fences with Shiki. Its options object is plain JSON, so it survives the
+// Turbopack serializable-tuple boundary (see note above).
 const withMDX = createMDX({
   options: {
     remarkPlugins: [["remark-frontmatter"]],
-    rehypePlugins: [
-      ["rehype-mermaid", { strategy: "img-svg", dark: true }],
-      ["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }],
-    ],
+    rehypePlugins: [["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }]],
   },
 });
 

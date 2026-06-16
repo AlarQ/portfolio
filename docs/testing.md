@@ -2,6 +2,8 @@
 
 This document explains how to run and write end-to-end tests using Playwright for the portfolio website.
 
+> **Note — blog-only surface.** The live routes are `/blog`, `/blog/[slug]`, plus `/` (which 307-redirects to `/blog`); `/projects` returns 404. Code snippets below that `goto("/")` or reference a projects page are **illustrative Playwright patterns**, not claims about current routes — see the `e2e/*.spec.ts` files for the real, current assertions.
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -20,15 +22,16 @@ Playwright is used for end-to-end testing of the Next.js portfolio website. It t
 ### What We Test
 
 - **Happy Paths**: Normal user interactions and page loads
-- **Critical Features**: Homepage, projects page, navigation
+- **Critical Features**: Blog index, Post detail, navigation, `/` → `/blog` redirect
 - **Responsive Design**: Layouts on different screen sizes
 - **Accessibility**: Semantic HTML, ARIA labels, keyboard navigation
 
 ### Test Location
 
 All E2E tests are located in the `e2e/` directory:
-- `e2e/home.spec.ts` - Homepage tests
-- `e2e/projects.spec.ts` - Projects page tests
+- `e2e/home.spec.ts` - Root route `/` → `/blog` redirect
+- `e2e/projects.spec.ts` - Asserts `/projects` returns 404 (route removed)
+- `e2e/blog.spec.ts`, `e2e/blog-detail.spec.ts` - Blog index and Post detail tests
 
 ---
 

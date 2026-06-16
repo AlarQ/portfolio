@@ -1,35 +1,29 @@
 import { expect, test } from "@playwright/test";
 
+/**
+ * Navigation E2E. The site is blog-only: the nav exposes a single Blog link
+ * (Home/Projects routes are gone), and the logo points at /blog. Drawer
+ * mechanics (open/close/escape/backdrop) and a11y are unchanged.
+ */
+
 test.describe("Navigation", () => {
   test.describe("Desktop Navigation", () => {
     test.beforeEach(async ({ page }) => {
       await page.setViewportSize({ width: 1200, height: 800 });
     });
 
-    test("should display all navigation links", async ({ page }) => {
-      await page.goto("/");
+    test("should display the Blog navigation link", async ({ page }) => {
+      await page.goto("/blog");
 
-      // The two real nav links. getByRole excludes the hidden mobile <nav>
-      // and disambiguates from the logo link (named "EB Ernest Bednarczyk").
-      await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
-      await expect(page.getByRole("link", { name: "Projects" })).toBeVisible();
+      // The single real nav link. getByRole disambiguates from the logo link
+      // (named "EB Ernest Bednarczyk") and excludes the hidden mobile <nav>.
+      await expect(page.getByRole("link", { name: "Blog" })).toBeVisible();
     });
 
-    test("should navigate to projects page", async ({ page }) => {
-      await page.goto("/");
+    test("should mark the Blog link active on /blog", async ({ page }) => {
+      await page.goto("/blog");
 
-      // Click Projects link (use force to avoid page content overlap issues)
-      await page.click('nav a[href="/projects"]', { force: true });
-      await expect(page).toHaveURL("/projects");
-
-      // Verify active indicator
-      await expect(page.locator('nav a[href="/projects"]')).toHaveAttribute("aria-current", "page");
-    });
-
-    test("should highlight home link on home page", async ({ page }) => {
-      await page.goto("/");
-
-      await expect(page.getByRole("link", { name: "Home" })).toHaveAttribute(
+      await expect(page.getByRole("link", { name: "Blog", exact: true })).toHaveAttribute(
         "aria-current",
         "page"
       );
@@ -42,7 +36,7 @@ test.describe("Navigation", () => {
     });
 
     test("should display hamburger button", async ({ page }) => {
-      await page.goto("/");
+      await page.goto("/blog");
 
       // Verify hamburger button is visible
       await expect(page.locator('button[aria-label="Open menu"]')).toBeVisible();
@@ -52,7 +46,7 @@ test.describe("Navigation", () => {
     });
 
     test("should open and close drawer", async ({ page }) => {
-      await page.goto("/");
+      await page.goto("/blog");
 
       // Verify drawer is initially closed
       await expect(page.locator("#mobile-menu")).not.toBeVisible();
@@ -76,22 +70,22 @@ test.describe("Navigation", () => {
     });
 
     test("should navigate from drawer", async ({ page }) => {
-      await page.goto("/");
+      await page.goto("/blog");
 
       // Open drawer
       await page.click('button[aria-label="Open menu"]');
       await expect(page.locator("#mobile-menu")).toBeVisible();
 
-      // Click Projects link in drawer
-      await page.click('#mobile-menu a[href="/projects"]');
+      // Click Blog link in drawer
+      await page.click('#mobile-menu a[href="/blog"]');
 
       // Verify navigation and drawer closed
-      await expect(page).toHaveURL("/projects");
+      await expect(page).toHaveURL("/blog");
       await expect(page.locator("#mobile-menu")).not.toBeVisible();
     });
 
     test("should close drawer on backdrop click", async ({ page }) => {
-      await page.goto("/");
+      await page.goto("/blog");
 
       // Open drawer
       await page.click('button[aria-label="Open menu"]');
@@ -107,7 +101,7 @@ test.describe("Navigation", () => {
     });
 
     test("should close drawer on Escape key", async ({ page }) => {
-      await page.goto("/");
+      await page.goto("/blog");
 
       // Open drawer
       await page.click('button[aria-label="Open menu"]');
@@ -126,7 +120,7 @@ test.describe("Navigation", () => {
   test.describe("Keyboard Navigation", () => {
     test("should navigate links with Tab key on desktop", async ({ page }) => {
       await page.setViewportSize({ width: 1200, height: 800 });
-      await page.goto("/");
+      await page.goto("/blog");
 
       // Click on body to ensure we start from the page
       await page.click("body");
@@ -135,20 +129,20 @@ test.describe("Navigation", () => {
       for (let i = 0; i < 5; i++) {
         await page.keyboard.press("Tab");
         const href = await page.evaluate(() => document.activeElement?.getAttribute("href"));
-        if (href && ["/", "/projects"].includes(href)) {
+        if (href && ["/blog"].includes(href)) {
           // Successfully focused a nav link
           expect(href).toBeTruthy();
           return;
         }
       }
 
-      // If we get here, verify at least that navigation links exist
-      await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
+      // If we get here, verify at least that the navigation link exists
+      await expect(page.getByRole("link", { name: "Blog" })).toBeVisible();
     });
 
     test("should focus first link when mobile drawer opens", async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 667 });
-      await page.goto("/");
+      await page.goto("/blog");
 
       // Open drawer
       await page.click('button[aria-label="Open menu"]');
@@ -157,14 +151,14 @@ test.describe("Navigation", () => {
       await page.waitForTimeout(200);
 
       // Verify first link is focused
-      await expect(page.locator('#mobile-menu a[href="/"]')).toBeFocused();
+      await expect(page.locator('#mobile-menu a[href="/blog"]')).toBeFocused();
     });
   });
 
   test.describe("Accessibility", () => {
     test("should have proper ARIA attributes", async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 667 });
-      await page.goto("/");
+      await page.goto("/blog");
 
       const hamburger = page.locator('button[aria-label="Open menu"]');
 
@@ -181,7 +175,7 @@ test.describe("Navigation", () => {
     });
 
     test("should have nav landmark", async ({ page }) => {
-      await page.goto("/");
+      await page.goto("/blog");
 
       // Two responsive <nav> elements render (desktop + mobile); only one is
       // visible at a given viewport. getByRole excludes the hidden one.
@@ -189,15 +183,18 @@ test.describe("Navigation", () => {
     });
 
     test("should have aria-current on active page", async ({ page }) => {
-      await page.goto("/projects");
+      await page.goto("/blog");
 
-      await expect(page.locator('a[href="/projects"]')).toHaveAttribute("aria-current", "page");
+      await expect(page.getByRole("link", { name: "Blog", exact: true })).toHaveAttribute(
+        "aria-current",
+        "page"
+      );
     });
   });
 
   test.describe("Visual Effects", () => {
     test("should have glassmorphism styling", async ({ page }) => {
-      await page.goto("/");
+      await page.goto("/blog");
 
       const nav = page.locator("nav").first();
 

@@ -5,10 +5,10 @@
  * spacing lives here.
  */
 
-/** Top/bottom padding shared by every top-level route Container (`/`, `/projects`, `/blog`). */
+/** Top/bottom padding shared by every top-level route Container (`/blog`; also the unreachable `/` shell). */
 export const pageShellSx = { py: { xs: 4, md: 8 } } as const;
 
-/** The centered page `<h1>` title scale, shared by `/projects` and `/blog` (FR-11). */
+/** The centered page `<h1>` title scale, used by `/blog` (FR-11). */
 export const pageTitleSx = {
   fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
   fontWeight: 700,

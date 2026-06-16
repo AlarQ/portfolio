@@ -9,11 +9,11 @@ import { expect, test } from "@playwright/test";
  * - code-color-from-brand: a code token's color resolves from a `--shiki-*` CSS
  *   var (sourced from a `brand` token), not from the `.mdx` or a Shiki theme.
  *
- * The authored Post `hello-world` contains a fenced ```js code block.
+ * The authored Post `my-spec-driven-workflow` contains a fenced ```yaml block.
  */
 
-/** brand.skyLight (#38bdf8) — the keyword token color, via --shiki-token-keyword. */
-const KEYWORD_RGB = "rgb(56, 189, 248)";
+/** brand.slate (#64748b) — the comment token color, via --shiki-token-comment. */
+const COMMENT_RGB = "rgb(100, 116, 139)";
 
 test.describe("Blog build-time syntax highlighting", () => {
   test("code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS", async ({
@@ -24,7 +24,7 @@ test.describe("Blog build-time syntax highlighting", () => {
       if (req.resourceType() === "script") scriptUrls.push(req.url());
     });
 
-    await page.goto("/blog/hello-world");
+    await page.goto("/blog/my-spec-driven-workflow");
 
     // rehype-pretty-code wraps highlighted blocks in a figure with this marker.
     const figure = page.locator("figure[data-rehype-pretty-code-figure]");
@@ -45,20 +45,20 @@ test.describe("Blog build-time syntax highlighting", () => {
   test("code-color-from-brand: a token color resolves from a --shiki-* var (brand)", async ({
     page,
   }) => {
-    await page.goto("/blog/hello-world");
+    await page.goto("/blog/my-spec-driven-workflow");
 
     const figure = page.locator("figure[data-rehype-pretty-code-figure]");
     await expect(figure).toBeVisible();
 
-    // The `const` / `function` keyword span carries the css-var foreground; its
-    // inline style references --shiki-* (not a literal hue from the .mdx/theme).
-    const keywordSpan = figure.locator("code span[style*='--shiki-token-keyword']").first();
-    await expect(keywordSpan).toHaveCount(1);
+    // The yaml `# …` comment span carries the css-var foreground; its inline
+    // style references --shiki-* (not a literal hue from the .mdx/theme).
+    const commentSpan = figure.locator("code span[style*='--shiki-token-comment']").first();
+    await expect(commentSpan).toHaveCount(1);
 
     // The computed color RESOLVES to the brand token wired into that --shiki var.
     // getComputedStyle().color always returns a normalized `rgb(r, g, b)` string,
     // so we can compare it directly.
-    const computed = await keywordSpan.evaluate((el) => getComputedStyle(el).color);
-    expect(computed).toBe(KEYWORD_RGB);
+    const computed = await commentSpan.evaluate((el) => getComputedStyle(el).color);
+    expect(computed).toBe(COMMENT_RGB);
   });
 });

@@ -1,3 +1,7 @@
+// UNREACHABLE while the `/` → `/blog` redirect in next.config.ts is active
+// (config redirects fire before filesystem routing). Kept intentionally so a
+// real home page can be restored by removing that one redirect rule — do not
+// wire new behavior here expecting it to serve. See next.config.ts `redirects()`.
 import { Box, Container, Stack } from "@mui/material";
 import { HeroContent } from "@/components/HeroContent";
 import { ReadingSection } from "@/components/ReadingSection";

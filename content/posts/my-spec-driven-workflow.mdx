@@ -58,40 +58,7 @@ phase starts in a fresh, isolated session and picks up the state the previous on
 left behind. No single context carries the whole feature from start to finish; each
 phase is bounded and resumable.
 
-```mermaid
-flowchart TB
-  subgraph s_plan["Plan"]
-    explore["<b>explore</b><br/>capture requirements, size the work"]
-    propose["<b>propose</b><br/>turn intent into a contract"]
-  end
-  subgraph s_build["Build"]
-    implement["<b>implement</b><br/>build one task, test-first"]
-  end
-  subgraph s_verify["Verify"]
-    validate["<b>validate</b><br/>stop trusting one perspective"]
-    review["<b>review-findings</b><br/>rule on the findings"]
-    learn["<b>learn-from-reports</b><br/>never the same mistake twice"]
-  end
-  subgraph s_ship["Ship"]
-    ship["<b>ship</b><br/>flip to ready-for-review"]
-    audit["<b>validate-impl</b><br/>final spec-completion audit"]
-  end
-  explore --> propose --> implement --> validate --> review --> learn --> ship --> audit
-
-  classDef planNode   fill:#0b2733,stroke:#0ea5e9,stroke-width:2px,color:#e2e8f0;
-  classDef buildNode  fill:#1a2b08,stroke:#84cc16,stroke-width:2px,color:#e2e8f0;
-  classDef verifyNode fill:#241033,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
-  classDef shipNode   fill:#33200a,stroke:#f97316,stroke-width:2px,color:#e2e8f0;
-  class explore,propose planNode;
-  class implement buildNode;
-  class validate,review,learn verifyNode;
-  class ship,audit shipNode;
-
-  style s_plan   fill:#0a1118,stroke:#0ea5e9,stroke-width:1px,color:#e2e8f0;
-  style s_build  fill:#0a1118,stroke:#84cc16,stroke-width:1px,color:#e2e8f0;
-  style s_verify fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
-  style s_ship   fill:#0a1118,stroke:#f97316,stroke-width:1px,color:#e2e8f0;
-```
+<Diagram name="feature-flow" alt="The Feature flow: a fixed Plan → Build → Verify → Ship chain. Plan holds explore then propose; Build holds implement; Verify holds validate, review-findings, then learn-from-reports; Ship holds ship then validate-impl. The phases run left to right in that order." />
 
 Each command owns one phase of the flow. Here's what every phase is *for*:
 
@@ -180,27 +147,7 @@ The thing that actually flows through that chain is the **task**, one at a time.
 A feature is decomposed into several tasks, and each task moves through
 its own lifecycle independently. That lifecycle is an explicit state machine:
 
-```mermaid
-stateDiagram-v2
-  direction TB
-  state "in-progress" as in_progress
-  [*] --> todo
-  [*] --> blocked
-  blocked --> todo: dependency done
-  todo --> in_progress: implement starts
-  in_progress --> implemented: tests green
-  implemented --> review: gates found issues
-  implemented --> done: all gates pass
-  review --> done: findings resolved
-  done --> [*]
-
-  classDef plan   fill:#0b2733,stroke:#0ea5e9,stroke-width:2px,color:#e2e8f0;
-  classDef build  fill:#1a2b08,stroke:#84cc16,stroke-width:2px,color:#e2e8f0;
-  classDef verify fill:#241033,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
-  class todo,blocked plan
-  class in_progress build
-  class implemented,review,done verify
-```
+<Diagram name="task-states" alt="A task's state machine: from the start a task enters todo or blocked; blocked moves to todo once its dependency is done; todo moves to in-progress when implement starts; in-progress moves to implemented when tests pass; implemented moves to review if gates find issues or straight to done if all gates pass; review moves to done once findings are resolved; done is terminal." />
 
 The state machine isn't decoration. A task can't go `in-progress` while its
 dependencies are unfinished, and finishing a task drops every task that was
@@ -290,41 +237,7 @@ panel of specialized review agents in parallel, each looking at the diff through
 one lens. Their findings, plus the gate results, are what `review-findings` then
 walks me through:
 
-```mermaid
-flowchart TB
-  subgraph validate["validate"]
-    subgraph p1["Phase 1 — deterministic gates"]
-      lint["lint"]
-      types["type-check"]
-      tests["tests"]
-      fmt["format"]
-    end
-    subgraph p2["Phase 2 — advisory agents"]
-      sec["Security Engineer"]
-      cq["Code-Quality Pragmatist"]
-      arch["Software Architect"]
-    end
-    subgraph p3["Phase 3 — coverage audit"]
-      odium["Odium<br/>diff vs acceptance criteria"]
-    end
-  end
-  findings["review-findings"]
-  lint --> findings
-  types --> findings
-  tests --> findings
-  fmt --> findings
-  sec --> findings
-  cq --> findings
-  arch --> findings
-  odium --> findings
-
-  classDef verify fill:#241033,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
-  class lint,types,tests,fmt,sec,cq,arch,odium,findings verify;
-  style validate fill:#0a1118,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
-  style p1 fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
-  style p2 fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
-  style p3 fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
-```
+<Diagram name="validate-panel" alt="The validate phase runs three phases in parallel, all feeding review-findings. Phase 1, deterministic gates: lint, type-check, tests, format. Phase 2, advisory agents: Security Engineer, Code-Quality Pragmatist, Software Architect. Phase 3, coverage audit: Odium checking the diff against acceptance criteria. Every node flows into review-findings." />
 
 The gates are mechanical: lint, type-check, tests, format, run before any agent
 weighs in. The advisory agents each read the diff through one lens (security, code
@@ -400,17 +313,7 @@ general enough to reuse, then promotes them into the knowledge base under
 next run starts with the rule already in place, so the same mistake gets caught
 one phase earlier.
 
-```mermaid
-graph LR
-  acts["LLM actions"] --> log[".monitor.jsonl<br/>reports/*.yaml"]
-  log --> review["review-findings<br/>accept / reject"]
-  review --> learn["learn-from-reports"]
-  learn --> kb["KB rules"]
-  kb -->|caught earlier next run| acts
-
-  classDef loopNode fill:#241033,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
-  class acts,log,review,learn,kb loopNode;
-```
+<Diagram name="learning-loop" alt="The learning loop: LLM actions are recorded to .monitor.jsonl and reports/*.yaml; those feed review-findings (accept or reject); review-findings feeds learn-from-reports; that promotes KB rules; and the KB rules feed back into LLM actions so the same mistake is caught earlier next run." />
 
 The loop is mechanical and the inputs are files you can read. A finding the model
 raised and I rejected with a reason doesn't vanish; it becomes evidence the next

@@ -1,5 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 import { Callout } from "@/components/Callout";
+import { Diagram } from "@/components/Diagram";
 import { ListItem, MdxImage, OrderedList, Pre, UnorderedList } from "./mdxPresentationBlock";
 import { Anchor, heading, InlineCode, Paragraph } from "./mdxPresentationText";
 
@@ -45,7 +46,8 @@ export const mdxComponents: MDXComponents = {
   ul: UnorderedList,
   ol: OrderedList,
   li: ListItem,
-  // Post-body images are build-time Mermaid diagrams (rehype-mermaid img-svg).
+  // Post-body images render through the single image seam. Diagrams now arrive
+  // as pre-rendered SVGs via `<Diagram>` (see below), not inline Markdown images.
   img: MdxImage,
   // Active-content neutralizers: a Post body never embeds live third-party JS
   // or third-party frames (sec-external-link-rel).
@@ -53,4 +55,7 @@ export const mdxComponents: MDXComponents = {
   iframe: NoIframe,
   // Owner-authored emphasized callout (trust boundary unchanged — owner-only).
   Callout,
+  // Owner-authored pre-rendered Mermaid diagram (build-time SVG, no browser in
+  // CI). Trust boundary unchanged — the SVG source is owner-authored .mmd.
+  Diagram,
 };
