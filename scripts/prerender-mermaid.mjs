@@ -73,7 +73,7 @@ async function main() {
         console.error(`[prerender-mermaid] FAILED ${filename}: ${describe(result.reason)}`);
         return;
       }
-      await writeFile(outPath, result.value.svg, "utf8");
+      await writeFile(outPath, normalizeSvgSize(result.value.svg), "utf8");
       console.log(`[prerender-mermaid] rendered ${filename} → ${outPath.replace(`${ROOT}/`, "")}`);
     })
   );
@@ -81,6 +81,19 @@ async function main() {
   if (failed) {
     process.exitCode = 1;
   }
+}
+
+// Mermaid emits `<svg width="100%" ... viewBox="0 0 W H">`. Referenced through
+// an `<img>`, that percentage width makes the browser stretch the diagram to
+// fill the prose column, inflating its text far past the intended size relative
+// to surrounding body copy. Pin the intrinsic px width/height from the viewBox
+// so the diagram renders at its natural size and never upscales; the `<img>`
+// `max-width: 100%` still downscales over-wide diagrams on narrow columns.
+function normalizeSvgSize(svg) {
+  const viewBox = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+  if (!viewBox) return svg;
+  const [, width, height] = viewBox;
+  return svg.replace(/(<svg\b[^>]*?)\swidth="100%"/, `$1 width="${width}" height="${height}"`);
 }
 
 // A diagram is stale when its SVG is missing or older than the .mmd source.

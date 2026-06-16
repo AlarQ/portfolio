@@ -38,7 +38,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider>
             <Navigation />
-            <Box sx={{ pt: { xs: 7, sm: 8 } }}>{children}</Box>
+            <Box sx={{ pt: { xs: 11, sm: 13 } }}>{children}</Box>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
