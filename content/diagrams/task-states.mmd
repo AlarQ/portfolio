@@ -1,0 +1,19 @@
+stateDiagram-v2
+  direction TB
+  state "in-progress" as in_progress
+  [*] --> todo
+  [*] --> blocked
+  blocked --> todo: dependency done
+  todo --> in_progress: implement starts
+  in_progress --> implemented: tests green
+  implemented --> review: gates found issues
+  implemented --> done: all gates pass
+  review --> done: findings resolved
+  done --> [*]
+
+  classDef plan   fill:#0b2733,stroke:#0ea5e9,stroke-width:2px,color:#e2e8f0;
+  classDef build  fill:#1a2b08,stroke:#84cc16,stroke-width:2px,color:#e2e8f0;
+  classDef verify fill:#241033,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
+  class todo,blocked plan
+  class in_progress build
+  class implemented,review,done verify

@@ -3,7 +3,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { visibleNavItems } from "@/data/navItems";
+import { navItems } from "@/data/navItems";
 import { nameGradient } from "@/utils/navPresentation";
 import { LogoTile } from "./LogoTile";
 import { NavLink } from "./NavLink";
@@ -21,7 +21,7 @@ export function DesktopNav() {
       {/* Logo/Name */}
       <Box
         component={Link}
-        href="/"
+        href="/blog"
         sx={{
           display: "flex",
           alignItems: "center",
@@ -52,7 +52,7 @@ export function DesktopNav() {
 
       {/* Navigation Links */}
       <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-        {visibleNavItems.map((item) => (
+        {navItems.map((item) => (
           <NavLink key={item.href} href={item.href} label={item.label} />
         ))}
       </Box>

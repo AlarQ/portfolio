@@ -1,0 +1,9 @@
+graph LR
+  acts["LLM actions"] --> log[".monitor.jsonl<br/>reports/*.yaml"]
+  log --> review["review-findings<br/>accept / reject"]
+  review --> learn["learn-from-reports"]
+  learn --> kb["KB rules"]
+  kb -->|caught earlier next run| acts
+
+  classDef loopNode fill:#241033,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
+  class acts,log,review,learn,kb loopNode;

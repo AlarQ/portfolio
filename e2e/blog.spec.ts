@@ -18,7 +18,7 @@ test.describe("Blog index", () => {
   test("lists the published Post", async ({ page }) => {
     await page.goto("/blog");
 
-    await expect(page.getByRole("link", { name: /Hello World/ })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Bounded Chaos/ })).toBeVisible();
   });
 
   // index-item-shows-meta (FR-1): title, dek, date, and reading time all show
@@ -26,12 +26,12 @@ test.describe("Blog index", () => {
     await page.goto("/blog");
 
     const item = page.getByTestId("featured-post");
-    await expect(item.getByText("Hello World")).toBeVisible();
-    await expect(item.getByText(/proving the MDX pipeline end to end/)).toBeVisible();
+    await expect(item.getByText("Bounded Chaos")).toBeVisible();
+    await expect(item.getByText(/deterministic containment vessel/)).toBeVisible();
     // Assert the machine-readable ISO date (locale-proof) plus a loose check
     // that a human-formatted date renders — not the exact localized string.
     const date = item.locator("time");
-    await expect(date).toHaveAttribute("datetime", "2026-06-09");
+    await expect(date).toHaveAttribute("datetime", "2026-06-15");
     await expect(date).toHaveText(/\d{1,2} \w+ 20\d{2}/);
     await expect(item.getByText(/min read/)).toBeVisible();
   });
@@ -50,7 +50,7 @@ test.describe("Blog navigation", () => {
   // nav-blog-present (FR-7): Blog appears in the desktop nav
   test("shows a Blog entry in the desktop nav", async ({ page }) => {
     await page.setViewportSize({ width: 1200, height: 800 });
-    await page.goto("/");
+    await page.goto("/blog");
 
     await expect(page.getByRole("link", { name: "Blog" })).toBeVisible();
   });
@@ -58,7 +58,7 @@ test.describe("Blog navigation", () => {
   // nav-blog-present (FR-7): Blog appears in the mobile drawer
   test("shows a Blog entry in the mobile drawer", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/");
+    await page.goto("/blog");
 
     await page.click('button[aria-label="Open menu"]');
     await page.waitForTimeout(500);
@@ -70,16 +70,16 @@ test.describe("Blog navigation", () => {
   test("marks the Blog entry active on /blog", async ({ page }) => {
     await page.goto("/blog");
 
-    await expect(page.locator('nav a[href="/blog"]').first()).toHaveAttribute(
+    await expect(page.getByRole("link", { name: "Blog", exact: true })).toHaveAttribute(
       "aria-current",
       "page"
     );
   });
 
   test("marks the Blog entry active on a Post detail route", async ({ page }) => {
-    await page.goto("/blog/hello-world");
+    await page.goto("/blog/my-spec-driven-workflow");
 
-    await expect(page.locator('nav a[href="/blog"]').first()).toHaveAttribute(
+    await expect(page.getByRole("link", { name: "Blog", exact: true })).toHaveAttribute(
       "aria-current",
       "page"
     );
@@ -88,22 +88,22 @@ test.describe("Blog navigation", () => {
 
 /**
  * Post detail page: long-form readability + per-Post document title + a11y
- * (FR-9/10/11). chromium-only signal. Exercises the real `/blog/hello-world`
+ * (FR-9/10/11). chromium-only signal. Exercises the real `/blog/my-spec-driven-workflow`
  * render: generateMetadata title, constrained measure, contained mobile code
  * overflow, heading hierarchy, code contrast, link focus, reduced motion.
  */
 test.describe("Post detail readability & a11y", () => {
   // detail-document-title (FR-9): <title> reflects the Post title
   test("sets the document title from the Post title via generateMetadata", async ({ page }) => {
-    await page.goto("/blog/hello-world");
+    await page.goto("/blog/my-spec-driven-workflow");
 
-    await expect(page).toHaveTitle(/Hello World/);
+    await expect(page).toHaveTitle(/Bounded Chaos/);
   });
 
   // prose-measure-constrained (FR-10): wide-viewport prose measure ~60-75ch
   test("constrains prose measure to ~60-75ch on a wide viewport", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/blog/hello-world");
+    await page.goto("/blog/my-spec-driven-workflow");
 
     const para = page.locator("article p").first();
     await expect(para).toBeVisible();
@@ -128,7 +128,7 @@ test.describe("Post detail readability & a11y", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/blog/hello-world");
+    await page.goto("/blog/my-spec-driven-workflow");
 
     const pre = page.locator("article pre").first();
     await expect(pre).toBeVisible();
@@ -146,7 +146,7 @@ test.describe("Post detail readability & a11y", () => {
   test("exposes a valid heading hierarchy: one h1 title, body from h2, no skips", async ({
     page,
   }) => {
-    await page.goto("/blog/hello-world");
+    await page.goto("/blog/my-spec-driven-workflow");
 
     const levels = await page
       .locator("article :is(h1,h2,h3,h4,h5,h6)")
@@ -164,7 +164,7 @@ test.describe("Post detail readability & a11y", () => {
   // code-contrast-aa (FR-11): highlighted code foreground vs background meets
   // WCAG-AA (>= 4.5:1)
   test("code text meets WCAG-AA contrast (shiki fg vs bg)", async ({ page }) => {
-    await page.goto("/blog/hello-world");
+    await page.goto("/blog/my-spec-driven-workflow");
 
     const ratio = await page.evaluate(() => {
       const root = getComputedStyle(document.documentElement);
@@ -192,9 +192,9 @@ test.describe("Post detail readability & a11y", () => {
   // all configured browsers. :focus-visible applies when focus is set
   // programmatically in a page with no prior pointer interaction.
   test("in-prose link shows a visible focus ring on keyboard focus", async ({ page }) => {
-    await page.goto("/blog/hello-world");
+    await page.goto("/blog/my-spec-driven-workflow");
 
-    const link = page.getByRole("link", { name: /project source/i });
+    const link = page.getByRole("link", { name: /"grill" interview/i });
     await link.scrollIntoViewIfNeeded();
 
     // Drive focus directly — reliable on chromium, webkit, and Mobile Safari.
@@ -215,7 +215,7 @@ test.describe("Post detail readability & a11y", () => {
   // post entrance motion, surfaced deterministically via data-reduced-motion
   test("respects prefers-reduced-motion by suppressing entrance motion", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/blog/hello-world");
+    await page.goto("/blog/my-spec-driven-workflow");
 
     await expect(page.locator("article[data-reduced-motion]")).toHaveAttribute(
       "data-reduced-motion",

@@ -22,10 +22,10 @@ describe("buildPostSet — frontmatter parsing", () => {
     // Given a raw MDX file carrying { title, dek, date } frontmatter
     const files: RawPostFile[] = [
       rawFile(
-        "hello-world.mdx",
+        "sample-post.mdx",
         {
-          title: "Hello World",
-          dek: "The first post on the blog.",
+          title: "Sample Post",
+          dek: "A fixture post for the loader test.",
           date: "2026-06-09",
         },
         "A short body of prose."
@@ -38,10 +38,10 @@ describe("buildPostSet — frontmatter parsing", () => {
     // Then the authored fields equal the frontmatter, carrying no JSX/color/icons
     expect(posts).toHaveLength(1);
     const [post] = posts;
-    expect(post.title).toBe("Hello World");
-    expect(post.dek).toBe("The first post on the blog.");
+    expect(post.title).toBe("Sample Post");
+    expect(post.dek).toBe("A fixture post for the loader test.");
     expect(post.date).toBe("2026-06-09");
-    expect(post.slug).toBe("hello-world");
+    expect(post.slug).toBe("sample-post");
   });
 });
 

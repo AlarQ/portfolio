@@ -16,7 +16,7 @@ const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 /**
  * A raw post file as read off disk by the fs rind: the filename (e.g.
- * `hello-world.mdx`) and the unparsed file contents (frontmatter + body).
+ * `my-spec-driven-workflow.mdx`) and the unparsed file contents (frontmatter + body).
  * The pure core `buildPostSet` takes these so it is testable without the
  * filesystem.
  */

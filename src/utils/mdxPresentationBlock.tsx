@@ -27,10 +27,11 @@ export function Pre({ children, ...props }: ComponentPropsWithoutRef<"pre">) {
 }
 
 export function MdxImage({ alt, ...props }: ComponentPropsWithoutRef<"img">) {
-  // The only images in a Post body today are build-time Mermaid diagrams
-  // (`rehype-mermaid`, `strategy: "img-svg"` → an SVG data-URI). This seam owns
-  // their layout: centered, scaled to the column, brand-framed. `alt` is kept
-  // so the diagram stays accessible.
+  // The only images in a Post body today are pre-rendered Mermaid diagrams,
+  // referenced by `<Diagram>` as static `/diagrams/*.svg` files (rendered at
+  // commit time, not during `next build`). This seam owns their layout:
+  // centered, scaled to the column, brand-framed. `alt` is kept so the diagram
+  // stays accessible.
   return (
     <Box
       component="img"

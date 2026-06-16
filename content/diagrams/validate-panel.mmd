@@ -1,0 +1,33 @@
+flowchart TB
+  subgraph validate["validate"]
+    subgraph p1["Phase 1 — deterministic gates"]
+      lint["lint"]
+      types["type-check"]
+      tests["tests"]
+      fmt["format"]
+    end
+    subgraph p2["Phase 2 — advisory agents"]
+      sec["Security Engineer"]
+      cq["Code-Quality Pragmatist"]
+      arch["Software Architect"]
+    end
+    subgraph p3["Phase 3 — coverage audit"]
+      odium["Odium<br/>diff vs acceptance criteria"]
+    end
+  end
+  findings["review-findings"]
+  lint --> findings
+  types --> findings
+  tests --> findings
+  fmt --> findings
+  sec --> findings
+  cq --> findings
+  arch --> findings
+  odium --> findings
+
+  classDef verify fill:#241033,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
+  class lint,types,tests,fmt,sec,cq,arch,odium,findings verify;
+  style validate fill:#0a1118,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
+  style p1 fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
+  style p2 fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
+  style p3 fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
