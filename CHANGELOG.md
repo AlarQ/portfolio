@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.15](https://github.com/AlarQ/portfolio/compare/v0.1.14...v0.1.15) (2026-06-16)
+
+
+### Features
+
+* pre-render Mermaid to static SVGs and collapse site to blog-only ([#37](https://github.com/AlarQ/portfolio/issues/37)) ([b34616b](https://github.com/AlarQ/portfolio/commit/b34616b194e70dcc3c9377cb7d039ea1a49920aa))
+
 ## [0.1.14](https://github.com/AlarQ/portfolio/compare/v0.1.13...v0.1.14) (2026-06-15)
 
 
