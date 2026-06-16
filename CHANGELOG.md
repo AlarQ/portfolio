@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.16](https://github.com/AlarQ/portfolio/compare/v0.1.15...v0.1.16) (2026-06-16)
+
+
+### Bug Fixes
+
+* **blog:** clear navbar overlap and stop diagrams upscaling ([#38](https://github.com/AlarQ/portfolio/issues/38)) ([0409342](https://github.com/AlarQ/portfolio/commit/040934208882340ee496b76563f71bdcbb4890ce))
+
 ## [0.1.15](https://github.com/AlarQ/portfolio/compare/v0.1.14...v0.1.15) (2026-06-16)
 
 
