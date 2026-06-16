@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.18](https://github.com/AlarQ/portfolio/compare/v0.1.17...v0.1.18) (2026-06-16)
+
+
+### Documentation
+
+* **blog:** drop 'touch it constantly, but decide rarely' section ([3632108](https://github.com/AlarQ/portfolio/commit/36321084b1635d82e2f875126444050474420851))
+
 ## [0.1.17](https://github.com/AlarQ/portfolio/compare/v0.1.16...v0.1.17) (2026-06-16)
 
 
