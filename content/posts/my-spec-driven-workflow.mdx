@@ -58,7 +58,7 @@ phase starts in a fresh, isolated session and picks up the state the previous on
 left behind. No single context carries the whole feature from start to finish; each
 phase is bounded and resumable.
 
-<Diagram name="feature-flow" alt="The Feature flow: a fixed Plan → Build → Verify → Ship chain. Plan holds explore then propose; Build holds implement; Verify holds validate, review-and-ship, then learn-from-reports; Ship holds validate-impl. Shipping is an inline step on the validate and review-and-ship paths, not its own phase. The phases run left to right in that order." />
+<Diagram name="feature-flow" alt="The Feature flow: a fixed Plan → Build → Verify → Ship chain. Plan holds explore then propose; Build holds implement; Verify holds validate, review-and-ship, then learn-from-reports; Ship holds validate-impl. Shipping is an inline step on the validate and review-and-ship paths. The phases run left to right in that order." />
 
 Each command owns one phase of the flow. Here's what every phase is *for*:
 
