@@ -5,8 +5,12 @@ Personal portfolio site presenting the owner's work, expertise, and current focu
 ## Language
 
 **Project**:
-A piece of work the owner built or is building, at any point in its lifecycle (shipped or in progress); maturity is tracked as MVP Progress.
+A piece of work the owner built or is building, at any point in its lifecycle (shipped or in progress); maturity is tracked as MVP Progress. Presented to readers via its own **Project Brief**, and references zero or more related **Posts** (technical deep-dives), surfaced on the Project's card as labeled links. Projects link only to on-site content — no external repo/demo/GitHub Pages links.
 _Avoid_: Showcase, demo, portfolio piece
+
+**Project Brief**:
+The owner-authored, on-site description page for a single **Project** — public-facing documentation of what the Project is, rendered from MDX. Distinct from a **Post**: a Brief documents a Project; a Post is standalone blog writing. Each Project has exactly one Brief.
+_Avoid_: Article, post, readme, showcase, case study
 
 **MVP Progress**:
 A percentage expressing how close a **Project** is to its first usable release; a maturity indicator, not a binary shipped/unshipped flag.
@@ -33,7 +37,7 @@ The owner's single current learning/exploration focus. Singular by design — ex
 _Avoid_: Interests, subjects, focus areas
 
 **Post**:
-A single published piece of writing on the **Blog**, authored as MDX. Standalone — it carries no link to a **Project**, **Domain Area**, or **Topic**. Published-only: a Post that exists is live (presence in `content/posts/` = published); there is no draft state in the model.
+A single published piece of writing on the **Blog**, authored as MDX. Self-contained — a Post references nothing itself, though a **Project** may reference Posts as its related deep-dives (the link points Project→Post, never the reverse). Published-only: a Post that exists is live (presence in `content/posts/` = published); there is no draft state in the model.
 _Avoid_: Article, entry, blog post, writing
 
 **Blog**:
@@ -42,7 +46,7 @@ _Avoid_: Journal, news, articles section
 
 ## Relationships
 
-- A **Project** has exactly one **MVP Progress**
+- A **Project** has exactly one **MVP Progress**, exactly one **Project Brief**, and references zero or more related **Posts**
 - A **Domain Area** is evidenced by zero or more **Achievements** and rated by zero or more **Skills**
 - An **Achievement** and a **Skill** describe the same **Domain Area** from different angles (did vs. can)
 - There is exactly one current **Topic** and zero or more current **Reading** items
