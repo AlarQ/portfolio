@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.20](https://github.com/AlarQ/portfolio/compare/v0.1.19...v0.1.20) (2026-06-20)
+
+
+### Documentation
+
+* **blog:** fold ship into review-and-ship in Bounded Chaos post ([#39](https://github.com/AlarQ/portfolio/issues/39)) ([a926e65](https://github.com/AlarQ/portfolio/commit/a926e658ee6d4b7474fdca8c8483e9b83cdcee53))
+
 ## [0.1.19](https://github.com/AlarQ/portfolio/compare/v0.1.18...v0.1.19) (2026-06-20)
 
 
