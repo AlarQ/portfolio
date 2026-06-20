@@ -8,14 +8,13 @@ flowchart TB
   end
   subgraph s_verify["Verify"]
     validate["<b>validate</b><br/>stop trusting one perspective"]
-    review["<b>review-findings</b><br/>rule on the findings"]
+    review["<b>review-and-ship</b><br/>rule on findings, ship inline"]
     learn["<b>learn-from-reports</b><br/>never the same mistake twice"]
   end
   subgraph s_ship["Ship"]
-    ship["<b>ship</b><br/>flip to ready-for-review"]
     audit["<b>validate-impl</b><br/>final spec-completion audit"]
   end
-  explore --> propose --> implement --> validate --> review --> learn --> ship --> audit
+  explore --> propose --> implement --> validate --> review --> learn --> audit
 
   classDef planNode   fill:#0b2733,stroke:#0ea5e9,stroke-width:2px,color:#e2e8f0;
   classDef buildNode  fill:#1a2b08,stroke:#84cc16,stroke-width:2px,color:#e2e8f0;
@@ -24,7 +23,7 @@ flowchart TB
   class explore,propose planNode;
   class implement buildNode;
   class validate,review,learn verifyNode;
-  class ship,audit shipNode;
+  class audit shipNode;
 
   style s_plan   fill:#0a1118,stroke:#0ea5e9,stroke-width:1px,color:#e2e8f0;
   style s_build  fill:#0a1118,stroke:#84cc16,stroke-width:1px,color:#e2e8f0;
