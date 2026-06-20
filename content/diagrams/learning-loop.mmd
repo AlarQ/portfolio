@@ -1,6 +1,6 @@
 graph LR
   acts["LLM actions"] --> log[".monitor.jsonl<br/>reports/*.yaml"]
-  log --> review["review-findings<br/>accept / reject"]
+  log --> review["review-and-ship<br/>accept / reject"]
   review --> learn["learn-from-reports"]
   learn --> kb["KB rules"]
   kb -->|caught earlier next run| acts

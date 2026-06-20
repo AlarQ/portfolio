@@ -58,7 +58,7 @@ phase starts in a fresh, isolated session and picks up the state the previous on
 left behind. No single context carries the whole feature from start to finish; each
 phase is bounded and resumable.
 
-<Diagram name="feature-flow" alt="The Feature flow: a fixed Plan → Build → Verify → Ship chain. Plan holds explore then propose; Build holds implement; Verify holds validate, review-findings, then learn-from-reports; Ship holds ship then validate-impl. The phases run left to right in that order." />
+<Diagram name="feature-flow" alt="The Feature flow: a fixed Plan → Build → Verify → Ship chain. Plan holds explore then propose; Build holds implement; Verify holds validate, review-and-ship, then learn-from-reports; Ship holds validate-impl. Shipping is an inline step on the validate and review-and-ship paths. The phases run left to right in that order." />
 
 Each command owns one phase of the flow. Here's what every phase is *for*:
 
@@ -107,24 +107,28 @@ findings later instead of trusting them blind.
 - Coverage audit: does the diff actually cover the task's acceptance criteria?
 - The triple-gate rule: every gate has to end `pass` before a task is `done`. A
   gate that errors gets re-run; a gate that raises findings sends the task to
-  `review`; only when all three phases come back clean does the task go straight to `done`
+  `review`; only when all three phases come back clean does the task go straight to
+  `done` — and on that clean path the task ships inline, no separate step
 
-### `review-findings` — rule on the findings
+### `review-and-ship` — rule on the findings, then ship
 
-- Mechanical ones (formatting, unused import, coverage gap) auto-fixed in the background
-- The rest grouped by code region, presented for accept or reject
-- A reasoned rejection can be promoted into a reusable knowledge-base (KB) rule on the spot
-- Takes the task `review → done`
+- The **AUTO bucket** clears itself first: mechanical findings (formatting, unused
+  import) and coverage gaps are fixed — or the missing test generated and
+  green-checked — by background agents *before* I'm asked. The backstop is the draft
+  PR diff, so nothing slips by unseen
+- Everything else is grouped by code region and presented for accept or reject, one
+  region at a time
+- A reasoned rejection can be promoted into a reusable knowledge-base (KB) rule on
+  the spot
+- Then it ships inline: one commit covering the applied fixes, a push, and the draft
+  PR flipped to ready — into the feature integration branch, so the feature accrues
+  as a reviewable whole before it reaches `main`. Shipping is the tail of this phase
+  now, not a command of its own; the task lands `review → done` and shipped in one move
 
 ### `learn-from-reports` — never the same mistake twice
 
 - Mines validation output for recurring findings and repeated rejections
 - Promotes the patterns into KB rules, so the same mistake gets caught earlier next time
-
-### `ship` — flip to ready-for-review
-
-- Commits, pushes, flips the task's draft PR to ready
-- PR targets the feature integration branch, so the feature accrues as a reviewable whole before it reaches `main`
 
 ### `validate-impl` — final spec-completion audit
 
@@ -147,7 +151,7 @@ The thing that actually flows through that chain is the **task**, one at a time.
 A feature is decomposed into several tasks, and each task moves through
 its own lifecycle independently. That lifecycle is an explicit state machine:
 
-<Diagram name="task-states" alt="A task's state machine: from the start a task enters todo or blocked; blocked moves to todo once its dependency is done; todo moves to in-progress when implement starts; in-progress moves to implemented when tests pass; implemented moves to review if gates find issues or straight to done if all gates pass; review moves to done once findings are resolved; done is terminal." />
+<Diagram name="task-states" alt="A task's state machine: from the start a task enters todo or blocked; blocked moves to todo once its dependency is done; todo moves to in-progress when implement starts; in-progress moves to implemented when tests pass; implemented moves to review if gates find issues or straight to done if all gates pass; review moves to done once findings are resolved; reaching done ships the task inline on both paths; done is terminal." />
 
 The state machine isn't decoration. A task can't go `in-progress` while its
 dependencies are unfinished, and finishing a task drops every task that was
@@ -222,7 +226,7 @@ The dials:
   linter.
 - **`branch_strategy`** \{`per-task` | `single-branch`\} chooses between a draft PR
   per task off a feature integration branch, or one branch that accumulates commits
-  into a single PR at `ship`.
+  into a single PR, shipped at the tail of `review-and-ship`.
 - **`validate_scope`** \{`per-task` | `per-spec` | `both`\} decides when the gates
   run: after each task, once over the finished feature, or both.
 - **`agents`** binds an agent to each phase — which lenses run in `explore`, who
@@ -234,15 +238,15 @@ The dials:
 `validate` is worth zooming in on, because it's the phase where a single
 perspective stops being enough. Beyond the deterministic gates, it dispatches a
 panel of specialized review agents in parallel, each looking at the diff through
-one lens. Their findings, plus the gate results, are what `review-findings` then
+one lens. Their findings, plus the gate results, are what `review-and-ship` then
 walks me through:
 
-<Diagram name="validate-panel" alt="The validate phase runs three phases in parallel, all feeding review-findings. Phase 1, deterministic gates: lint, type-check, tests, format. Phase 2, advisory agents: Security Engineer, Code-Quality Pragmatist, Software Architect. Phase 3, coverage audit: Odium checking the diff against acceptance criteria. Every node flows into review-findings." />
+<Diagram name="validate-panel" alt="The validate phase runs three phases in parallel, all feeding review-and-ship. Phase 1, deterministic gates: lint, type-check, tests, format. Phase 2, advisory agents: Security Engineer, Code-Quality Pragmatist, Software Architect. Phase 3, coverage audit: Odium checking the diff against acceptance criteria. Every node flows into review-and-ship." />
 
 The gates are mechanical: lint, type-check, tests, format, run before any agent
 weighs in. The advisory agents each read the diff through one lens (security, code
 quality, architecture), and **Odium** checks it against the task's acceptance
-criteria. Everything lands in `review-findings`, where I rule on the
+criteria. Everything lands in `review-and-ship`, where I rule on the
 disagreements instead of grading my own homework.
 
 ## The knowledge base
@@ -313,7 +317,7 @@ general enough to reuse, then promotes them into the knowledge base under
 next run starts with the rule already in place, so the same mistake gets caught
 one phase earlier.
 
-<Diagram name="learning-loop" alt="The learning loop: LLM actions are recorded to .monitor.jsonl and reports/*.yaml; those feed review-findings (accept or reject); review-findings feeds learn-from-reports; that promotes KB rules; and the KB rules feed back into LLM actions so the same mistake is caught earlier next run." />
+<Diagram name="learning-loop" alt="The learning loop: LLM actions are recorded to .monitor.jsonl and reports/*.yaml; those feed review-and-ship (accept or reject); review-and-ship feeds learn-from-reports; that promotes KB rules; and the KB rules feed back into LLM actions so the same mistake is caught earlier next run." />
 
 The loop is mechanical and the inputs are files you can read. A finding the model
 raised and I rejected with a reason doesn't vanish; it becomes evidence the next
@@ -332,7 +336,7 @@ Four rules are enforced by the workflow itself, not left to per-run discretion:
 - **Phases run in isolated sessions.** Each phase is bounded and scoped, with state
   handed off on disk. No single runaway context carries the whole feature.
 - **Gates hard-block.** A failed gate stops the flow. There's no "assert and warn"
-  escape hatch that lets a known failure slide through to `ship`.
+  escape hatch that lets a known failure slide through to shipping.
 - **The dependency graph is enforced.** A task can't start until the tasks it's
   `blocked_by` are `done`. The build order is a property of the system, not a thing
   I have to remember.
