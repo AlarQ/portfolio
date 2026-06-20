@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.19](https://github.com/AlarQ/portfolio/compare/v0.1.18...v0.1.19) (2026-06-20)
+
+
+### Features
+
+* roadmap ([cd92c78](https://github.com/AlarQ/portfolio/commit/cd92c78313cfac224d72be0c26a9e27ca2711543))
+
+
+### Bug Fixes
+
+* **deps:** patch undici and dompurify advisories via npm audit fix ([783bcfe](https://github.com/AlarQ/portfolio/commit/783bcfe9a5037b405db09c0a7df744fe9da333aa))
+
 ## [0.1.18](https://github.com/AlarQ/portfolio/compare/v0.1.17...v0.1.18) (2026-06-16)
 
 
