@@ -1,0 +1,35 @@
+flowchart TB
+  root["<b>specs/&lt;feature&gt;/</b><br/>the on-disk container"]
+
+  config["<b>config.yml</b><br/>the dials: tier, track, gates"]
+  spec["<b>spec.md</b><br/>the contract: FRs, scenarios"]
+
+  subgraph s_tasks["tasks/"]
+    t1["<b>001.md</b><br/>frontmatter = state machine"]
+    t2["002.md"]
+  end
+
+  subgraph s_reports["reports/"]
+    r1["<b>001-lint.yaml</b><br/>verdict: pass | findings | error"]
+    r2["001-security.yaml"]
+  end
+
+  monitor["<b>.monitor.jsonl</b><br/>append-only event trail"]
+
+  root --> config
+  root --> spec
+  root --> s_tasks
+  root --> s_reports
+  root --> monitor
+
+  classDef rootNode   fill:#0a1118,stroke:#94a3b8,stroke-width:2px,color:#e2e8f0;
+  classDef planNode   fill:#0b2733,stroke:#0ea5e9,stroke-width:2px,color:#e2e8f0;
+  classDef buildNode  fill:#1a2b08,stroke:#84cc16,stroke-width:2px,color:#e2e8f0;
+  classDef verifyNode fill:#241033,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
+  class root rootNode;
+  class config,spec planNode;
+  class t1,t2 buildNode;
+  class r1,r2,monitor verifyNode;
+
+  style s_tasks   fill:#0a1118,stroke:#84cc16,stroke-width:1px,color:#e2e8f0;
+  style s_reports fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;

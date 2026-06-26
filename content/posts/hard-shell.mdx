@@ -1,0 +1,181 @@
+---
+title: "Hard Shell"
+dek: The container from the last post is bash and a filesystem. A walk under the workflow — the state machine, the gates, the event log — and why none of what constrains the model lives in a prompt.
+date: 2026-06-24
+---
+
+The [last post](/blog/my-spec-driven-workflow) made a bet: you can't trust an LLM,
+so you contain it — a spec, gates, and a dependency graph the model works behind
+and can't talk past. That post named the walls. This one opens them up. The
+container turns out to be unglamorous: a few bash scripts and a directory of
+files. The model does the thinking, but it can't set a task to `done`, skip a
+gate, or advance the spec by *saying* so. It has to move real state on disk, and
+the scripts are what decide whether the move is legal.
+
+That's the whole thesis, one level down: **determinism lives in files, not
+prompts.** Below are the four places where state gets pinned to disk hard enough
+that the model can't argue with it.
+
+## The state machine is a file
+
+A task is a numbered Markdown file with machine-readable frontmatter. The
+frontmatter *is* the contract — status, dependencies, which requirements the task
+owns, who implements it:
+
+```yaml
+id: "003"
+name: "render-mdx-body"
+status: in-progress
+blocked_by: ["001", "002"]
+implements: ["FR-3", "FR-5"]
+implementer: frontend-developer
+max_files: 4
+estimated_files:
+  - src/components/PostBody.tsx
+  - src/utils/mdxPresentation.tsx
+test_cases: ["renders fenced code", "neutralizes <script>"]
+ground_rules:
+  - frontend/components.md
+  - security/input-validation.md
+```
+
+The `status` field isn't free text the model rewrites at will. It moves through an
+explicit state machine, and the legal moves are a `case` statement in
+`task-manager.sh`:
+
+```bash
+get_allowed_transitions() {
+  case "$1" in
+    blocked)     echo "todo" ;;
+    todo)        echo "in-progress" ;;
+    in-progress) echo "implemented" ;;
+    implemented) echo "review done" ;;
+    review)      echo "done" ;;
+    done)        echo "" ;;
+    *)           echo "" ;;
+  esac
+}
+```
+
+Every status change routes through one function, which reads the current status,
+asks this table what's allowed next, and refuses anything else:
+
+```bash
+allowed=$(get_allowed_transitions "$current_status")
+for target in $allowed; do [ "$target" = "$new_status" ] && transition_valid=true; done
+[ "$transition_valid" = "true" ] || die "Invalid transition: '$current_status' -> '$new_status' in $file. Allowed from '$current_status': $allowed"
+```
+
+There are no direct YAML edits. A task can't jump `todo → done` because the table
+has no such edge, and `done` returns the empty string — a terminal state with no
+exits. The dependency graph is enforced the same mechanical way: finishing a task
+drops every task that was `blocked` on it down to `todo`, and nothing reaches
+`in-progress` while its `blocked_by` tasks are unfinished. Order isn't a
+suggestion in a prompt the model might forget. It's a function that says no.
+
+## Config is truth
+
+Every command starts by sourcing `config-loader.sh` and calling
+`wf_load_config`. The loader reads the workflow config and the per-spec
+`config.yml`, validates every field, and exports the result. What makes it a wall
+is that it **fails closed** — each error path is a distinct non-zero exit, and a
+non-zero exit stops the command before any work happens:
+
+| exit | meaning |
+| --- | --- |
+| `2` | `.workflow.yml` not found walking up from CWD, malformed, or missing the required `general_kb_path` |
+| `4` | per-spec `config.yml` missing or malformed, or its `tier` is absent — no tier, no flow |
+| `7` | a bound repo path is missing, not a git work tree, or a `ground_rule` escapes its allowed root |
+
+The model can't reason its way past a `tier` that isn't there. There's no prompt
+where it explains that the config is *probably* fine and proceeds anyway — the
+process is already dead at exit `4`. Config is the boundary, and the boundary is
+validated once, strictly, at the top. Everything downstream gets to assume the
+config is real because the loader already refused every world where it wasn't.
+
+## Two kinds of finding
+
+`validate` produces findings, but not all findings are equal, and the difference
+is recorded in the data. Deterministic gates — lint, type-check, tests — run
+through the `gate-runner` subagent, which does one thing: exec the command,
+convert its exit code into a report, write the report, and return a one-line
+verdict. It's forbidden from interpreting anything. Each gate lands as a YAML file
+under `reports/`:
+
+```yaml
+gate: type-check
+task_id: "003"
+status: pass
+findings: []
+```
+
+`status` is `pass` only when `findings` is empty; otherwise it's `findings`, or
+`error` if the gate itself crashed and has to be re-run. That `pass` on disk is
+the thing the state machine checks — a task reaches `done` only when every gate
+report says `pass`.
+
+The advisory agents are different. When a Security Engineer or an architecture
+lens flags something, it writes a finding too, but carrying `source: llm`:
+
+```yaml
+- id: security-1
+  severity: medium
+  category: input-validation
+  title: MDX body trusts raw HTML
+  source: llm
+  confidence: medium
+  review_status: pending
+```
+
+That `source` field is the whole point. A `tool` finding is deterministic
+ground truth — the linter said so, end of discussion. An `llm` finding is an
+opinion with a `confidence` rating and a `review_status` I rule on later. The
+gates block; the opinions advise. The data layer keeps them from being confused
+for each other, so a model's hunch can never masquerade as a passing gate.
+
+<Callout title="Trust boundary: gates run verbatim">
+The `gate-runner` execs each gate command exactly as configured — it's a
+deterministic executor, not a sandbox. That's safe because the gates and the
+repos they run against are mine. Point this at an untrusted config and you're
+handing a stranger your shell. The determinism is load-bearing in both
+directions.
+</Callout>
+
+## The system keeps receipts
+
+Every phase appends to `specs/<feature>/.monitor.jsonl` — an append-only event
+trail written by `monitor.sh`. Append-only matters: the model can emit events,
+but it can't go back and rewrite what already happened. A run leaves a trace it
+can't launder.
+
+```jsonl
+{"ts":"2026-06-24T09:12:04.000Z","category":"tier_inferred","feature":"hard-shell","data":{"tier":"medium"}}
+{"ts":"2026-06-24T09:31:55.000Z","category":"tdd_red","task":"003","feature":"hard-shell","data":{"failing":2}}
+{"ts":"2026-06-24T09:48:10.000Z","category":"tdd_green","task":"003","feature":"hard-shell","data":{"passing":2}}
+{"ts":"2026-06-24T10:02:33.000Z","category":"task_transition","task":"003","feature":"hard-shell","data":{"from_status":"implemented","to_status":"done","task_file":"tasks/003.md"}}
+```
+
+The categories are a fixed vocabulary — `task_transition`, `tdd_red`, `tdd_green`,
+`gate_skip`, `coverage_audit_done`, `tier_inferred` — and `monitor.sh` rejects
+anything outside it. Read the trail back and the red-before-green ordering is right there:
+`tdd_red` at 09:31 precedes `tdd_green` at 09:48, so the failing test existed
+before the code that satisfied it. The system isn't asking me to believe it
+followed the rules. It's showing me the timestamps.
+
+All of it lives under one directory, which is the container the last post kept
+gesturing at — not a metaphor, a path:
+
+<Diagram name="spec-workspace" alt="The spec workspace as a filesystem tree. The root is specs/<feature>/, the on-disk container. It holds config.yml (the dials: tier, track, gates), spec.md (the contract: FRs and scenarios), a tasks/ directory of numbered task files whose frontmatter is the state machine (001.md, 002.md), a reports/ directory of per-gate YAML verdicts (001-lint.yaml, 001-security.yaml, each pass, findings, or error), and an append-only .monitor.jsonl event trail." />
+
+## The shell is hard so the model doesn't have to be
+
+The model never gets more trustworthy. The filesystem just gets more opinionated.
+Every rule I move out of a prompt and into a `case` statement, an exit code, or a
+schema field is one less thing riding on the model behaving — and the model
+behaving was never the plan.
+
+This and [*Bounded Chaos*](/blog/my-spec-driven-workflow) are two cuts through the
+same system: the first traced the command chain, this one went under it to the
+state on disk. Both describe a workflow welded to one vendor's runtime, which is
+the seam I'm working on next. **Bondsmith** — a provider-neutral core that drives
+this same scaffold across swappable models — is the subject of a future post.
