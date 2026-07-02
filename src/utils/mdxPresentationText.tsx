@@ -7,6 +7,12 @@ import { brand, withAlpha } from "@/theme/theme";
 
 export const proseTextSx = { color: brand.slateLight, lineHeight: 1.75 } as const;
 
+/** Shared focus-visible outline for interactive prose elements (links, heading anchors). */
+const focusVisibleOutlineSx = {
+  outline: `2px solid ${brand.skyLight}`,
+  outlineOffset: 2,
+} as const;
+
 const SAFE_HREF = /^(https?:\/\/|\/|#|mailto:)/i;
 
 type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -22,20 +28,53 @@ export const HEADING_VARIANTS: Record<HeadingTag, TypographyProps["variant"]> = 
 };
 
 export function heading(tag: HeadingTag) {
-  function Heading({ children, ...props }: { children?: ReactNode }) {
+  function Heading({ children, ...props }: { id?: string; children?: ReactNode }) {
+    const { id } = props;
     return (
       <Typography
         component={tag}
         variant={HEADING_VARIANTS[tag]}
-        sx={{ color: brand.slateLight, fontWeight: 700, mt: 5, mb: 2 }}
+        sx={{
+          color: brand.slateLight,
+          fontWeight: 700,
+          mt: 5,
+          mb: 2,
+          "&:hover .mdx-heading-anchor": { opacity: 1 },
+        }}
         {...props}
       >
         {children}
+        {id ? <HeadingAnchor href={`#${id}`} aria-label="Link to this section" /> : null}
       </Typography>
     );
   }
   Heading.displayName = `Mdx_${tag}`;
   return Heading;
+}
+
+/**
+ * Hover/focus deep-link affordance for a heading with a rehype-slug id. Plain
+ * `<a href="#id">` — no clipboard-copy handler, no interaction JS (binding
+ * decision, task 001 Approach). Reuses the Anchor focus-visible outline
+ * pattern via brand tokens only.
+ */
+function HeadingAnchor({ href, "aria-label": ariaLabel }: { href: string; "aria-label": string }) {
+  return (
+    <Link
+      href={href}
+      aria-label={ariaLabel}
+      className="mdx-heading-anchor"
+      sx={{
+        ml: 1,
+        color: brand.skyLight,
+        opacity: 0,
+        textDecoration: "none",
+        "&:focus-visible": { opacity: 1, ...focusVisibleOutlineSx },
+      }}
+    >
+      #
+    </Link>
+  );
 }
 
 export function Paragraph({ children, ...props }: { children?: ReactNode }) {
@@ -63,7 +102,7 @@ export function Anchor({
       sx={{
         color: brand.skyLight,
         textDecorationColor: withAlpha(brand.sky, 0.4),
-        "&:focus-visible": { outline: `2px solid ${brand.skyLight}`, outlineOffset: 2 },
+        "&:focus-visible": focusVisibleOutlineSx,
       }}
       {...props}
       {...externalProps}
