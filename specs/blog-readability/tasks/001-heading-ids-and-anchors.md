@@ -24,6 +24,7 @@ estimated_files:
   - e2e/blog-anchors.spec.ts
 interaction: afk
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/41
 ---
 
 ## Objective
