@@ -65,11 +65,23 @@ function HeadingAnchor({ href, "aria-label": ariaLabel }: { href: string; "aria-
       aria-label={ariaLabel}
       className="mdx-heading-anchor"
       sx={{
-        ml: 1,
+        // 44x44 MUST-minimum touch target without shifting the heading text:
+        // pad the hit box, then pull it back with negative margin so the inline
+        // line-height is preserved.
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minWidth: 44,
+        minHeight: 44,
+        mx: 0.5,
+        my: "-1rem",
+        verticalAlign: "middle",
         color: brand.skyLight,
         opacity: 0,
         textDecoration: "none",
         "&:focus-visible": { opacity: 1, ...focusVisibleOutlineSx },
+        // Coarse pointers can't hover, so keep the deep-link affordance visible.
+        "@media (pointer: coarse)": { opacity: 1 },
       }}
     >
       #

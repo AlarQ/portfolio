@@ -6,7 +6,11 @@ import { unified } from "unified";
 import { describe, expect, it } from "vitest";
 import { heading } from "./mdxPresentationText";
 
-/** Runs the same rehype-slug step configured in next.config.ts's rehypePlugins. */
+/**
+ * Runs rehype-slug standalone to assert the library's id-slugging is deterministic.
+ * This does NOT exercise next.config.ts's wiring — that is covered by
+ * e2e/blog-anchors.spec.ts (which drives the real build pipeline).
+ */
 function slugifyHeading(markdown: string): string {
   const tree = unified()
     .use(remarkParse)
@@ -62,7 +66,7 @@ describe("heading seam", () => {
   });
 });
 
-describe("heading id slugging (rehype-slug pipeline, as wired in next.config.ts)", () => {
+describe("heading id slugging (rehype-slug library determinism; wiring covered by e2e)", () => {
   it("derives a stable, deterministic id from heading text across separate runs", () => {
     // Given a heading with fixed text
     const markdown = "## Section Title";

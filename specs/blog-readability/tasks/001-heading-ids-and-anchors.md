@@ -1,7 +1,7 @@
 ---
 id: "001"
 name: Heading ids and hover anchors on the MDX seam
-status: implemented
+status: done
 blocked_by: []
 max_files: 5
 ground_rules:

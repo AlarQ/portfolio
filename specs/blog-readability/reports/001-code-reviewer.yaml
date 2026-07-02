@@ -1,0 +1,27 @@
+gate: code-reviewer
+task_id: "001"
+status: findings
+source: llm
+findings:
+  - id: code-reviewer-1
+    severity: high
+    file: src/utils/mdxPresentationText.tsx
+    line: 61
+    rule: frontend/accessibility.md — MUST size interactive targets >=44x44 CSS px
+    summary: Heading anchor is an inline "#" link far below the 44x44 minimum touch target.
+    detail: >-
+      HeadingAnchor renders a bare inline `<Link>#</Link>` with only `ml: 1` and no width/height/padding, so its hit area is roughly the size of a single glyph — well under the MUST-mandated 44x44 CSS px. The accessibility rule grades this as a MUST. On coarse-pointer/touch devices this is compounded: the affordance is hover-revealed (`&:hover .mdx-heading-anchor { opacity: 1 }`) with no pointer-coarse fallback, so it is both tiny and effectively unreachable by touch. Consider giving the anchor an explicit padded/min-size hit box (e.g. inline-flex with min 44x44 and negative margin to preserve layout) so the deep-link affordance is operable on touch, not just keyboard/mouse.
+    source: llm
+    review_status: accepted
+    review_notes: 'Accepted (afk autonomous). Fix: 44x44 inline-flex hit box + negative margin (layout preserved) + pointer:coarse reveal.'
+  - id: code-reviewer-2
+    severity: medium
+    file: src/utils/mdxPresentationText.test.tsx
+    line: 71
+    rule: testing/structure.md — SHOULD test names form the contract index (test behavior, not a re-implementation)
+    summary: The "as wired in next.config.ts" determinism test rebuilds its own rehype-slug pipeline and never exercises the real config, so it cannot catch a regression that removes rehype-slug from next.config.
+    detail: >-
+      The describe block is named "heading id slugging (rehype-slug pipeline, as wired in next.config.ts)" and its helper comment claims it "Runs the same rehype-slug step configured in next.config.ts", but `slugifyHeading` constructs an independent unified()/remarkRehype/rehypeSlug pipeline in-test. It therefore verifies the github-slugger library's determinism, not the project's wiring. If a refactor dropped `["rehype-slug"]` from next.config.ts's rehypePlugins, this test would still pass — a false-positive against the "heading-id-stable" contract the name advertises. The real wiring is covered by e2e/blog-anchors.spec.ts, so either rename this test to describe what it actually asserts (library determinism) or re-point it at the exported config so it can fail when the plugin is unwired.
+    source: llm
+    review_status: accepted
+    review_notes: 'Accepted (afk autonomous). Fix: renamed describe + helper comment to state library-determinism only; real next.config wiring covered by e2e/blog-anchors.spec.ts.'
