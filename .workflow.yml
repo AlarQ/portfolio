@@ -1,4 +1,20 @@
-kind: repo-gate-pool
+# .workflow.yml — repo-mode workflow config for the portfolio repo.
+# specs live in ./specs/<feature>/; gates + tiers are inline here.
+# (Repaired 2026-07-02: the older bootstrap wrote only `kind: repo-gate-pool`
+#  + gate_pool, which the current loader treats as a bound-repo marker and
+#  walks past looking for a vault. Added the required repo-mode fields.)
+
+spec_storage_mode: repo
+spec_storage: specs/
+agent_pool: ~/.claude/agents
+general_kb_path: ~/Desktop/projects/master-brain/general-knowledge-base
+validate_scope: per-task
+
+tiers:
+  small:  { tasks: 5,  files: 10, agent_skip: [security, code-quality, architecture, compliance] }
+  medium: { tasks: 10, files: 30, agent_skip: [] }
+  large:  { tasks: null, files: null, agent_skip: [] }
+
 gate_pool:
   - { id: lint,        command: "npm run lint",         applies_to: [typescript, nextjs], category: style,   blocking: true }
   - { id: format-check, command: "npm run format:check", applies_to: [typescript, nextjs], category: style,   blocking: true }

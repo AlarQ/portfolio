@@ -20,4 +20,4 @@ gates:
 # findings are advisory (source: llm), not hard blocks.
 agents:
   validate:
-    - code-reviewer
+    - engineering/code-reviewer
