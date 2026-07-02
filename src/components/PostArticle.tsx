@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { brand } from "@/theme/theme";
+import { brand, proseMeasure } from "@/theme/theme";
 
 interface PostArticleProps {
   readonly title: string;
@@ -17,7 +17,7 @@ interface PostArticleProps {
  * three things the bare MDX body cannot:
  *  - the single page `<h1>` (the Post title), so the body's `##` heading is the
  *    first `h2` and the heading tree never skips a level;
- *  - a constrained measure (~68ch, centered) for credible long-form prose;
+ *  - a constrained measure (`proseMeasure`, centered) for credible long-form prose;
  *  - an entrance motion that `prefers-reduced-motion` suppresses — surfaced as
  *    `data-reduced-motion` so the behavior is deterministically observable.
  */
@@ -32,7 +32,7 @@ export function PostArticle({ title, children }: PostArticleProps) {
       animate={reduced ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
       sx={{
-        maxWidth: "68ch",
+        maxWidth: proseMeasure,
         mx: "auto",
         px: { xs: 3, md: 0 },
       }}

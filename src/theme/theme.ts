@@ -47,6 +47,15 @@ export const brand = {
 } as const;
 
 /**
+ * The long-form reading measure — the single source of truth shared by the Post
+ * prose column (`PostArticle`) and the ToC grid (`page.tsx`). Measured in `ch`
+ * (the width of `0`), `64ch` renders a real line length of ≈66–72 CPL, within
+ * the readability comfort band. Not a color, so it lives beside `brand` rather
+ * than inside it (the `brand` seam stays colors-only).
+ */
+export const proseMeasure = "64ch" as const;
+
+/**
  * The `--shiki-*` CSS-var bridge — the *second surface* of the brand seam
  * (ADR-0001). Shiki emits static, build-time HTML that cannot read the MUI
  * runtime theme, so code-block colors flow through CSS custom properties whose

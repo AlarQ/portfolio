@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PostArticle } from "@/components/PostArticle";
+import { PostReadingLayout } from "@/components/PostReadingLayout";
 import { getPost, getPosts } from "@/data/posts";
+import { getPostToc } from "@/data/postToc";
 
 export function generateStaticParams(): Array<{ slug: string }> {
   return getPosts().map((post) => ({ slug: post.slug }));
@@ -32,9 +33,13 @@ export default async function PostPage({ params }: PostPageProps) {
   // already-validated set, so only whitelisted paths can reach this call.
   const { default: PostBody } = await import(`../../../../content/posts/${slug}.mdx`);
 
+  // ToC derived from the same validated slug — no second slug gate (CLAUDE.md).
+  // The reading scaffold owns the prose↔ToC layout; the route just hands off data.
+  const toc = getPostToc(slug);
+
   return (
-    <PostArticle title={post.title}>
+    <PostReadingLayout title={post.title} toc={toc}>
       <PostBody />
-    </PostArticle>
+    </PostReadingLayout>
   );
 }

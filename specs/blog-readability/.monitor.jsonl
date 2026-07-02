@@ -10,3 +10,5 @@
 {"ts":"2026-07-02T18:45:13.000Z","category":"task_transition","task":"001","feature":"blog-readability","data":{"from_status":"implemented","to_status":"review","task_file":"specs/blog-readability/tasks/001-heading-ids-and-anchors.md"}}
 {"ts":"2026-07-02T19:39:47.000Z","category":"task_transition","task":"001","feature":"blog-readability","data":{"from_status":"review","to_status":"done","task_file":"specs/blog-readability/tasks/001-heading-ids-and-anchors.md"}}
 {"ts":"2026-07-02T19:39:48.000Z","category":"task_transition","task":"002","feature":"blog-readability","data":{"from_status":"blocked","to_status":"todo","task_file":"specs/blog-readability/tasks//002-table-of-contents.md"}}
+{"ts":"2026-07-02T20:01:52.000Z","category":"task_transition","task":"002","feature":"blog-readability","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/blog-readability/tasks/002-table-of-contents.md"}}
+{"ts":"2026-07-02T20:26:11.000Z","category":"task_transition","task":"002","feature":"blog-readability","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/blog-readability/tasks/002-table-of-contents.md"}}
