@@ -1,7 +1,7 @@
 ---
 id: "004"
 name: RSS feed and site-domain config
-status: todo
+status: in-progress
 blocked_by: []
 max_files: 6
 ground_rules:
