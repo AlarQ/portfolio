@@ -67,19 +67,16 @@ describe("heading seam", () => {
 });
 
 describe("prose rhythm and scale (task 005)", () => {
-  it("sets body prose to 18px/1.7 once in proseTextSx", () => {
-    // Given the shared prose text style token
-    // Then it carries the 18px / 1.7 line-height reading spec (not the old 1.75)
-    expect(proseTextSx.fontSize).toBe("1.125rem");
-    expect(proseTextSx.lineHeight).toBe(1.7);
-  });
-
-  it("Paragraph renders using the shared proseTextSx rhythm, not a per-component override", () => {
-    // Given the Paragraph seam
+  it("Paragraph renders at the 18px/1.7 reading spec (not the old 1.75) via the shared proseTextSx token", () => {
+    // Given the Paragraph seam, which consumes proseTextSx
     const element = Paragraph({ children: "Some prose" });
 
-    // Then its sx spreads proseTextSx rather than redeclaring fontSize/lineHeight
+    // Then its rendered sx reflects the 18px / 1.7 rhythm directly, not merely
+    // matching proseTextSx.fontSize/lineHeight back to themselves
     const sx = element.props.sx as Record<string, unknown>;
+    expect(sx.fontSize).toBe("1.125rem");
+    expect(sx.lineHeight).toBe(1.7);
+    // And it does so by spreading the shared token rather than a per-component override
     expect(sx.fontSize).toBe(proseTextSx.fontSize);
     expect(sx.lineHeight).toBe(proseTextSx.lineHeight);
   });

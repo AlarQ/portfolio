@@ -38,7 +38,7 @@ findings:
       measure token.
     references: ["testing/test-quality.md"]
     confidence: medium
-    review_status: pending
+    review_status: accepted
     source: llm
 
   - id: code-reviewer-2
@@ -69,5 +69,5 @@ findings:
       any rendered prose element.
     references: ["testing/test-quality.md"]
     confidence: medium
-    review_status: pending
+    review_status: accepted
     source: llm

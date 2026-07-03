@@ -136,6 +136,7 @@ test.describe("Post detail readability & a11y", () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/blog/my-spec-driven-workflow");
+    await page.evaluate(() => document.fonts.ready);
 
     const article = page.locator("article");
     await expect(article).toBeVisible();

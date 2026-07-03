@@ -29,3 +29,5 @@
 {"ts":"2026-07-03T07:45:34.000Z","category":"coverage_audit_start","task":"005","feature":"blog-readability","data":{}}
 {"ts":"2026-07-03T07:48:16.000Z","category":"coverage_audit_done","task":"005","feature":"blog-readability","data":{"verdict":"complete","report":"specs/blog-readability/reports/005-coverage.yaml"}}
 {"ts":"2026-07-03T07:51:14.000Z","category":"task_transition","task":"005","feature":"blog-readability","data":{"from_status":"implemented","to_status":"review","task_file":"specs/blog-readability/tasks/005-typography-pass.md"}}
+{"ts":"2026-07-03T07:56:05.000Z","category":"task_transition","task":"005","feature":"blog-readability","data":{"from_status":"review","to_status":"done","task_file":"specs/blog-readability/tasks/005-typography-pass.md"}}
+{"ts":"2026-07-03T07:56:05.000Z","category":"spec_last_task_done","feature":"blog-readability","data":{"tasks_dir":"specs/blog-readability/tasks"}}
