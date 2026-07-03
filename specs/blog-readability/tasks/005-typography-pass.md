@@ -1,13 +1,14 @@
 ---
 id: "005"
 name: Typography and readability pass
-status: in-progress
+status: done
 blocked_by: []
 max_files: 4
 ground_rules:
   - frontend/styling.md
   - frontend/design-tokens.md
   - frontend/accessibility.md
+  - languages/typescript/react-patterns.md
   - testing/test-quality.md
 test_cases:
   - presentation_seams_reference_brand_tokens_only_no_raw_hex
@@ -20,6 +21,7 @@ estimated_files:
   - src/utils/mdxPresentation.test.tsx
 interaction: afk
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/45
 ---
 
 ## Objective
@@ -48,3 +50,11 @@ Improve long-form legibility (measure, line-height, rhythm, scale, code-block re
 - Extend the `shikiVars.test.ts` no-raw-hex discipline to guard the seams.
 
 ## Implementation Log
+chunks_spawned: 1
+
+- Measure token (`64ch`) and its consumption in `PostArticle.tsx`/`PostReadingLayout.tsx` were already implemented and committed from prior task work in this branch chain — acceptance criterion #1 needed test coverage only, no code change.
+- `presentation_seams_reference_brand_tokens_only_no_raw_hex`: added `src/utils/mdxPresentation.test.tsx`, a regex guard (extends `shikiVars.test.ts` discipline) asserting `mdxPresentationText.tsx`/`mdxPresentationBlock.tsx` contain no raw hex/hand-typed `rgb()`/`rgba()` literals.
+- `seam_styles_apply_consistent_rhythm_and_scale`: `proseTextSx` in `mdxPresentationText.tsx` changed to `{ color, fontSize: "1.125rem", lineHeight: 1.7 }` (was `lineHeight: 1.75`, no explicit size) — the single seam for body-prose scale/rhythm. `Paragraph`/`ListItem` already spread `proseTextSx`; `InlineCode` already em-relative — both covered by new assertions rather than changed.
+- `e2e_prose_container_width_stays_within_64ch_at_desktop`: added a Playwright test in `e2e/blog.spec.ts` measuring the article's computed `max-width` against the rendered font's glyph width, asserting resolved ch-count in `62–66`.
+- No raw-hex or duplication found on the closing whole-diff refactor pass — diff is 3 source files + 1 new test file, no extraction opportunities.
+- Full suite green: `npm run test:unit` (80/80), `npm run type-check` clean, `npm run lint` clean, targeted `e2e/blog.spec.ts` chromium (15/15).
