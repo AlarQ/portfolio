@@ -26,6 +26,7 @@ estimated_files:
   - e2e/feed.spec.ts
 interaction: afk
 implementer: engineering/backend-architect
+pr_url: https://github.com/AlarQ/portfolio/pull/44
 ---
 
 ## Objective
