@@ -12,3 +12,7 @@
 {"ts":"2026-07-02T19:39:48.000Z","category":"task_transition","task":"002","feature":"blog-readability","data":{"from_status":"blocked","to_status":"todo","task_file":"specs/blog-readability/tasks//002-table-of-contents.md"}}
 {"ts":"2026-07-02T20:01:52.000Z","category":"task_transition","task":"002","feature":"blog-readability","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/blog-readability/tasks/002-table-of-contents.md"}}
 {"ts":"2026-07-02T20:26:11.000Z","category":"task_transition","task":"002","feature":"blog-readability","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/blog-readability/tasks/002-table-of-contents.md"}}
+{"ts":"2026-07-03T05:44:03.000Z","category":"coverage_audit_start","task":"002-table-of-contents","feature":"blog-readability","data":{}}
+{"ts":"2026-07-03T05:47:48.000Z","category":"coverage_audit_done","task":"002-table-of-contents","feature":"blog-readability","data":{"verdict":"complete","report":"/Users/ernestbednarczyk/Desktop/projects/portfolio/specs/blog-readability/reports/002-table-of-contents-coverage.yaml"}}
+{"ts":"2026-07-03T05:48:45.000Z","category":"task_transition","task":"002","feature":"blog-readability","data":{"from_status":"implemented","to_status":"review","task_file":"specs/blog-readability/tasks/002-table-of-contents.md"}}
+{"ts":"2026-07-03T05:54:50.000Z","category":"task_transition","task":"002","feature":"blog-readability","data":{"from_status":"review","to_status":"done","task_file":"specs/blog-readability/tasks/002-table-of-contents.md"}}

@@ -1,7 +1,7 @@
 ---
 id: "002"
 name: In-page Table of Contents
-status: implemented
+status: done
 blocked_by: ["001"]
 max_files: 6
 ground_rules:

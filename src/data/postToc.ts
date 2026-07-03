@@ -16,6 +16,7 @@ export interface TocEntry {
 }
 
 const ATX_HEADING = /^(#{2,3})\s+(.+?)\s*#*\s*$/;
+const FENCE_MARKER = /^(```|~~~)/;
 
 /**
  * Strip the inline Markdown that a heading's rendered text node does NOT carry,
@@ -31,6 +32,7 @@ function headingText(raw: string): string {
     .replace(/\*\*([^*]+)\*\*/g, "$1")
     .replace(/\*([^*]+)\*/g, "$1")
     .replace(/~~([^~]+)~~/g, "$1")
+    .replace(/_([^_]+)_/g, "$1")
     .trim();
 }
 
@@ -44,8 +46,15 @@ function headingText(raw: string): string {
 export function extractPostToc(markdown: string): TocEntry[] {
   const slugger = new GithubSlugger();
   const entries: TocEntry[] = [];
+  let inFence = false;
 
   for (const line of markdown.split("\n")) {
+    if (FENCE_MARKER.test(line)) {
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence) continue;
+
     const match = ATX_HEADING.exec(line);
     if (!match) continue;
 

@@ -4,11 +4,15 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import { useEffect, useState } from "react";
 import type { TocEntry } from "@/data/postToc";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { brand } from "@/theme/theme";
 
 interface PostTocProps {
   readonly entries: readonly TocEntry[];
 }
+
+const HEADER_OFFSET_PX = 96;
+const TOC_TOP_PX = HEADER_OFFSET_PX + 16;
 
 /**
  * Sticky desktop Table of Contents for a Post (FR-1). Consumes the build-time
@@ -26,6 +30,7 @@ interface PostTocProps {
  */
 export function PostToc({ entries }: PostTocProps) {
   const activeId = useActiveHeading(entries);
+  const reduced = usePrefersReducedMotion();
 
   if (entries.length === 0) return null;
 
@@ -36,8 +41,8 @@ export function PostToc({ entries }: PostTocProps) {
       sx={{
         display: { xs: "none", md: "block" },
         position: "sticky",
-        top: 112,
-        maxHeight: "calc(100vh - 136px)",
+        top: TOC_TOP_PX,
+        maxHeight: `calc(100vh - ${TOC_TOP_PX + 24}px)`,
         overflowY: "auto",
         maxWidth: "16rem",
         ml: 4,
@@ -66,7 +71,9 @@ export function PostToc({ entries }: PostTocProps) {
                 href={`#${entry.id}`}
                 aria-current={isActive ? "location" : undefined}
                 sx={{
-                  display: "block",
+                  display: "flex",
+                  alignItems: "center",
+                  minHeight: 44,
                   py: 0.5,
                   fontSize: "0.875rem",
                   lineHeight: 1.4,
@@ -75,7 +82,9 @@ export function PostToc({ entries }: PostTocProps) {
                   borderLeft: "2px solid",
                   borderColor: isActive ? brand.skyLight : "transparent",
                   pl: 1.5,
-                  transition: "color 150ms ease-out, border-color 150ms ease-out",
+                  transition: reduced
+                    ? "none"
+                    : "color 150ms ease-out, border-color 150ms ease-out",
                   "&:hover": { color: brand.skyLighter },
                   "&:focus-visible": {
                     outline: `2px solid ${brand.skyLight}`,
@@ -112,7 +121,7 @@ function useActiveHeading(entries: readonly TocEntry[]): string {
         const visible = observed.find((record) => record.isIntersecting);
         if (visible) setActiveId(visible.target.id);
       },
-      { rootMargin: "-96px 0px -70% 0px" }
+      { rootMargin: `-${HEADER_OFFSET_PX}px 0px -70% 0px` }
     );
 
     for (const heading of headings) observer.observe(heading);

@@ -1,0 +1,1334 @@
+gate: e2e-test
+task_id: 002-table-of-contents
+status: findings
+findings:
+  - id: e2e-test-1
+    severity: medium
+    category: testing
+    title: '[firefox] Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-anchors.spec.ts
+    lines: '19'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-2
+    severity: medium
+    category: testing
+    title: '[firefox] Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-anchors.spec.ts
+    lines: '32'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-3
+    severity: medium
+    category: testing
+    title: '[firefox] Blog Post detail › renders the authored MDX body as HTML'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-detail.spec.ts
+    lines: '15'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-4
+    severity: medium
+    category: testing
+    title: '[firefox] Blog Post detail › does not leak raw frontmatter into the rendered body'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-detail.spec.ts
+    lines: '36'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-5
+    severity: medium
+    category: testing
+    title: '[firefox] Blog Post detail › returns the not-found response for a slug not in the Post set'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-detail.spec.ts
+    lines: '81'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-6
+    severity: medium
+    category: testing
+    title: '[firefox] Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-detail.spec.ts
+    lines: '56'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-7
+    severity: medium
+    category: testing
+    title: '[firefox] Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-highlighting.spec.ts
+    lines: '19'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-8
+    severity: medium
+    category: testing
+    title: '[firefox] Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand)'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-highlighting.spec.ts
+    lines: '45'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-9
+    severity: medium
+    category: testing
+    title: '[firefox] Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-mdx-mapping.spec.ts
+    lines: '13'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-10
+    severity: medium
+    category: testing
+    title: '[firefox] Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-security.spec.ts
+    lines: '17'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-11
+    severity: medium
+    category: testing
+    title: '[firefox] Blog MDX body security › no third-party script or iframe is injected into the article'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-security.spec.ts
+    lines: '32'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-12
+    severity: medium
+    category: testing
+    title: '[firefox] Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-toc.spec.ts
+    lines: '19'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-13
+    severity: medium
+    category: testing
+    title: '[firefox] Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-toc.spec.ts
+    lines: '67'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-14
+    severity: medium
+    category: testing
+    title: '[firefox] Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog-toc.spec.ts
+    lines: '46'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-15
+    severity: medium
+    category: testing
+    title: '[firefox] Blog index › lists the published Post'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '18'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-16
+    severity: medium
+    category: testing
+    title: '[firefox] Blog index › shows each item''s title, dek, date, and reading time'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '25'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-17
+    severity: medium
+    category: testing
+    title: '[firefox] Blog navigation › shows a Blog entry in the desktop nav'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '51'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-18
+    severity: medium
+    category: testing
+    title: '[firefox] Blog index › renders the lone Post as the featured item, not an empty section'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '41'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-19
+    severity: medium
+    category: testing
+    title: '[firefox] Blog navigation › shows a Blog entry in the mobile drawer'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '59'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-20
+    severity: medium
+    category: testing
+    title: '[firefox] Blog navigation › marks the Blog entry active on /blog'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '70'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-21
+    severity: medium
+    category: testing
+    title: '[firefox] Blog navigation › marks the Blog entry active on a Post detail route'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '79'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-22
+    severity: medium
+    category: testing
+    title: '[firefox] Post detail readability & a11y › sets the document title from the Post title via generateMetadata'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '97'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-23
+    severity: medium
+    category: testing
+    title: '[firefox] Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '104'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-24
+    severity: medium
+    category: testing
+    title: '[firefox] Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '127'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-25
+    severity: medium
+    category: testing
+    title: '[firefox] Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '146'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-26
+    severity: medium
+    category: testing
+    title: '[firefox] Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '194'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-27
+    severity: medium
+    category: testing
+    title: '[firefox] Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg)'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '166'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-28
+    severity: medium
+    category: testing
+    title: '[firefox] Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/blog.spec.ts
+    lines: '216'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-29
+    severity: medium
+    category: testing
+    title: '[firefox] Root route › redirects / to /blog'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/home.spec.ts
+    lines: '12'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-30
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Desktop Navigation › should display the Blog navigation link'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '15'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-31
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Desktop Navigation › should mark the Blog link active on /blog'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '23'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-32
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Mobile Navigation › should display hamburger button'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '38'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-33
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Mobile Navigation › should open and close drawer'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '48'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-34
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Mobile Navigation › should navigate from drawer'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '72'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-35
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Mobile Navigation › should close drawer on Escape key'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '103'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-36
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Mobile Navigation › should close drawer on backdrop click'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '87'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-37
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Keyboard Navigation › should navigate links with Tab key on desktop'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '121'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-38
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Keyboard Navigation › should focus first link when mobile drawer opens'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '143'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-39
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Accessibility › should have proper ARIA attributes'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '159'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-40
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Accessibility › should have nav landmark'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '177'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-41
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Visual Effects › should have glassmorphism styling'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '196'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-42
+    severity: medium
+    category: testing
+    title: '[firefox] Navigation › Accessibility › should have aria-current on active page'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/navigation.spec.ts
+    lines: '185'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-43
+    severity: medium
+    category: testing
+    title: '[webkit] Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-anchors.spec.ts
+    lines: '19'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-44
+    severity: medium
+    category: testing
+    title: '[firefox] Projects route › returns the not-found response for /projects'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox (browser executable missing for firefox)'
+    file: e2e/projects.spec.ts
+    lines: '12'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-45
+    severity: medium
+    category: testing
+    title: '[webkit] Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-anchors.spec.ts
+    lines: '32'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-46
+    severity: medium
+    category: testing
+    title: '[webkit] Blog Post detail › renders the authored MDX body as HTML'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-detail.spec.ts
+    lines: '15'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-47
+    severity: medium
+    category: testing
+    title: '[webkit] Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-detail.spec.ts
+    lines: '56'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-48
+    severity: medium
+    category: testing
+    title: '[webkit] Blog Post detail › does not leak raw frontmatter into the rendered body'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-detail.spec.ts
+    lines: '36'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-49
+    severity: medium
+    category: testing
+    title: '[webkit] Blog Post detail › returns the not-found response for a slug not in the Post set'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-detail.spec.ts
+    lines: '81'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-50
+    severity: medium
+    category: testing
+    title: '[webkit] Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-highlighting.spec.ts
+    lines: '19'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-51
+    severity: medium
+    category: testing
+    title: '[webkit] Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand)'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-highlighting.spec.ts
+    lines: '45'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-52
+    severity: medium
+    category: testing
+    title: '[webkit] Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-mdx-mapping.spec.ts
+    lines: '13'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-53
+    severity: medium
+    category: testing
+    title: '[webkit] Blog MDX body security › no third-party script or iframe is injected into the article'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-security.spec.ts
+    lines: '32'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-54
+    severity: medium
+    category: testing
+    title: '[webkit] Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-security.spec.ts
+    lines: '17'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-55
+    severity: medium
+    category: testing
+    title: '[webkit] Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-toc.spec.ts
+    lines: '19'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-56
+    severity: medium
+    category: testing
+    title: '[webkit] Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-toc.spec.ts
+    lines: '67'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-57
+    severity: medium
+    category: testing
+    title: '[webkit] Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog-toc.spec.ts
+    lines: '46'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-58
+    severity: medium
+    category: testing
+    title: '[webkit] Blog index › lists the published Post'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '18'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-59
+    severity: medium
+    category: testing
+    title: '[webkit] Blog index › renders the lone Post as the featured item, not an empty section'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '41'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-60
+    severity: medium
+    category: testing
+    title: '[webkit] Blog index › shows each item''s title, dek, date, and reading time'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '25'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-61
+    severity: medium
+    category: testing
+    title: '[webkit] Blog navigation › shows a Blog entry in the desktop nav'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '51'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-62
+    severity: medium
+    category: testing
+    title: '[webkit] Blog navigation › marks the Blog entry active on /blog'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '70'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-63
+    severity: medium
+    category: testing
+    title: '[webkit] Post detail readability & a11y › sets the document title from the Post title via generateMetadata'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '97'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-64
+    severity: medium
+    category: testing
+    title: '[webkit] Blog navigation › shows a Blog entry in the mobile drawer'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '59'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-65
+    severity: medium
+    category: testing
+    title: '[webkit] Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '104'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-66
+    severity: medium
+    category: testing
+    title: '[webkit] Blog navigation › marks the Blog entry active on a Post detail route'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '79'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-67
+    severity: medium
+    category: testing
+    title: '[webkit] Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '127'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-68
+    severity: medium
+    category: testing
+    title: '[webkit] Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '146'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-69
+    severity: medium
+    category: testing
+    title: '[webkit] Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '194'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-70
+    severity: medium
+    category: testing
+    title: '[webkit] Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg)'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '166'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-71
+    severity: medium
+    category: testing
+    title: '[webkit] Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/blog.spec.ts
+    lines: '216'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-72
+    severity: medium
+    category: testing
+    title: '[webkit] Root route › redirects / to /blog'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/home.spec.ts
+    lines: '12'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-73
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Desktop Navigation › should display the Blog navigation link'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '15'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-74
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Mobile Navigation › should display hamburger button'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '38'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-75
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Desktop Navigation › should mark the Blog link active on /blog'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '23'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-76
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Mobile Navigation › should open and close drawer'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '48'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-77
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Mobile Navigation › should navigate from drawer'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '72'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-78
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Mobile Navigation › should close drawer on backdrop click'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '87'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-79
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Mobile Navigation › should close drawer on Escape key'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '103'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-80
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Keyboard Navigation › should navigate links with Tab key on desktop'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '121'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-81
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Keyboard Navigation › should focus first link when mobile drawer opens'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '143'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-82
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Accessibility › should have proper ARIA attributes'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '159'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-83
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Accessibility › should have nav landmark'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '177'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-84
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Accessibility › should have aria-current on active page'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '185'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-85
+    severity: medium
+    category: testing
+    title: '[webkit] Navigation › Visual Effects › should have glassmorphism styling'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/navigation.spec.ts
+    lines: '196'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-86
+    severity: medium
+    category: testing
+    title: '[webkit] Projects route › returns the not-found response for /projects'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for webkit)'
+    file: e2e/projects.spec.ts
+    lines: '12'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-87
+    severity: medium
+    category: testing
+    title: '[Mobile Chrome] Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash'
+    description: 'Assertion failure: Error: expect(locator).toHaveCSS(expected) failed'
+    file: e2e/blog-anchors.spec.ts
+    lines: '32'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-88
+    severity: medium
+    category: testing
+    title: '[Mobile Chrome] Blog navigation › marks the Blog entry active on /blog'
+    description: 'Assertion failure: Error: expect(locator).toHaveAttribute(expected) failed'
+    file: e2e/blog.spec.ts
+    lines: '70'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-89
+    severity: medium
+    category: testing
+    title: '[Mobile Chrome] Blog navigation › marks the Blog entry active on a Post detail route'
+    description: 'Assertion failure: Error: expect(locator).toHaveAttribute(expected) failed'
+    file: e2e/blog.spec.ts
+    lines: '79'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-90
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-anchors.spec.ts
+    lines: '19'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-91
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-anchors.spec.ts
+    lines: '32'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-92
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog Post detail › does not leak raw frontmatter into the rendered body'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-detail.spec.ts
+    lines: '36'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-93
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog Post detail › renders the authored MDX body as HTML'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-detail.spec.ts
+    lines: '15'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-94
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-detail.spec.ts
+    lines: '56'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-95
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand)'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-highlighting.spec.ts
+    lines: '45'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-96
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog Post detail › returns the not-found response for a slug not in the Post set'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-detail.spec.ts
+    lines: '81'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-97
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-highlighting.spec.ts
+    lines: '19'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-98
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-mdx-mapping.spec.ts
+    lines: '13'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-99
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-security.spec.ts
+    lines: '17'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-100
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-toc.spec.ts
+    lines: '19'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-101
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog MDX body security › no third-party script or iframe is injected into the article'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-security.spec.ts
+    lines: '32'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-102
+    severity: medium
+    category: testing
+    title: '[Mobile Chrome] Navigation › Accessibility › should have aria-current on active page'
+    description: 'Assertion failure: Error: expect(locator).toHaveAttribute(expected) failed'
+    file: e2e/navigation.spec.ts
+    lines: '185'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-103
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-toc.spec.ts
+    lines: '46'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-104
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog-toc.spec.ts
+    lines: '67'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-105
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog index › lists the published Post'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '18'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-106
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog index › shows each item''s title, dek, date, and reading time'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '25'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-107
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog index › renders the lone Post as the featured item, not an empty section'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '41'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-108
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog navigation › shows a Blog entry in the mobile drawer'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '59'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-109
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog navigation › shows a Blog entry in the desktop nav'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '51'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-110
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog navigation › marks the Blog entry active on /blog'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '70'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-111
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Blog navigation › marks the Blog entry active on a Post detail route'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '79'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-112
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Post detail readability & a11y › sets the document title from the Post title via generateMetadata'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '97'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-113
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '104'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-114
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '127'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-115
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '146'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-116
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg)'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '166'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-117
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '194'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-118
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/blog.spec.ts
+    lines: '216'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-119
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Root route › redirects / to /blog'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/home.spec.ts
+    lines: '12'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-120
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Desktop Navigation › should display the Blog navigation link'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '15'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-121
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Desktop Navigation › should mark the Blog link active on /blog'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '23'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-122
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Mobile Navigation › should display hamburger button'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '38'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-123
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Mobile Navigation › should open and close drawer'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '48'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-124
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Mobile Navigation › should navigate from drawer'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '72'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-125
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Mobile Navigation › should close drawer on backdrop click'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '87'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-126
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Mobile Navigation › should close drawer on Escape key'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '103'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-127
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Keyboard Navigation › should navigate links with Tab key on desktop'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '121'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-128
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Keyboard Navigation › should focus first link when mobile drawer opens'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '143'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-129
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Accessibility › should have proper ARIA attributes'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '159'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-130
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Accessibility › should have nav landmark'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '177'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-131
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Accessibility › should have aria-current on active page'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '185'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-132
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Navigation › Visual Effects › should have glassmorphism styling'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/navigation.spec.ts
+    lines: '196'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'
+  - id: e2e-test-133
+    severity: medium
+    category: testing
+    title: '[Mobile Safari] Projects route › returns the not-found response for /projects'
+    description: 'Test could not run: Error: browserType.launch: Executable doesn''t exist at /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh (browser executable missing for Mobile Safari)'
+    file: e2e/projects.spec.ts
+    lines: '12'
+    source: tool
+    review_status: rejected
+    review_notes: 'Rejected in bulk: infra (browser binaries missing for firefox/webkit) or known pre-existing Mobile Chrome/Safari nav failures unrelated to 002-table-of-contents changes. Zero chromium failures (reliable signal per CLAUDE.md). See memory: e2e-preexisting-failures.md.'

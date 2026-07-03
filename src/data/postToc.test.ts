@@ -14,13 +14,43 @@ describe("extractPostToc", () => {
     ]);
   });
 
-  it("omits the H1 post title and returns [] for a post with no ##/### headings", () => {
+  it("omits ##-prefixed lines inside a fenced code block", () => {
+    const markdown = [
+      "## Real Section",
+      "",
+      "```",
+      "## Setup",
+      "not a heading",
+      "```",
+      "",
+      "## Another Section",
+    ].join("\n");
+
+    expect(extractPostToc(markdown)).toEqual([
+      { depth: 2, text: "Real Section", id: "real-section" },
+      { depth: 2, text: "Another Section", id: "another-section" },
+    ]);
+  });
+
+  it("omits the H1 post title", () => {
     const withH1 = ["# Post Title", "", "## Real Section"].join("\n");
-    const noHeadings = "Just a paragraph of prose with no headings at all.";
 
     expect(extractPostToc(withH1)).toEqual([
       { depth: 2, text: "Real Section", id: "real-section" },
     ]);
+  });
+
+  it("strips _..._ emphasis markers from heading text and slug", () => {
+    const markdown = "## Some _emphasized_ Heading";
+
+    expect(extractPostToc(markdown)).toEqual([
+      { depth: 2, text: "Some emphasized Heading", id: "some-emphasized-heading" },
+    ]);
+  });
+
+  it("returns [] for a post with no ##/### headings", () => {
+    const noHeadings = "Just a paragraph of prose with no headings at all.";
+
     expect(extractPostToc(noHeadings)).toEqual([]);
   });
 });
