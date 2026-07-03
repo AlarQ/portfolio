@@ -1,0 +1,4 @@
+gate: unit-test
+task_id: 004-rss-feed
+status: pass
+findings: []
