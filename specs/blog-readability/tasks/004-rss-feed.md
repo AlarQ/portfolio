@@ -1,7 +1,7 @@
 ---
 id: "004"
 name: RSS feed and site-domain config
-status: in-progress
+status: implemented
 blocked_by: []
 max_files: 6
 ground_rules:
@@ -53,3 +53,13 @@ Introduce a fail-fast site-domain env config and a static `/feed.xml` route hand
 - Add `src/app/feed.xml/route.ts`: a static route handler (no request input) that serializes the builder output with the correct content-type.
 
 ## Implementation Log
+
+chunks_spawned: 2
+
+**Chunk 1** — Followed strict red-green-refactor: wrote `src/data/rssFeed.test.ts` first (confirmed RED via missing-module error), then restored the pure builder to reach GREEN, one test at a time. `src/data/rssFeed.ts` exports two pure functions rather than one, deliberately splitting item-building from serialization: `buildRssItems(posts, siteUrl): RssItem[]` (maps `Post[]` + injected domain string to plain-data RSS items, absolute `link`/`guid` via `new URL(path, siteUrl)`) and `serializeRssFeed(items): string` (the single XML-escaping serialization point, per CLAUDE.md's MDX-adjacent "escape at the seam" pattern). Both take injected params rather than reading `getPosts()`/`siteConfig` directly, mirroring the pure-core/impure-rind split in `postLoader.ts`. `escapeXml` escapes `&amp;`, `&lt;`, `&gt;`, `"`, `'` in that order (ampersand first, to avoid double-escaping). `siteConfig.ts` and the route handler out of scope for this chunk.
+
+**Chunk 2 (final)** — `src/data/siteConfig.ts` exports a pure `resolveSiteUrl(rawValue)` (validates via `new URL()`, throws a clear `[siteConfig] "SITE_URL" ...` message on missing/empty/malformed input) and a lazy `getSiteUrl()` reading `process.env.SITE_URL`. Deliberately lazy rather than a module-scope constant — an eager resolve at import time would crash every test file that transitively imports the module, not just code paths that need the domain. Mirrors `postLoader.ts`'s fail-fast pattern. `src/app/layout.tsx` wires `metadataBase: new URL(getSiteUrl())` into the existing `metadata` export — single seam for the domain. `src/app/feed.xml/route.ts`: static route handler (`export const dynamic = "force-static"` — required, else Next builds the route as dynamic). Calls `getPosts()` + `getSiteUrl()` → `buildRssItems` → `serializeRssFeed`, returns `content-type: application/rss+xml`. Errors are caught, logged via `console.error` server-side only, turned into a generic `"Internal Server Error"` 500 body — no stack trace/path/exception text reaches the client. `e2e/feed.spec.ts` derives expected item count from the real `/blog` page's post count (not hardcoded); asserts 200, `application/rss+xml`, well-formed `<rss>`/`<item>` structure, absolute `https://` links, no `localhost`. Fail-fast verified directly: `unset SITE_URL && npm run build` aborts with a clear `[siteConfig]` error; setting it succeeds with `/feed.xml` built static. Whole-task refactor pass found no duplication/extraction opportunities — each module stays small and single-purpose.
+
+**Deployment note:** `SITE_URL` is a build-time env var (not `NEXT_PUBLIC_`) that must be set in the deploy environment (e.g. Vercel project settings) — it was not persisted to `.env.local` in this session (harness denies `.env*` edits); verified instead via inline shell env for build/test runs.
+
+**Verification:** `npm run test:unit` 73/73 passed; `npm run type-check` clean; `npm run lint` clean; `npx playwright test e2e/feed.spec.ts --project=chromium` 1/1 passed; `npm run build` fails fast without `SITE_URL`, succeeds with it set (static `/feed.xml`).
