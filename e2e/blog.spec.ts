@@ -128,6 +128,33 @@ test.describe("Post detail readability & a11y", () => {
     expect(ch).toBeLessThan(85);
   });
 
+  // typography-measure-constrained (task 005): the prose column's declared CSS
+  // measure is exactly the `proseMeasure` token (64ch), shared with the
+  // PostReadingLayout ToC grid — not a raw per-component literal.
+  test("prose column measure resolves to the 64ch theme token at desktop viewport", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/blog/my-spec-driven-workflow");
+
+    const article = page.locator("article");
+    await expect(article).toBeVisible();
+
+    // getComputedStyle resolves `ch` to px; recover the ch count from the
+    // rendered font to confirm it matches the 64ch token, not the old 68ch.
+    const chCount = await article.evaluate((el) => {
+      const style = getComputedStyle(el);
+      const ctx = document.createElement("canvas").getContext("2d");
+      if (!ctx) throw new Error("no canvas 2d context");
+      ctx.font = `${style.fontSize} ${style.fontFamily}`;
+      const zero = ctx.measureText("0").width;
+      return Number.parseFloat(style.maxWidth) / zero;
+    });
+
+    expect(chCount).toBeGreaterThan(62);
+    expect(chCount).toBeLessThan(66);
+  });
+
   // mobile-code-overflow-contained (FR-10): code scrolls within its own box and
   // the page itself never gains a horizontal scrollbar on a narrow viewport
   test("contains code-block overflow on mobile with no body horizontal scroll", async ({

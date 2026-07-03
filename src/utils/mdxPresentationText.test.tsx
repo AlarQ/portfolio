@@ -4,7 +4,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { describe, expect, it } from "vitest";
-import { heading } from "./mdxPresentationText";
+import { heading, InlineCode, Paragraph, proseTextSx } from "./mdxPresentationText";
 
 /**
  * Runs rehype-slug standalone to assert the library's id-slugging is deterministic.
@@ -63,6 +63,35 @@ describe("heading seam", () => {
       ? children.find((c) => c?.props?.href !== undefined)
       : undefined;
     expect(anchor).toBeUndefined();
+  });
+});
+
+describe("prose rhythm and scale (task 005)", () => {
+  it("sets body prose to 18px/1.7 once in proseTextSx", () => {
+    // Given the shared prose text style token
+    // Then it carries the 18px / 1.7 line-height reading spec (not the old 1.75)
+    expect(proseTextSx.fontSize).toBe("1.125rem");
+    expect(proseTextSx.lineHeight).toBe(1.7);
+  });
+
+  it("Paragraph renders using the shared proseTextSx rhythm, not a per-component override", () => {
+    // Given the Paragraph seam
+    const element = Paragraph({ children: "Some prose" });
+
+    // Then its sx spreads proseTextSx rather than redeclaring fontSize/lineHeight
+    const sx = element.props.sx as Record<string, unknown>;
+    expect(sx.fontSize).toBe(proseTextSx.fontSize);
+    expect(sx.lineHeight).toBe(proseTextSx.lineHeight);
+  });
+
+  it("InlineCode scales relative to the surrounding prose (em-based), not a fixed px value", () => {
+    // Given an inline code element (not a highlighted block — no data-language)
+    const element = InlineCode({ children: "const x" });
+
+    // Then its font-size is relative (em/rem), keeping code-in-text scale consistent
+    // with whatever prose size it sits inside — never a raw px literal.
+    const sx = element.props.sx as Record<string, unknown>;
+    expect(String(sx.fontSize)).toMatch(/(em|rem)$/);
   });
 });
 

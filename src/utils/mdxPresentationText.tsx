@@ -5,7 +5,11 @@ import Typography from "@mui/material/Typography";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { brand, withAlpha } from "@/theme/theme";
 
-export const proseTextSx = { color: brand.slateLight, lineHeight: 1.75 } as const;
+export const proseTextSx = {
+  color: brand.slateLight,
+  fontSize: "1.125rem",
+  lineHeight: 1.7,
+} as const;
 
 /** Shared focus-visible outline for interactive prose elements (links, heading anchors). */
 const focusVisibleOutlineSx = {
