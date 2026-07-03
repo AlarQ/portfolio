@@ -1,0 +1,4 @@
+gate: type-check
+task_id: 002-table-of-contents
+status: pass
+findings: []

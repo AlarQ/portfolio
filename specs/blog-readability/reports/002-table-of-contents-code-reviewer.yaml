@@ -1,0 +1,86 @@
+gate: code-reviewer
+task_id: 002-table-of-contents
+status: findings
+findings:
+  - id: code-reviewer-1
+    severity: medium
+    category: correctness
+    title: extractPostToc has no fenced-code-block tracking — a `##` line inside a ``` fence is matched as a real heading
+    description: >
+      src/data/postToc.ts splits raw Markdown on newlines and regex-matches each line in isolation with no fence-state tracking. A `## Setup` / `### install` line inside a ```/~~~ code fence is matched as a heading, but rehype-slug does not slug headings inside code blocks — so the ToC gains a phantom entry whose `#id` anchor points at no DOM heading (dead link + silent id-parity break). No current post triggers it (corpus scanned clean) so impact is latent; the single-post e2e does not guard it. Odium's coverage audit independently flagged the same edge case.
+
+    suggestion: >
+      Track fence state while iterating (toggle on /^(```|~~~)/, skip heading matching while open), or derive the heading tree from the same remark/mdast the render pipeline parses. Add a unit case with a `##` line inside a fenced block asserting it is excluded.
+
+    file: src/data/postToc.ts
+    lines: '55'
+    source: llm
+    review_status: accepted
+  - id: code-reviewer-2
+    severity: medium
+    category: accessibility
+    title: ToC link tap target ~28px tall — below the 44×44 CSS px floor (a11y MUST)
+    description: >
+      src/components/PostToc.tsx ToC links use py:0.5 (8px) with fontSize 0.875rem / lineHeight 1.4 → ~28px clickable height, under the 44×44 the KB grades a MUST. Scoped impact is lower than a primary control (desktop-only aside, hidden below md, full-width horizontal hit area), but the vertical target is still under the floor.
+
+    suggestion: >
+      Raise per-link vertical padding or set min-height ~44px so the target meets the floor; keep a dense look via line-height rather than a shorter box.
+
+    file: src/components/PostToc.tsx
+    lines: '78'
+    source: llm
+    review_status: accepted
+  - id: code-reviewer-3
+    severity: low
+    category: accessibility
+    title: color/border transition not gated by prefers-reduced-motion
+    description: >
+      src/components/PostToc.tsx adds `transition: color 150ms, border-color 150ms`. No global prefers-reduced-motion reset in globals.css and the component does not consult usePrefersReducedMotion, so the transition runs regardless of the reduced-motion setting. Low severity (color/border fade, no positional/vestibular risk) but the KB grades the rule MUST, and the task log's "honored by construction, no animation" claim is not strictly accurate.
+
+    suggestion: >
+      Drop the transition, or add the standard @media (prefers-reduced-motion: reduce) duration-collapse to globals.css so all transitions are honored app-wide.
+
+    file: src/components/PostToc.tsx
+    lines: '92'
+    source: llm
+    review_status: accepted
+  - id: code-reviewer-4
+    severity: low
+    category: maintainability
+    title: header-offset magic numbers duplicated across sticky top and scroll-spy rootMargin
+    description: >
+      Sticky offsets are hardcoded raw px — top:112, maxHeight:"calc(100vh - 136px)", and rootMargin "-96px 0px -70% 0px" in useActiveHeading. Header-height-derived magic numbers duplicated across two spots with no shared token; a header height change silently desyncs the sticky offset and the scroll-spy margin.
+
+    suggestion: >
+      Hoist the header offset to a single named constant/theme token and derive both the sticky top and the observer rootMargin from it.
+
+    file: src/components/PostToc.tsx
+    lines: '40'
+    source: llm
+    review_status: accepted
+  - id: code-reviewer-5
+    severity: low
+    category: correctness
+    title: headingText regex re-implements inline-Markdown stripping — can diverge from rehype-slug on `_emphasis_`, setext, autolinks
+    description: >
+      src/data/postToc.ts headingText re-implements inline-Markdown stripping to feed the slugger. It handles */**/~~/code/links but not `_`-style emphasis (`_word_` renders as <em>word</em>, dropping underscores, so the two slugs diverge), nor setext headings, autolinks, or images-in-headings. Mitigated by the single-post e2e id-parity check; any heading form outside that post is unguarded.
+
+    suggestion: >
+      Extract heading text/ids from the shared remark/mdast used by the render pipeline (one parser, not two that must agree); or add unit cases for `_emphasis_` and setext headings pinning the parity contract.
+
+    file: src/data/postToc.ts
+    lines: '30'
+    source: llm
+    review_status: accepted
+  - id: code-reviewer-6
+    severity: low
+    category: testing
+    title: second unit test bundles two contracts (H1-omit + empty-on-no-headings)
+    description: >
+      src/data/postToc.test.ts second test bundles "omits the H1 title" and "returns [] when no ##/### headings" into one case with two unrelated AAA blocks, so a failure does not point at one reason (testing/structure.md + test-quality.md SHOULD).
+
+    suggestion: Split into two named tests, one per contract.
+    file: src/data/postToc.test.ts
+    lines: '18'
+    source: llm
+    review_status: accepted
