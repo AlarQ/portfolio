@@ -1,13 +1,16 @@
 import Box from "@mui/material/Box";
 import type { ReactNode } from "react";
 import { PostArticle } from "@/components/PostArticle";
+import { PostNav } from "@/components/PostNav";
 import { PostToc } from "@/components/PostToc";
+import type { PostAdjacency } from "@/data/postLoader";
 import type { TocEntry } from "@/data/postToc";
 import { proseMeasure } from "@/theme/theme";
 
 interface PostReadingLayoutProps {
   readonly title: string;
   readonly toc: readonly TocEntry[];
+  readonly adjacency: PostAdjacency;
   readonly children: ReactNode;
 }
 
@@ -22,7 +25,7 @@ interface PostReadingLayoutProps {
  * Owns the prose↔ToC layout coupling (they share `proseMeasure`) in one module
  * so the route only loads data and hands off `{ title, toc, body }`.
  */
-export function PostReadingLayout({ title, toc, children }: PostReadingLayoutProps) {
+export function PostReadingLayout({ title, toc, adjacency, children }: PostReadingLayoutProps) {
   return (
     <Box
       sx={{
@@ -33,6 +36,9 @@ export function PostReadingLayout({ title, toc, children }: PostReadingLayoutPro
     >
       <Box sx={{ gridColumn: { md: "2" }, minWidth: 0 }}>
         <PostArticle title={title}>{children}</PostArticle>
+        <Box sx={{ maxWidth: proseMeasure, mx: "auto", px: { xs: 3, md: 0 } }}>
+          <PostNav prev={adjacency.prev} next={adjacency.next} />
+        </Box>
       </Box>
       <Box sx={{ gridColumn: { md: "3" }, minWidth: 0 }}>
         <PostToc entries={toc} />
