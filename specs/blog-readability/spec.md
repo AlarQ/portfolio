@@ -1,3 +1,8 @@
+---
+feature: blog-readability
+status: shipped
+---
+
 # Blog Readability — Specification
 
 Feature: `blog-readability` · Tier: medium · Track: feature
