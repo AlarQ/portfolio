@@ -1,7 +1,11 @@
 ---
 id: "003"
 name: Prev/next Post navigation
+<<<<<<< HEAD
 status: done
+=======
+status: in-progress
+>>>>>>> e0c3497 (chore(003): mark task in-progress)
 blocked_by: []
 max_files: 5
 ground_rules:
