@@ -1,0 +1,23 @@
+# specs/blog-readability/config.yml — per-spec config.
+# Repo mode (specs/ storage). Gate ids validated against ./.workflow.yml gate_pool.
+
+tier: medium
+track: feature
+branch_strategy: per-task
+
+tags: [blog, readability, mdx]
+
+# Gate ceiling — full pool; /validate runs the intersection with each task's
+# eligible ground_rules set (ADR-003).
+gates:
+  - lint
+  - format-check
+  - type-check
+  - unit-test
+  - e2e-test
+
+# Advisory agents (Phase 2). code-reviewer analyzes the diff against KB rules;
+# findings are advisory (source: llm), not hard blocks.
+agents:
+  validate:
+    - engineering/code-reviewer

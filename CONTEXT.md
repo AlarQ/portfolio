@@ -63,6 +63,10 @@ _Avoid_: Journal, news, articles section
 > **Dev:** "A **Post** about my work on a **Project** — should it link to that Project?"
 > **Owner:** "No. A **Post** is standalone. It might mention a Project in prose, but the model doesn't connect them. And if a Post exists, it's published — I don't keep drafts in there."
 
+## Configuration
+
+- `SITE_URL` — required build-time env var (see `src/data/siteConfig.ts`) used to build absolute URLs for the RSS feed (`src/app/feed.xml/route.ts`) and Next.js `metadataBase`. Missing it fails the build fast.
+
 ## Flagged ambiguities
 
 - "Leadership" was used for both an Achievement group and a Skill category — resolved: both reference the same **Domain Area**; **Achievement** (evidence) and **Skill** (rating) are distinct views of it.

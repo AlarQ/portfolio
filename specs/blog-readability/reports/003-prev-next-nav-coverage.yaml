@@ -1,0 +1,5 @@
+gate: coverage
+task_id: "003-prev-next-nav"
+status: pass
+source: llm
+findings: []

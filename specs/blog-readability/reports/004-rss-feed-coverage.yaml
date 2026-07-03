@@ -1,0 +1,27 @@
+gate: coverage
+task_id: 004-rss-feed
+status: findings
+findings:
+  - id: coverage-1
+    severity: high
+    category: coverage
+    title: "No automated test for acceptance point 5 (error path leaks no internal detail)"
+    description: >
+      The route handler's catch block plausibly returns a generic
+      "Internal Server Error" 500 with server-only console.error logging,
+      but no test (unit or e2e) exercises the failure path. The task's own
+      test_cases frontmatter names feed_error_path_leaks_no_internal_detail
+      as required evidence; it does not exist in rssFeed.test.ts,
+      siteConfig.test.ts, or e2e/feed.spec.ts.
+    file: src/app/feed.xml/route.ts
+    lines: "19-30"
+    fix_proposal: >
+      Add a test (route-level, mocking getPosts/buildRssItems/getSiteUrl to
+      throw) asserting GET /feed.xml responds 500 with the generic message
+      only, containing no substring of the thrown error's message/stack/path.
+    rationale: Task's own acceptance point 5 and committed test_case are unverified by any automated test.
+    impact: A regression that starts leaking stack traces/paths in the error path would ship undetected.
+    confidence: high
+    review_status: accepted
+    auto_accepted: true
+    source: llm

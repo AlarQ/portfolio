@@ -62,3 +62,5 @@ yarn-error.log*
 
 # spec-workflow drift snapshot (read by /ship, not committed)
 .monitor-context-snapshot
+# spec-workflow current-task pointer (runtime state, not committed)
+.monitor-context

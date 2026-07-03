@@ -74,7 +74,13 @@ const shikiCssVarTheme = {
 const withMDX = createMDX({
   options: {
     remarkPlugins: [["remark-frontmatter"]],
-    rehypePlugins: [["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }]],
+    // `rehype-slug` assigns a stable, deterministic `id` to every heading
+    // (github-slugger algorithm) which flows through the existing `heading()`
+    // seam (`src/utils/mdxPresentationText.tsx`) — no second render path.
+    rehypePlugins: [
+      ["rehype-slug"],
+      ["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }],
+    ],
   },
 });
 

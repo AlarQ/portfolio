@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { buildPostSet, type RawPostFile } from "./postLoader";
+import { buildPostSet, getAdjacentPosts, type RawPostFile } from "./postLoader";
+import type { Post } from "./posts";
 
 /**
  * Unit tests for the pure core `buildPostSet(rawFiles): Post[]`.
@@ -243,6 +244,107 @@ describe("buildPostSet — fail fast on malformed frontmatter (authoring bugs)",
 
     // Then the colon-bearing quoted value survives intact, unquoted
     expect(post.title).toBe("Hello: World");
+  });
+});
+
+function fixturePost(slug: string): Post {
+  return {
+    slug,
+    title: slug,
+    dek: "d",
+    date: "2026-01-01",
+    readingTimeMinutes: 1,
+    formattedDate: "1 January 2026",
+    published: true,
+  };
+}
+
+describe("getAdjacentPosts — middle Post", () => {
+  it("returns the newer neighbor as prev and the older neighbor as next", () => {
+    // Given a newest-first ordered set [A, B, C]
+    const [a, b, c] = ["a", "b", "c"].map(fixturePost);
+    const posts = [a, b, c];
+
+    // When adjacency is computed for the middle Post B
+    const adjacency = getAdjacentPosts(posts, "b");
+
+    // Then prev is the newer neighbor (A) and next is the older neighbor (C)
+    expect(adjacency.prev).toEqual(a);
+    expect(adjacency.next).toEqual(c);
+  });
+});
+
+describe("getAdjacentPosts — boundary Posts", () => {
+  it("has no prev (newer) side for the newest Post", () => {
+    const [a, b, c] = ["a", "b", "c"].map(fixturePost);
+    const posts = [a, b, c];
+
+    const adjacency = getAdjacentPosts(posts, "a");
+
+    expect(adjacency.prev).toBeUndefined();
+    expect(adjacency.next).toEqual(b);
+  });
+
+  it("has no next (older) side for the oldest Post", () => {
+    const [a, b, c] = ["a", "b", "c"].map(fixturePost);
+    const posts = [a, b, c];
+
+    const adjacency = getAdjacentPosts(posts, "c");
+
+    expect(adjacency.prev).toEqual(b);
+    expect(adjacency.next).toBeUndefined();
+  });
+});
+
+describe("getAdjacentPosts — single-Post set", () => {
+  it("returns neither prev nor next, with no error", () => {
+    // Given a single-Post set
+    const only = fixturePost("only");
+    const posts = [only];
+
+    // When adjacency is computed for the only Post
+    const adjacency = getAdjacentPosts(posts, "only");
+
+    // Then neither side is present and no error is thrown
+    expect(adjacency.prev).toBeUndefined();
+    expect(adjacency.next).toBeUndefined();
+  });
+});
+
+describe("getAdjacentPosts — unknown slug", () => {
+  it("returns neither prev nor next, with no error", () => {
+    // Given a multi-Post set that does not contain the requested slug
+    const [a, b, c] = ["a", "b", "c"].map(fixturePost);
+    const posts = [a, b, c];
+
+    // When adjacency is computed for a slug absent from the set
+    const adjacency = getAdjacentPosts(posts, "does-not-exist");
+
+    // Then neither side is present and no error is thrown
+    expect(adjacency.prev).toBeUndefined();
+    expect(adjacency.next).toBeUndefined();
+  });
+});
+
+describe("getAdjacentPosts — consistent with buildPostSet ordering", () => {
+  it("walks the same newest-first array buildPostSet produces, not a separate ordering", () => {
+    // Given raw files whose newest-first order is [zebra, older] per byNewestThenSlug
+    const files: RawPostFile[] = [
+      rawFile("older.mdx", { title: "Older", dek: "d", date: "2026-01-10" }, "b"),
+      rawFile("zebra.mdx", { title: "Zebra", dek: "d", date: "2026-03-02" }, "b"),
+    ];
+    const posts = buildPostSet(files);
+    expect(posts.map((p) => p.slug)).toEqual(["zebra", "older"]);
+
+    // When adjacency is computed for each Post over that same ordered array
+    const zebraAdjacency = getAdjacentPosts(posts, "zebra");
+    const olderAdjacency = getAdjacentPosts(posts, "older");
+
+    // Then prev/next mirror the array's newest-first order — no separate ordering logic
+    expect(zebraAdjacency.prev).toBeUndefined();
+    expect(zebraAdjacency.next).toEqual(posts[1]);
+    expect(olderAdjacency.prev).toEqual(posts[0]);
+    expect(olderAdjacency.next).toBeUndefined();
   });
 });
 

@@ -41,6 +41,27 @@ export function buildPostSet(rawFiles: readonly RawPostFile[]): Post[] {
     .sort(byNewestThenSlug);
 }
 
+/**
+ * Adjacency of a Post within an already-ordered (newest-first) Post array.
+ *
+ * `prev` is the newer neighbor (immediately before `slug` in the newest-first
+ * array); `next` is the older neighbor (immediately after). Either side is
+ * absent at a boundary (newest/oldest) or in a single-Post set — never an
+ * error. Operates purely over an already-built, already-validated Post[] (no
+ * filesystem, no re-validation) — the single slug-validation gate stays in
+ * `buildPostSet`.
+ */
+export interface PostAdjacency {
+  readonly prev?: Post;
+  readonly next?: Post;
+}
+
+export function getAdjacentPosts(posts: readonly Post[], slug: string): PostAdjacency {
+  const index = posts.findIndex((post) => post.slug === slug);
+  if (index === -1) return {};
+  return { prev: posts[index - 1], next: posts[index + 1] };
+}
+
 function isSlugValid(file: RawPostFile): boolean {
   const slug = file.filename.replace(/\.mdx$/, "");
   if (SLUG_PATTERN.test(slug)) return true;

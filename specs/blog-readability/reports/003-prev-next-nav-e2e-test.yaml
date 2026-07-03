@@ -1,0 +1,102 @@
+gate: e2e-test
+task_id: 003-prev-next-nav
+status: findings
+findings:
+  - id: e2e-test-1
+    severity: high
+    category: testing
+    title: firefox project - browser executable not installed
+    description: >-
+      44 tests in the [firefox] project failed with
+      "Error: browserType.launch: Executable doesn't exist at
+      /Users/ernestbednarczyk/Library/Caches/ms-playwright/firefox-1509/firefox/Nightly.app/Contents/MacOS/firefox".
+      All firefox-project specs failed for this reason, not due to app behavior.
+    file: e2e/
+    lines: ""
+    source: tool
+    review_status: rejected
+    review_notes: >-
+      Local env gap, not app bug. Firefox's Playwright build is
+      broken/incomplete on this machine (missing libmozglue.dylib in the
+      extracted archive even after clean reinstall + quarantine strip); no
+      CI e2e job exists; chromium is the accepted reliable signal and
+      passes for this feature (e2e/blog-nav.spec.ts).
+  - id: e2e-test-2
+    severity: high
+    category: testing
+    title: webkit project - browser executable not installed
+    description: >-
+      44 tests in the [webkit] project failed with
+      "Error: browserType.launch: Executable doesn't exist at
+      /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh".
+      All webkit-project specs failed for this reason, not due to app behavior.
+    file: e2e/
+    lines: ""
+    source: tool
+    review_status: rejected
+    review_notes: >-
+      Local env gap, not app bug. Browser binary was missing at gate-run
+      time; installed since (webkit-2248), but treated the same as the
+      sibling firefox/Mobile-Safari findings since none block this task's
+      diff and chromium is the accepted reliable signal.
+  - id: e2e-test-3
+    severity: high
+    category: testing
+    title: Mobile Safari project - browser executable not installed
+    description: >-
+      44 tests in the [Mobile Safari] project failed with
+      "Error: browserType.launch: Executable doesn't exist at
+      /Users/ernestbednarczyk/Library/Caches/ms-playwright/webkit-2248/pw_run.sh".
+      All Mobile-Safari-project specs failed for this reason, not due to app behavior.
+    file: e2e/
+    lines: ""
+    source: tool
+    review_status: rejected
+    review_notes: >-
+      Local env gap, not app bug. Same webkit binary dependency as
+      e2e-test-2; chromium is the accepted reliable signal and passes for
+      this feature.
+  - id: e2e-test-4
+    severity: medium
+    category: testing
+    title: "[Mobile Chrome] anchor opacity assertion fails: heading anchor toHaveCSS('opacity','0')"
+    description: >-
+      expect(locator).toHaveCSS(expected) failed. Locator: heading "The boundary I keep pushing out"
+      link "Link to this section". Expected "0", Received "1".
+    file: e2e/blog-anchors.spec.ts
+    lines: "40-40"
+    source: tool
+    review_status: accepted
+  - id: e2e-test-5
+    severity: medium
+    category: testing
+    title: "[Mobile Chrome] Blog nav link missing aria-current=page on /blog"
+    description: >-
+      expect(locator).toHaveAttribute(expected) failed. Locator: getByRole('link', { name: 'Blog', exact: true }).
+      Expected "page", element(s) not found (timeout 5000ms).
+    file: e2e/blog.spec.ts
+    lines: "73-76"
+    source: tool
+    review_status: accepted
+  - id: e2e-test-6
+    severity: medium
+    category: testing
+    title: "[Mobile Chrome] Blog nav link missing aria-current=page on Post detail route"
+    description: >-
+      expect(locator).toHaveAttribute(expected) failed. Locator: getByRole('link', { name: 'Blog', exact: true }).
+      Expected "page", element(s) not found (timeout 5000ms).
+    file: e2e/blog.spec.ts
+    lines: "82-85"
+    source: tool
+    review_status: accepted
+  - id: e2e-test-7
+    severity: medium
+    category: testing
+    title: "[Mobile Chrome] aria-current on active page assertion fails"
+    description: >-
+      expect(locator).toHaveAttribute(expected) failed. Locator: getByRole('link', { name: 'Blog', exact: true }).
+      Expected "page", element(s) not found (timeout 5000ms).
+    file: e2e/navigation.spec.ts
+    lines: "188-191"
+    source: tool
+    review_status: accepted

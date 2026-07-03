@@ -1,0 +1,46 @@
+gate: code-reviewer
+task_id: "003-prev-next-nav"
+status: findings
+findings:
+  - id: code-reviewer-1
+    severity: medium
+    category: testing/coverage
+    title: "getAdjacentPosts's unknown-slug guard branch is untested"
+    description: >
+      src/data/postLoader.ts:60-62 has an explicit early-return branch
+      (`if (index === -1) return {}`) for a slug not present in the ordered
+      Post set. None of the four new describe blocks in
+      src/data/postLoader.test.ts exercise this path — the middle/boundary/
+      single-Post/ordering-consistency tests all pass a slug known to exist
+      in the fixture array.
+    file: src/data/postLoader.ts
+    lines: "60-62"
+    code_snippet: |
+      const index = posts.findIndex((post) => post.slug === slug);
+      if (index === -1) return {};
+      return { prev: posts[index - 1], next: posts[index + 1] };
+    fix_proposal: >
+      Add a test in src/data/postLoader.test.ts, e.g.
+      "getAdjacentPosts — unknown slug: returns neither prev nor next, with
+      no error" that calls getAdjacentPosts(posts, "does-not-exist") over a
+      multi-Post fixture array and asserts both prev/next are undefined.
+    rationale: >
+      testing/coverage.md (SHOULD): "Test the boundaries — focus on edge
+      cases, error paths, and integration points rather than happy-path-only
+      coverage." This branch is a real error/edge path (guards against
+      findIndex's -1 sentinel) that is currently reachable but has no test
+      asserting its behavior, so a future refactor could silently break it
+      (e.g. someone "simplifying" to `posts[index - 1]` unconditionally,
+      which for index -1 would wrap to `posts[posts.length - 1]` and return
+      the wrong neighbor) without any red test.
+    impact: >
+      Low likelihood in practice today, since callers only invoke this with
+      an already-validated slug from getPosts(); but if the guard regresses,
+      the failure mode is a wrong/undefined-behavior adjacency link rather
+      than a crash, and nothing in the suite would catch it.
+    references:
+      - "general:testing/coverage.md"
+    confidence: high
+    review_status: accepted
+    auto_accepted: true
+    source: llm
