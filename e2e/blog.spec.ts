@@ -67,7 +67,12 @@ test.describe("Blog navigation", () => {
   });
 
   // nav-active-on-detail (FR-7): active on /blog and on /blog/[slug]
+  //
+  // On narrow viewports (e.g. Mobile Chrome) the nav is a closed drawer whose
+  // links are unmounted until opened (see MobileNav.tsx), so the desktop
+  // width is forced here to assert against the always-mounted desktop nav.
   test("marks the Blog entry active on /blog", async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 800 });
     await page.goto("/blog");
 
     await expect(page.getByRole("link", { name: "Blog", exact: true })).toHaveAttribute(
@@ -77,6 +82,7 @@ test.describe("Blog navigation", () => {
   });
 
   test("marks the Blog entry active on a Post detail route", async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 800 });
     await page.goto("/blog/my-spec-driven-workflow");
 
     await expect(page.getByRole("link", { name: "Blog", exact: true })).toHaveAttribute(
