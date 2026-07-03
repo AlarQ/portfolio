@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.21](https://github.com/AlarQ/portfolio/compare/v0.1.20...v0.1.21) (2026-07-03)
+
+
+### Features
+
+* **blog-readability:** mark spec shipped, record spec-audit run ([#46](https://github.com/AlarQ/portfolio/issues/46)) ([f884121](https://github.com/AlarQ/portfolio/commit/f884121472c7778d612e5578b9ab97e58af0a318)), closes [#41](https://github.com/AlarQ/portfolio/issues/41)
+
 ## [0.1.20](https://github.com/AlarQ/portfolio/compare/v0.1.19...v0.1.20) (2026-06-20)
 
 
