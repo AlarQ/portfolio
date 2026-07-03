@@ -1,7 +1,7 @@
 ---
 id: "005"
 name: Typography and readability pass
-status: todo
+status: in-progress
 blocked_by: []
 max_files: 4
 ground_rules:
