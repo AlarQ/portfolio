@@ -1,0 +1,73 @@
+gate: code-reviewer
+task_id: "005"
+status: findings
+findings:
+  - id: code-reviewer-1
+    severity: medium
+    category: test-quality
+    title: Font-measurement e2e test can flake on unresolved web-font load
+    description: >
+      The new "prose column measure resolves to the 64ch theme token" test measures glyph
+      width via `document.createElement("canvas").getContext("2d")` with
+      `ctx.font = computedStyle.fontSize/fontFamily` immediately after `page.goto`, with no
+      `await document.fonts.ready` (or equivalent) before measuring. If Geist Sans/Mono has not
+      finished loading when the canvas measures "0", the browser falls back to a generic
+      sans-serif for the measurement, producing a different glyph width than the rendered font
+      and yielding a `chCount` outside the asserted 62-66 range even though the CSS `max-width`
+      is correctly 64ch.
+    file: e2e/blog.spec.ts
+    lines: "131-156"
+    code_snippet: |
+      const chCount = await article.evaluate((el) => {
+        const style = getComputedStyle(el);
+        const ctx = document.createElement("canvas").getContext("2d");
+        if (!ctx) throw new Error("no canvas 2d context");
+        ctx.font = `${style.fontSize} ${style.fontFamily}`;
+        const zero = ctx.measureText("0").width;
+        return Number.parseFloat(style.maxWidth) / zero;
+      });
+    fix_proposal: >
+      Await font readiness before measuring, e.g. `await page.evaluate(() =>
+      document.fonts.ready)` right after `page.goto`, or move the `document.fonts.ready` await
+      inside the `article.evaluate` callback before creating the canvas context.
+    rationale: >
+      testing/test-quality.md (SHOULD) — a flaky test trains the team to ignore failures;
+      pass/fail should not depend on unrelated network/font-load timing.
+    impact: >
+      Intermittent CI red/green on this test unrelated to any real regression in the 64ch
+      measure token.
+    references: ["testing/test-quality.md"]
+    confidence: medium
+    review_status: pending
+    source: llm
+
+  - id: code-reviewer-2
+    severity: medium
+    category: test-quality
+    title: Tautological assertion of proseTextSx literal in its own defining test
+    description: >
+      The test "sets body prose to 18px/1.7 once in proseTextSx" asserts
+      `proseTextSx.fontSize === "1.125rem"` and `proseTextSx.lineHeight === 1.7` directly
+      against the constant defined two lines away in the source file under test, with no
+      consumption path exercised.
+    file: src/utils/mdxPresentationText.test.tsx
+    lines: "70-75"
+    code_snippet: |
+      it("sets body prose to 18px/1.7 once in proseTextSx", () => {
+        expect(proseTextSx.fontSize).toBe("1.125rem");
+        expect(proseTextSx.lineHeight).toBe(1.7);
+      });
+    fix_proposal: >
+      Fold this assertion into the render-level test (or drop it): render `Paragraph`/`heading`
+      output and assert the computed/rendered style reflects `1.125rem`/`1.7`, so the check
+      exercises the actual consumption site rather than reading the constant back at itself.
+    rationale: >
+      testing/test-quality.md (SHOULD) — assert a constant where it's consumed, not against
+      its own literal.
+    impact: >
+      False confidence: stays green regardless of whether `proseTextSx` is actually wired into
+      any rendered prose element.
+    references: ["testing/test-quality.md"]
+    confidence: medium
+    review_status: pending
+    source: llm

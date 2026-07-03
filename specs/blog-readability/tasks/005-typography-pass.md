@@ -1,13 +1,14 @@
 ---
 id: "005"
 name: Typography and readability pass
-status: implemented
+status: review
 blocked_by: []
 max_files: 4
 ground_rules:
   - frontend/styling.md
   - frontend/design-tokens.md
   - frontend/accessibility.md
+  - languages/typescript/react-patterns.md
   - testing/test-quality.md
 test_cases:
   - presentation_seams_reference_brand_tokens_only_no_raw_hex
