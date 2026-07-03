@@ -183,6 +183,11 @@ test.describe("Navigation", () => {
     });
 
     test("should have aria-current on active page", async ({ page }) => {
+      // On narrow viewports (e.g. Mobile Chrome) the nav is a closed drawer
+      // whose links are unmounted until opened (see MobileNav.tsx), so the
+      // desktop width is forced here to assert against the always-mounted
+      // desktop nav.
+      await page.setViewportSize({ width: 1200, height: 800 });
       await page.goto("/blog");
 
       await expect(page.getByRole("link", { name: "Blog", exact: true })).toHaveAttribute(

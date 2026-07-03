@@ -1,0 +1,4 @@
+gate: lint
+task_id: 003-prev-next-nav
+status: pass
+findings: []

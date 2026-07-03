@@ -311,6 +311,21 @@ describe("getAdjacentPosts — single-Post set", () => {
   });
 });
 
+describe("getAdjacentPosts — unknown slug", () => {
+  it("returns neither prev nor next, with no error", () => {
+    // Given a multi-Post set that does not contain the requested slug
+    const [a, b, c] = ["a", "b", "c"].map(fixturePost);
+    const posts = [a, b, c];
+
+    // When adjacency is computed for a slug absent from the set
+    const adjacency = getAdjacentPosts(posts, "does-not-exist");
+
+    // Then neither side is present and no error is thrown
+    expect(adjacency.prev).toBeUndefined();
+    expect(adjacency.next).toBeUndefined();
+  });
+});
+
 describe("getAdjacentPosts — consistent with buildPostSet ordering", () => {
   it("walks the same newest-first array buildPostSet produces, not a separate ordering", () => {
     // Given raw files whose newest-first order is [zebra, older] per byNewestThenSlug

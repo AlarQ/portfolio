@@ -31,16 +31,26 @@ test.describe("Blog heading ids and anchors", () => {
 
   test("hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash", async ({
     page,
-  }) => {
+  }, testInfo) => {
     await page.goto(POST_PATH);
 
     const heading = page.getByRole("heading", { name: HEADING_TEXT, level: 2 });
     const anchor = heading.getByRole("link", { name: "Link to this section" });
 
-    await expect(anchor).toHaveCSS("opacity", "0");
+    // Touch/coarse-pointer projects (Mobile Chrome, Mobile Safari) have no
+    // hover state, so the anchor is styled always-visible there
+    // (`@media (pointer: coarse)`, mdxPresentationText.tsx) rather than
+    // hover-revealed. Only assert the hover-hidden default on hover-capable
+    // (desktop) projects.
+    const isTouchProject = /^Mobile /.test(testInfo.project.name);
+    if (!isTouchProject) {
+      await expect(anchor).toHaveCSS("opacity", "0");
 
-    await heading.hover();
-    await expect(anchor).toHaveCSS("opacity", "1");
+      await heading.hover();
+      await expect(anchor).toHaveCSS("opacity", "1");
+    } else {
+      await expect(anchor).toHaveCSS("opacity", "1");
+    }
 
     await anchor.focus();
     await expect(anchor).toHaveCSS("outline-style", "solid");
