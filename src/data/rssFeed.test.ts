@@ -30,6 +30,24 @@ describe("buildRssItems — absolute URLs from injected domain", () => {
   });
 });
 
+describe("buildRssItems — excludes unpublished Posts", () => {
+  it("filters out posts with published: false while keeping published: true posts", () => {
+    // Given one published and one unpublished Post
+    const posts = [
+      post({ slug: "published-post", title: "Published", published: true }),
+      post({ slug: "draft-post", title: "Draft", published: false }),
+    ];
+
+    // When the RSS items are built
+    const items = buildRssItems(posts, "https://example.com");
+
+    // Then only the published Post is present
+    expect(items).toHaveLength(1);
+    expect(items[0].title).toBe("Published");
+    expect(items.some((item) => item.title === "Draft")).toBe(false);
+  });
+});
+
 describe("serializeRssFeed — XML-escapes special characters", () => {
   it("escapes &, <, >, and quotes in title and description so the document stays well-formed", () => {
     // Given a Post whose title/dek contain XML-special characters

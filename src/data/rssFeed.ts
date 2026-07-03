@@ -19,16 +19,18 @@ export interface RssItem {
  * mirroring the pure-core/impure-rind split in `postLoader.ts`.
  */
 export function buildRssItems(posts: readonly Post[], siteUrl: string): RssItem[] {
-  return posts.map((post) => {
-    const link = new URL(`/blog/${post.slug}`, siteUrl).toString();
-    return {
-      title: post.title,
-      description: post.dek,
-      link,
-      pubDate: new Date(`${post.date}T00:00:00Z`).toUTCString(),
-      guid: link,
-    };
-  });
+  return posts
+    .filter((post) => post.published)
+    .map((post) => {
+      const link = new URL(`/blog/${post.slug}`, siteUrl).toString();
+      return {
+        title: post.title,
+        description: post.dek,
+        link,
+        pubDate: new Date(`${post.date}T00:00:00Z`).toUTCString(),
+        guid: link,
+      };
+    });
 }
 
 /**

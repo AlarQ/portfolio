@@ -1,0 +1,4 @@
+gate: format-check
+task_id: 004-rss-feed
+status: pass
+findings: []

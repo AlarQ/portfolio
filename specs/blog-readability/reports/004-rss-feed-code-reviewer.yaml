@@ -1,0 +1,82 @@
+gate: code-reviewer
+task_id: 004-rss-feed
+status: findings
+findings:
+  - id: code-reviewer-1
+    severity: medium
+    category: correctness
+    title: rssFeed builder does not filter on Post.published, silently including drafts if the flag is ever wired up
+    description: >
+      buildRssItems maps over every Post handed to it and never checks post.published. Masked today because postLoader.ts hardcodes published: true for every loaded Post. If a draft mechanism is wired up later, the feed will start syndicating unpublished posts with no test catching it.
+
+    file: src/data/rssFeed.ts
+    lines: "20-30"
+    fix_proposal: >
+      Filter explicitly inside buildRssItems: posts.filter(post => post.published).map(...). Add a test fixture with published: false asserting exclusion.
+
+    rationale: Function name/contract says "published Posts" but implementation trusts the caller to have already filtered.
+    impact: Silent data leak of unpublished Posts via RSS once published becomes a real gate.
+    confidence: medium
+    review_status: accepted
+    source: llm
+  - id: code-reviewer-2
+    severity: high
+    category: security
+    title: Route handler uses a blanket catch-all that swallows any error type, including programmer bugs
+    description: >
+      GET() wraps the entire feed build in a single try/catch, masking config errors and unexpected bugs identically as a generic 500. Violates the MUST "catch specific errors, not generic catch-alls." Given dynamic = "force-static", this route is meant to be evaluated at build time; swallowing all errors into a runtime-shaped 500 undermines the fail-fast goal SITE_URL validation is meant to provide.
+
+    file: src/app/feed.xml/route.ts
+    lines: "18-30"
+    fix_proposal: >
+      Narrow the catch to the expected failure (check err.message for the SITE_URL marker, or export a dedicated SiteConfigError class and catch that specifically); re-throw anything else so it surfaces as an unhandled build/runtime error.
+
+    rationale: Direct match to security/secrets.md MUST rule; risk realized because this same PR introduces the SITE_URL fail-fast error this catch would mask.
+    impact: A genuine SITE_URL misconfiguration could produce a live 500 instead of failing the build if force-static evaluation timing ever changes.
+    confidence: medium
+    review_status: accepted
+    source: llm
+  - id: code-reviewer-3
+    severity: low
+    category: deps-and-config
+    title: New required SITE_URL env var is undocumented outside source comments
+    description: >
+      SITE_URL is a new mandatory, build-breaking env var, documented only in a JSDoc comment in siteConfig.ts — no .env.example entry, no README/CONTEXT.md mention.
+
+    file: src/data/siteConfig.ts
+    lines: "1-16"
+    fix_proposal: >
+      Add a SITE_URL= line to a checked-in .env.example, and/or a short Configuration section in CONTEXT.md/README noting the var.
+
+    rationale: deps-and-config.md SHOULD "document all configuration options."
+    impact: Next deployer hits a build failure with no discoverable pointer beyond the thrown error text.
+    confidence: high
+    review_status: accepted
+    source: llm
+  - id: code-reviewer-4
+    severity: low
+    category: correctness
+    title: RSS content-type header omits charset, and no caching header set
+    description: >
+      Response served with content-type: application/rss+xml, no charset=utf-8, despite the XML prolog declaring UTF-8. Route is force-static (fully cacheable) but sets no Cache-Control/ETag.
+
+    file: src/app/feed.xml/route.ts
+    lines: "20-26"
+    fix_proposal: 'Use "content-type": "application/rss+xml; charset=utf-8". Optionally add explicit Cache-Control.'
+    rationale: deps-and-config.md SHOULD-level cache-header guidance; minor interop correctness gap.
+    impact: Strict feed validators/some clients may mis-decode non-ASCII content without explicit charset.
+    confidence: medium
+    review_status: accepted
+    source: llm
+  - id: code-reviewer-5
+    severity: info
+    category: praise
+    title: Fail-fast SITE_URL design and pure/impure split are solid
+    description: >
+      resolveSiteUrl/getSiteUrl correctly mirror the pure-core/impure-rind pattern from postLoader.ts; rssFeed.ts's builder/serializer split centralizes XML escaping correctly (& first, avoiding double-escaping); SITE_URL correctly stays server-only (no NEXT_PUBLIC_ prefix).
+
+    file: src/data/siteConfig.ts
+    lines: "1-54"
+    confidence: high
+    review_status: noted
+    source: llm

@@ -21,3 +21,6 @@
 {"ts":"2026-07-03T06:13:35.000Z","category":"task_transition","task":"003","feature":"blog-readability","data":{"from_status":"implemented","to_status":"review","task_file":"specs/blog-readability/tasks/003-prev-next-nav.md"}}
 {"ts":"2026-07-03T06:40:54.000Z","category":"task_transition","task":"003","feature":"blog-readability","data":{"from_status":"review","to_status":"done","task_file":"specs/blog-readability/tasks/003-prev-next-nav.md"}}
 {"ts":"2026-07-03T06:59:04.000Z","category":"task_transition","task":"004","feature":"blog-readability","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/blog-readability/tasks/004-rss-feed.md"}}
+{"ts":"2026-07-03T07:01:37.000Z","category":"coverage_audit_start","task":"004-rss-feed","feature":"blog-readability","data":{}}
+{"ts":"2026-07-03T07:06:04.000Z","category":"task_transition","task":"004","feature":"blog-readability","data":{"from_status":"implemented","to_status":"review","task_file":"specs/blog-readability/tasks/004-rss-feed.md"}}
+{"ts":"2026-07-03T07:11:10.000Z","category":"task_transition","task":"004","feature":"blog-readability","data":{"from_status":"review","to_status":"done","task_file":"specs/blog-readability/tasks/004-rss-feed.md"}}
