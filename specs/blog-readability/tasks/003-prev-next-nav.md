@@ -1,7 +1,7 @@
 ---
 id: "003"
 name: Prev/next Post navigation
-status: todo
+status: in-progress
 blocked_by: []
 max_files: 5
 ground_rules:
