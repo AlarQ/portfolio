@@ -33,6 +33,7 @@ estimated_files:
   - e2e/coexistence.spec.ts
 interaction: hitl
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/47
 ---
 
 ## Objective
