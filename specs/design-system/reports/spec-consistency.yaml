@@ -1,0 +1,198 @@
+gate: spec-consistency
+verdict: resolved
+resolved_on: "2026-07-04"
+resolution_log: >
+  All 1 blocking + 4 warnings + actionable notes addressed after the audit:
+  (blocking) task 009 + FR-10 reworked to the repo's real gate model —
+  `.husky/pre-push` + `src/security/storybook-prod-exclusion.test.ts` (mirrors
+  ci-supply-chain.test.ts); `.github/workflows/ci.yml` dropped from
+  estimated_files; spec.md/test-strategy.md wording updated; 009 blocked_by now
+  [001,004,007]. (w1) every `Post` type reference repointed from `postLoader.ts`
+  to `src/data/posts.ts` across spec/prd/design/tasks 005+007 (buildPostSet/
+  mdxPresentation refs left on postLoader.ts, which is correct). (w2) task 008
+  blocked_by now [002,004,005,006]. (w3) task 009 blocked_by now includes 007.
+  (w4) task 004 Badge citation changed from "FR-6 / ADR-DS-4" to FR-6 only.
+  (notes) test-strategy sidebar flag corrected to "004 AND 005"; task 003 notes
+  current pinned Biome 2.3.14; task 007 states the inline @ts-expect-error
+  negative-fixture mechanism.
+original_verdict: needs-revision
+summary: >
+  design-system spec bundle is internally strong on FR->task traceability (all
+  FR-1..FR-11 owned; no orphan tasks) and the blocked_by graph is a clean acyclic
+  DAG. One blocking repo-architecture contradiction: FR-10 / task 009 specify a
+  GitHub Actions ci.yml gate that "fails the deploy", but this repo's documented
+  model is "GitHub Actions runs no checks; Vercel deploys; pre-push is the
+  authoritative gate" and no ci.yml exists. Four warnings (wrong module for the
+  Post type; two DAG-vs-verification-intent ordering gaps on 008/009; a wrong ADR
+  citation) and several low notes.
+counts:
+  blocking_issues: 1
+  warnings: 4
+  notes: 7
+
+blocking_issues:
+  - location: >
+      tasks/009-storybook-prod-exclusion-ci.md (estimated_files +
+      integration_seams + Acceptance #3); spec.md FR-10 &
+      sec-storybook-excluded-from-prod (lines 126-133, 342-348);
+      test-strategy.md lines 157, 332-334
+    issue: >
+      Task 009 and FR-10 specify a CI gate wired into `.github/workflows/ci.yml`
+      ("a CI check fails the deploy if any Storybook output is found"), with
+      estimated_files listing `.github/workflows/ci.yml` and
+      `scripts/check-no-storybook-in-build.sh`. This contradicts the repo's
+      documented CI architecture and references infrastructure the repo
+      deliberately does not have. `.husky/pre-push` states verbatim: "Pre-push is
+      the authoritative quality + supply-chain gate. GitHub Actions is reserved
+      for deployment (Vercel); it runs no checks." The only workflow present is
+      `.github/workflows/release.yml` (tag/release on push to main) - there is no
+      `ci.yml`, and deploys go through Vercel independently of GitHub Actions, so
+      a GH-Actions check cannot "fail the deploy". The established repo pattern
+      for exactly this kind of gate is a vitest regression test under
+      `src/security/` that asserts the pre-push hook contains the step (see
+      `src/security/ci-supply-chain.test.ts` and `src/security/secret-scan.test.ts`).
+    recommendation: >
+      Rework task 009 (and soften FR-10 / sec-storybook-excluded-from-prod
+      wording) to match the repo model: implement the exclusion assertion as a
+      vitest test under `src/security/` (e.g. `storybook-prod-exclusion.test.ts`)
+      that scans the `next build` output for storybook-static/ and *.stories.*
+      chunks, and add the enforcing step to `.husky/pre-push` (not a new ci.yml).
+      Drop `.github/workflows/ci.yml` from estimated_files, or explicitly scope
+      009 to CREATE a first-ever CI workflow AND reconcile it with the "Actions
+      runs no checks" decision in pre-push/CLAUDE-context - do not silently assume
+      a ci.yml that both is absent and is documented as intentionally check-free.
+
+warnings:
+  - location: >
+      spec.md FR-8 line 279 & scenario pages-use-real-post-type; design.md line 66
+      (PostType node); tasks/005 Acceptance #5 + Approach line 58; tasks/007
+      Approach line 46; test-strategy.md lines 5, 97, 121
+    issue: >
+      The bundle repeatedly names "the actual `Post` type from `postLoader.ts`"
+      as the fixture type source. In the real repo the `Post` interface is
+      declared and exported from `src/data/posts.ts`; `src/data/postLoader.ts`
+      only does `import type { Post } from "./posts"` and does NOT re-export it
+      (its exports are RawPostFile, buildPostSet, PostAdjacency, getAdjacentPosts).
+      An import `from "@/data/postLoader"` for `Post` would not resolve. Note the
+      field list quoted in the spec (slug, title, dek, date, readingTimeMinutes,
+      formattedDate, published) exactly matches `src/data/posts.ts` - only the
+      module path is wrong. (Conversely, FR-11's references to `buildPostSet` in
+      `postLoader.ts` ARE correct.) Also tasks 005/007 say "do not modify the type
+      - FR-11", but FR-11's byte-unchanged set is postLoader.ts + mdxPresentation.tsx,
+      not posts.ts where the type actually lives.
+    recommendation: >
+      Change every "Post type from postLoader.ts" reference to
+      `src/data/posts.ts` (fixtures should `import type { Post } from "@/data/posts"`).
+      Keep buildPostSet/mdxPresentation references pointed at postLoader.ts /
+      mdxPresentation.tsx (those are correct). This is load-bearing because FR-8's
+      whole guardrail is a `tsc --noEmit` compile-error on the real Post shape.
+
+  - location: >
+      tasks/008-light-dark-theming.md frontmatter blocked_by ["002","004"];
+      test-strategy.md lines 143, 336-338 (integration seam "validates 004-006")
+    issue: >
+      Task 008's integration proof is stated as "the 'zero per-component diff'
+      proof validates that 004-006's semantic-only binding actually held", but
+      008's blocked_by is only [002, 004]. Under `branch_strategy: per-task`, 008
+      can complete before tasks 005 (molecules) and 006 (organisms) merge, so its
+      zero-component-diff proof would only exercise the atom layer (004) and could
+      not validate 005/006's bindings - directly weakening the claim the seam is
+      supposed to back.
+    recommendation: >
+      Add 005 and 006 to task 008's blocked_by (or narrow the integration-seam
+      claim to "validates 004's binding" and defer molecule/organism validation).
+      Preferably make dark theming depend on the full component set it audits.
+
+  - location: >
+      tasks/009-storybook-prod-exclusion-ci.md blocked_by ["001","004"];
+      test-strategy.md line 334
+    issue: >
+      test-strategy rationale for 009 states "009 runs last against the real
+      npm run build artifact after all stories (004-007) exist - only then can the
+      exclusion scan see the full story surface... Owning it earlier (e.g. 001)
+      would test an incomplete story set." Yet 009's blocked_by is only [001, 004],
+      so nothing prevents 009 from running before 005/006/007 stories exist -
+      exactly the incomplete-story-surface scan the rationale says to avoid,
+      yielding a false pass.
+    recommendation: >
+      Add 007 to 009's blocked_by (007 transitively pulls 005/006 via 006<-005),
+      so the exclusion scan only runs once the full story/fixture surface exists.
+
+  - location: tasks/004-shadcn-primitives-badge-cva-atoms.md Approach line 65
+    issue: >
+      "Model Badge per FR-6 / ADR-DS-4 as an exhaustive class-variance-authority
+      map." ADR-DS-4 is the AA-contrast accepted-risk ADR (#7F56D9), unrelated to
+      the Badge CVA taxonomy. There is no badge-specific ADR in design.md
+      (ADR-DS-1..7 cover adapter, coexistence, token codegen, AA-contrast, dark
+      palette, lint, hex). The badge exhaustiveness requirement is FR-6 only.
+    recommendation: >
+      Drop the "ADR-DS-4" citation here; reference FR-6 (and the skillPresentation
+      Record<IconKey,...> analogue) alone, or add a dedicated ADR if one is wanted.
+
+notes:
+  - location: package.json line 50; design.md ADR-DS-6; tasks/003 test_cases
+    issue: >
+      ADR-DS-6 and task 003 treat "Biome broken at 2.4.15" as the pinning driver,
+      but the repo is already on `"@biomejs/biome": "2.3.14"` pinned exact (no
+      caret) - below 2.4.15. Task 003's "pin Biome not caret" acceptance is
+      therefore already largely satisfied. Confirm at build time that JS/TSX
+      GritQL plugin support exists on 2.3.14 before relying on
+      `grit/no-direct-palette-import.grit`.
+    recommendation: >
+      Note the current pinned version explicitly in task 003 and verify GritQL
+      JS-language plugin availability on 2.3.14 during the spike.
+
+  - location: test-strategy.md lines 300-302 (Coverage flag) vs tasks/006 Implements
+    issue: >
+      The coverage flag claims sidebar-atomic-design-order is "Listed in implements
+      of 004, 005, AND 006 - three claimants." Task 006's Implements table does not
+      list sidebar-atomic-design-order (only 004 and 005 do). The resolution (sole
+      owner 004) remains correct; only the claimant count is overstated.
+    recommendation: Correct the flag to "004 and 005"; no ownership change needed.
+
+  - location: >
+      Fixture reassignment (user-flagged item 5a): tasks/005, /006, /007
+    issue: >
+      Verified consistent. 005 creates+owns `src/stories/fixtures/posts.ts`
+      (estimated_files, Acceptance #5, Approach, test-strategy shared_fixtures);
+      006 and 007 both state "reuse/import forward, never recreate" and neither
+      lists posts.ts in estimated_files. No double-creation. Clean.
+    recommendation: No change (the module-path fix in warning #1 still applies to the type import).
+
+  - location: >
+      Dark-aware emitter reassignment (user-flagged item 5b): tasks/002 & /008
+    issue: >
+      Verified consistent. 002 Acceptance #6 + test_case
+      emitter_is_dark_aware_light_to_root_dark_to_dark_block + Approach make the
+      emitter emit light->:root and dark->.dark from the start with empty dark
+      values. 008 only edits token values and re-runs generate:tokens (must_not
+      hand-edit tokens.css). 008 listing tokens.css in estimated_files is fine -
+      it changes via regeneration, not hand-edit.
+    recommendation: No change.
+
+  - location: tasks/007 estimated_files vs Acceptance #3 / invented-post-prop-rejected
+    issue: >
+      007 owns the tsc-negative "omit/rename a Post field is a compile error"
+      guardrail, but estimated_files lists only the four Pages story files - no
+      dedicated negative-fixture asset. Presumably an inline `// @ts-expect-error`
+      or type-assertion within a story. Acceptable but unstated.
+    recommendation: Confirm the negative-fixture mechanism (inline @ts-expect-error vs a guarded file) at implement time.
+
+  - location: New-file paths across tasks (postcss.config.mjs, src/lib/utils.ts, components.json, grit/, src/components/ui/*)
+    issue: >
+      These are absent today and are legitimately created by their tasks
+      (001 postcss, 004 shadcn init -> utils/components.json/ui, 003 grit rule).
+      Expected greenfield, not misalignment. Only `.github/workflows/ci.yml`
+      (blocking issue above) is problematic.
+    recommendation: No change beyond the ci.yml blocking item.
+
+  - location: Repo spot-checks (positive confirmations)
+    issue: >
+      Verified against code: Next `^16.1.6`, MUI `^7.3.7`, React `19.2.3`,
+      vitest present (unit-test gate real; existing src/**/*.test.ts incl.
+      posts.test.ts / postLoader.test.ts). `buildPostSet` slug gate `^[a-z0-9-]+$`
+      in postLoader.ts and the script/iframe + rel="noopener noreferrer"
+      hardening in mdxPresentation.tsx both present and match FR-11. `brand` seam
+      in theme.ts has sky/lime/orange/backgroundDefault/backgroundPaper matching
+      ADR-DS-5. Post shape matches the fields the spec lists exactly.
+    recommendation: None - claims hold except the module-path issue in warning #1.
