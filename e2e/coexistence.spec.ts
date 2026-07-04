@@ -68,3 +68,67 @@ test.describe("MUI/Tailwind coexistence (ADR-DS-2)", () => {
     expect(bodyMargin).toBe("0px");
   });
 });
+
+/**
+ * FR-1 (`tooling-coexists-no-regression`, `build_succeeds_and_existing_routes_render_unchanged`).
+ * Exercises every existing route with the coexistence tooling landed and
+ * asserts each still renders without regression. `/` and `/projects` don't
+ * carry their own content today — `/` config-redirects to `/blog`
+ * (`next.config.ts`) and `/projects` is an intentional 404 (`navItems.ts`) —
+ * so "unchanged" for those two means the redirect/404 behavior itself still
+ * holds, not that they render blog-like content. `/blog` and a real
+ * `/blog/[slug]` are asserted against their actual identifying content.
+ * Chromium only: webkit/mobile suites carry known pre-existing failures
+ * unrelated to this change (CLAUDE.md), so scoping this claim to those
+ * engines would produce a false regression signal instead of a real one.
+ */
+test.describe("existing routes render without regression (FR-1)", () => {
+  function trackErrors(page: import("@playwright/test").Page) {
+    const consoleErrors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") consoleErrors.push(msg.text());
+    });
+    const pageErrors: string[] = [];
+    page.on("pageerror", (err) => pageErrors.push(err.message));
+    return () => {
+      expect(pageErrors).toEqual([]);
+      expect(consoleErrors).toEqual([]);
+    };
+  }
+
+  test("/ redirects to /blog and renders without regression", async ({ page }) => {
+    const assertNoErrors = trackErrors(page);
+
+    const response = await page.goto("/");
+    expect(response?.ok()).toBe(true);
+    await expect(page).toHaveURL(/\/blog$/);
+    await expect(page.locator("h1").first()).toHaveText(/blog/i);
+
+    assertNoErrors();
+  });
+
+  test("/projects remains an intentional 404, no regression to a live route", async ({ page }) => {
+    const response = await page.goto("/projects");
+    expect(response?.status()).toBe(404);
+  });
+
+  test("/blog renders without console/page errors", async ({ page }) => {
+    const assertNoErrors = trackErrors(page);
+
+    const response = await page.goto("/blog");
+    expect(response?.ok()).toBe(true);
+    await expect(page.locator("h1").first()).toHaveText(/blog/i);
+
+    assertNoErrors();
+  });
+
+  test("/blog/[slug] (real slug) renders without console/page errors", async ({ page }) => {
+    const assertNoErrors = trackErrors(page);
+
+    const response = await page.goto("/blog/my-spec-driven-workflow");
+    expect(response?.ok()).toBe(true);
+    await expect(page.locator("h1").first()).toHaveText(/bounded chaos/i);
+
+    assertNoErrors();
+  });
+});
