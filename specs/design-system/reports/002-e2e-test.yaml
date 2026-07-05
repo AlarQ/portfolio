@@ -1,0 +1,463 @@
+gate: e2e-test
+task_id: "002"
+status: findings
+findings:
+  - id: e2e-test-1
+    severity: medium
+    category: testing
+    title: "[firefox] Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg)"
+    description: "Playwright test failed on project \"firefox\": Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg). Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "200-200"
+    source: tool
+    review_status: pending
+  - id: e2e-test-2
+    severity: medium
+    category: testing
+    title: "[firefox] Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips"
+    description: "Playwright test failed on project \"firefox\": Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "180-180"
+    source: tool
+    review_status: pending
+  - id: e2e-test-3
+    severity: medium
+    category: testing
+    title: "[firefox] Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll"
+    description: "Playwright test failed on project \"firefox\": Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "161-161"
+    source: tool
+    review_status: pending
+  - id: e2e-test-4
+    severity: medium
+    category: testing
+    title: "[webkit] Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view"
+    description: "Playwright test failed on project \"webkit\": Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-anchors.spec.ts
+    lines: "19-19"
+    source: tool
+    review_status: pending
+  - id: e2e-test-5
+    severity: medium
+    category: testing
+    title: "[webkit] Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash"
+    description: "Playwright test failed on project \"webkit\": Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-anchors.spec.ts
+    lines: "32-32"
+    source: tool
+    review_status: pending
+  - id: e2e-test-6
+    severity: medium
+    category: testing
+    title: "[webkit] Blog Post detail › renders the authored MDX body as HTML"
+    description: "Playwright test failed on project \"webkit\": Blog Post detail › renders the authored MDX body as HTML. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-detail.spec.ts
+    lines: "15-15"
+    source: tool
+    review_status: pending
+  - id: e2e-test-7
+    severity: medium
+    category: testing
+    title: "[webkit] Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images"
+    description: "Playwright test failed on project \"webkit\": Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-detail.spec.ts
+    lines: "56-56"
+    source: tool
+    review_status: pending
+  - id: e2e-test-8
+    severity: medium
+    category: testing
+    title: "[webkit] Blog Post detail › does not leak raw frontmatter into the rendered body"
+    description: "Playwright test failed on project \"webkit\": Blog Post detail › does not leak raw frontmatter into the rendered body. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-detail.spec.ts
+    lines: "36-36"
+    source: tool
+    review_status: pending
+  - id: e2e-test-9
+    severity: medium
+    category: testing
+    title: "[webkit] Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS"
+    description: "Playwright test failed on project \"webkit\": Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-highlighting.spec.ts
+    lines: "19-19"
+    source: tool
+    review_status: pending
+  - id: e2e-test-10
+    severity: medium
+    category: testing
+    title: "[webkit] Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand)"
+    description: "Playwright test failed on project \"webkit\": Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand). Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-highlighting.spec.ts
+    lines: "45-45"
+    source: tool
+    review_status: pending
+  - id: e2e-test-11
+    severity: medium
+    category: testing
+    title: "[webkit] Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components"
+    description: "Playwright test failed on project \"webkit\": Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-mdx-mapping.spec.ts
+    lines: "13-13"
+    source: tool
+    review_status: pending
+  - id: e2e-test-12
+    severity: medium
+    category: testing
+    title: "[webkit] Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs"
+    description: "Playwright test failed on project \"webkit\": Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-nav.spec.ts
+    lines: "20-20"
+    source: tool
+    review_status: pending
+  - id: e2e-test-13
+    severity: medium
+    category: testing
+    title: "[webkit] Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank"
+    description: "Playwright test failed on project \"webkit\": Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-security.spec.ts
+    lines: "17-17"
+    source: tool
+    review_status: pending
+  - id: e2e-test-14
+    severity: medium
+    category: testing
+    title: "[webkit] Blog MDX body security › no third-party script or iframe is injected into the article"
+    description: "Playwright test failed on project \"webkit\": Blog MDX body security › no third-party script or iframe is injected into the article. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-security.spec.ts
+    lines: "32-32"
+    source: tool
+    review_status: pending
+  - id: e2e-test-15
+    severity: medium
+    category: testing
+    title: "[webkit] Blog in-page Table of Contents (desktop) › lists the post's headings in document order and is sticky"
+    description: "Playwright test failed on project \"webkit\": Blog in-page Table of Contents (desktop) › lists the post's headings in document order and is sticky. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-toc.spec.ts
+    lines: "19-19"
+    source: tool
+    review_status: pending
+  - id: e2e-test-16
+    severity: medium
+    category: testing
+    title: "[webkit] Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width"
+    description: "Playwright test failed on project \"webkit\": Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-toc.spec.ts
+    lines: "67-67"
+    source: tool
+    review_status: pending
+  - id: e2e-test-17
+    severity: medium
+    category: testing
+    title: "[webkit] Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id"
+    description: "Playwright test failed on project \"webkit\": Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-toc.spec.ts
+    lines: "46-46"
+    source: tool
+    review_status: pending
+  - id: e2e-test-18
+    severity: medium
+    category: testing
+    title: "[webkit] Blog navigation › marks the Blog entry active on a Post detail route"
+    description: "Playwright test failed on project \"webkit\": Blog navigation › marks the Blog entry active on a Post detail route. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "84-84"
+    source: tool
+    review_status: pending
+  - id: e2e-test-19
+    severity: medium
+    category: testing
+    title: "[webkit] Post detail readability & a11y › sets the document title from the Post title via generateMetadata"
+    description: "Playwright test failed on project \"webkit\": Post detail readability & a11y › sets the document title from the Post title via generateMetadata. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "103-103"
+    source: tool
+    review_status: pending
+  - id: e2e-test-20
+    severity: medium
+    category: testing
+    title: "[webkit] Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport"
+    description: "Playwright test failed on project \"webkit\": Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "110-110"
+    source: tool
+    review_status: pending
+  - id: e2e-test-21
+    severity: medium
+    category: testing
+    title: "[webkit] Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport"
+    description: "Playwright test failed on project \"webkit\": Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "134-134"
+    source: tool
+    review_status: pending
+  - id: e2e-test-22
+    severity: medium
+    category: testing
+    title: "[webkit] Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll"
+    description: "Playwright test failed on project \"webkit\": Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "161-161"
+    source: tool
+    review_status: pending
+  - id: e2e-test-23
+    severity: medium
+    category: testing
+    title: "[webkit] Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips"
+    description: "Playwright test failed on project \"webkit\": Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "180-180"
+    source: tool
+    review_status: pending
+  - id: e2e-test-24
+    severity: medium
+    category: testing
+    title: "[webkit] Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg)"
+    description: "Playwright test failed on project \"webkit\": Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg). Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "200-200"
+    source: tool
+    review_status: pending
+  - id: e2e-test-25
+    severity: medium
+    category: testing
+    title: "[webkit] Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus"
+    description: "Playwright test failed on project \"webkit\": Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "228-228"
+    source: tool
+    review_status: pending
+  - id: e2e-test-26
+    severity: medium
+    category: testing
+    title: "[webkit] Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion"
+    description: "Playwright test failed on project \"webkit\": Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "250-250"
+    source: tool
+    review_status: pending
+  - id: e2e-test-27
+    severity: medium
+    category: testing
+    title: "[webkit] existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors"
+    description: "Playwright test failed on project \"webkit\": existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/coexistence.spec.ts
+    lines: "125-125"
+    source: tool
+    review_status: pending
+  - id: e2e-test-28
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-anchors.spec.ts
+    lines: "19-19"
+    source: tool
+    review_status: pending
+  - id: e2e-test-29
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog Post detail › renders the authored MDX body as HTML"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog Post detail › renders the authored MDX body as HTML. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-detail.spec.ts
+    lines: "15-15"
+    source: tool
+    review_status: pending
+  - id: e2e-test-30
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-anchors.spec.ts
+    lines: "32-32"
+    source: tool
+    review_status: pending
+  - id: e2e-test-31
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog Post detail › does not leak raw frontmatter into the rendered body"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog Post detail › does not leak raw frontmatter into the rendered body. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-detail.spec.ts
+    lines: "36-36"
+    source: tool
+    review_status: pending
+  - id: e2e-test-32
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-detail.spec.ts
+    lines: "56-56"
+    source: tool
+    review_status: pending
+  - id: e2e-test-33
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-highlighting.spec.ts
+    lines: "19-19"
+    source: tool
+    review_status: pending
+  - id: e2e-test-34
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-nav.spec.ts
+    lines: "20-20"
+    source: tool
+    review_status: pending
+  - id: e2e-test-35
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-mdx-mapping.spec.ts
+    lines: "13-13"
+    source: tool
+    review_status: pending
+  - id: e2e-test-36
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand)"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand). Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-highlighting.spec.ts
+    lines: "45-45"
+    source: tool
+    review_status: pending
+  - id: e2e-test-37
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-security.spec.ts
+    lines: "17-17"
+    source: tool
+    review_status: pending
+  - id: e2e-test-38
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog MDX body security › no third-party script or iframe is injected into the article"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog MDX body security › no third-party script or iframe is injected into the article. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-security.spec.ts
+    lines: "32-32"
+    source: tool
+    review_status: pending
+  - id: e2e-test-39
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog in-page Table of Contents (desktop) › lists the post's headings in document order and is sticky"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog in-page Table of Contents (desktop) › lists the post's headings in document order and is sticky. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-toc.spec.ts
+    lines: "19-19"
+    source: tool
+    review_status: pending
+  - id: e2e-test-40
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-toc.spec.ts
+    lines: "46-46"
+    source: tool
+    review_status: pending
+  - id: e2e-test-41
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog-toc.spec.ts
+    lines: "67-67"
+    source: tool
+    review_status: pending
+  - id: e2e-test-42
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Blog navigation › marks the Blog entry active on a Post detail route"
+    description: "Playwright test failed on project \"Mobile Safari\": Blog navigation › marks the Blog entry active on a Post detail route. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "84-84"
+    source: tool
+    review_status: pending
+  - id: e2e-test-43
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Post detail readability & a11y › sets the document title from the Post title via generateMetadata"
+    description: "Playwright test failed on project \"Mobile Safari\": Post detail readability & a11y › sets the document title from the Post title via generateMetadata. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "103-103"
+    source: tool
+    review_status: pending
+  - id: e2e-test-44
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport"
+    description: "Playwright test failed on project \"Mobile Safari\": Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "110-110"
+    source: tool
+    review_status: pending
+  - id: e2e-test-45
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport"
+    description: "Playwright test failed on project \"Mobile Safari\": Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "134-134"
+    source: tool
+    review_status: pending
+  - id: e2e-test-46
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips"
+    description: "Playwright test failed on project \"Mobile Safari\": Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "180-180"
+    source: tool
+    review_status: pending
+  - id: e2e-test-47
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll"
+    description: "Playwright test failed on project \"Mobile Safari\": Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "161-161"
+    source: tool
+    review_status: pending
+  - id: e2e-test-48
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg)"
+    description: "Playwright test failed on project \"Mobile Safari\": Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg). Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "200-200"
+    source: tool
+    review_status: pending
+  - id: e2e-test-49
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus"
+    description: "Playwright test failed on project \"Mobile Safari\": Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "228-228"
+    source: tool
+    review_status: pending
+  - id: e2e-test-50
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion"
+    description: "Playwright test failed on project \"Mobile Safari\": Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/blog.spec.ts
+    lines: "250-250"
+    source: tool
+    review_status: pending
+  - id: e2e-test-51
+    severity: medium
+    category: testing
+    title: "[Mobile Safari] existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors"
+    description: "Playwright test failed on project \"Mobile Safari\": existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors. Known pre-existing webkit/mobile-safari failure class per project notes (profile-card heading mismatch); chromium is the reliable signal."
+    file: e2e/coexistence.spec.ts
+    lines: "125-125"
+    source: tool
+    review_status: pending

@@ -12,7 +12,12 @@ export default defineConfig({
 
   retries: process.env.CI ? 2 : 0,
 
-  workers: process.env.CI ? 1 : undefined,
+  // Local default (`undefined`) spawns one worker per core (~6 here). That
+  // oversubscribes CPU when heavier engines (WebKit/Gecko) render the heavy
+  // Post-detail page (shiki + Mermaid + fonts) concurrently, pushing the
+  // `load` event past navigationTimeout → false timeouts. Cap at 4 so heavy
+  // engines don't starve. CI stays serial.
+  workers: process.env.CI ? 1 : 4,
 
   webServer: {
     command: "npm run dev",

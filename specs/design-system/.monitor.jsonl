@@ -11,3 +11,5 @@
 {"ts":"2026-07-05T06:20:15.000Z","category":"tdd_green","task":"002","feature":"design-system","data":{"behaviors":9,"passed":9}}
 {"ts":"2026-07-05T06:27:59.000Z","category":"task_transition","task":"002","feature":"design-system","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/design-system/tasks/002-two-layer-token-codegen.md"}}
 {"ts":"2026-07-05T06:29:17.000Z","category":"task_update","task":"002","feature":"design-system","data":{"event":"pr_opened_draft","pr_url":"https://github.com/AlarQ/portfolio/pull/48","base":"feat/design-system"}}
+{"ts":"2026-07-05T12:21:23.000Z","category":"coverage_audit_start","task":"002","feature":"design-system","data":{}}
+{"ts":"2026-07-05T12:23:56.000Z","category":"coverage_audit_done","task":"002","feature":"design-system","data":{"verdict":"complete","report":"/Users/ernestbednarczyk/Desktop/projects/portfolio/specs/design-system/reports/002-coverage.yaml"}}

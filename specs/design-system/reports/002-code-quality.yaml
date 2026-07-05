@@ -1,0 +1,43 @@
+gate: code-quality
+task_id: "002"
+status: findings
+findings:
+  - id: cq-001
+    severity: high
+    category: over-engineering
+    title: Token colors authored as hex, not OKLCH (KB MUST violation, ADR-overridden)
+    description: >-
+      frontend/design-tokens.md MUST requires colors authored in OKLCH
+      (`oklch(L C H)`). `src/theme/tokens.ts` authors every primitive as hex,
+      including a from-scratch HSL interpolation engine (hexToRgb/rgbToHsl/
+      hslToHex/rgbToHex, ~50 lines) built solely to synthesize the primary
+      50-900 ramp in hex space — work that would be unnecessary if the ramp
+      were authored directly in OKLCH (trivial L-axis interpolation, no RGB/HSL
+      conversion math needed).
+    file: src/theme/tokens.ts
+    lines: "20-113"
+    code_snippet: "function hexToRgb(hex: string): [number, number, number] { ... }"
+    fix_proposal: >-
+      No mechanical fix — this is a deliberate, documented project decision
+      (ADR-DS-7: "hex per ADR-DS-7 (no OKLCH)"), not an oversight. Recorded
+      here so the KB/ADR conflict is visible; no action needed unless the ADR
+      is revisited.
+    rationale: >-
+      The KB rule is graded MUST specifically because OKLCH gives perceptually
+      uniform lightness/chroma, which is exactly the property this codebase
+      hand-rolls via a bespoke HSL ramp generator to approximate. The project
+      CLAUDE.md and task Approach section explicitly cite ADR-DS-7 as the
+      reason for staying in hex (pixel-fidelity to observed Figma nodes), so
+      this is a conscious, recorded architectural trade-off rather than a gap.
+    impact: >-
+      None immediate — behavior is correct and tested. Long-term cost is that
+      this repo carries a hand-written color-space conversion module
+      (hexToRgb/rgbToHsl/hslToHex) that a OKLCH-native approach would not need,
+      and any future contributor unaware of ADR-DS-7 may flag this as a KB
+      violation without realizing it was a considered trade-off.
+    references:
+      - "general:frontend/design-tokens.md"
+      - "docs/adr (ADR-DS-7)"
+    confidence: medium
+    review_status: pending
+    source: llm
