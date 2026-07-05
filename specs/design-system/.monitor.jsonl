@@ -5,3 +5,4 @@
 {"ts":"2026-07-05T05:34:49.000Z","category":"task_transition","task":"001","feature":"design-system","data":{"from_status":"implemented","to_status":"review","task_file":"specs/design-system/tasks/001-coexistence-tooling-storybook-boot.md"}}
 {"ts":"2026-07-05T05:49:53.000Z","category":"task_transition","task":"001","feature":"design-system","data":{"from_status":"review","to_status":"done","task_file":"specs/design-system/tasks/001-coexistence-tooling-storybook-boot.md"}}
 {"ts":"2026-07-05T05:49:53.000Z","category":"task_transition","task":"002","feature":"design-system","data":{"from_status":"blocked","to_status":"todo","task_file":"specs/design-system/tasks//002-two-layer-token-codegen.md"}}
+{"ts":"2026-07-05T05:52:28.000Z","category":"task_update","task":"001","feature":"design-system","data":{"event":"pr_ready","pr_url":"https://github.com/AlarQ/portfolio/pull/47"}}
