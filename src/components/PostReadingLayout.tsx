@@ -6,6 +6,7 @@ import { PostToc } from "@/components/PostToc";
 import type { PostAdjacency } from "@/data/postLoader";
 import type { TocEntry } from "@/data/postToc";
 import { proseMeasure } from "@/theme/theme";
+import { proseTextSx } from "@/utils/mdxPresentationText";
 
 interface PostReadingLayoutProps {
   readonly title: string;
@@ -30,6 +31,13 @@ export function PostReadingLayout({ title, toc, adjacency, children }: PostReadi
     <Box
       sx={{
         display: "grid",
+        // `proseMeasure` is `64ch`; `ch` in the column template resolves against
+        // THIS grid box's font-size. Anchor it to the reading font so the prose
+        // column is 64 characters of the actual body text — otherwise `ch`
+        // collapses to the default 16px and the column renders ~48 CPL while the
+        // 1.125rem prose inside reads far wider than the measure intends. The ToC
+        // sets its own font sizes, so it is unaffected by this inherited value.
+        fontSize: proseTextSx.fontSize,
         // Cells stretch to the (tall) prose row so the sticky ToC has travel room.
         gridTemplateColumns: { xs: "1fr", md: `1fr minmax(0, ${proseMeasure}) 1fr` },
       }}

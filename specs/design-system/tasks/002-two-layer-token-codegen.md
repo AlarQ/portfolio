@@ -31,6 +31,7 @@ estimated_files:
   - src/app/globals.css
 interaction: afk
 implementer: generalist
+pr_url: https://github.com/AlarQ/portfolio/pull/48
 ---
 
 ## Objective
