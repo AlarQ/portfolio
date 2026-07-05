@@ -1,7 +1,7 @@
 ---
 id: "002"
 name: Two-layer token codegen (tokens.ts → @generated tokens.css)
-status: blocked
+status: todo
 blocked_by: ["001"]
 max_files: 6
 ground_rules:

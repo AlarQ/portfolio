@@ -37,7 +37,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable}`}>
-        <AppRouterCacheProvider>
+        {/* ADR-DS-2: `enableCssLayer` must be set here too — this registry's
+            `cache.insert` is what actually wraps every emitted Emotion rule
+            in `@layer mui {...}`. `StyledEngineProvider`'s own `enableCssLayer`
+            (ThemeProvider.tsx) only toggles a compat flag consumed by MUI's
+            style hooks; without also setting it here, only some MUI CSS is
+            layered, producing a real (not test-detectable) cascade gap. */}
+        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider>
             <Navigation />
             <Box sx={{ pt: { xs: 11, sm: 13 } }}>{children}</Box>

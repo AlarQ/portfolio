@@ -1,3 +1,23 @@
+/*
+ * ADR-DS-2: Tailwind v4's `theme`/`utilities` layers only — deliberately NOT
+ * `@import "tailwindcss";` (which also pulls in `tailwindcss/preflight`).
+ * Skipping the preflight import is how preflight is disabled at the source;
+ * MUI's `CssBaseline` (see `src/theme/ThemeProvider.tsx`) remains the sole
+ * base-element reset authority during coexistence.
+ */
+/*
+ * Explicit layer order (ADR-DS-2): declaring it up front fixes cascade
+ * priority regardless of each layer's actual stylesheet position in `<head>`
+ * — CSS resolves `@layer` priority by first-declared order, last wins ties.
+ * `mui` (StyledEngineProvider `enableCssLayer` in ThemeProvider.tsx) is
+ * declared last so Emotion/MUI styles win over Tailwind's `theme`/`utilities`
+ * on any cascade tie.
+ */
+@layer theme, utilities, mui;
+
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

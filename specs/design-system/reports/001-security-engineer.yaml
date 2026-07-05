@@ -1,0 +1,37 @@
+gate: security-engineer
+task_id: "001"
+status: findings
+findings:
+  - id: sec-001
+    severity: high
+    category: security
+    title: Path traversal in static-Storybook e2e server request handler
+    description: >-
+      startStorybookStaticServer joins url.pathname straight into the filesystem (join(outDir, url.pathname)) with no normalization/containment check, so GET /../../../../etc/passwd resolves outside outDir and is streamed back (CWE-22). Fix: resolve against outDir and reject paths not prefixed by resolve(outDir)+sep (403/404). Test-only harness, not shipped to prod, but a real traversal on the new network-facing surface CLAUDE.md flags.
+    file: e2e/support/storybookStaticServer.ts
+    lines: "40"
+    source: llm
+    review_status: rejected
+    review_notes: 'Rejected: test-only harness, never shipped to prod; traversal/bind-all risk is out of the real threat model.'
+  - id: sec-002
+    severity: medium
+    category: security
+    title: Ephemeral static server binds all interfaces instead of loopback
+    description: >-
+      server.listen(0, resolve) omits the host arg, defaulting to 0.0.0.0 rather than 127.0.0.1. Combined with sec-001 the traversal is reachable from other hosts on the CI runner during the test window. Fix: server.listen(0, '127.0.0.1', resolve) and update baseUrl.
+    file: e2e/support/storybookStaticServer.ts
+    lines: "48"
+    source: llm
+    review_status: rejected
+    review_notes: 'Rejected: test-only harness, never shipped to prod; traversal/bind-all risk is out of the real threat model.'
+  - id: sec-003
+    severity: medium
+    category: security
+    title: next-themes in production dependencies with no caller
+    description: >-
+      next-themes is pinned in dependencies (ships to prod bundle) but the only reference is depsPinned.test.ts; no provider wiring (deferred to Task 008). Unused prod dep = dead supply-chain/attack surface. Fix: move to devDependencies until Task 008 wires it, or pull the add forward into 008.
+    file: package.json
+    lines: "44"
+    source: llm
+    review_status: rejected
+    review_notes: 'Rejected: intentional forward-pin; task 001 pins the full dep set (depsPinned.test.ts), task 008 wires next-themes.'
