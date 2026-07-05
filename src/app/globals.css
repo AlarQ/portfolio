@@ -15,13 +15,16 @@
  */
 @layer theme, utilities, mui;
 
+/*
+ * ADR-DS-3: the @generated semantic token layer loads BEFORE Tailwind's
+ * utility layer so any utility referencing a semantic var resolves it. Never
+ * hand-edit tokens.css — change src/theme/tokens.ts and run `generate:tokens`.
+ */
+@import "../theme/tokens.css";
 @import "tailwindcss/theme" layer(theme);
 @import "tailwindcss/utilities" layer(utilities);
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-
   /*
    * Shiki code-block palette — the second surface of the brand seam (ADR-0001).
    * MIRROR of `shikiVars` in `src/theme/theme.ts`; values come ONLY from `brand`
@@ -37,13 +40,6 @@
   --shiki-token-constant: #f97316;
   --shiki-token-function: #a855f7;
   --shiki-token-variable: #7dd3fc;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 html,

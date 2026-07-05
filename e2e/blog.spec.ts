@@ -14,16 +14,18 @@ import { expect, test } from "@playwright/test";
  */
 
 test.describe("Blog index", () => {
-  // index-lists-posts (FR-1): the published Post appears on /blog
-  test("lists the published Post", async ({ page }) => {
+  // index-lists-posts + index-item-shows-meta (FR-1): the published Post
+  // surfaces on /blog as a navigable card exposing title, dek, date, and
+  // reading time. (The bare "title link is visible" assertion is folded in
+  // here via getByRole("link") rather than kept as a separate test.)
+  test("lists the published Post with its title link, dek, date, and reading time", async ({
+    page,
+  }) => {
     await page.goto("/blog");
 
+    // The card is wrapped in a navigable link (an ancestor of the testid'd
+    // content), so assert the link at page scope and the metadata within the item.
     await expect(page.getByRole("link", { name: /Bounded Chaos/ })).toBeVisible();
-  });
-
-  // index-item-shows-meta (FR-1): title, dek, date, and reading time all show
-  test("shows each item's title, dek, date, and reading time", async ({ page }) => {
-    await page.goto("/blog");
 
     const item = page.getByTestId("featured-post");
     await expect(item.getByText("Bounded Chaos")).toBeVisible();
@@ -106,28 +108,6 @@ test.describe("Post detail readability & a11y", () => {
     await expect(page).toHaveTitle(/Bounded Chaos/);
   });
 
-  // prose-measure-constrained (FR-10): wide-viewport prose measure ~60-75ch
-  test("constrains prose measure to ~60-75ch on a wide viewport", async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/blog/my-spec-driven-workflow");
-
-    const para = page.locator("article p").first();
-    await expect(para).toBeVisible();
-    const ch = await para.evaluate((el) => {
-      const style = getComputedStyle(el);
-      const ctx = document.createElement("canvas").getContext("2d");
-      if (!ctx) throw new Error("no canvas 2d context");
-      ctx.font = `${style.fontSize} ${style.fontFamily}`;
-      const zero = ctx.measureText("0").width;
-      const content =
-        el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-      return content / zero;
-    });
-
-    expect(ch).toBeGreaterThan(50);
-    expect(ch).toBeLessThan(85);
-  });
-
   // typography-measure-constrained (task 005): the prose column's declared CSS
   // measure is exactly the `proseMeasure` token (64ch), shared with the
   // PostReadingLayout ToC grid — not a raw per-component literal.
@@ -196,26 +176,39 @@ test.describe("Post detail readability & a11y", () => {
   });
 
   // code-contrast-aa (FR-11): highlighted code foreground vs background meets
-  // WCAG-AA (>= 4.5:1)
-  test("code text meets WCAG-AA contrast (shiki fg vs bg)", async ({ page }) => {
+  // WCAG-AA (>= 4.5:1).
+  //
+  // Sample the ACTUALLY-RENDERED colors — the resolved computed `color` of the
+  // rendered code text and the resolved `background-color` of its `<pre>` — not
+  // the raw `--shiki-*` root vars. The old root-var read passed as long as the
+  // variables held their values even if the rendered code had stopped resolving
+  // them (e.g. a seam override, a dropped var, a changed background). This reads
+  // the cascade's real output. (Main code-text foreground is measured, not
+  // per-token spans: dim tokens like comments are intentionally below 4.5:1.)
+  test("rendered code text meets WCAG-AA contrast against its background", async ({ page }) => {
     await page.goto("/blog/my-spec-driven-workflow");
 
-    const ratio = await page.evaluate(() => {
-      const root = getComputedStyle(document.documentElement);
-      const fg = root.getPropertyValue("--shiki-fg").trim();
-      const bg = root.getPropertyValue("--shiki-bg").trim();
-      const lum = (hex: string) => {
-        const n = hex.replace("#", "");
-        const channels = [0, 2, 4]
-          .map((i) => parseInt(n.slice(i, i + 2), 16) / 255)
-          .map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
-        return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+    const { fg, bg } = await page.evaluate(() => {
+      const code = document.querySelector("article pre code");
+      const pre = document.querySelector("article pre");
+      if (!code || !pre) throw new Error("no rendered code block found");
+      return {
+        fg: getComputedStyle(code).color,
+        bg: getComputedStyle(pre).backgroundColor,
       };
-      const a = lum(fg);
-      const b = lum(bg);
-      const [hi, lo] = a > b ? [a, b] : [b, a];
-      return (hi + 0.05) / (lo + 0.05);
     });
+
+    const rgb = (c: string) => (c.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+    const lum = ([r, g, b]: number[]) => {
+      const ch = [r, g, b]
+        .map((v) => v / 255)
+        .map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+      return 0.2126 * ch[0] + 0.7152 * ch[1] + 0.0722 * ch[2];
+    };
+    const a = lum(rgb(fg));
+    const b = lum(rgb(bg));
+    const [hi, lo] = a > b ? [a, b] : [b, a];
+    const ratio = (hi + 0.05) / (lo + 0.05);
 
     expect(ratio).toBeGreaterThanOrEqual(4.5);
   });
@@ -245,15 +238,38 @@ test.describe("Post detail readability & a11y", () => {
     expect(hasOutline || hasBoxShadow).toBe(true);
   });
 
-  // reduced-motion-respected (FR-11): prefers-reduced-motion suppresses the
-  // post entrance motion, surfaced deterministically via data-reduced-motion
-  test("respects prefers-reduced-motion by suppressing entrance motion", async ({ page }) => {
+  // reduced-motion-respected (FR-11): prefers-reduced-motion is surfaced
+  // deterministically on the article via data-reduced-motion, which drives
+  // whether framer-motion applies the entrance keyframe.
+  //
+  // NOTE: a settled computed opacity/transform is deliberately NOT asserted.
+  // usePrefersReducedMotion starts `false` on SSR/first paint (hydration-safe)
+  // then flips on mount, so the entrance animation briefly runs even under
+  // reduce — a computed-style sample is racy (observed opacity ~0.08 mid-ramp).
+  // The attribute is the deterministic contract; the paired test below guards
+  // it against being hardcoded.
+  test("respects prefers-reduced-motion by flagging entrance motion suppressed", async ({
+    page,
+  }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/blog/my-spec-driven-workflow");
 
     await expect(page.locator("article[data-reduced-motion]")).toHaveAttribute(
       "data-reduced-motion",
       "true"
+    );
+  });
+
+  // Guards the attribute against being hardcoded: with reduced motion NOT
+  // requested it must read "false", proving it tracks the media query rather
+  // than always reporting suppression.
+  test("marks entrance motion active when reduced motion is not requested", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto("/blog/my-spec-driven-workflow");
+
+    await expect(page.locator("article[data-reduced-motion]")).toHaveAttribute(
+      "data-reduced-motion",
+      "false"
     );
   });
 });

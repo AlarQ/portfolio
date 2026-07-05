@@ -60,12 +60,23 @@ test.describe("MUI/Tailwind coexistence (ADR-DS-2)", () => {
     expect(layerEvidence.muiIndex).toBeGreaterThan(layerEvidence.utilitiesIndex);
   });
 
-  test("CssBaseline keeps body margin reset to 0 with Tailwind loaded", async ({ page }) => {
+  test("CssBaseline resets body margin to 0 (UA default 8px) with Tailwind loaded", async ({
+    page,
+  }) => {
     await page.goto("/blog");
 
-    const bodyMargin = await page.evaluate(() => getComputedStyle(document.body).marginTop);
+    // The user-agent default is `body { margin: 8px }` on all sides. Tailwind
+    // preflight is disabled and `globals.css` never sets a body margin, so the
+    // ONLY thing zeroing it here is MUI `CssBaseline` (emitted under
+    // `@layer mui`). Asserting all four sides are 0 therefore fails if
+    // CssBaseline is removed — the margin would revert to the 8px UA default,
+    // which a single `marginTop` read against a coincidental 0 could miss.
+    const margins = await page.evaluate(() => {
+      const s = getComputedStyle(document.body);
+      return [s.marginTop, s.marginRight, s.marginBottom, s.marginLeft];
+    });
 
-    expect(bodyMargin).toBe("0px");
+    expect(margins).toEqual(["0px", "0px", "0px", "0px"]);
   });
 });
 

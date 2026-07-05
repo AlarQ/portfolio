@@ -57,10 +57,10 @@ test.describe("Navigation", () => {
       await page.waitForTimeout(500);
       await expect(page.locator("#mobile-menu")).toBeVisible();
 
-      // Verify hamburger button changed to close button
+      // Verify hamburger button changed to close button (aria-expanded state is
+      // asserted in the Accessibility describe below).
       const closeButton = page.locator('button[aria-label="Close menu"]');
       await expect(closeButton).toBeVisible();
-      await expect(closeButton).toHaveAttribute("aria-expanded", "true");
 
       // Close drawer by pressing Escape (more reliable than clicking covered button)
       await page.keyboard.press("Escape");
@@ -70,7 +70,10 @@ test.describe("Navigation", () => {
     });
 
     test("should navigate from drawer", async ({ page }) => {
-      await page.goto("/blog");
+      // Start on a Post *detail* route so the drawer link produces a real URL
+      // change (detail → index). Starting on /blog would make toHaveURL("/blog")
+      // pass even if the click were a no-op.
+      await page.goto("/blog/my-spec-driven-workflow");
 
       // Open drawer
       await page.click('button[aria-label="Open menu"]');
@@ -79,8 +82,8 @@ test.describe("Navigation", () => {
       // Click Blog link in drawer
       await page.click('#mobile-menu a[href="/blog"]');
 
-      // Verify navigation and drawer closed
-      await expect(page).toHaveURL("/blog");
+      // Verify real navigation off the detail route and that the drawer closed.
+      await expect(page).toHaveURL(/\/blog$/);
       await expect(page.locator("#mobile-menu")).not.toBeVisible();
     });
 
@@ -100,44 +103,29 @@ test.describe("Navigation", () => {
       await expect(page.locator("#mobile-menu")).not.toBeVisible();
     });
 
-    test("should close drawer on Escape key", async ({ page }) => {
-      await page.goto("/blog");
-
-      // Open drawer
-      await page.click('button[aria-label="Open menu"]');
-      await page.waitForTimeout(500);
-      await expect(page.locator("#mobile-menu")).toBeVisible();
-
-      // Press Escape
-      await page.keyboard.press("Escape");
-      await page.waitForTimeout(500);
-
-      // Verify drawer closed
-      await expect(page.locator("#mobile-menu")).not.toBeVisible();
-    });
+    // Escape-to-close is covered by "should open and close drawer" above.
   });
 
   test.describe("Keyboard Navigation", () => {
-    test("should navigate links with Tab key on desktop", async ({ page }) => {
+    test("should move focus to the Blog link via the Tab key on desktop", async ({ page }) => {
       await page.setViewportSize({ width: 1200, height: 800 });
       await page.goto("/blog");
 
-      // Click on body to ensure we start from the page
+      // Start focus from the top of the document.
       await page.click("body");
 
-      // Tab multiple times to reach navigation
-      for (let i = 0; i < 5; i++) {
+      const blogLink = page.getByRole("link", { name: "Blog", exact: true });
+
+      // Tabbing through the header chrome must actually land focus ON the Blog
+      // link — not merely leave it present in the DOM. Fail if it never does.
+      let focused = false;
+      for (let i = 0; i < 8 && !focused; i++) {
         await page.keyboard.press("Tab");
-        const href = await page.evaluate(() => document.activeElement?.getAttribute("href"));
-        if (href && ["/blog"].includes(href)) {
-          // Successfully focused a nav link
-          expect(href).toBeTruthy();
-          return;
-        }
+        focused = await blogLink.evaluate((el) => el === document.activeElement);
       }
 
-      // If we get here, verify at least that the navigation link exists
-      await expect(page.getByRole("link", { name: "Blog" })).toBeVisible();
+      expect(focused).toBe(true);
+      await expect(blogLink).toBeFocused();
     });
 
     test("should focus first link when mobile drawer opens", async ({ page }) => {
@@ -174,48 +162,33 @@ test.describe("Navigation", () => {
       await expect(closeButton).toHaveAttribute("aria-expanded", "true");
     });
 
-    test("should have nav landmark", async ({ page }) => {
-      await page.goto("/blog");
-
-      // Two responsive <nav> elements render (desktop + mobile); only one is
-      // visible at a given viewport. getByRole excludes the hidden one.
-      await expect(page.getByRole("navigation").first()).toBeVisible();
-    });
-
-    test("should have aria-current on active page", async ({ page }) => {
-      // On narrow viewports (e.g. Mobile Chrome) the nav is a closed drawer
-      // whose links are unmounted until opened (see MobileNav.tsx), so the
-      // desktop width is forced here to assert against the always-mounted
-      // desktop nav.
-      await page.setViewportSize({ width: 1200, height: 800 });
-      await page.goto("/blog");
-
-      await expect(page.getByRole("link", { name: "Blog", exact: true })).toHaveAttribute(
-        "aria-current",
-        "page"
-      );
-    });
+    // The nav landmark's presence and the Blog link's aria-current="page" are
+    // already asserted by the Desktop Navigation describe above; not repeated.
   });
 
   test.describe("Visual Effects", () => {
-    test("should have glassmorphism styling", async ({ page }) => {
+    test("nav chrome applies a real backdrop-filter blur (glassmorphism)", async ({ page }) => {
       await page.goto("/blog");
 
-      const nav = page.locator("nav").first();
-
-      // Verify the navigation has the glassmorphism container
-      const hasGlassmorphism = await nav.evaluate((el) => {
-        const parent = el.parentElement;
-        if (!parent) return false;
-        const styles = window.getComputedStyle(parent);
-        // Check for semi-transparent background and border
-        const hasTransparentBg =
-          styles.backgroundColor.includes("rgba") || styles.backgroundColor.includes("hsla");
-        const hasBorder = styles.border !== "none" && styles.border !== "";
-        return hasTransparentBg && hasBorder;
+      // The old assertion accepted any rgba/hsla background + any border — a
+      // condition countless unrelated styles satisfy, and it never checked the
+      // blur that actually makes the glass effect. Navigation.tsx sets
+      // `backdrop-filter: blur(16px)` on the glass container; assert that the
+      // rendered chrome actually carries a blur() backdrop-filter. Fails if the
+      // blur is dropped, which the previous check would have missed.
+      const backdrop = await page.evaluate(() => {
+        for (const el of Array.from(document.querySelectorAll("body *"))) {
+          const s = getComputedStyle(el);
+          const bf =
+            s.backdropFilter ||
+            (s as unknown as { webkitBackdropFilter?: string }).webkitBackdropFilter ||
+            "";
+          if (bf.includes("blur")) return bf;
+        }
+        return null;
       });
 
-      expect(hasGlassmorphism).toBe(true);
+      expect(backdrop).toContain("blur");
     });
   });
 });
