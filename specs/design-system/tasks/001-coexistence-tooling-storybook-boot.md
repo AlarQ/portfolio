@@ -1,7 +1,7 @@
 ---
 id: "001"
 name: Coexistence tooling + Storybook boot (the toolchain gate)
-status: implemented
+status: done
 blocked_by: []
 max_files: 12
 ground_rules:

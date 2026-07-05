@@ -1,0 +1,24 @@
+gate: claude-md-compliance-checker
+task_id: "001"
+status: findings
+findings:
+  - id: cmc-001
+    severity: medium
+    category: architecture
+    title: Storybook fixtures under src/components/ violate the seam boundary
+    description: >-
+      CLAUDE.md reserves src/components/*.tsx for MUI components consuming presentation-seam output in the data → presentation → component flow. AdapterFidelityCard/CascadeTieFixtureCard are pure tooling fixtures with no domain data and no *Presentation seam. Author flagged this (cq-004) but left it. Fix: move to src/storybook-tooling/fixtures/ alongside the rest of this task's tooling.
+    file: src/components/storybook-fixtures/AdapterFidelityCard.tsx
+    lines: null
+    source: llm
+    review_status: rejected
+  - id: cmc-002
+    severity: low
+    category: style
+    title: Cascade-tie fixture pairs brand seam color with raw Tailwind utility
+    description: >-
+      CascadeTieFixtureCard sources its MUI color from brand.orange (correct) but pairs it with raw bg-red-600. Intentional (the fixture forces a cascade collision) and not a brand-seam violation since Tailwind's palette is a separate system. Fix (optional): add a one-line comment that bg-red-600 is deliberately out-of-seam to prove Emotion wins the tie, so it is not treated as precedent for hardcoding Tailwind colors in real components.
+    file: src/components/storybook-fixtures/CascadeTieFixtureCard.tsx
+    lines: "18"
+    source: llm
+    review_status: rejected
