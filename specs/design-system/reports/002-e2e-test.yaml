@@ -10,7 +10,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "200-200"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-2
     severity: medium
     category: testing
@@ -19,7 +20,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "180-180"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-3
     severity: medium
     category: testing
@@ -28,7 +30,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "161-161"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-4
     severity: medium
     category: testing
@@ -37,7 +40,8 @@ findings:
     file: e2e/blog-anchors.spec.ts
     lines: "19-19"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-5
     severity: medium
     category: testing
@@ -46,7 +50,8 @@ findings:
     file: e2e/blog-anchors.spec.ts
     lines: "32-32"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-6
     severity: medium
     category: testing
@@ -55,7 +60,8 @@ findings:
     file: e2e/blog-detail.spec.ts
     lines: "15-15"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-7
     severity: medium
     category: testing
@@ -64,7 +70,8 @@ findings:
     file: e2e/blog-detail.spec.ts
     lines: "56-56"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-8
     severity: medium
     category: testing
@@ -73,7 +80,8 @@ findings:
     file: e2e/blog-detail.spec.ts
     lines: "36-36"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-9
     severity: medium
     category: testing
@@ -82,7 +90,8 @@ findings:
     file: e2e/blog-highlighting.spec.ts
     lines: "19-19"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-10
     severity: medium
     category: testing
@@ -91,7 +100,8 @@ findings:
     file: e2e/blog-highlighting.spec.ts
     lines: "45-45"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-11
     severity: medium
     category: testing
@@ -100,7 +110,8 @@ findings:
     file: e2e/blog-mdx-mapping.spec.ts
     lines: "13-13"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-12
     severity: medium
     category: testing
@@ -109,7 +120,8 @@ findings:
     file: e2e/blog-nav.spec.ts
     lines: "20-20"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-13
     severity: medium
     category: testing
@@ -118,7 +130,8 @@ findings:
     file: e2e/blog-security.spec.ts
     lines: "17-17"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-14
     severity: medium
     category: testing
@@ -127,7 +140,8 @@ findings:
     file: e2e/blog-security.spec.ts
     lines: "32-32"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-15
     severity: medium
     category: testing
@@ -136,7 +150,8 @@ findings:
     file: e2e/blog-toc.spec.ts
     lines: "19-19"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-16
     severity: medium
     category: testing
@@ -145,7 +160,8 @@ findings:
     file: e2e/blog-toc.spec.ts
     lines: "67-67"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-17
     severity: medium
     category: testing
@@ -154,7 +170,8 @@ findings:
     file: e2e/blog-toc.spec.ts
     lines: "46-46"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-18
     severity: medium
     category: testing
@@ -163,7 +180,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "84-84"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-19
     severity: medium
     category: testing
@@ -172,7 +190,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "103-103"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-20
     severity: medium
     category: testing
@@ -181,7 +200,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "110-110"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-21
     severity: medium
     category: testing
@@ -190,7 +210,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "134-134"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-22
     severity: medium
     category: testing
@@ -199,7 +220,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "161-161"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-23
     severity: medium
     category: testing
@@ -208,7 +230,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "180-180"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-24
     severity: medium
     category: testing
@@ -217,7 +240,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "200-200"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-25
     severity: medium
     category: testing
@@ -226,7 +250,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "228-228"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-26
     severity: medium
     category: testing
@@ -235,7 +260,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "250-250"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-27
     severity: medium
     category: testing
@@ -244,7 +270,8 @@ findings:
     file: e2e/coexistence.spec.ts
     lines: "125-125"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-28
     severity: medium
     category: testing
@@ -253,7 +280,8 @@ findings:
     file: e2e/blog-anchors.spec.ts
     lines: "19-19"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-29
     severity: medium
     category: testing
@@ -262,7 +290,8 @@ findings:
     file: e2e/blog-detail.spec.ts
     lines: "15-15"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-30
     severity: medium
     category: testing
@@ -271,7 +300,8 @@ findings:
     file: e2e/blog-anchors.spec.ts
     lines: "32-32"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-31
     severity: medium
     category: testing
@@ -280,7 +310,8 @@ findings:
     file: e2e/blog-detail.spec.ts
     lines: "36-36"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-32
     severity: medium
     category: testing
@@ -289,7 +320,8 @@ findings:
     file: e2e/blog-detail.spec.ts
     lines: "56-56"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-33
     severity: medium
     category: testing
@@ -298,7 +330,8 @@ findings:
     file: e2e/blog-highlighting.spec.ts
     lines: "19-19"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-34
     severity: medium
     category: testing
@@ -307,7 +340,8 @@ findings:
     file: e2e/blog-nav.spec.ts
     lines: "20-20"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-35
     severity: medium
     category: testing
@@ -316,7 +350,8 @@ findings:
     file: e2e/blog-mdx-mapping.spec.ts
     lines: "13-13"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-36
     severity: medium
     category: testing
@@ -325,7 +360,8 @@ findings:
     file: e2e/blog-highlighting.spec.ts
     lines: "45-45"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-37
     severity: medium
     category: testing
@@ -334,7 +370,8 @@ findings:
     file: e2e/blog-security.spec.ts
     lines: "17-17"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-38
     severity: medium
     category: testing
@@ -343,7 +380,8 @@ findings:
     file: e2e/blog-security.spec.ts
     lines: "32-32"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-39
     severity: medium
     category: testing
@@ -352,7 +390,8 @@ findings:
     file: e2e/blog-toc.spec.ts
     lines: "19-19"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-40
     severity: medium
     category: testing
@@ -361,7 +400,8 @@ findings:
     file: e2e/blog-toc.spec.ts
     lines: "46-46"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-41
     severity: medium
     category: testing
@@ -370,7 +410,8 @@ findings:
     file: e2e/blog-toc.spec.ts
     lines: "67-67"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-42
     severity: medium
     category: testing
@@ -379,7 +420,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "84-84"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-43
     severity: medium
     category: testing
@@ -388,7 +430,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "103-103"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-44
     severity: medium
     category: testing
@@ -397,7 +440,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "110-110"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-45
     severity: medium
     category: testing
@@ -406,7 +450,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "134-134"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-46
     severity: medium
     category: testing
@@ -415,7 +460,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "180-180"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-47
     severity: medium
     category: testing
@@ -424,7 +470,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "161-161"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-48
     severity: medium
     category: testing
@@ -433,7 +480,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "200-200"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-49
     severity: medium
     category: testing
@@ -442,7 +490,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "228-228"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-50
     severity: medium
     category: testing
@@ -451,7 +500,8 @@ findings:
     file: e2e/blog.spec.ts
     lines: "250-250"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""
   - id: e2e-test-51
     severity: medium
     category: testing
@@ -460,4 +510,5 @@ findings:
     file: e2e/coexistence.spec.ts
     lines: "125-125"
     source: tool
-    review_status: pending
+    review_status: rejected
+    review_notes: ""

@@ -7,17 +7,8 @@ findings:
     category: claude-md-violation
     title: "src/theme/tokens.ts introduces a second brand-color seam alongside src/theme/theme.ts, but CLAUDE.md still documents only one"
     description: >
-      CLAUDE.md states "src/theme/theme.ts is the single brand-color seam. Every
-      named hue is a token on the exported brand object. Data and presentation
-      modules import brand.sky etc.; they never re-type raw hex." Task 002 adds
-      src/theme/tokens.ts with its own primitive hex palette (primitives) and
-      semantic alias maps (semanticLight/semanticDark), which is a second,
-      independent source of hex literals feeding a separate generated CSS file
-      (src/theme/tokens.css) and Tailwind's @theme bridge. theme.ts's brand
-      object and shikiVars are untouched and still govern the MUI/Emotion
-      surface; tokens.ts now governs the Tailwind/shadcn surface. CLAUDE.md's
-      text has not been updated to acknowledge that two co-existing brand-color
-      seams now exist during the MUI→shadcn migration.
+      CLAUDE.md states "src/theme/theme.ts is the single brand-color seam. Every named hue is a token on the exported brand object. Data and presentation modules import brand.sky etc.; they never re-type raw hex." Task 002 adds src/theme/tokens.ts with its own primitive hex palette (primitives) and semantic alias maps (semanticLight/semanticDark), which is a second, independent source of hex literals feeding a separate generated CSS file (src/theme/tokens.css) and Tailwind's @theme bridge. theme.ts's brand object and shikiVars are untouched and still govern the MUI/Emotion surface; tokens.ts now governs the Tailwind/shadcn surface. CLAUDE.md's text has not been updated to acknowledge that two co-existing brand-color seams now exist during the MUI→shadcn migration.
+
     file: src/theme/tokens.ts
     lines: "1-163"
     code_snippet: |
@@ -28,34 +19,18 @@ findings:
         ...
       } as const;
     fix_proposal: >
-      Not a code fix — a documentation-sync task. Update CLAUDE.md's "single
-      brand-color seam" paragraph to explicitly scope it to the legacy
-      MUI/Emotion surface (theme.ts/brand) and name tokens.ts as the parallel,
-      intentionally-separate seam for the Tailwind/shadcn surface during
-      coexistence (per ADR-DS-3/ADR-DS-7 in specs/design-system/design.md),
-      with a stated plan for what happens to theme.ts once the re-platform
-      completes (retire vs. keep for a still-MUI-dependent area). This keeps
-      future contributors from treating the CLAUDE.md text as contradicted by
-      the codebase.
+      Not a code fix — a documentation-sync task. Update CLAUDE.md's "single brand-color seam" paragraph to explicitly scope it to the legacy MUI/Emotion surface (theme.ts/brand) and name tokens.ts as the parallel, intentionally-separate seam for the Tailwind/shadcn surface during coexistence (per ADR-DS-3/ADR-DS-7 in specs/design-system/design.md), with a stated plan for what happens to theme.ts once the re-platform completes (retire vs. keep for a still-MUI-dependent area). This keeps future contributors from treating the CLAUDE.md text as contradicted by the codebase.
+
     rationale: >
-      This is a genuine textual divergence from a mandatory CLAUDE.md rule
-      ("theme.ts is THE single... seam"), but the task file, globals.css
-      comments (ADR-DS-2/ADR-DS-3), and the user's own migration memory note
-      (MUI → shadcn re-platform, pack 1 = design-system) show this is a
-      deliberate, tracked, in-progress architectural evolution rather than an
-      accidental rule violation. Both seams are internally consistent (no raw
-      hex leaks into data/presentation/component files for either surface;
-      tokens.ts aliases are typed to keyof typeof primitives so an inline hex
-      alias is a compile error, matching the spirit of the original rule).
+      This is a genuine textual divergence from a mandatory CLAUDE.md rule ("theme.ts is THE single... seam"), but the task file, globals.css comments (ADR-DS-2/ADR-DS-3), and the user's own migration memory note (MUI → shadcn re-platform, pack 1 = design-system) show this is a deliberate, tracked, in-progress architectural evolution rather than an accidental rule violation. Both seams are internally consistent (no raw hex leaks into data/presentation/component files for either surface; tokens.ts aliases are typed to keyof typeof primitives so an inline hex alias is a compile error, matching the spirit of the original rule).
+
     impact: >
-      Low near-term impact since the task's own design docs explain the split.
-      Left unaddressed, a future contributor or another Claude session reading
-      only CLAUDE.md (not the design-system spec) could conclude tokens.ts is
-      an unsanctioned duplicate seam and either delete it or re-introduce raw
-      hex elsewhere "to match the documented single-seam rule."
+      Low near-term impact since the task's own design docs explain the split. Left unaddressed, a future contributor or another Claude session reading only CLAUDE.md (not the design-system spec) could conclude tokens.ts is an unsanctioned duplicate seam and either delete it or re-introduce raw hex elsewhere "to match the documented single-seam rule."
+
     references:
       - specs/design-system/design.md
       - specs/design-system/tasks/002-two-layer-token-codegen.md
     confidence: medium
-    review_status: pending
+    review_status: rejected
     source: llm
+    review_notes: ""

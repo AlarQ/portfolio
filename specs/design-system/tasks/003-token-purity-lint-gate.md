@@ -1,7 +1,7 @@
 ---
 id: "003"
 name: Token-purity lint gate (no-direct-palette-import) + Biome pin
-status: blocked
+status: todo
 blocked_by: ["002"]
 max_files: 4
 ground_rules:
