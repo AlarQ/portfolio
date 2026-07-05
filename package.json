@@ -12,6 +12,7 @@
     "format:check": "biome format",
     "type-check": "tsc --noEmit",
     "prerender:mermaid": "node scripts/prerender-mermaid.mjs",
+    "generate:tokens": "node scripts/generate-tokens.ts",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
