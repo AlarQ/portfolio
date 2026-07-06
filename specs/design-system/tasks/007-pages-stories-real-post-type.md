@@ -1,7 +1,7 @@
 ---
 id: "007"
 name: Four Pages stories bound to the real Post type
-status: implemented
+status: done
 blocked_by: ["006"]
 max_files: 9
 ground_rules:

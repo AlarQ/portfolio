@@ -1,0 +1,154 @@
+gate: code-quality-pragmatist
+task_id: "007"
+status: findings
+findings:
+  - id: cq-001
+    severity: medium
+    category: dx-antipattern
+    title: Mobile-viewport acceptance criterion is asserted against inert config, not real behavior
+    description: >
+      `parameters.viewport.viewports.iphone15` is added to `.storybook/preview.tsx`, and
+      `Pages.viewport.test.ts` asserts every story's `Mobile` export carries
+      `parameters.viewport.defaultViewport === "iphone15"`. The code comment in
+      `.storybook/preview.tsx` admits `@storybook/addon-viewport` is not installed, so this
+      viewport parameter is "inert config data" — Storybook will not actually resize the
+      canvas to 390x844 for these stories. The test therefore proves a JS object shape, not
+      that "its layout matches the Figma iPhone 15 mobile frame" as acceptance row 5 requires.
+    file: .storybook/preview.tsx
+    lines: "35-49"
+    code_snippet: |
+      // No `@storybook/addon-viewport` is installed — this is inert config data
+      // consumed only if that addon is later added
+    fix_proposal: >
+      Either install `@storybook/addon-viewport` (or Storybook's built-in viewport addon for
+      the current Storybook major) so the parameter is load-bearing, or rename/relabel the
+      acceptance criterion and test to state what is actually proven ("story declares an
+      intended mobile viewport constant") instead of implying visual verification. Don't ship
+      a passing green test whose name overstates what it checks.
+    rationale: >
+      testing/principles.md requires testing real behavior. A test asserting object-shape
+      equality on unused config is a false-confidence signal — it will stay green forever
+      even if the mobile layout regresses, because nothing ever renders at that viewport.
+    impact: >
+      Future readers (and the task's own acceptance table) will believe mobile reflow is
+      continuously verified in CI, when in fact no viewport-driven rendering ever occurs;
+      a real mobile layout break under Figma's iPhone-15 frame will not be caught until
+      manual review, contradicting the stated acceptance criterion.
+    references:
+      - "testing/principles.md"
+    confidence: high
+    review_status: accepted
+    source: llm
+
+  - id: cq-002
+    severity: medium
+    category: unnecessary-complexity
+    title: Structural "guard" tests re-implement behavior checks via brittle source-text regex scans
+    description: >
+      `Pages.fixtures.test.ts` and `Pages.structure.test.ts` read component/story files as raw
+      text (`readFileSync`) and grep for substrings/regexes (e.g. `/slug:\s*["'][\w-]+["']/`,
+      `@/components/ds/`, and hardcoded organism-copy markers `"Advertisement"`,
+      `"border-dashed"`, `"min read"`) to prove "no re-declared fixture" and "composes
+      organisms, doesn't reimplement them." These are text-pattern proxies for actual behavior
+      and are extremely coupled to unrelated implementation details of other components
+      (AdsSpace's copy, PostCard's "min read" string) that this pack does not own.
+    file: src/components/pages/Pages.structure.test.ts
+    lines: "1-44"
+    code_snippet: |
+      const ORGANISM_REIMPLEMENTATION_MARKERS = [
+        "Advertisement", // AdsSpace's own copy
+        "border-dashed", // AdsSpace's own styling
+        "min read", // PageInfo/PostCard's own copy
+      ];
+    fix_proposal: >
+      Replace the string-marker scan with a real behavioral/type check: e.g. a
+      TypeScript-level check that each Pages component's tree only renders imported
+      `@/components/ds/*` elements (already partly proven by the existing render tests in
+      `Home.test.tsx` etc. via `renderIntoDocument` + `container.querySelector`), and drop the
+      copy-string markers entirely — a copy change in `AdsSpace` or `PostCard` has nothing to
+      do with whether `Pages/*` reimplements markup, and will falsely fail this test forever.
+    rationale: >
+      testing/principles.md: "test behavior, not implementation." Regex-scanning raw source
+      text for someone else's copy strings tests neither this module's behavior nor its
+      structure — it tests accidental textual coincidence, and creates a maintenance trap
+      where unrelated modules can break this test.
+    impact: >
+      Any future copywriting change to `AdsSpace` or `PostCard` (owned by task 006, unrelated
+      to this pack) will fail `Pages.structure.test.ts` with a confusing, unrelated error;
+      conversely a real reimplementation using different but equivalent copy would pass
+      undetected — the test is both over- and under-sensitive.
+    references:
+      - "testing/principles.md"
+    confidence: high
+    review_status: accepted
+    source: llm
+
+  - id: cq-003
+    severity: low
+    category: over-engineering
+    title: Secret/credential text-scan test is disproportionate for a self-authored, no-external-input fixture
+    description: >
+      `Pages.fixtures.test.ts` adds a `SECRET_MARKERS` scan (`process.env`, `.env`, `API_KEY`,
+      `SECRET`, `PASSWORD`, `TOKEN`, `Bearer `) over the committed, hand-written
+      `src/stories/fixtures/posts.ts` and the four story files. Per this repo's own CLAUDE.md,
+      "Content is self-authored static data — there is no CMS, no database, no external
+      input"; these fixtures are literal object literals the same author writes and reviews
+      in the PR diff itself.
+    file: src/components/pages/Pages.fixtures.test.ts
+    lines: "55-94"
+    fix_proposal: >
+      Keep this only if there's a concrete incident/threat this guards against; otherwise drop
+      the dedicated marker-scan test and rely on standard PR review + the repo's existing
+      secret-scanning tooling (if any) at the git-hook/CI level, which covers the whole repo
+      rather than reinventing a narrow, easily-bypassed (e.g. renaming a var to `tok`) scan
+      local to one folder.
+    rationale: >
+      security-patterns.md's "never hardcode secrets" is about runtime config/service
+      credentials, not compile-time-authored, git-diff-reviewed UI fixtures with zero external
+      input surface. Adding bespoke text-scanning here is config/test bloat solving a threat
+      model that doesn't apply to this codebase's stated trust boundary.
+    impact: >
+      Extra test surface and false sense of security (trivially bypassed by any string not on
+      the marker list, e.g. splitting `"SEC" + "RET"`) without addressing a real risk specific
+      to this project.
+    references:
+      - "security-patterns.md"
+    confidence: medium
+    review_status: accepted
+    source: llm
+
+  - id: cq-004
+    severity: low
+    category: dx-antipattern
+    title: Type-only negative-case fixture embedded in a Storybook story file
+    description: >
+      `Home.stories.tsx` defines a `@ts-expect-error`-suppressed `invalidPost: Post` object plus
+      a `void invalidPost;` no-op, purely to prove the `Post` type is structurally required at
+      compile time. This is a type-system compile check, not a UI story, but it lives in the
+      file Storybook treats as containing renderable stories/exports.
+    file: src/components/pages/Home.stories.tsx
+    lines: "31-49"
+    code_snippet: |
+      // @ts-expect-error — Post requires `published`; omitting it must not compile.
+      const invalidPost: Post = { ... };
+      void invalidPost;
+    fix_proposal: >
+      Move this negative compile-time assertion into a dedicated `*.type-test.ts` (non-story)
+      file colocated with the Pages pack, so `Home.stories.tsx` stays purely about rendering
+      Storybook stories and the type-guard isn't at risk of confusing Storybook's story
+      indexer or future readers about what's a real story export.
+    rationale: >
+      frontend/components.md-style separation of concerns: a story file's job is composing
+      and rendering variants for Storybook; embedding an unused, suppressed, dead-code type
+      fixture mixes a type-safety test into a rendering artifact.
+    impact: >
+      Low — cosmetic/organizational only; mild risk of a future refactor accidentally deleting
+      or breaking the guard without noticing since it isn't grouped with the other guard tests
+      (`Pages.fixtures.test.ts` already documents/verifies this same guardrail by scanning for
+      its presence).
+    references:
+      - "languages/typescript/type-safety.md"
+      - "frontend/components.md"
+    confidence: medium
+    review_status: accepted
+    source: llm

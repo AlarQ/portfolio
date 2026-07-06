@@ -40,55 +40,18 @@ describe("Pages fixtures — reuse shared Post fixture, never recreate it", () =
 
 /**
  * Guardrail (test_case: fixture_omitting_or_renaming_post_field_is_compile_error,
- * FR-8 / type-safety.md): proves a Pages story carries an inline negative case
- * — a Post-shaped object missing a required field — suppressed with
+ * FR-8 / type-safety.md): proves the Pages pack carries an inline negative
+ * case — a Post-shaped object missing a required field — suppressed with
  * `@ts-expect-error`, so a future schema drift on `Post` is caught by tsc,
- * not silently accepted. This is a source-level proof the guard exists;
+ * not silently accepted. This lives in a dedicated compile-time-only file
+ * (Pages.type-test.ts), not a story, since it's a type check rather than a
+ * Storybook story. This is a source-level proof the guard exists;
  * `npm run type-check` is the mechanism that actually enforces it.
  */
-describe("Pages stories — inline compile-time Post-shape guardrail (FR-8)", () => {
-  it("at least one Pages story suppresses a deliberately invalid Post literal with @ts-expect-error", () => {
-    const hasGuard = STORY_FILES.some((file) => {
-      const source = readFileSync(join(PAGES_DIR, file), "utf8");
-      return source.includes("@ts-expect-error") && /:\s*Post\s*=/.test(source);
-    });
+describe("Pages — inline compile-time Post-shape guardrail (FR-8)", () => {
+  it("Pages.type-test.ts suppresses a deliberately invalid Post literal with @ts-expect-error", () => {
+    const source = readFileSync(join(PAGES_DIR, "Pages.type-test.ts"), "utf8");
+    const hasGuard = source.includes("@ts-expect-error") && /:\s*Post\s*=/.test(source);
     expect(hasGuard).toBe(true);
-  });
-});
-
-/**
- * Guardrail (test_case: fixtures_reference_no_env_or_credential_only_public_post,
- * security/secrets.md): the Post fixture and Pages stories are Storybook-only,
- * self-authored, public content — they must never read from `process.env`,
- * reference a `.env` file, or embed anything secret/credential-shaped.
- */
-describe("Pages fixtures — no env/credential references, public Post fixture only", () => {
-  const FIXTURE_FILE = join(PAGES_DIR, "..", "..", "stories", "fixtures", "posts.ts");
-  const SECRET_MARKERS = [
-    "process.env",
-    ".env",
-    "API_KEY",
-    "SECRET",
-    "PASSWORD",
-    "TOKEN",
-    "Bearer ",
-  ];
-
-  it.each([
-    FIXTURE_FILE,
-    ...STORY_FILES.map((f) => join(PAGES_DIR, f)),
-  ])("%s contains no env/credential-shaped reference", (file) => {
-    const source = readFileSync(file, "utf8");
-    for (const marker of SECRET_MARKERS) {
-      expect(source).not.toContain(marker);
-    }
-  });
-
-  it("every Pages story references only the shared public Post fixture, no ad-hoc data source", () => {
-    for (const file of STORY_FILES) {
-      const source = readFileSync(join(PAGES_DIR, file), "utf8");
-      expect(source).toContain("@/stories/fixtures/posts");
-      expect(source).not.toMatch(/fetch\(|axios|process\.env/);
-    }
   });
 });
