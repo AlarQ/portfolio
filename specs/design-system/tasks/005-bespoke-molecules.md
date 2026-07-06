@@ -32,6 +32,7 @@ estimated_files:
   - src/stories/fixtures/posts.ts
 interaction: hitl
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/51
 ---
 
 ## Objective
