@@ -1,0 +1,4 @@
+gate: e2e-test
+task_id: 004-shadcn-primitives-badge-cva-atoms
+status: pass
+findings: []

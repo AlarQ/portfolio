@@ -1,0 +1,178 @@
+- generic [active] [ref=f8e1]:
+  - generic [ref=f8e2]:
+    - log
+    - log
+  - generic [ref=f8e4]:
+    - generic [ref=f8e5]:
+      - banner "Storybook" [ref=f8e7]:
+        - heading "Storybook" [level=1] [ref=f8e8]
+        - img
+        - generic [ref=f8e12]:
+          - generic [ref=f8e13]:
+            - generic [ref=f8e14]:
+              - link "Skip to content" [ref=f8e15] [cursor=pointer]:
+                - /url: "#storybook-preview-wrapper"
+              - link "Storybook" [ref=f8e17] [cursor=pointer]:
+                - /url: ./
+                - img "Storybook" [ref=f8e18]
+              - switch "Settings" [ref=f8e23] [cursor=pointer]:
+                - img [ref=f8e24]
+            - generic [ref=f8e29]:
+              - generic [ref=f8e31] [cursor=pointer]:
+                - button "Open onboarding guide" [ref=f8e35]:
+                  - img [ref=f8e37]
+                  - strong [ref=f8e39]: Get started
+                - generic [ref=f8e40]:
+                  - button "Collapse onboarding guide" [expanded] [ref=f8e41]:
+                    - img [ref=f8e42]
+                  - button "24% completed" [ref=f8e44]:
+                    - generic [ref=f8e45]:
+                      - img [ref=f8e46]
+                      - img [ref=f8e48]
+                    - generic [ref=f8e51]: 24%
+              - list [ref=f8e53]:
+                - listitem [ref=f8e54]:
+                  - button "Open onboarding guide for See what's new" [ref=f8e55] [cursor=pointer]:
+                    - img [ref=f8e57]
+                    - generic [ref=f8e60]: See what's new
+                  - button "Go"
+                - listitem [ref=f8e61]:
+                  - button "Open onboarding guide for Change a story with Controls" [ref=f8e62] [cursor=pointer]:
+                    - img [ref=f8e64]
+                    - generic [ref=f8e67]: Change a story with Controls
+                - listitem [ref=f8e68]:
+                  - button "Open onboarding guide for Publish your Storybook for feedback" [ref=f8e69] [cursor=pointer]:
+                    - img [ref=f8e71]
+                    - generic [ref=f8e74]: Publish your Storybook for feedback
+          - generic [ref=f8e75]: Search for components
+          - search [ref=f8e76]:
+            - combobox "Search for components" [ref=f8e77]:
+              - generic:
+                - img
+              - searchbox "Search for components" [ref=f8e78]
+              - code:
+                - generic: ⌘
+                - text: K
+              - button "Tag filters" [ref=f8e80] [cursor=pointer]:
+                - img [ref=f8e81]
+            - button "Create a new story" [ref=f8e83] [cursor=pointer]:
+              - img [ref=f8e84]
+          - navigation "Stories" [ref=f8e87]:
+            - heading "Stories" [level=2] [ref=f8e88]
+            - generic [ref=f8e90]:
+              - generic [ref=f8e91]:
+                - button "Collapse" [expanded] [ref=f8e92] [cursor=pointer]:
+                  - img [ref=f8e94]
+                  - text: Atoms
+                - button "Expand all" [ref=f8e96] [cursor=pointer]:
+                  - img [ref=f8e97]
+              - button "AdapterFidelityCard" [ref=f8e100] [cursor=pointer]:
+                - generic [ref=f8e101]:
+                  - img [ref=f8e103]
+                  - img [ref=f8e105]
+                - text: AdapterFidelityCard
+              - button "CascadeTieFixtureCard" [ref=f8e108] [cursor=pointer]:
+                - generic [ref=f8e109]:
+                  - img [ref=f8e111]
+                  - img [ref=f8e113]
+                - text: CascadeTieFixtureCard
+              - button "Avatar" [ref=f8e116] [cursor=pointer]:
+                - generic [ref=f8e117]:
+                  - img [ref=f8e119]
+                  - img [ref=f8e121]
+                - text: Avatar
+              - button "Badge" [ref=f8e124] [cursor=pointer]:
+                - generic [ref=f8e125]:
+                  - img [ref=f8e127]
+                  - img [ref=f8e129]
+                - text: Badge
+              - button "Button" [ref=f8e132] [cursor=pointer]:
+                - generic [ref=f8e133]:
+                  - img [ref=f8e135]
+                  - img [ref=f8e137]
+                - text: Button
+              - button "Card" [ref=f8e140] [cursor=pointer]:
+                - generic [ref=f8e141]:
+                  - img [ref=f8e143]
+                  - img [ref=f8e145]
+                - text: Card
+              - button "Input" [ref=f8e148] [cursor=pointer]:
+                - generic [ref=f8e149]:
+                  - img [ref=f8e151]
+                  - img [ref=f8e153]
+                - text: Input
+              - button "NavigationMenu" [expanded] [ref=f8e156] [cursor=pointer]:
+                - generic [ref=f8e157]:
+                  - img [ref=f8e159]
+                  - img [ref=f8e161]
+                - text: NavigationMenu
+              - generic [ref=f8e163]:
+                - link "Default" [ref=f8e164] [cursor=pointer]:
+                  - /url: /?path=/story/atoms-navigationmenu--default
+                  - img [ref=f8e166]
+                  - text: Default
+                - link "Skip to content" [ref=f8e168] [cursor=pointer]:
+                  - /url: "#storybook-preview-wrapper"
+              - link "Without Viewport" [ref=f8e170] [cursor=pointer]:
+                - /url: /?path=/story/atoms-navigationmenu--without-viewport
+                - img [ref=f8e172]
+                - text: Without Viewport
+              - link "Playground" [ref=f8e175] [cursor=pointer]:
+                - /url: /?path=/story/atoms-navigationmenu--playground
+                - img [ref=f8e177]
+                - text: Playground
+              - button "Sheet" [ref=f8e180] [cursor=pointer]:
+                - generic [ref=f8e181]:
+                  - img [ref=f8e183]
+                  - img [ref=f8e185]
+                - text: Sheet
+      - separator "Sidebar resize handle" [ref=f8e187]
+    - generic [ref=f8e189]:
+      - region "Toolbar" [ref=f8e190]:
+        - heading "Toolbar" [level=2] [ref=f8e191]
+        - toolbar [ref=f8e192]:
+          - generic [ref=f8e193]:
+            - button "Reload story" [ref=f8e194] [cursor=pointer]:
+              - img [ref=f8e195]
+            - switch "Measure tool" [ref=f8e197] [cursor=pointer]:
+              - img [ref=f8e198]
+            - switch "Outline tool" [ref=f8e201] [cursor=pointer]:
+              - img [ref=f8e202]
+            - button "Viewport size" [ref=f8e204] [cursor=pointer]:
+              - img [ref=f8e205]
+          - generic [ref=f8e209]:
+            - button "Open in isolation mode" [ref=f8e210] [cursor=pointer]:
+              - img [ref=f8e211]
+            - switch "Change zoom level" [ref=f8e216] [cursor=pointer]: 100%
+            - button "Enter full screen" [ref=f8e217] [cursor=pointer]:
+              - img [ref=f8e218]
+            - button "Open in editor" [ref=f8e220] [cursor=pointer]:
+              - img [ref=f8e221]
+      - main "Main preview area" [ref=f8e224]:
+        - heading "Main preview area" [level=2] [ref=f8e225]
+        - generic [ref=f8e226]:
+          - progressbar "Content is loading..." [ref=f8e228]
+          - generic [ref=f8e229]:
+            - link "Skip to sidebar" [ref=f8e230] [cursor=pointer]:
+              - /url: "#atoms-navigationmenu--default"
+            - iframe [ref=f8e234]:
+              
+    - generic [ref=f8e235]:
+      - separator "Addon panel resize handle" [ref=f8e236]
+      - region "Addon panel" [ref=f8e238]:
+        - heading "Addon panel" [level=2] [ref=f8e239]
+        - generic [ref=f8e240]:
+          - generic [ref=f8e241]:
+            - generic [ref=f8e242]:
+              - button "Move addon panel to right" [ref=f8e243] [cursor=pointer]:
+                - img [ref=f8e244]
+              - button "Hide addon panel" [ref=f8e247] [cursor=pointer]:
+                - img [ref=f8e248]
+            - tablist "Available addons" [ref=f8e253]:
+              - tab "Controls" [selected] [ref=f8e254] [cursor=pointer]:
+                - generic [ref=f8e256]: Controls
+              - tab "Actions" [ref=f8e257] [cursor=pointer]:
+                - generic [ref=f8e259]: Actions
+              - tab "Interactions" [ref=f8e260] [cursor=pointer]:
+                - generic [ref=f8e262]: Interactions
+          - tabpanel "Controls" [ref=f8e263]

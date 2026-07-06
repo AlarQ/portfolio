@@ -1,0 +1,11 @@
+- generic:
+  - generic:
+    - button [expanded]: Open
+  - dialog "Sheet title" [ref=f14e2]:
+    - generic [ref=f14e3]:
+      - heading "Sheet title" [level=2] [ref=f14e4]
+      - paragraph [ref=f14e5]: Sheet description goes here.
+    - button "Save" [active] [ref=f14e7]
+    - button "Close" [ref=f14e8]:
+      - img [ref=f14e9]
+      - generic [ref=f14e12]: Close

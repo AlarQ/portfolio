@@ -1,0 +1,186 @@
+- generic [active] [ref=f12e1]:
+  - generic [ref=f12e2]:
+    - log
+    - log
+  - generic [ref=f12e4]:
+    - generic [ref=f12e5]:
+      - banner "Storybook" [ref=f12e7]:
+        - heading "Storybook" [level=1] [ref=f12e8]
+        - img
+        - generic [ref=f12e12]:
+          - generic [ref=f12e13]:
+            - generic [ref=f12e14]:
+              - link "Skip to content" [ref=f12e15] [cursor=pointer]:
+                - /url: "#storybook-preview-wrapper"
+              - link "Storybook" [ref=f12e17] [cursor=pointer]:
+                - /url: ./
+                - img "Storybook" [ref=f12e18]
+              - switch "Settings" [ref=f12e23] [cursor=pointer]:
+                - img [ref=f12e24]
+            - generic [ref=f12e29]:
+              - generic [ref=f12e31] [cursor=pointer]:
+                - button "Open onboarding guide" [ref=f12e35]:
+                  - img [ref=f12e37]
+                  - strong [ref=f12e39]: Get started
+                - generic [ref=f12e40]:
+                  - button "Collapse onboarding guide" [expanded] [ref=f12e41]:
+                    - img [ref=f12e42]
+                  - button "24% completed" [ref=f12e44]:
+                    - generic [ref=f12e45]:
+                      - img [ref=f12e46]
+                      - img [ref=f12e48]
+                    - generic [ref=f12e51]: 24%
+              - list [ref=f12e53]:
+                - listitem [ref=f12e54]:
+                  - button "Open onboarding guide for See what's new" [ref=f12e55] [cursor=pointer]:
+                    - img [ref=f12e57]
+                    - generic [ref=f12e60]: See what's new
+                  - button "Go"
+                - listitem [ref=f12e61]:
+                  - button "Open onboarding guide for Change a story with Controls" [ref=f12e62] [cursor=pointer]:
+                    - img [ref=f12e64]
+                    - generic [ref=f12e67]: Change a story with Controls
+                - listitem [ref=f12e68]:
+                  - button "Open onboarding guide for Publish your Storybook for feedback" [ref=f12e69] [cursor=pointer]:
+                    - img [ref=f12e71]
+                    - generic [ref=f12e74]: Publish your Storybook for feedback
+          - generic [ref=f12e75]: Search for components
+          - search [ref=f12e76]:
+            - combobox "Search for components" [ref=f12e77]:
+              - generic:
+                - img
+              - searchbox "Search for components" [ref=f12e78]
+              - code:
+                - generic: ⌘
+                - text: K
+              - button "Tag filters" [ref=f12e80] [cursor=pointer]:
+                - img [ref=f12e81]
+            - button "Create a new story" [ref=f12e83] [cursor=pointer]:
+              - img [ref=f12e84]
+          - navigation "Stories" [ref=f12e87]:
+            - heading "Stories" [level=2] [ref=f12e88]
+            - generic [ref=f12e90]:
+              - generic [ref=f12e91]:
+                - button "Collapse" [expanded] [ref=f12e92] [cursor=pointer]:
+                  - img [ref=f12e94]
+                  - text: Atoms
+                - button "Expand all" [ref=f12e96] [cursor=pointer]:
+                  - img [ref=f12e97]
+              - button "AdapterFidelityCard" [ref=f12e100] [cursor=pointer]:
+                - generic [ref=f12e101]:
+                  - img [ref=f12e103]
+                  - img [ref=f12e105]
+                - text: AdapterFidelityCard
+              - button "CascadeTieFixtureCard" [ref=f12e108] [cursor=pointer]:
+                - generic [ref=f12e109]:
+                  - img [ref=f12e111]
+                  - img [ref=f12e113]
+                - text: CascadeTieFixtureCard
+              - button "Avatar" [ref=f12e116] [cursor=pointer]:
+                - generic [ref=f12e117]:
+                  - img [ref=f12e119]
+                  - img [ref=f12e121]
+                - text: Avatar
+              - button "Badge" [ref=f12e124] [cursor=pointer]:
+                - generic [ref=f12e125]:
+                  - img [ref=f12e127]
+                  - img [ref=f12e129]
+                - text: Badge
+              - button "Button" [ref=f12e132] [cursor=pointer]:
+                - generic [ref=f12e133]:
+                  - img [ref=f12e135]
+                  - img [ref=f12e137]
+                - text: Button
+              - button "Card" [ref=f12e140] [cursor=pointer]:
+                - generic [ref=f12e141]:
+                  - img [ref=f12e143]
+                  - img [ref=f12e145]
+                - text: Card
+              - button "Input" [ref=f12e148] [cursor=pointer]:
+                - generic [ref=f12e149]:
+                  - img [ref=f12e151]
+                  - img [ref=f12e153]
+                - text: Input
+              - button "NavigationMenu" [ref=f12e156] [cursor=pointer]:
+                - generic [ref=f12e157]:
+                  - img [ref=f12e159]
+                  - img [ref=f12e161]
+                - text: NavigationMenu
+              - button "Sheet" [expanded] [ref=f12e164] [cursor=pointer]:
+                - generic [ref=f12e165]:
+                  - img [ref=f12e167]
+                  - img [ref=f12e169]
+                - text: Sheet
+              - generic [ref=f12e171]:
+                - link "Right" [ref=f12e172] [cursor=pointer]:
+                  - /url: /?path=/story/atoms-sheet--right
+                  - img [ref=f12e174]
+                  - text: Right
+                - link "Skip to content" [ref=f12e176] [cursor=pointer]:
+                  - /url: "#storybook-preview-wrapper"
+              - link "Left" [ref=f12e178] [cursor=pointer]:
+                - /url: /?path=/story/atoms-sheet--left
+                - img [ref=f12e180]
+                - text: Left
+              - link "Top" [ref=f12e183] [cursor=pointer]:
+                - /url: /?path=/story/atoms-sheet--top
+                - img [ref=f12e185]
+                - text: Top
+              - link "Bottom" [ref=f12e188] [cursor=pointer]:
+                - /url: /?path=/story/atoms-sheet--bottom
+                - img [ref=f12e190]
+                - text: Bottom
+              - link "Playground" [ref=f12e193] [cursor=pointer]:
+                - /url: /?path=/story/atoms-sheet--playground
+                - img [ref=f12e195]
+                - text: Playground
+      - separator "Sidebar resize handle" [ref=f12e197]
+    - generic [ref=f12e199]:
+      - region "Toolbar" [ref=f12e200]:
+        - heading "Toolbar" [level=2] [ref=f12e201]
+        - toolbar [ref=f12e202]:
+          - generic [ref=f12e203]:
+            - button "Reload story" [ref=f12e204] [cursor=pointer]:
+              - img [ref=f12e205]
+            - switch "Measure tool" [ref=f12e207] [cursor=pointer]:
+              - img [ref=f12e208]
+            - switch "Outline tool" [ref=f12e211] [cursor=pointer]:
+              - img [ref=f12e212]
+            - button "Viewport size" [ref=f12e214] [cursor=pointer]:
+              - img [ref=f12e215]
+          - generic [ref=f12e219]:
+            - button "Open in isolation mode" [ref=f12e220] [cursor=pointer]:
+              - img [ref=f12e221]
+            - switch "Change zoom level" [ref=f12e226] [cursor=pointer]: 100%
+            - button "Enter full screen" [ref=f12e227] [cursor=pointer]:
+              - img [ref=f12e228]
+            - button "Open in editor" [ref=f12e230] [cursor=pointer]:
+              - img [ref=f12e231]
+      - main "Main preview area" [ref=f12e234]:
+        - heading "Main preview area" [level=2] [ref=f12e235]
+        - generic [ref=f12e236]:
+          - progressbar "Content is loading..." [ref=f12e238]
+          - generic [ref=f12e239]:
+            - link "Skip to sidebar" [ref=f12e240] [cursor=pointer]:
+              - /url: "#atoms-sheet--right"
+            - iframe [ref=f12e244]:
+              
+    - generic [ref=f12e245]:
+      - separator "Addon panel resize handle" [ref=f12e246]
+      - region "Addon panel" [ref=f12e248]:
+        - heading "Addon panel" [level=2] [ref=f12e249]
+        - generic [ref=f12e250]:
+          - generic [ref=f12e251]:
+            - generic [ref=f12e252]:
+              - button "Move addon panel to right" [ref=f12e253] [cursor=pointer]:
+                - img [ref=f12e254]
+              - button "Hide addon panel" [ref=f12e257] [cursor=pointer]:
+                - img [ref=f12e258]
+            - tablist "Available addons" [ref=f12e263]:
+              - tab "Controls" [selected] [ref=f12e264] [cursor=pointer]:
+                - generic [ref=f12e266]: Controls
+              - tab "Actions" [ref=f12e267] [cursor=pointer]:
+                - generic [ref=f12e269]: Actions
+              - tab "Interactions" [ref=f12e270] [cursor=pointer]:
+                - generic [ref=f12e272]: Interactions
+          - tabpanel "Controls" [ref=f12e273]

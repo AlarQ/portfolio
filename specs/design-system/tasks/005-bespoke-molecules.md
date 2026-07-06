@@ -1,7 +1,7 @@
 ---
 id: "005"
 name: Bespoke molecules + their stories
-status: blocked
+status: todo
 blocked_by: ["004"]
 max_files: 13
 ground_rules:

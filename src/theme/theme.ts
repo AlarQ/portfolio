@@ -90,6 +90,6 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "var(--font-geist-sans)",
+    fontFamily: "var(--font-inter, Arial, Helvetica, sans-serif)",
   },
 });
