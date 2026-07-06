@@ -1,0 +1,33 @@
+gate: coverage
+task_id: "007-pages-stories-real-post-type"
+status: findings
+findings:
+  - id: coverage-1
+    severity: medium
+    category: coverage
+    title: "Acceptance row 5 not actually verified — mobile viewport parameter is inert"
+    description: >
+      Acceptance criterion 5 requires a Pages story rendered at mobile viewport width to
+      match the Figma "iPhone 15" mobile frame (node 614:353). What was implemented is a
+      `parameters.viewport.defaultViewport: "iphone15"` object on each story and a test
+      (Pages.viewport.test.ts) asserting that shape exists. `@storybook/addon-viewport` (or
+      equivalent) is not installed, so the parameter has no effect on rendering — by the
+      implementation's own code comment, it is "inert config data... consumed only if that
+      addon is later added." No actual viewport-driven rendering, reflow, or visual
+      comparison against the Figma frame occurs anywhere.
+    file: .storybook/preview.tsx
+    lines: "35-49"
+    rationale: >
+      A data-shape assertion on an unused parameter proves the story declares an intent,
+      not that layout matches the cited Figma frame. The Implementation Log's closing claim
+      ("Re-verified all 5 acceptance rows... all satisfied") overstates this row.
+    impact: >
+      If a future refactor breaks the actual mobile layout, no test or tooling would catch
+      it — the "verification" only checks a JS object shape that the app never reads.
+    references:
+      - specs/design-system/tasks/007-pages-stories-real-post-type.md#Acceptance (row 5)
+      - specs/design-system/reports/007-pages-stories-real-post-type-code-quality-pragmatist.yaml (cq-001)
+    confidence: high
+    review_status: accepted
+    auto_accepted: true
+    source: llm

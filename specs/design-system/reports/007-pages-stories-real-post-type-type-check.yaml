@@ -1,0 +1,4 @@
+gate: type-check
+task_id: 007-pages-stories-real-post-type
+status: pass
+findings: []

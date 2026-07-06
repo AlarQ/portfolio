@@ -1,7 +1,7 @@
 ---
 id: "009"
 name: Storybook production-exclusion guarantee + pre-push gate
-status: blocked
+status: todo
 blocked_by: ["001", "004", "007"]
 max_files: 5
 ground_rules:
