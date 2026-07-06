@@ -35,11 +35,10 @@ const preview: Preview = {
     /**
      * Custom "iphone15" viewport (390x844) matching the Figma mobile frame,
      * selected by name via `mobileViewportParameters` in the Pages pack's
-     * `Mobile` story variants (task 007). No `@storybook/addon-viewport` is
-     * installed, so this has no effect inside Storybook's UI — real mobile
-     * viewport coverage lives in `e2e/pages-mobile-viewport.spec.ts`. This
-     * entry is kept only so the `Mobile` stories' viewport name resolves to
-     * a real config object rather than `undefined`.
+     * `Mobile` story variants (task 007). Storybook 10's built-in viewport
+     * addon (registered as `storybook/viewport` in `main.ts`) resolves this
+     * name and resizes the preview iframe accordingly. Full mobile-viewport
+     * regression coverage still lives in `e2e/pages-mobile-viewport.spec.ts`.
      */
     viewport: {
       viewports: {
