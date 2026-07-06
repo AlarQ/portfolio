@@ -1,24 +1,44 @@
 import type { Preview } from "@storybook/nextjs";
-import { ThemeProvider } from "../src/theme/ThemeProvider";
+import { Inter } from "next/font/google";
+import { brand } from "../src/theme/theme";
 import "../src/app/globals.css";
 
 /**
- * Global Storybook decorator surface. Every story renders inside the app's
- * real `ThemeProvider` (`src/theme/ThemeProvider.tsx`) — the same MUI theme +
- * CssBaseline the live routes use — so tasks 004-008 (which add
- * components/stories) get real theme context for free without re-deciding
- * the adapter/provider question (this chunk's `storybook_theme_provider_
- * scaffold_present_for_downstream_reuse` behavior).
+ * Mirror `layout.tsx`'s Inter instantiation. Storybook never renders the app's
+ * `layout.tsx`, so `--font-inter` (consumed by `body` in `globals.css`) would
+ * otherwise be undefined and every story would fall back to Arial — visibly
+ * off from the Figma frames, which are 100% Inter. The decorator below stamps
+ * this variable onto the story root so the primitives inherit real Inter.
+ */
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
+
+/**
+ * Global Storybook decorator surface. The shadcn primitives (Task 004+) are the
+ * Figma *light* look and are self-contained: they read their colors from the
+ * semantic tokens in `tokens.css` (`:root`), imported via `globals.css` above.
+ * They MUST NOT be wrapped in the legacy MUI dark `ThemeProvider` — its
+ * `CssBaseline` paints a dark `body` (theme `mode:"dark"`, bg `#0a1118`) and,
+ * because Storybook has no `AppRouterCacheProvider`/`enableCssLayer`, that
+ * baseline injects UNLAYERED and defeats the `@layer theme,utilities,mui`
+ * quarantine the live app relies on — inverting every story vs Figma. Stories
+ * render on the raw light tokens so Storybook matches the Figma frames.
  */
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <ThemeProvider>
+      <div className={inter.variable} style={{ fontFamily: "var(--font-inter)" }}>
         <Story />
-      </ThemeProvider>
+      </div>
     ),
   ],
   parameters: {
+    backgrounds: {
+      default: "light",
+      values: [
+        { name: "light", value: brand.white },
+        { name: "dark", value: brand.backgroundDefault },
+      ],
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

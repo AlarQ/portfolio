@@ -1,6 +1,16 @@
 import { act } from "react";
 import { createRoot } from "react-dom/client";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+// `.storybook/preview.tsx` calls `Inter()` from `next/font/google` at module
+// load (mirroring `layout.tsx` to stamp `--font-inter`). next/font is a build-
+// time loader with no runtime under vitest, so stub it to return the shape the
+// preview consumes (`.variable`) — otherwise the import throws "Inter is not a
+// function" before any test runs.
+vi.mock("next/font/google", () => ({
+  Inter: () => ({ variable: "--font-inter", className: "font-inter" }),
+}));
+
 import preview from "../../.storybook/preview";
 
 // Vitest's jsdom environment doesn't set this by default; without it React
@@ -8,14 +18,15 @@ import preview from "../../.storybook/preview";
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 /**
- * Behavior 8 (this chunk's backlog): the Storybook scaffold must wrap every
- * story in the app's real `ThemeProvider` (`src/theme/ThemeProvider.tsx`), not
- * a story-local mock, so tasks 004-008 get MUI theme context for free without
- * re-deciding the adapter/provider question. Proxy for "real ThemeProvider is
- * mounted": `CssBaseline` injects a global Emotion `<style>` tag only when a
- * `MuiThemeProvider` actually wraps it.
+ * Behavior 8 (revised for Task 004+): the shadcn primitives are the Figma
+ * *light* look and render on the raw light tokens from `globals.css` — they
+ * MUST NOT be wrapped in the legacy MUI dark `ThemeProvider`, whose
+ * `CssBaseline` paints a dark `body` and inverts every story vs Figma (see the
+ * rationale in `.storybook/preview.tsx`). So the decorator's contract is now:
+ * render the story under a div carrying the `--font-inter` variable, with no
+ * MUI `CssBaseline` global `<style>` injected.
  */
-describe("storybook preview decorator wraps stories in the real ThemeProvider (behavior 8)", () => {
+describe("storybook preview decorator renders stories on the raw light tokens (behavior 8)", () => {
   const decorators = Array.isArray(preview.decorators)
     ? preview.decorators
     : preview.decorators
@@ -26,7 +37,7 @@ describe("storybook preview decorator wraps stories in the real ThemeProvider (b
     expect(decorators.length).toBeGreaterThan(0);
   });
 
-  it("wrapping a probe story with the decorator renders MUI's CssBaseline global styles", () => {
+  it("wraps a probe story in the Inter font variable div and injects no MUI baseline", () => {
     const decorator = decorators[0];
     if (!decorator) throw new Error("expected at least one decorator");
 
@@ -41,12 +52,16 @@ describe("storybook preview decorator wraps stories in the real ThemeProvider (b
       root.render(decorated);
     });
 
-    expect(container.querySelector('[data-testid="probe"]')).not.toBeNull();
-    // CssBaseline injects a global <style> tag via Emotion when MuiThemeProvider
-    // is actually mounted above it — its absence would mean the decorator isn't
-    // really wrapping stories in the app's ThemeProvider.
+    const probe = container.querySelector('[data-testid="probe"]');
+    expect(probe).not.toBeNull();
+    // The story renders under the decorator's font wrapper, which carries the
+    // `--font-inter` variable so primitives inherit real Inter (matching Figma).
+    const fontWrapper = probe?.closest('[class*="font-inter"]');
+    expect(fontWrapper).not.toBeNull();
+    // And crucially NO MUI ThemeProvider/CssBaseline: the legacy dark baseline
+    // would inject a global Emotion <style> and invert every story vs Figma.
     const styleTags = Array.from(document.querySelectorAll("style"));
-    expect(styleTags.length).toBeGreaterThan(0);
+    expect(styleTags.length).toBe(0);
 
     act(() => {
       root.unmount();

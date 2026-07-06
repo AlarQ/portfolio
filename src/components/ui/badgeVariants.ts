@@ -33,7 +33,7 @@ const categoryVariants: Record<BadgeCategory, string> = {
 };
 
 export const badgeCategoryVariants = cva(
-  "inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap",
+  "inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent px-2.5 py-0.5 text-sm leading-5 font-medium whitespace-nowrap",
   {
     variants: { category: categoryVariants },
     defaultVariants: { category: "gray-blue" },
