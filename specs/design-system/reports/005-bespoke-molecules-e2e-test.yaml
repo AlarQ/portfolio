@@ -1,0 +1,4 @@
+gate: e2e-test
+task_id: 005-bespoke-molecules
+status: pass
+findings: []
