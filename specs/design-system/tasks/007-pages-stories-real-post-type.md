@@ -24,6 +24,7 @@ estimated_files:
   - src/stories/pages/Author.stories.tsx
 interaction: hitl
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/53
 ---
 
 ## Objective
