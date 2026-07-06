@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Orbitron } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Orbitron } from "next/font/google";
 import { Navigation } from "@/components/navigation";
 import { getSiteUrl } from "@/data/siteConfig";
 import { ThemeProvider } from "@/theme/ThemeProvider";
@@ -23,6 +23,18 @@ const orbitron = Orbitron({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
+/**
+ * Figma light-look body font (Task 004, FR-2). Wired as the `--font-inter`
+ * CSS variable and consumed by `body`'s `font-family` in `globals.css` —
+ * the shadcn primitives (`src/components/ui/*.tsx`) never set their own
+ * `font-family`, so they inherit Inter from the page seam rather than each
+ * primitive re-declaring a font name.
+ */
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: "Create Next App",
@@ -36,7 +48,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable}`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${inter.variable}`}
+      >
         {/* ADR-DS-2: `enableCssLayer` must be set here too — this registry's
             `cache.insert` is what actually wraps every emitted Emotion rule
             in `@layer mui {...}`. `StyledEngineProvider`'s own `enableCssLayer`

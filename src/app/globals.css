@@ -54,7 +54,13 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  /*
+   * Figma light-look body font (Task 004, FR-2): `--font-inter` is the
+   * next/font variable instantiated in `src/app/layout.tsx`. The shadcn
+   * primitives (src/components/ui/*.tsx) set no font-family of their own,
+   * so they inherit Inter from this single seam.
+   */
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

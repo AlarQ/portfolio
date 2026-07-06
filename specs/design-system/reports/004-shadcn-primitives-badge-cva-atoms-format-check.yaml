@@ -1,0 +1,4 @@
+gate: format-check
+task_id: 004-shadcn-primitives-badge-cva-atoms
+status: pass
+findings: []

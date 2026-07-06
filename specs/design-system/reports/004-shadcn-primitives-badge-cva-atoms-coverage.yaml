@@ -1,0 +1,65 @@
+gate: coverage
+task_id: "004-shadcn-primitives-badge-cva-atoms"
+status: findings
+findings:
+  - id: coverage-001
+    severity: medium
+    category: acceptance-gap
+    title: "Figma restyle acceptance point only half-satisfied: Inter font never wired"
+    description: >
+      Acceptance point 2 requires primitives restyled to the Figma light look
+      with primary #7F56D9 AND Inter typeface, with no stock shadcn default
+      color remaining. The primary-purple recolor is verified (tokens.css
+      --primary-600: #7f56d9, no hardcoded hex/stock-palette literals in
+      src/components/ui/*.tsx). But no "Inter" reference exists anywhere in
+      src/ — src/app/layout.tsx still imports Geist, Geist_Mono, Orbitron from
+      next/font/google, and nothing in this diff touches layout.tsx or adds an
+      Inter font-family token.
+    file: src/app/layout.tsx
+    lines: "4-4"
+    fix_proposal: >
+      Wire Inter as the font used by these primitives (add next/font/google
+      Inter import and apply as the font-family token consumed by
+      src/components/ui/*), or explicitly amend the task's acceptance text to
+      drop the Inter requirement if the decision was to keep Geist — do not
+      leave the acceptance criterion silently unmet.
+    rationale: >
+      Acceptance point 2 in the task's own Given/When/Then explicitly names
+      Inter as part of the Figma light look; per-task coverage audit requires
+      every acceptance point to be `covered`, not partially met.
+    impact: >
+      Rendered primitives visually diverge from the approved Figma design
+      (wrong typeface) despite passing color-only checks — a reviewer or user
+      comparing against Figma will see a mismatch this task claims to close.
+    references: ["specs/design-system/tasks/004-shadcn-primitives-badge-cva-atoms.md#Acceptance"]
+    confidence: high
+    review_status: accepted
+    source: llm
+
+  - id: coverage-002
+    severity: medium
+    category: acceptance-gap
+    title: "Human Storybook sign-off checklist against Figma left unchecked for all 7 atoms"
+    description: >
+      specs/design-system/tasks/004-shadcn-primitives-badge-cva-atoms.md's
+      Implementation Log contains an explicit "pending human Storybook review
+      against Figma light look (primary #7F56D9, Inter)" checklist item for
+      each of the 7 primitives, and all 7 remain unchecked.
+    file: specs/design-system/tasks/004-shadcn-primitives-badge-cva-atoms.md
+    lines: "N/A"
+    fix_proposal: >
+      Perform the human Storybook visual sign-off against Figma for each of
+      the 7 atoms and check off the corresponding Implementation Log items
+      before marking this task done.
+    rationale: >
+      The task's own acceptance basis requires visual-match confirmation;
+      an unchecked sign-off checklist is direct task-authored evidence the
+      acceptance point isn't yet confirmed complete.
+    impact: >
+      Task could ship with an undetected visual regression against the
+      approved Figma design since no automated check substitutes for the
+      human visual review this task itself calls for.
+    references: ["specs/design-system/tasks/004-shadcn-primitives-badge-cva-atoms.md#Implementation-Log"]
+    confidence: high
+    review_status: accepted
+    source: llm
