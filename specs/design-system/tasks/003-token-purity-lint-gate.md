@@ -1,7 +1,7 @@
 ---
 id: "003"
 name: Token-purity lint gate (no-direct-palette-import) + Biome pin
-status: implemented
+status: review
 blocked_by: ["002"]
 max_files: 4
 ground_rules:
@@ -10,6 +10,7 @@ ground_rules:
   - architecture/general.md
   - testing/principles.md
   - frontend/design-tokens.md
+  - languages/typescript/type-safety.md
 test_cases:
   - raw_hex_literal_in_component_fails_lint_and_names_file
   - brand_or_palette_primitive_import_in_component_fails_lint

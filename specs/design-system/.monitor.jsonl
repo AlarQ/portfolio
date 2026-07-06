@@ -17,3 +17,4 @@
 {"ts":"2026-07-05T13:14:41.000Z","category":"task_transition","task":"002","feature":"design-system","data":{"from_status":"review","to_status":"done","task_file":"specs/design-system/tasks/002-two-layer-token-codegen.md"}}
 {"ts":"2026-07-05T13:14:41.000Z","category":"task_transition","task":"003","feature":"design-system","data":{"from_status":"blocked","to_status":"todo","task_file":"specs/design-system/tasks//003-token-purity-lint-gate.md"}}
 {"ts":"2026-07-05T13:34:19.000Z","category":"task_transition","task":"003","feature":"design-system","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/design-system/tasks/003-token-purity-lint-gate.md"}}
+{"ts":"2026-07-05T17:19:49.000Z","category":"task_transition","task":"003","feature":"design-system","data":{"from_status":"implemented","to_status":"review","task_file":"specs/design-system/tasks/003-token-purity-lint-gate.md"}}

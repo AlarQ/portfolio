@@ -1,0 +1,55 @@
+gate: security-engineer
+task_id: 003-token-purity-lint-gate
+status: findings
+findings:
+  - id: sec-001
+    severity: medium
+    category: design-tokens
+    file: grit/no-direct-palette-import.grit
+    lines: "7-18"
+    description: >
+      The two import-shaped rules only match static `import $imports from $src` and
+      `import * as $ns from $nsSrc` forms. They do not match a bare re-export
+      (`export { primitives } from "../theme/tokens"` or `export * from "../theme/tokens"`),
+      a dynamic import (`await import("../theme/tokens")`), or a CommonJS
+      `require("../theme/tokens")`. Any of these reaches the primitive layer from
+      component source without tripping the gate, silently defeating the FR-3
+      semantic-only-consumption invariant the rule exists to enforce.
+    source: llm
+    review_status: pending
+  - id: sec-002
+    severity: low
+    category: design-tokens
+    file: grit/no-direct-palette-import.grit
+    lines: "8,15"
+    description: >
+      The path regex `r"[^"]*theme/tokens"` requires the import specifier string to
+      end exactly at `theme/tokens` before the closing quote. An import written with
+      an explicit extension, e.g. `from "../theme/tokens.ts"` or `from "../theme/tokens.js"`,
+      does not match and silently bypasses both the named-import and namespace-import checks.
+    source: llm
+    review_status: pending
+  - id: sec-003
+    severity: low
+    category: architecture
+    file: grit/no-direct-palette-import.grit
+    lines: "3,10,16"
+    description: >
+      The exemption regex `.*/theme/(?:theme|tokens)\.ts$` is a filename-suffix match,
+      not an anchored repo-root path. Any file anywhere in the tree ending in
+      `.../theme/theme.ts` or `.../theme/tokens.ts` is treated as the trusted authoring
+      layer and fully exempted from both checks. Low likelihood given current repo shape,
+      but worth tightening to an absolute/rooted path if the tree grows a second `theme/` dir.
+    source: llm
+    review_status: pending
+  - id: sec-004
+    severity: low
+    category: dependency-hygiene
+    file: package.json
+    lines: "54"
+    description: >
+      @biomejs/biome is pinned exact (2.3.14) with package-lock.json committed —
+      no violation. Noting for completeness: the pin was inherited from task 002 and
+      only re-verified here, not re-audited for known CVEs against 2.3.14.
+    source: llm
+    review_status: pending

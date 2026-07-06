@@ -1,0 +1,31 @@
+gate: code-quality-pragmatist
+task_id: 003-token-purity-lint-gate
+status: findings
+findings:
+  - id: cq-001
+    severity: low
+    category: dx-antipattern
+    file: src/theme/lintGate.test.ts
+    lines: "68-80"
+    description: >
+      Test name `brand_or_palette_primitive_import_in_component_fails_lint` implies both
+      brand and palette-primitive imports are rejected, but its fixture only imports
+      `primitives` from `theme/tokens`. No fixture exercises a direct `brand` import from
+      `theme/theme.ts` (intentionally out of scope per Implementation Log). Existing
+      components (PostCard.tsx, PostNav.tsx, etc.) already import `brand` directly and
+      would continue to pass lint despite the test name implying otherwise.
+    source: llm
+    review_status: pending
+  - id: cq-002
+    severity: low
+    category: unnecessary-complexity
+    file: grit/no-direct-palette-import.grit
+    lines: "9-14"
+    description: >
+      Primitive-import detection uses regex text matching over the stringified import
+      clause rather than AST identifier matching — fragile string-matching approach
+      required by Biome 2.3.14 GritQL plugin limitations (documented "Gotcha" in
+      Implementation Log re: \b boundary regex failing to compile). Not introduced by
+      choice; flagged as maintenance-cost signal for future rule revisions.
+    source: llm
+    review_status: pending
