@@ -22,6 +22,10 @@
   --heading-light: #181a2a;
   --body-light: #667085;
   --accent-byline: #6941c6;
+  --background-dark: #090d1f;
+  --heading-dark: #ffffff;
+  --body-dark: #c0c5d0;
+  --accent-byline-dark: #6941c6;
   --gray-50: #f9fafb;
   --gray-100: #f2f4f7;
   --gray-200: #eaecf0;
@@ -85,6 +89,10 @@
 }
 
 .dark {
+  --background: var(--background-dark);
+  --foreground: var(--heading-dark);
+  --muted-foreground: var(--body-dark);
+  --accent: var(--accent-byline-dark);
 }
 
 @theme inline {

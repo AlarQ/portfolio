@@ -82,6 +82,47 @@ describe("token codegen (FR-2, ADR-DS-3)", () => {
     expect(src).not.toMatch(/API_KEY|SECRET|PASSWORD|CREDENTIAL/i);
   });
 
+  it("dark_palette_is_single_dark_block_sourced_from_figma_dark_frame", () => {
+    // FR-9 / ADR-DS-5: semanticDark's alias names are a subset of semanticLight's
+    // (no dark-only aliases), and the emitted `.dark {}` block resolves to the
+    // observed Figma dark-frame hexes (node `614:679`).
+    const lightAliases = new Set(Object.keys(semanticLight));
+    for (const alias of Object.keys(semanticDark)) {
+      expect(lightAliases, `${alias} must be one of semanticLight's aliases`).toContain(alias);
+    }
+    expect(Object.keys(semanticDark).length).toBeGreaterThan(0);
+
+    const css = emitTokensCss();
+    const darkBlockMatch = css.match(/\.dark\s*\{([^}]*)\}/);
+    expect(darkBlockMatch).not.toBeNull();
+    const darkBlock = darkBlockMatch?.[1] ?? "";
+    expect(darkBlock).toMatch(/--background:\s*var\(--background-dark\)/);
+    expect(darkBlock).toMatch(/--foreground:\s*var\(--heading-dark\)/);
+    expect(darkBlock).toMatch(/--muted-foreground:\s*var\(--body-dark\)/);
+    expect(darkBlock).toMatch(/--accent:\s*var\(--accent-byline-dark\)/);
+
+    // Values match Figma dark-frame node 614:679 (bg, heading, body, accent),
+    // asserted as regex-format checks (not raw hex literals, per
+    // no-direct-palette-import) plus an explicit equality cross-check against
+    // the sibling `accentByline` (byline accent unchanged between frames).
+    expect(primitives.backgroundDark).toMatch(HEX);
+    expect(primitives.headingDark).toMatch(HEX);
+    expect(primitives.bodyDark).toMatch(HEX);
+    expect(primitives.accentBylineDark).toBe(primitives.accentByline);
+  });
+
+  it("dark_primitives_are_hand_pinned_literals_not_ramp_derived", () => {
+    // ADR-DS-7: only the primary 50–900 ramp is synthetic. Assert the dark
+    // primitives are plain string literals in tokens.ts, never a call to
+    // hslToHex/primaryRamp.
+    const src = readFileSync(join(repoRoot, "src/theme/tokens.ts"), "utf-8");
+    expect(src).toMatch(/backgroundDark:\s*"#[0-9a-fA-F]{6}"/);
+    expect(src).toMatch(/headingDark:\s*"#[0-9a-fA-F]{6}"/);
+    expect(src).toMatch(/bodyDark:\s*"#[0-9a-fA-F]{6}"/);
+    expect(src).toMatch(/accentBylineDark:\s*"#[0-9a-fA-F]{6}"/);
+    expect(src).not.toMatch(/backgroundDark:\s*hslToHex/);
+  });
+
   it("emitter_is_dark_aware_light_to_root_dark_to_dark_block", () => {
     const css = emitTokensCss();
     // Light tokens live under :root; dark under a .dark block — emitted from the
