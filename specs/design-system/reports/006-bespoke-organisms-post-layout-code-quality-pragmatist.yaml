@@ -1,0 +1,90 @@
+gate: code-quality-pragmatist
+task_id: "006-bespoke-organisms-post-layout"
+status: findings
+findings:
+  - id: cq-001
+    severity: medium
+    category: dx-antipattern
+    title: mdxTrustSeam.test.ts hard-codes a feature branch name and shells out to git at test time
+    description: |
+      src/security/mdxTrustSeam.test.ts hard-codes BASE_REF = "feat/design-system"
+      and calls execFileSync("git", ["merge-base", "HEAD", BASE_REF]) and
+      execFileSync("git", ["show", ...]) at test run time. This makes a unit
+      test depend on: (1) the local/CI checkout having that branch ref
+      available at all (a shallow CI clone or post-merge branch deletion
+      breaks it with a git error, not a meaningful assertion failure), and
+      (2) shell/process execution inside what should be a pure content check.
+    file: src/security/mdxTrustSeam.test.ts
+    lines: "1-47"
+    code_snippet: |
+      const BASE_REF = "feat/design-system";
+      function mergeBase(): string {
+        return execFileSync("git", ["merge-base", "HEAD", BASE_REF], ...).trim();
+      }
+    fix_proposal: |
+      Drop the git-history dependency entirely. Either (a) snapshot-test the
+      two seam files' content/hash directly (e.g. a checked-in golden hash
+      constant updated only via explicit review), or (b) if branch-diff
+      comparison is truly wanted, pin to a specific commit SHA captured at
+      task-006 authoring time instead of a movable/deletable branch name, with
+      a comment explaining why. A plain content-hasn't-changed assertion
+      doesn't need git at all.
+    rationale: |
+      The task's own implementation log already flags this as a known risk
+      ("will need updating once that branch is deleted post-merge, or CI must
+      fetch it") — i.e. the author knew this was fragile and shipped it
+      anyway. Tests should not depend on mutable, deletable external repo
+      state; testing/principles.md's guidance to test behavior not incidental
+      infra state applies here.
+    impact: |
+      First CI run after feat/design-system is deleted (a normal post-merge
+      cleanup step) fails this test with a git error unrelated to any real
+      regression, blocking unrelated PRs until someone tracks down that it's
+      an infra artifact, not a security regression.
+    references: ["style/general.md", "testing/principles.md"]
+    confidence: high
+    review_status: accepted
+    source: llm
+  - id: cq-002
+    severity: low
+    category: dry-violation
+    title: ArticleProse.test.tsx and ArticleProse.structure.test.ts overlap in intent
+    description: |
+      Two separate test files both guard "ArticleProse never re-implements MDX
+      hardening": one via rendered-output assertions (rel attribute, alert
+      text absence), one via source-text regex/string matching on the same
+      file. The structure test's regex checks are a weaker, more brittle
+      proxy for the same property the output test already verifies
+      behaviorally.
+    file: src/components/ds/ArticleProse.structure.test.ts
+    lines: "1-42"
+    code_snippet: |
+      it("defines no duplicate rel/neutralizer hardening logic of its own", () => {
+        expect(source).not.toMatch(/rel\s*[:=]\s*["']noopener/);
+        expect(source).not.toMatch(/\bscript\b.*=>.*null/i);
+      });
+    fix_proposal: |
+      Keep the import-allowlist check (genuinely useful, guards against a
+      second MDX compiler dependency) and the dangerouslySetInnerHTML check,
+      but drop the regex-based rel/script-neutralizer heuristic — it's
+      string-matching source text for a property the behavioral test in
+      ArticleProse.test.tsx already proves more reliably, and the regexes are
+      fragile to trivial reformatting (e.g. rel={"noopener noreferrer"}
+      wouldn't match either regex, giving false confidence).
+    rationale: |
+      Two tests asserting the same underlying property through different
+      mechanisms is acceptable when one is behavioral and the other catches
+      a class of regression the first can't (e.g. new imports) — but the
+      regex-based rel/script checks in the structure test don't add coverage
+      beyond what the output test already asserts, they just add a second,
+      more brittle assertion of the identical fact.
+    impact: |
+      Low — mostly a maintenance/false-confidence cost. A refactor that
+      changes how rel is spelled in source (still hardened at runtime) would
+      spuriously pass or fail this regex independent of actual security
+      posture, adding noise without new signal.
+    references: ["testing/principles.md"]
+    confidence: medium
+    review_status: accepted
+    auto_accepted: true
+    source: llm

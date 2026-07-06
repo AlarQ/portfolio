@@ -1,7 +1,7 @@
 ---
 id: "006"
 name: Bespoke organisms + post-layout (with MDX trust-seam guardrail)
-status: implemented
+status: done
 blocked_by: ["004", "005"]
 max_files: 8
 ground_rules:

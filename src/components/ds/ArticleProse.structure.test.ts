@@ -34,9 +34,4 @@ describe("ArticleProse — no second MDX render path (sec-no-second-mdx-render-p
   it("contains no dangerouslySetInnerHTML", () => {
     expect(source).not.toContain("dangerouslySetInnerHTML");
   });
-
-  it("defines no duplicate rel/neutralizer hardening logic of its own", () => {
-    expect(source).not.toMatch(/rel\s*[:=]\s*["']noopener/);
-    expect(source).not.toMatch(/\bscript\b.*=>.*null/i);
-  });
 });

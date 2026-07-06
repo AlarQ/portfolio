@@ -1,7 +1,7 @@
 ---
 id: "008"
 name: Light + dark theming on the semantic layer
-status: blocked
+status: todo
 blocked_by: ["002", "004", "005", "006"]
 max_files: 4
 ground_rules:
