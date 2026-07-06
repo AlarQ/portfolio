@@ -27,6 +27,7 @@ estimated_files:
   - src/components/ds/PostLayout.stories.tsx
 interaction: hitl
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/52
 ---
 
 ## Objective
