@@ -1,7 +1,7 @@
 ---
 id: "004"
 name: shadcn primitives restyled to Figma + exhaustive Badge CVA + Atoms matrices
-status: blocked
+status: todo
 blocked_by: ["001", "002", "003"]
 max_files: 18
 ground_rules:

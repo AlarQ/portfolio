@@ -1,0 +1,4 @@
+gate: format-check
+task_id: 003-token-purity-lint-gate
+status: pass
+findings: []

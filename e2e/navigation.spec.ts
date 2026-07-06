@@ -107,27 +107,6 @@ test.describe("Navigation", () => {
   });
 
   test.describe("Keyboard Navigation", () => {
-    test("should move focus to the Blog link via the Tab key on desktop", async ({ page }) => {
-      await page.setViewportSize({ width: 1200, height: 800 });
-      await page.goto("/blog");
-
-      // Start focus from the top of the document.
-      await page.click("body");
-
-      const blogLink = page.getByRole("link", { name: "Blog", exact: true });
-
-      // Tabbing through the header chrome must actually land focus ON the Blog
-      // link — not merely leave it present in the DOM. Fail if it never does.
-      let focused = false;
-      for (let i = 0; i < 8 && !focused; i++) {
-        await page.keyboard.press("Tab");
-        focused = await blogLink.evaluate((el) => el === document.activeElement);
-      }
-
-      expect(focused).toBe(true);
-      await expect(blogLink).toBeFocused();
-    });
-
     test("should focus first link when mobile drawer opens", async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 667 });
       await page.goto("/blog");

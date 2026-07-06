@@ -1,0 +1,29 @@
+gate: claude-md-compliance-checker
+task_id: 003-token-purity-lint-gate
+status: findings
+findings:
+- id: comp-001
+  severity: low
+  category: architecture-pattern
+  file: src/theme/theme.ts
+  lines: 14-16
+  description: "frontend/design-tokens.md (MUST) requires OKLCH color authoring; brand/primitives remain\
+    \ hex-authored, and task 003's carve-out list permanentizes hex literals in those exempted files.\
+    \ Pre-existing decision from task 002 (ADR-DS-7/ADR-0001), not a task-003 regression \u2014 advisory\
+    \ only, no action required to close this task.\n"
+  source: llm
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing from task 002 (ADR-DS-7 hex-authoring decision / withAlpha signature),
+    not a task-003 regression - out of scope.'
+- id: comp-002
+  severity: low
+  category: language-rule
+  file: src/theme/theme.ts
+  lines: 7-12
+  description: "withAlpha(hex: string, alpha: number) accepts a bare string for what is invariantly a\
+    \ 6-digit hex code with no validation/narrowing (languages/typescript/type-safety.md, SHOULD). Pre-existing\
+    \ (task 002), not touched by task 003 \u2014 non-blocking note.\n"
+  source: llm
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing from task 002 (ADR-DS-7 hex-authoring decision / withAlpha signature),
+    not a task-003 regression - out of scope.'
