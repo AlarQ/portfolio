@@ -2,6 +2,7 @@
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { theme } from "./theme";
 
 interface ThemeProviderProps {
@@ -24,12 +25,24 @@ interface ThemeProviderProps {
  * explicit `@layer theme, utilities, mui;` order declared in
  * `src/app/globals.css` (`mui` declared last wins ties), with no
  * `StyledEngineProvider` in this component.
+ *
+ * FR-9 (Task 008): `NextThemesProvider` is mounted OUTSIDE `MuiThemeProvider`,
+ * fully decoupled from it — it only toggles the `class` attribute on `<html>`
+ * (`attribute="class"`) to flip between the semantic-token `:root`/`.dark`
+ * blocks in `tokens.css`. It never touches MUI's `theme` object or
+ * `CssBaseline`, mirroring the Tailwind/MUI coexistence pattern in
+ * `coexistence.test.ts` — two independent styling systems sharing one page,
+ * neither aware of the other. Default is light (`defaultTheme="light"`,
+ * `enableSystem={false}` so a visitor's OS preference never silently
+ * overrides the authored default).
  */
 export function ThemeProvider({ children }: ThemeProviderProps) {
   return (
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </MuiThemeProvider>
+    <NextThemesProvider attribute="class" defaultTheme="light" enableSystem={false}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
+    </NextThemesProvider>
   );
 }
