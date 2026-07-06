@@ -40,6 +40,7 @@ estimated_files:
   - package.json
 interaction: hitl
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/50
 ---
 
 ## Objective
