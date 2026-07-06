@@ -23,6 +23,7 @@ estimated_files:
   - package-lock.json
 interaction: afk
 implementer: generalist
+pr_url: https://github.com/AlarQ/portfolio/pull/49
 ---
 
 ## Objective
