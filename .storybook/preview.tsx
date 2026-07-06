@@ -32,6 +32,24 @@ const preview: Preview = {
     ),
   ],
   parameters: {
+    /**
+     * Custom "iphone15" viewport (390x844) matching the Figma mobile frame
+     * used across the Pages pack's `Mobile` story variants (task 007). No
+     * `@storybook/addon-viewport` is installed — this is inert config data
+     * consumed only if that addon is later added — but the `parameters`
+     * object itself is real and assertable from tests (behavior-level proof
+     * a story declares the mobile viewport). True pixel-frame verification
+     * is a manual/`/pr-review` concern, not something a unit test can prove.
+     */
+    viewport: {
+      viewports: {
+        iphone15: {
+          name: "iPhone 15",
+          styles: { width: "390px", height: "844px" },
+          type: "mobile",
+        },
+      },
+    },
     backgrounds: {
       default: "light",
       values: [
