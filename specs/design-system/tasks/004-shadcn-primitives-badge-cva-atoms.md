@@ -1,7 +1,7 @@
 ---
 id: "004"
 name: shadcn primitives restyled to Figma + exhaustive Badge CVA + Atoms matrices
-status: todo
+status: implemented
 blocked_by: ["001", "002", "003"]
 max_files: 18
 ground_rules:
@@ -67,3 +67,36 @@ Stand up the atom layer — `badge/button/input/navigation-menu(+sheet)/card/ava
 - If `sheet`/`navigation-menu` story counts push past 20 files, split along the deploy boundary the PM flagged (interactive/nav vs display primitives) — do **not** pre-split.
 
 ## Implementation Log
+
+### Visual Review
+
+Human sign-off gate (Acceptance #2) — each atom below is pending human Storybook
+review against the Figma light look (primary `#7F56D9`, Inter). This is a
+recorded-approval checklist, not a mechanized/pixel-diff test; do not mark an
+item approved without an actual human review.
+
+- [ ] Badge — pending human Storybook review against Figma light look (primary #7F56D9, Inter)
+- [ ] Button — pending human Storybook review against Figma light look (primary #7F56D9, Inter)
+- [ ] Input — pending human Storybook review against Figma light look (primary #7F56D9, Inter)
+- [ ] Navigation Menu — pending human Storybook review against Figma light look (primary #7F56D9, Inter)
+- [ ] Sheet — pending human Storybook review against Figma light look (primary #7F56D9, Inter)
+- [ ] Card — pending human Storybook review against Figma light look (primary #7F56D9, Inter)
+- [ ] Avatar — pending human Storybook review against Figma light look (primary #7F56D9, Inter)
+
+### Implementation Notes
+
+chunks_spawned: 3
+
+**Interface choices:**
+- Badge carries both the pre-existing shadcn `variant` prop and a new `category` prop (per user decision — spec-language traceability over shorter naming). `category` is a closed union (`BADGE_CATEGORIES`: violet, indigo, pink, sky, green, gray-blue, orange, rose) resolved by an exhaustive `Record<BadgeCategory, string>` CVA map in `badgeVariants.ts`, mirroring `skillPresentation.tsx`'s exhaustive icon Record.
+- `navigation-menu` and `sheet` were split into separate primitives/story files per explicit user instruction (not deferred to a 20-file breach as the task's Approach note originally suggested).
+- Badge category exhaustiveness is enforced at compile time via a `// @ts-expect-error` type-fixture (`badgeVariants.typetest.ts`) checked by shelling to `tsc --noEmit` in a vitest test — no prior negative-type-fixture convention existed in this repo, so this establishes the pattern.
+- `src/lib/utils.ts` (`cn` helper) was hand-added — the `shadcn` CLI did not scaffold it.
+
+**Backlog deviations:**
+- None substantive. Badge's `category` prop is additive to the existing `variant` prop rather than replacing it (kept both to avoid a breaking change to shadcn's stock API surface).
+
+**Refactors applied:**
+- Chunk 3 closing whole-diff refactor: confirmed `badgeVariants.ts` is still the single exhaustive source of truth with no drift across chunks. Reviewed all 7 `.stories.tsx` files for a shared "variant mapping" abstraction — rejected: each atom's variant shape is genuinely distinct (Badge categories vs Button size+variant vs Sheet side vs Avatar composition), so a generic story-factory would force an ill-fitting shared shape. Left as-is per simplicity-over-premature-abstraction.
+
+**Verification:** `npm run type-check`, `npm run lint`, `npx vitest run` (169 passed / 1 pre-existing skip), `npm run build` all green after every chunk.

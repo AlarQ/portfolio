@@ -133,6 +133,40 @@ export const primitives = {
   headingLight: "#181a2a",
   bodyLight: "#667085",
   accentByline: "#6941c6",
+  /**
+   * shadcn-role primitives (Task 004, FR-4) — restyling the stock shadcn
+   * primitive set (badge/button/input/card/avatar/navigation-menu/sheet) to
+   * the Figma light look through the semantic layer. Untitled-UI-style
+   * neutrals/red, the same family the primary ramp is drawn from.
+   */
+  gray50: "#f9fafb",
+  gray100: "#f2f4f7",
+  gray200: "#eaecf0",
+  gray300: "#d0d5dd",
+  gray700: "#344054",
+  red50: "#fef3f2",
+  red600: "#d92d20",
+  /**
+   * The 8 Badge category hues (FR-6) — each a soft-tint background + a
+   * darker-shade foreground, the Untitled-UI badge convention. None tied to
+   * a category *name* beyond the hue itself (D-6-analogue for badges).
+   */
+  categoryVioletBg: "#f4f3ff",
+  categoryVioletFg: "#5925dc",
+  categoryIndigoBg: "#eef4ff",
+  categoryIndigoFg: "#3538cd",
+  categoryPinkBg: "#fdf2fa",
+  categoryPinkFg: "#c11574",
+  categorySkyBg: "#f0f9ff",
+  categorySkyFg: "#026aa2",
+  categoryGreenBg: "#ecfdf3",
+  categoryGreenFg: "#027a48",
+  categoryGrayBlueBg: "#f8f9fc",
+  categoryGrayBlueFg: "#363f72",
+  categoryOrangeBg: "#fff6ed",
+  categoryOrangeFg: "#c4320a",
+  categoryRoseBg: "#fef3f2",
+  categoryRoseFg: "#b42318",
 } as const;
 
 type PrimitiveName = keyof typeof primitives;
@@ -146,10 +180,39 @@ type PrimitiveName = keyof typeof primitives;
 export const semanticLight = {
   "--background": "white",
   "--foreground": "headingLight",
+  "--muted": "gray50",
   "--muted-foreground": "bodyLight",
   "--primary": "primary600",
   "--primary-foreground": "white",
+  "--secondary": "gray100",
+  "--secondary-foreground": "gray700",
+  "--destructive": "red600",
+  "--destructive-foreground": "white",
   "--accent": "accentByline",
+  "--accent-foreground": "white",
+  "--card": "white",
+  "--card-foreground": "headingLight",
+  "--popover": "white",
+  "--popover-foreground": "headingLight",
+  "--border": "gray200",
+  "--input": "gray300",
+  "--ring": "primary600",
+  "--badge-violet-bg": "categoryVioletBg",
+  "--badge-violet-fg": "categoryVioletFg",
+  "--badge-indigo-bg": "categoryIndigoBg",
+  "--badge-indigo-fg": "categoryIndigoFg",
+  "--badge-pink-bg": "categoryPinkBg",
+  "--badge-pink-fg": "categoryPinkFg",
+  "--badge-sky-bg": "categorySkyBg",
+  "--badge-sky-fg": "categorySkyFg",
+  "--badge-green-bg": "categoryGreenBg",
+  "--badge-green-fg": "categoryGreenFg",
+  "--badge-gray-blue-bg": "categoryGrayBlueBg",
+  "--badge-gray-blue-fg": "categoryGrayBlueFg",
+  "--badge-orange-bg": "categoryOrangeBg",
+  "--badge-orange-fg": "categoryOrangeFg",
+  "--badge-rose-bg": "categoryRoseBg",
+  "--badge-rose-fg": "categoryRoseFg",
 } as const satisfies Record<string, PrimitiveName>;
 
 /**
