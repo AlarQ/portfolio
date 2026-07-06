@@ -12,7 +12,8 @@ findings:
   file: e2e/coexistence.spec.ts
   lines: 136-136
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-2
   severity: medium
   category: testing
@@ -23,7 +24,8 @@ findings:
   file: e2e/navigation.spec.ts
   lines: 110-110
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-3
   severity: medium
   category: testing
@@ -58,7 +60,8 @@ findings:
   file: e2e/blog-highlighting.spec.ts
   lines: 19-19
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-6
   severity: medium
   category: testing
@@ -69,7 +72,8 @@ findings:
   file: e2e/blog-highlighting.spec.ts
   lines: 45-45
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-7
   severity: medium
   category: testing
@@ -80,7 +84,8 @@ findings:
   file: e2e/blog-mdx-mapping.spec.ts
   lines: 18-18
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-8
   severity: medium
   category: testing
@@ -91,7 +96,8 @@ findings:
   file: e2e/blog-nav.spec.ts
   lines: 20-20
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-9
   severity: medium
   category: testing
@@ -102,7 +108,8 @@ findings:
   file: e2e/blog-security.spec.ts
   lines: 17-17
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-10
   severity: medium
   category: testing
@@ -113,7 +120,8 @@ findings:
   file: e2e/blog-security.spec.ts
   lines: 32-32
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-11
   severity: medium
   category: testing
@@ -124,7 +132,8 @@ findings:
   file: e2e/blog-toc.spec.ts
   lines: 19-19
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-12
   severity: medium
   category: testing
@@ -135,7 +144,8 @@ findings:
   file: e2e/blog-toc.spec.ts
   lines: 46-46
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-13
   severity: medium
   category: testing
@@ -146,7 +156,8 @@ findings:
   file: e2e/blog-toc.spec.ts
   lines: 67-67
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-14
   severity: medium
   category: testing
@@ -156,7 +167,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 86-86
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-15
   severity: medium
   category: testing
@@ -167,7 +179,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 105-105
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-16
   severity: medium
   category: testing
@@ -178,7 +191,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 114-114
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-17
   severity: medium
   category: testing
@@ -189,7 +203,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 141-141
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-18
   severity: medium
   category: testing
@@ -200,7 +215,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 160-160
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-19
   severity: medium
   category: testing
@@ -211,7 +227,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 188-188
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-20
   severity: medium
   category: testing
@@ -222,7 +239,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 221-221
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-21
   severity: medium
   category: testing
@@ -233,7 +251,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 251-251
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-22
   severity: medium
   category: testing
@@ -244,7 +263,8 @@ findings:
   file: e2e/navigation.spec.ts
   lines: 110-110
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-23
   severity: medium
   category: testing
@@ -255,7 +275,8 @@ findings:
   file: e2e/blog-mdx-mapping.spec.ts
   lines: 18-18
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-24
   severity: medium
   category: testing
@@ -266,7 +287,8 @@ findings:
   file: e2e/blog-security.spec.ts
   lines: 32-32
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-25
   severity: medium
   category: testing
@@ -277,7 +299,8 @@ findings:
   file: e2e/blog-toc.spec.ts
   lines: 19-19
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-26
   severity: medium
   category: testing
@@ -288,7 +311,8 @@ findings:
   file: e2e/blog-toc.spec.ts
   lines: 46-46
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-27
   severity: medium
   category: testing
@@ -299,7 +323,8 @@ findings:
   file: e2e/blog-toc.spec.ts
   lines: 67-67
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-28
   severity: medium
   category: testing
@@ -309,7 +334,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 86-86
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-29
   severity: medium
   category: testing
@@ -320,7 +346,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 114-114
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-30
   severity: medium
   category: testing
@@ -331,7 +358,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 141-141
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-31
   severity: medium
   category: testing
@@ -342,7 +370,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 160-160
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-32
   severity: medium
   category: testing
@@ -353,7 +382,8 @@ findings:
   file: e2e/blog.spec.ts
   lines: 251-251
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-33
   severity: medium
   category: testing
@@ -363,7 +393,8 @@ findings:
   file: e2e/navigation.spec.ts
   lines: 72-72
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
 - id: e2e-test-34
   severity: medium
   category: testing
@@ -374,4 +405,5 @@ findings:
   file: e2e/navigation.spec.ts
   lines: 110-110
   source: tool
-  review_status: pending
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'

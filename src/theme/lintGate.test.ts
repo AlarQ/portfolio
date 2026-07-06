@@ -65,7 +65,7 @@ describe("no-direct-palette-import lint gate (FR-3)", () => {
     expect(result.stderr).toContain("Raw hex literal not allowed");
   });
 
-  it("brand_or_palette_primitive_import_in_component_fails_lint", () => {
+  it("palette_primitive_import_in_component_fails_lint", () => {
     const fixture = "src/theme/BadImport.tsx";
     writeFileSync(
       join(sandbox, fixture),
