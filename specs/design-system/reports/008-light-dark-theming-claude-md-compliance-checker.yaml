@@ -1,0 +1,24 @@
+gate: claude-md-compliance-checker
+task_id: 008-light-dark-theming
+status: findings
+findings:
+  - id: claude-md-compliance-checker-1
+    severity: medium
+    category: compliance
+    title: accentBylineDark fails WCAG AA contrast against backgroundDark
+    description: >
+      frontend/accessibility.md (MUST: text/UI elements meet WCAG AA contrast
+      minimums) — accentBylineDark (#6941c6) against backgroundDark (#090d1f)
+      computes to a ~2.91:1 contrast ratio, below the 4.5:1 AA threshold for
+      normal text and even below the 3:1 threshold for large text/UI
+      components. The task log states this value is a hand-pinned, unchanged
+      carry-over from the light frame's accentByline and is pixel-matched from
+      the Figma dark frame (node 614:679) rather than derived, so the low
+      contrast is inherited from the design source rather than introduced by
+      the implementation. It is still a real accessibility risk if
+      accent-byline text is rendered directly on backgroundDark in the shipped
+      dark theme.
+    file: src/theme/tokens.ts
+    lines: "138-142"
+    source: llm
+    review_status: pending

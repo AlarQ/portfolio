@@ -1,0 +1,26 @@
+gate: effective-set
+task_id: 008-light-dark-theming
+status: error
+findings:
+  - id: effective-set-1
+    severity: critical
+    category: config
+    title: Empty effective gate set on code-bearing task
+    description: >
+      Ceiling ∩ ground_rules yielded no gates. Task 008's ground_rules
+      (style/general.md, architecture/general.md, frontend/design-tokens.md)
+      contain no languages/<lang>.md tag, so no gate in the pool (which all
+      require applies_to: [typescript, nextjs]) matched. empty_intersection_ok
+      is not set (defaults false).
+    file: specs/design-system/tasks/008-light-dark-theming.md
+    lines: ""
+    code_snippet: ""
+    fix_proposal: >
+      Add a languages/typescript/*.md ground_rules entry to task 008
+      frontmatter (matching prior tasks 006/007), then re-run /validate design-system.
+    rationale: >
+      Every other task in this spec (006, 007) carries a languages/typescript/*.md
+      tag; its absence here looks like a spec authoring gap rather than an
+      intentional empty-intersection case.
+    review_status: accepted
+    source: tool

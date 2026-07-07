@@ -1,0 +1,24 @@
+gate: e2e-test
+task_id: 008-light-dark-theming
+status: findings
+findings:
+  - id: e2e-test-1
+    severity: high
+    category: testing
+    title: "Hydration mismatch on /blog (className/style color-scheme)"
+    description: >
+      [chromium] e2e/coexistence.spec.ts:126:7 "existing routes render without regression (FR-1)
+      / /blog renders without console/page errors" failed. assertNoErrors expected consoleErrors
+      to equal [] but received a React hydration-mismatch warning: "A tree hydrated but some
+      attributes of the server rendered HTML didn't match the client properties." Diff shows
+      server-rendered <html lang="en" className="light" style={{color-scheme:"light"}}> not
+      matching client render.
+    file: e2e/coexistence.spec.ts
+    lines: "104-108"
+    code_snippet: |
+      return () => {
+        expect(pageErrors).toEqual([]);
+        expect(consoleErrors).toEqual([]);
+      };
+    source: tool
+    review_status: pending
