@@ -17,3 +17,7 @@ else
 fi
 
 npm run lint
+
+# Storybook-first gate: every component in the storied tiers (ui/, ds/,
+# pages/, storybook-fixtures/) must have a sibling *.stories.tsx.
+npm run lint:stories
