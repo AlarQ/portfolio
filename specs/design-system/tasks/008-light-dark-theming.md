@@ -1,7 +1,7 @@
 ---
 id: "008"
 name: Light + dark theming on the semantic layer
-status: todo
+status: done
 blocked_by: ["002", "004", "005", "006"]
 max_files: 4
 ground_rules:
@@ -43,3 +43,5 @@ Ship dark as a single semantic-layer token block pixel-matched from the real Fig
 - Add a Storybook theme toggle to demo both themes; verify no component diff is required to support dark.
 
 ## Implementation Log
+- Code done on `feat/design-system-008-light-dark-theming` (3 commits incl. review-findings fix); PR #54 merged into integration branch `feat/design-system` on 2026-07-07.
+- NOT yet in `main`: PR #55 ("packs 003-007") merged `feat/design-system` → `main` but only carried 001-007's history — 008's commits are absent from `main`. Needs its own PR from `feat/design-system-008-light-dark-theming` (or a rebase of `feat/design-system`) targeting `main`.

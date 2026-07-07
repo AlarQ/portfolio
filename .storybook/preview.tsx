@@ -24,9 +24,33 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
  * render on the raw light tokens so Storybook matches the Figma frames.
  */
 const preview: Preview = {
+  globalTypes: {
+    theme: {
+      description: "Global theme for components",
+      toolbar: {
+        title: "Theme",
+        icon: "circlehollow",
+        items: [
+          { value: "light", icon: "circlehollow", title: "Light" },
+          { value: "dark", icon: "circle", title: "Dark" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+  initialGlobals: {
+    theme: "light",
+  },
   decorators: [
-    (Story) => (
-      <div className={inter.variable} style={{ fontFamily: "var(--font-inter)" }}>
+    (Story, context) => (
+      <div
+        className={`${inter.variable}${context.globals?.theme === "dark" ? " dark" : ""}`}
+        style={{
+          fontFamily: "var(--font-inter)",
+          background: "var(--background)",
+          minHeight: "100vh",
+        }}
+      >
         <Story />
       </div>
     ),

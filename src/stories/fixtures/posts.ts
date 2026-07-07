@@ -1,3 +1,4 @@
+import type { PostCardCategory } from "@/components/ds/PostCard";
 import type { Post } from "@/data/posts";
 
 /**
@@ -15,6 +16,14 @@ export const samplePost: Post = {
   formattedDate: "May 12, 2026",
   published: true,
 };
+
+export const samplePostCoverImageUrl = "/images/profile.jpg";
+
+export const samplePostCategories: readonly PostCardCategory[] = [
+  { label: "Leadership", category: "violet" },
+  { label: "Management", category: "gray-blue" },
+  { label: "Presentation", category: "pink" },
+];
 
 export const samplePosts: readonly Post[] = [
   samplePost,
