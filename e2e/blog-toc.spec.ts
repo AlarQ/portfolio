@@ -79,9 +79,8 @@ test.describe("Blog in-page Table of Contents (mobile)", () => {
     const viewportWidth = await page.evaluate(() => window.innerWidth);
     expect(articleWidth).toBeGreaterThan(viewportWidth * 0.8);
 
-    const noBodyScroll = await page.evaluate(
-      () => document.documentElement.scrollWidth <= window.innerWidth + 1
-    );
-    expect(noBodyScroll).toBe(true);
+    // No-horizontal-body-scroll at this viewport is asserted in blog.spec.ts
+    // ("contains code-block overflow on mobile with no body horizontal scroll"),
+    // so it is not repeated here.
   });
 });

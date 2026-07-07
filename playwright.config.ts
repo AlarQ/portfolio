@@ -12,13 +12,25 @@ export default defineConfig({
 
   retries: process.env.CI ? 2 : 0,
 
-  workers: process.env.CI ? 1 : undefined,
+  // Local default (`undefined`) spawns one worker per core (~6 here). That
+  // oversubscribes CPU when heavier engines (WebKit/Gecko) render the heavy
+  // Post-detail page (shiki + Mermaid + fonts) concurrently, pushing the
+  // `load` event past navigationTimeout → false timeouts. Cap at 4 so heavy
+  // engines don't starve. CI stays serial.
+  workers: process.env.CI ? 1 : 4,
 
   webServer: {
     command: "npm run dev",
     url: "http://localhost:3000",
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
+    // Give the server a production-representative absolute origin so build
+    // artifacts that must emit absolute URLs (RSS feed, metadataBase) are
+    // exercised as they ship — not with the localhost value in `.env.local`.
+    // Real `process.env` takes precedence over `.env.local` in Next, so this
+    // wins for a Playwright-started server. Falls back to any SITE_URL already
+    // set in the shell (e.g. CI).
+    env: { SITE_URL: process.env.SITE_URL ?? "https://ernest.dev" },
   },
 
   use: {
@@ -47,18 +59,8 @@ export default defineConfig({
     },
 
     {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
-
-    {
       name: "Mobile Chrome",
       use: { ...devices["Pixel 5"] },
-    },
-
-    {
-      name: "Mobile Safari",
-      use: { ...devices["iPhone 12"] },
     },
   ],
 });

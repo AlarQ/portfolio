@@ -1,5 +1,6 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
+  "plugins": ["./grit/no-direct-palette-import.grit"],
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -7,7 +8,16 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!.next", "!dist", "!build", "!coverage", "!.velite"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.next",
+      "!dist",
+      "!build",
+      "!coverage",
+      "!.velite",
+      "!src/theme/tokens.css"
+    ]
   },
   "formatter": {
     "enabled": true,

@@ -1,0 +1,4 @@
+gate: e2e-test
+task_id: 006-bespoke-organisms-post-layout
+status: pass
+findings: []

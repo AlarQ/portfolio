@@ -64,3 +64,4 @@ yarn-error.log*
 .monitor-context-snapshot
 # spec-workflow current-task pointer (runtime state, not committed)
 .monitor-context
+storybook-static/

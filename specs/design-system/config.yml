@@ -1,0 +1,25 @@
+tier: large
+track: feature
+branch_strategy: per-task
+tags: [design-system, shadcn, storybook, tailwind, tokens]
+gates:
+  - lint
+  - format-check
+  - type-check
+  - unit-test
+  - e2e-test
+agents:
+  explore:
+    - design/ui-designer
+    - engineering/software-architect
+  propose:
+    - engineering/software-architect
+  implement:
+    - engineering/frontend-developer
+    - code-quality-pragmatist
+  validate:
+    - engineering/security-engineer
+    - code-quality-pragmatist
+    - claude-md-compliance-checker
+  pr-review:
+    - engineering/code-reviewer

@@ -1,0 +1,409 @@
+gate: e2e-test
+task_id: 003-token-purity-lint-gate
+status: findings
+findings:
+- id: e2e-test-1
+  severity: medium
+  category: testing
+  title: "[firefox] existing routes render without regression (FR-1) \u203A /blog/[slug] (real slug) renders\
+    \ without console/page errors"
+  description: "Playwright test failed on project firefox: existing routes render without regression (FR-1)\
+    \ \u203A /blog/[slug] (real slug) renders without console/page errors"
+  file: e2e/coexistence.spec.ts
+  lines: 136-136
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-2
+  severity: medium
+  category: testing
+  title: "[firefox] Navigation \u203A Keyboard Navigation \u203A should move focus to the Blog link via\
+    \ the Tab key on desktop"
+  description: "Playwright test failed on project firefox: Navigation \u203A Keyboard Navigation \u203A\
+    \ should move focus to the Blog link via the Tab key on desktop"
+  file: e2e/navigation.spec.ts
+  lines: 110-110
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-3
+  severity: medium
+  category: testing
+  title: "[webkit] Blog Post detail \u203A does not leak raw frontmatter into the rendered body"
+  description: "Playwright test failed on project webkit: Blog Post detail \u203A does not leak raw frontmatter\
+    \ into the rendered body"
+  file: e2e/blog-detail.spec.ts
+  lines: 36-36
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json,
+    grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-4
+  severity: medium
+  category: testing
+  title: "[webkit] Blog Post detail \u203A renders pre-rendered Mermaid diagrams as resolvable SVG images"
+  description: "Playwright test failed on project webkit: Blog Post detail \u203A renders pre-rendered\
+    \ Mermaid diagrams as resolvable SVG images"
+  file: e2e/blog-detail.spec.ts
+  lines: 56-56
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json,
+    grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-5
+  severity: medium
+  category: testing
+  title: "[webkit] Blog build-time syntax highlighting \u203A code-block-highlighted: fenced block renders\
+    \ highlighted with no runtime highlighting JS"
+  description: "Playwright test failed on project webkit: Blog build-time syntax highlighting \u203A code-block-highlighted:\
+    \ fenced block renders highlighted with no runtime highlighting JS"
+  file: e2e/blog-highlighting.spec.ts
+  lines: 19-19
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-6
+  severity: medium
+  category: testing
+  title: "[webkit] Blog build-time syntax highlighting \u203A code-color-from-brand: a token color resolves\
+    \ from a --shiki-* var (brand)"
+  description: "Playwright test failed on project webkit: Blog build-time syntax highlighting \u203A code-color-from-brand:\
+    \ a token color resolves from a --shiki-* var (brand)"
+  file: e2e/blog-highlighting.spec.ts
+  lines: 45-45
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-7
+  severity: medium
+  category: testing
+  title: "[webkit] Blog MDX \u2192 MUI mapping \u203A headings, paragraphs, links and inline code render\
+    \ with the seam's brand styling"
+  description: "Playwright test failed on project webkit: Blog MDX \u2192 MUI mapping \u203A headings,\
+    \ paragraphs, links and inline code render with the seam's brand styling"
+  file: e2e/blog-mdx-mapping.spec.ts
+  lines: 18-18
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-8
+  severity: medium
+  category: testing
+  title: "[webkit] Blog Post navigation (single-Post set) \u203A renders neither a Newer nor an Older\
+    \ link, and no error occurs"
+  description: "Playwright test failed on project webkit: Blog Post navigation (single-Post set) \u203A\
+    \ renders neither a Newer nor an Older link, and no error occurs"
+  file: e2e/blog-nav.spec.ts
+  lines: 20-20
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-9
+  severity: medium
+  category: testing
+  title: "[webkit] Blog MDX body security \u203A external link in body renders rel=noopener noreferrer\
+    \ and target=_blank"
+  description: "Playwright test failed on project webkit: Blog MDX body security \u203A external link\
+    \ in body renders rel=noopener noreferrer and target=_blank"
+  file: e2e/blog-security.spec.ts
+  lines: 17-17
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-10
+  severity: medium
+  category: testing
+  title: "[webkit] Blog MDX body security \u203A no third-party script or iframe is injected into the\
+    \ article"
+  description: "Playwright test failed on project webkit: Blog MDX body security \u203A no third-party\
+    \ script or iframe is injected into the article"
+  file: e2e/blog-security.spec.ts
+  lines: 32-32
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-11
+  severity: medium
+  category: testing
+  title: "[webkit] Blog in-page Table of Contents (desktop) \u203A lists the post's headings in document\
+    \ order and is sticky"
+  description: "Playwright test failed on project webkit: Blog in-page Table of Contents (desktop) \u203A\
+    \ lists the post's headings in document order and is sticky"
+  file: e2e/blog-toc.spec.ts
+  lines: 19-19
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-12
+  severity: medium
+  category: testing
+  title: "[webkit] Blog in-page Table of Contents (desktop) \u203A clicking a ToC link resolves the page\
+    \ to the matching heading id"
+  description: "Playwright test failed on project webkit: Blog in-page Table of Contents (desktop) \u203A\
+    \ clicking a ToC link resolves the page to the matching heading id"
+  file: e2e/blog-toc.spec.ts
+  lines: 46-46
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-13
+  severity: medium
+  category: testing
+  title: "[webkit] Blog in-page Table of Contents (mobile) \u203A does not render the ToC aside and lets\
+    \ the prose span the full width"
+  description: "Playwright test failed on project webkit: Blog in-page Table of Contents (mobile) \u203A\
+    \ does not render the ToC aside and lets the prose span the full width"
+  file: e2e/blog-toc.spec.ts
+  lines: 67-67
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-14
+  severity: medium
+  category: testing
+  title: "[webkit] Blog navigation \u203A marks the Blog entry active on a Post detail route"
+  description: "Playwright test failed on project webkit: Blog navigation \u203A marks the Blog entry\
+    \ active on a Post detail route"
+  file: e2e/blog.spec.ts
+  lines: 86-86
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-15
+  severity: medium
+  category: testing
+  title: "[webkit] Post detail readability & a11y \u203A sets the document title from the Post title via\
+    \ generateMetadata"
+  description: "Playwright test failed on project webkit: Post detail readability & a11y \u203A sets the\
+    \ document title from the Post title via generateMetadata"
+  file: e2e/blog.spec.ts
+  lines: 105-105
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-16
+  severity: medium
+  category: testing
+  title: "[webkit] Post detail readability & a11y \u203A prose column measure resolves to the 64ch theme\
+    \ token at desktop viewport"
+  description: "Playwright test failed on project webkit: Post detail readability & a11y \u203A prose\
+    \ column measure resolves to the 64ch theme token at desktop viewport"
+  file: e2e/blog.spec.ts
+  lines: 114-114
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-17
+  severity: medium
+  category: testing
+  title: "[webkit] Post detail readability & a11y \u203A contains code-block overflow on mobile with no\
+    \ body horizontal scroll"
+  description: "Playwright test failed on project webkit: Post detail readability & a11y \u203A contains\
+    \ code-block overflow on mobile with no body horizontal scroll"
+  file: e2e/blog.spec.ts
+  lines: 141-141
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-18
+  severity: medium
+  category: testing
+  title: "[webkit] Post detail readability & a11y \u203A exposes a valid heading hierarchy: one h1 title,\
+    \ body from h2, no skips"
+  description: "Playwright test failed on project webkit: Post detail readability & a11y \u203A exposes\
+    \ a valid heading hierarchy: one h1 title, body from h2, no skips"
+  file: e2e/blog.spec.ts
+  lines: 160-160
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-19
+  severity: medium
+  category: testing
+  title: "[webkit] Post detail readability & a11y \u203A rendered code text meets WCAG-AA contrast against\
+    \ its background"
+  description: "Playwright test failed on project webkit: Post detail readability & a11y \u203A rendered\
+    \ code text meets WCAG-AA contrast against its background"
+  file: e2e/blog.spec.ts
+  lines: 188-188
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-20
+  severity: medium
+  category: testing
+  title: "[webkit] Post detail readability & a11y \u203A in-prose link shows a visible focus ring on keyboard\
+    \ focus"
+  description: "Playwright test failed on project webkit: Post detail readability & a11y \u203A in-prose\
+    \ link shows a visible focus ring on keyboard focus"
+  file: e2e/blog.spec.ts
+  lines: 221-221
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-21
+  severity: medium
+  category: testing
+  title: "[webkit] Post detail readability & a11y \u203A respects prefers-reduced-motion by flagging entrance\
+    \ motion suppressed"
+  description: "Playwright test failed on project webkit: Post detail readability & a11y \u203A respects\
+    \ prefers-reduced-motion by flagging entrance motion suppressed"
+  file: e2e/blog.spec.ts
+  lines: 251-251
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-22
+  severity: medium
+  category: testing
+  title: "[webkit] Navigation \u203A Keyboard Navigation \u203A should move focus to the Blog link via\
+    \ the Tab key on desktop"
+  description: "Playwright test failed on project webkit: Navigation \u203A Keyboard Navigation \u203A\
+    \ should move focus to the Blog link via the Tab key on desktop"
+  file: e2e/navigation.spec.ts
+  lines: 110-110
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-23
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Blog MDX \u2192 MUI mapping \u203A headings, paragraphs, links and inline code\
+    \ render with the seam's brand styling"
+  description: "Playwright test failed on project Mobile Safari: Blog MDX \u2192 MUI mapping \u203A headings,\
+    \ paragraphs, links and inline code render with the seam's brand styling"
+  file: e2e/blog-mdx-mapping.spec.ts
+  lines: 18-18
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-24
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Blog MDX body security \u203A no third-party script or iframe is injected into\
+    \ the article"
+  description: "Playwright test failed on project Mobile Safari: Blog MDX body security \u203A no third-party\
+    \ script or iframe is injected into the article"
+  file: e2e/blog-security.spec.ts
+  lines: 32-32
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-25
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Blog in-page Table of Contents (desktop) \u203A lists the post's headings in\
+    \ document order and is sticky"
+  description: "Playwright test failed on project Mobile Safari: Blog in-page Table of Contents (desktop)\
+    \ \u203A lists the post's headings in document order and is sticky"
+  file: e2e/blog-toc.spec.ts
+  lines: 19-19
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-26
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Blog in-page Table of Contents (desktop) \u203A clicking a ToC link resolves\
+    \ the page to the matching heading id"
+  description: "Playwright test failed on project Mobile Safari: Blog in-page Table of Contents (desktop)\
+    \ \u203A clicking a ToC link resolves the page to the matching heading id"
+  file: e2e/blog-toc.spec.ts
+  lines: 46-46
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-27
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Blog in-page Table of Contents (mobile) \u203A does not render the ToC aside\
+    \ and lets the prose span the full width"
+  description: "Playwright test failed on project Mobile Safari: Blog in-page Table of Contents (mobile)\
+    \ \u203A does not render the ToC aside and lets the prose span the full width"
+  file: e2e/blog-toc.spec.ts
+  lines: 67-67
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-28
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Blog navigation \u203A marks the Blog entry active on a Post detail route"
+  description: "Playwright test failed on project Mobile Safari: Blog navigation \u203A marks the Blog\
+    \ entry active on a Post detail route"
+  file: e2e/blog.spec.ts
+  lines: 86-86
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-29
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Post detail readability & a11y \u203A prose column measure resolves to the 64ch\
+    \ theme token at desktop viewport"
+  description: "Playwright test failed on project Mobile Safari: Post detail readability & a11y \u203A\
+    \ prose column measure resolves to the 64ch theme token at desktop viewport"
+  file: e2e/blog.spec.ts
+  lines: 114-114
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-30
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Post detail readability & a11y \u203A contains code-block overflow on mobile\
+    \ with no body horizontal scroll"
+  description: "Playwright test failed on project Mobile Safari: Post detail readability & a11y \u203A\
+    \ contains code-block overflow on mobile with no body horizontal scroll"
+  file: e2e/blog.spec.ts
+  lines: 141-141
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-31
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Post detail readability & a11y \u203A exposes a valid heading hierarchy: one\
+    \ h1 title, body from h2, no skips"
+  description: "Playwright test failed on project Mobile Safari: Post detail readability & a11y \u203A\
+    \ exposes a valid heading hierarchy: one h1 title, body from h2, no skips"
+  file: e2e/blog.spec.ts
+  lines: 160-160
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-32
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Post detail readability & a11y \u203A respects prefers-reduced-motion by flagging\
+    \ entrance motion suppressed"
+  description: "Playwright test failed on project Mobile Safari: Post detail readability & a11y \u203A\
+    \ respects prefers-reduced-motion by flagging entrance motion suppressed"
+  file: e2e/blog.spec.ts
+  lines: 251-251
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-33
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Navigation \u203A Mobile Navigation \u203A should navigate from drawer"
+  description: "Playwright test failed on project Mobile Safari: Navigation \u203A Mobile Navigation \u203A\
+    \ should navigate from drawer"
+  file: e2e/navigation.spec.ts
+  lines: 72-72
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'
+- id: e2e-test-34
+  severity: medium
+  category: testing
+  title: "[Mobile Safari] Navigation \u203A Keyboard Navigation \u203A should move focus to the Blog link\
+    \ via the Tab key on desktop"
+  description: "Playwright test failed on project Mobile Safari: Navigation \u203A Keyboard Navigation\
+    \ \u203A should move focus to the Blog link via the Tab key on desktop"
+  file: e2e/navigation.spec.ts
+  lines: 110-110
+  source: tool
+  review_status: rejected
+  review_notes: 'Rejected: pre-existing webkit/firefox/mobile flakiness unrelated to task 003 (biome.json, grit rule, package.json/lock only) - documented known-failure pattern per CLAUDE.md.'

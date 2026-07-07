@@ -1,7 +1,30 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * ADR-DS-2: Tailwind v4's `theme`/`utilities` layers only — deliberately NOT
+ * `@import "tailwindcss";` (which also pulls in `tailwindcss/preflight`).
+ * Skipping the preflight import is how preflight is disabled at the source;
+ * MUI's `CssBaseline` (see `src/theme/ThemeProvider.tsx`) remains the sole
+ * base-element reset authority during coexistence.
+ */
+/*
+ * Explicit layer order (ADR-DS-2): declaring it up front fixes cascade
+ * priority regardless of each layer's actual stylesheet position in `<head>`
+ * — CSS resolves `@layer` priority by first-declared order, last wins ties.
+ * `mui` (StyledEngineProvider `enableCssLayer` in ThemeProvider.tsx) is
+ * declared last so Emotion/MUI styles win over Tailwind's `theme`/`utilities`
+ * on any cascade tie.
+ */
+@layer base, theme, utilities, mui;
 
+/*
+ * ADR-DS-3: the @generated semantic token layer loads BEFORE Tailwind's
+ * utility layer so any utility referencing a semantic var resolves it. Never
+ * hand-edit tokens.css — change src/theme/tokens.ts and run `generate:tokens`.
+ */
+@import "../theme/tokens.css";
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
+
+:root {
   /*
    * Shiki code-block palette — the second surface of the brand seam (ADR-0001).
    * MIRROR of `shikiVars` in `src/theme/theme.ts`; values come ONLY from `brand`
@@ -19,13 +42,6 @@
   --shiki-token-variable: #7dd3fc;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 html,
 body {
   max-width: 100vw;
@@ -38,15 +54,91 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  /*
+   * Figma light-look body font (Task 004, FR-2): `--font-inter` is the
+   * next/font variable instantiated in `src/app/layout.tsx`. The shadcn
+   * primitives (src/components/ui/*.tsx) set no font-family of their own,
+   * so they inherit Inter from this single seam.
+   */
+  font-family: var(--font-inter, Arial, Helvetica, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+/*
+ * The base reset lives in `@layer base` (declared FIRST, so lowest priority)
+ * — NOT unlayered. Unlayered author rules outrank every `@layer`, so an
+ * unlayered `* { padding: 0; margin: 0 }` silently defeated Tailwind's
+ * `@layer utilities` padding/margin utilities (`px-2.5`, `py-0.5`, …) and
+ * collapsed every shadcn primitive. Layered below `utilities`, the reset still
+ * beats UA defaults but yields to Tailwind spacing utilities. MUI (unlayered /
+ * `@layer mui`) still outranks `base`, so the live app is unaffected.
+ */
+@layer base {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  /*
+   * Form-control font inheritance. Native `button`/`input`/`select`/`textarea`
+   * do NOT inherit `font-family`/`font-size` from their ancestor by UA default;
+   * Tailwind Preflight normally restores this, but Preflight is deliberately
+   * disabled here (ADR-DS-2). Without this rule the shadcn `<button>`/`<input>`
+   * primitives render in the UA font instead of the page's Inter seam, while
+   * `<span>`-based primitives (Badge) inherit correctly — an inconsistency vs
+   * the Figma frames. In `@layer base` so the primitives' own size utilities
+   * (`text-base`, `text-sm`) still win.
+   */
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+  }
+
+  /*
+   * Minimal Preflight-equivalent normalization the shadcn primitives assume.
+   * shadcn components are authored for a Tailwind Preflight baseline (Preflight
+   * is disabled here per ADR-DS-2 so MUI CssBaseline owns the reset). Without
+   * these, native control chrome bleeds through vs the Figma frames:
+   *   - `border-width: 0; border-style: solid` — Tailwind's `border` utilities
+   *     set width/color but assume Preflight already set style `solid`; without
+   *     it, `outline`/`border-input` variants render NO visible border, while
+   *     native `<button>` shows its UA `2px outset` bevel.
+   *   - `appearance: none` + transparent bg on buttons — strips the native
+   *     button background/bevel so `bg-primary` shows the flat Figma fill.
+   * All in `@layer base` (lowest priority): the primitives' own `border-*` and
+   * `bg-*` utilities (`@layer utilities`) win, and MUI (`@layer mui`/unlayered)
+   * is unaffected on the live app.
+   */
+  *,
+  ::before,
+  ::after {
+    border-width: 0;
+    border-style: solid;
+    /*
+     * shadcn convention: the default border color is the `--border` token (its
+     * globals ship `@layer base { * { @apply border-border } }`), so `border`
+     * without an explicit color utility — the `outline`/`ghost` variants — reads
+     * the subtle Figma gray, not Tailwind's `currentColor` default.
+     */
+    border-color: var(--border);
+  }
+
+  button,
+  [type="button"],
+  [type="reset"],
+  [type="submit"] {
+    appearance: none;
+    background-color: transparent;
+    background-image: none;
+    cursor: pointer;
+  }
 }
 
 a {

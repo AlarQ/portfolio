@@ -1,0 +1,4 @@
+gate: coverage
+task_id: 005-bespoke-molecules
+status: pass
+findings: []

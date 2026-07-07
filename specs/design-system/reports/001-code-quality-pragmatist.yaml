@@ -1,0 +1,45 @@
+gate: code-quality-pragmatist
+task_id: "001"
+status: findings
+findings:
+  - id: cq-101
+    severity: medium
+    category: maintainability
+    title: Full Storybook build re-run in 3 places with no sharing
+    description: >-
+      storybookBuild.test.ts, storybook-adapter.spec.ts and cascade-tie.spec.ts each invoke a fresh `storybook build` (the two e2e specs via storybookStaticServer, which still builds per call) — one boot-time assertion compiled 3x per CI run. Confirms/quantifies cq-001. Fix: build once in a Playwright globalSetup/vitest setup to a shared temp dir, or collapse storybookBuild.test.ts into the e2e adapter spec.
+    file: src/storybook-tooling/storybookBuild.test.ts
+    lines: null
+    source: llm
+    review_status: rejected
+  - id: cq-102
+    severity: low
+    category: maintainability
+    title: CI-only build-gate test duplicates existing build-success signal
+    description: >-
+      buildGate.test.ts runs a 4th full `next build` (5-min spawnSync timeout) inside npm run test:unit as a coarse "routes render unchanged" proxy. Confirms cq-003. Better placed as a required CI `npm run build` step, with visual assertions living in coexistence.spec.ts against real routes.
+    file: src/theme/buildGate.test.ts
+    lines: null
+    source: llm
+    review_status: rejected
+  - id: cq-103
+    severity: low
+    category: architecture
+    title: Storybook-only fixtures live under src/components/, blurring the seam
+    description: >-
+      AdapterFidelityCard and CascadeTieFixtureCard are test-only spike fixtures with no production call site but sit in src/components/, which CLAUDE.md reserves for real domain UI. Confirms cq-004. Fix: move both (+ .stories) under src/storybook-tooling/fixtures/, or delete once tasks 004+ provide a real component serving the same proof.
+    file: src/components/storybook-fixtures/AdapterFidelityCard.tsx
+    lines: null
+    source: llm
+    review_status: rejected
+  - id: cq-104
+    severity: low
+    category: architecture
+    title: next-themes runtime dependency with zero import sites
+    description: >-
+      next-themes ships in dependencies yet only depsPinned.test.ts references it; Task 001's acceptance passes without ever proving next-themes integrates. Confirms cq-002. Flag for Task 008 to wire promptly or it becomes unexplained dead weight.
+    file: package.json
+    lines: "44"
+    source: llm
+    review_status: rejected
+    review_notes: 'Rejected: intentional forward-pin; task 001 pins the full dep set (depsPinned.test.ts), task 008 wires next-themes.'
