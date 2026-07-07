@@ -52,7 +52,7 @@ const preview: Preview = {
   decorators: [
     (Story, context) => (
       <div
-        className={`${inter.variable}${context.globals?.theme === "dark" ? " dark" : ""}`}
+        className={`${inter.variable} min-h-screen bg-background text-foreground${context.globals?.theme === "dark" ? " dark" : ""}`}
         style={{ fontFamily: "var(--font-inter)" }}
       >
         <Story />
