@@ -5,6 +5,7 @@ import { PostLayout } from "./PostLayout";
 const meta: Meta<typeof PostLayout> = {
   title: "Organisms/PostLayout",
   component: PostLayout,
+  parameters: { layout: "fullscreen" },
 };
 
 export default meta;

@@ -1,5 +1,6 @@
-import type { Preview } from "@storybook/nextjs";
+import type { Decorator, Preview } from "@storybook/nextjs";
 import { Inter } from "next/font/google";
+import { useEffect } from "react";
 import { brand } from "../src/theme/theme";
 import "../src/app/globals.css";
 
@@ -24,13 +25,42 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
  * render on the raw light tokens so Storybook matches the Figma frames.
  *
  * Task 008 (FR-9): the `theme` toolbar item below (a `globalTypes` toggle, the
- * idiomatic Storybook 9/10 mechanism) flips `.dark` on this SAME wrapper div.
- * No `next-themes`/`ThemeProvider` is needed here — `tokens.css`'s `.dark {}`
+ * idiomatic Storybook 9/10 mechanism) flips `.dark` on the document root. No
+ * `next-themes`/`ThemeProvider` is needed here — `tokens.css`'s `.dark {}`
  * block is a plain class selector, not a `:root`-only rule, so it cascades from
  * any ancestor element carrying the class. Existing stories from tasks 001-007
  * need zero per-story change to pick up dark: they already bind only to the
  * semantic aliases this class swap re-points (FR-9 acceptance #2).
+ *
+ * The `dark` class + token background live on `<html>`/`<body>` (not the story
+ * wrapper) so the full-canvas dark fill (commit a8cc121) survives regardless of
+ * each story's `parameters.layout`. The wrapper carries ONLY the Inter font, so
+ * it is layout-neutral: `layout: 'centered' | 'fullscreen' | 'padded'` governs
+ * story placement freely instead of being defeated by a `min-h-screen` wrapper.
  */
+const withTheme: Decorator = (Story, context) => {
+  const isDark = context.globals?.theme === "dark";
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle("dark", isDark);
+    // These body writes duplicate `globals.css` `body { background; color }` ON
+    // PURPOSE: the `backgrounds` addon (parameters below) paints `body` via its
+    // own inline style, which out-specifies the `globals.css` rule. An inline
+    // write here is the only thing that out-ranks the addon so the semantic
+    // token wins and the full canvas repaints dark on toggle (commit a8cc121 /
+    // task 008). Verified: `body` computes `#090d1f` in dark, white in light.
+    // Do not delete as "dead duplication" — dark canvas breaks without it.
+    document.body.style.backgroundColor = "var(--background)";
+    document.body.style.color = "var(--foreground)";
+  }, [isDark]);
+
+  return (
+    <div className={inter.variable} style={{ fontFamily: "var(--font-inter)" }}>
+      <Story />
+    </div>
+  );
+};
+
 const preview: Preview = {
   globalTypes: {
     theme: {
@@ -49,17 +79,14 @@ const preview: Preview = {
   initialGlobals: {
     theme: "light",
   },
-  decorators: [
-    (Story, context) => (
-      <div
-        className={`${inter.variable} min-h-screen bg-background text-foreground${context.globals?.theme === "dark" ? " dark" : ""}`}
-        style={{ fontFamily: "var(--font-inter)" }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
+  decorators: [withTheme],
   parameters: {
+    /**
+     * Global default layout (rule 3). Atomic components override to `centered`
+     * and full-width page/template organisms override to `fullscreen` on their
+     * own `meta.parameters.layout`; everything else falls back to `padded`.
+     */
+    layout: "padded",
     /**
      * Custom "iphone15" viewport (390x844) matching the Figma mobile frame,
      * selected by name via `mobileViewportParameters` in the Pages pack's

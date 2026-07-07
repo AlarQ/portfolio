@@ -13,8 +13,9 @@ import { SinglePost } from "./SinglePost";
  * proves each Pages screen composes Task 006 organisms rather than
  * reimplementing their markup inline. Checks both that each file imports
  * from `@/components/ds/` (import-statement check) and that the rendered
- * DOM contains the organism's own structural markers (shadcn `data-slot`
- * attributes it owns) — not a scan for the organism's copy strings, which
+ * DOM contains the organism's own structural markers (the `<article>`
+ * wrapper `PostCard` owns, plus shadcn `data-slot` attributes owned by
+ * `AuthorInfo`/`AdsSpace`) — not a scan for the organism's copy strings, which
  * would pass for an unrelated reimplementation with different text and
  * fail on any unrelated copy edit.
  */
@@ -34,30 +35,29 @@ describe("Pages components — import organisms (structural)", () => {
 });
 
 describe("Pages components — compose organisms, never reimplement them", () => {
-  it("Home renders PostCard's own `card` structure per post, not hand-rolled markup", () => {
+  it("Home renders PostCard's own `article` structure per post, not hand-rolled markup", () => {
     const { container, unmount } = renderIntoDocument(<Home posts={samplePosts} />);
 
-    expect(container.querySelectorAll('[data-slot="card"]')).toHaveLength(samplePosts.length);
-    expect(container.querySelectorAll('[data-slot="badge"]')).toHaveLength(samplePosts.length);
+    expect(container.querySelectorAll("article")).toHaveLength(samplePosts.length);
     expect(container.querySelector("footer")).not.toBeNull();
 
     unmount();
   });
 
-  it("BlogListing renders PostCard's own `card` structure per post, not hand-rolled markup", () => {
+  it("BlogListing renders PostCard's own `article` structure per post, not hand-rolled markup", () => {
     const { container, unmount } = renderIntoDocument(<BlogListing posts={samplePosts} />);
 
-    expect(container.querySelectorAll('[data-slot="card"]')).toHaveLength(samplePosts.length);
+    expect(container.querySelectorAll("article")).toHaveLength(samplePosts.length);
     expect(container.querySelector("footer")).not.toBeNull();
 
     unmount();
   });
 
-  it("Author renders AuthorInfo's own avatar structure plus PostCard's card structure", () => {
+  it("Author renders AuthorInfo's own avatar structure plus PostCard's article structure", () => {
     const { container, unmount } = renderIntoDocument(<Author posts={samplePosts} />);
 
     expect(container.querySelector('[data-slot="avatar"]')).not.toBeNull();
-    expect(container.querySelectorAll('[data-slot="card"]')).toHaveLength(samplePosts.length);
+    expect(container.querySelectorAll("article")).toHaveLength(samplePosts.length);
     expect(container.querySelector("footer")).not.toBeNull();
 
     unmount();

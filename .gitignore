@@ -36,6 +36,7 @@ playwright-report/
 playwright/.cache/
 blob-report/
 /playwright/.auth/
+.playwright-mcp/
 
 # Logs
 *.log

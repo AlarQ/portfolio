@@ -4,6 +4,7 @@ import { Newsletter } from "./Newsletter";
 const meta: Meta<typeof Newsletter> = {
   title: "Molecules/Newsletter",
   component: Newsletter,
+  parameters: { layout: "centered" },
 };
 
 export default meta;

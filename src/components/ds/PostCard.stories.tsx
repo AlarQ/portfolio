@@ -9,6 +9,7 @@ import { PostCard } from "./PostCard";
 const meta: Meta<typeof PostCard> = {
   title: "Molecules/PostCard",
   component: PostCard,
+  parameters: { layout: "centered" },
 };
 
 export default meta;

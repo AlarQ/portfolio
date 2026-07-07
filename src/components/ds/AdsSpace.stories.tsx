@@ -4,6 +4,7 @@ import { AdsSpace } from "./AdsSpace";
 const meta: Meta<typeof AdsSpace> = {
   title: "Molecules/AdsSpace",
   component: AdsSpace,
+  parameters: { layout: "centered" },
 };
 
 export default meta;
