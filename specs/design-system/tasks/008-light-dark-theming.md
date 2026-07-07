@@ -5,6 +5,7 @@ status: done
 blocked_by: ["002", "004", "005", "006"]
 max_files: 4
 ground_rules:
+  - languages/typescript/type-safety.md
   - style/general.md
   - architecture/general.md
   - frontend/design-tokens.md

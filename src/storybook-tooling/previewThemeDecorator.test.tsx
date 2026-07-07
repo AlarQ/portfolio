@@ -1,3 +1,4 @@
+import type { Preview } from "@storybook/nextjs";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { describe, expect, it, vi } from "vitest";
@@ -13,6 +14,14 @@ vi.mock("next/font/google", () => ({
 
 import preview from "../../.storybook/preview";
 
+function getDecorators(preview: Preview) {
+  return Array.isArray(preview.decorators)
+    ? preview.decorators
+    : preview.decorators
+      ? [preview.decorators]
+      : [];
+}
+
 // Vitest's jsdom environment doesn't set this by default; without it React
 // logs an "not configured to support act(...)" warning on every act() call.
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -27,11 +36,7 @@ import preview from "../../.storybook/preview";
  * MUI `CssBaseline` global `<style>` injected.
  */
 describe("storybook preview decorator renders stories on the raw light tokens (behavior 8)", () => {
-  const decorators = Array.isArray(preview.decorators)
-    ? preview.decorators
-    : preview.decorators
-      ? [preview.decorators]
-      : [];
+  const decorators = getDecorators(preview);
 
   it("preview.decorators is non-empty", () => {
     expect(decorators.length).toBeGreaterThan(0);
@@ -85,11 +90,7 @@ describe("storybook theme toolbar toggles the dark class on the story wrapper (T
   });
 
   it("defaults to light: no dark class when globals.theme is unset or light", () => {
-    const decorators = Array.isArray(preview.decorators)
-      ? preview.decorators
-      : preview.decorators
-        ? [preview.decorators]
-        : [];
+    const decorators = getDecorators(preview);
     const decorator = decorators[0];
     if (!decorator) throw new Error("expected at least one decorator");
 
@@ -113,11 +114,7 @@ describe("storybook theme toolbar toggles the dark class on the story wrapper (T
   });
 
   it("adds the dark class to the wrapper when globals.theme is dark", () => {
-    const decorators = Array.isArray(preview.decorators)
-      ? preview.decorators
-      : preview.decorators
-        ? [preview.decorators]
-        : [];
+    const decorators = getDecorators(preview);
     const decorator = decorators[0];
     if (!decorator) throw new Error("expected at least one decorator");
 
