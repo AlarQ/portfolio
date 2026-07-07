@@ -10,6 +10,13 @@ const meta: Meta<typeof PostCard> = {
   title: "Molecules/PostCard",
   component: PostCard,
   parameters: { layout: "centered" },
+  decorators: [
+    (Story) => (
+      <div style={{ width: 360 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
@@ -21,20 +28,10 @@ export const Default: Story = {
     coverImageUrl: samplePostCoverImageUrl,
     categories: samplePostCategories,
   },
-  render: (args) => (
-    <div style={{ width: 360 }}>
-      <PostCard {...args} />
-    </div>
-  ),
 };
 
 export const WithoutImageOrCategories: Story = {
   args: {
     post: samplePost,
   },
-  render: (args) => (
-    <div style={{ width: 360 }}>
-      <PostCard {...args} />
-    </div>
-  ),
 };

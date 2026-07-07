@@ -5,6 +5,7 @@ const meta: Meta<typeof Input> = {
   title: "Atoms/Input",
   component: Input,
   args: { placeholder: "Type here…" },
+  tags: ["autodocs"],
 };
 
 export default meta;

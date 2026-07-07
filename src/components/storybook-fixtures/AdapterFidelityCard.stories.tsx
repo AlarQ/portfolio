@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { AdapterFidelityCard } from "./AdapterFidelityCard";
 
 const meta: Meta<typeof AdapterFidelityCard> = {
-  title: "Atoms/AdapterFidelityCard",
+  title: "Internal/AdapterFidelityCard",
   component: AdapterFidelityCard,
 };
 
