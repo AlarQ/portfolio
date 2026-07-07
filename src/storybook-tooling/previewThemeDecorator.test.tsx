@@ -1,3 +1,4 @@
+import type { Preview } from "@storybook/nextjs";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { describe, expect, it, vi } from "vitest";
@@ -13,6 +14,14 @@ vi.mock("next/font/google", () => ({
 
 import preview from "../../.storybook/preview";
 
+function getDecorators(preview: Preview) {
+  return Array.isArray(preview.decorators)
+    ? preview.decorators
+    : preview.decorators
+      ? [preview.decorators]
+      : [];
+}
+
 // Vitest's jsdom environment doesn't set this by default; without it React
 // logs an "not configured to support act(...)" warning on every act() call.
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -27,11 +36,7 @@ import preview from "../../.storybook/preview";
  * MUI `CssBaseline` global `<style>` injected.
  */
 describe("storybook preview decorator renders stories on the raw light tokens (behavior 8)", () => {
-  const decorators = Array.isArray(preview.decorators)
-    ? preview.decorators
-    : preview.decorators
-      ? [preview.decorators]
-      : [];
+  const decorators = getDecorators(preview);
 
   it("preview.decorators is non-empty", () => {
     expect(decorators.length).toBeGreaterThan(0);
@@ -62,6 +67,69 @@ describe("storybook preview decorator renders stories on the raw light tokens (b
     // would inject a global Emotion <style> and invert every story vs Figma.
     const styleTags = Array.from(document.querySelectorAll("style"));
     expect(styleTags.length).toBe(0);
+
+    act(() => {
+      root.unmount();
+    });
+    container.remove();
+  });
+});
+
+/**
+ * Task 008 (FR-9 acceptance #1, Storybook demo half): a `globalTypes` toolbar
+ * item lets a reviewer flip themes in Storybook's UI, and the decorator toggles
+ * the `dark` class on the same font-wrapper div the decorator already renders
+ * — no next-themes/ThemeProvider needed here, since `tokens.css`'s `.dark {}`
+ * block is a plain class selector that cascades to any element (not just
+ * `:root`) carrying the class.
+ */
+describe("storybook theme toolbar toggles the dark class on the story wrapper (Task 008)", () => {
+  it("registers a theme globalType with a toolbar", () => {
+    expect(preview.globalTypes?.theme).toBeDefined();
+    expect(preview.globalTypes?.theme?.toolbar).toBeDefined();
+  });
+
+  it("defaults to light: no dark class when globals.theme is unset or light", () => {
+    const decorators = getDecorators(preview);
+    const decorator = decorators[0];
+    if (!decorator) throw new Error("expected at least one decorator");
+
+    const Probe = () => <div data-testid="probe-light">probe</div>;
+    const decorated = decorator(Probe, { globals: { theme: "light" } } as never);
+
+    const container = document.createElement("div");
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    act(() => {
+      root.render(decorated);
+    });
+
+    const probe = container.querySelector('[data-testid="probe-light"]');
+    expect(probe?.closest(".dark")).toBeNull();
+
+    act(() => {
+      root.unmount();
+    });
+    container.remove();
+  });
+
+  it("adds the dark class to the wrapper when globals.theme is dark", () => {
+    const decorators = getDecorators(preview);
+    const decorator = decorators[0];
+    if (!decorator) throw new Error("expected at least one decorator");
+
+    const Probe = () => <div data-testid="probe-dark">probe</div>;
+    const decorated = decorator(Probe, { globals: { theme: "dark" } } as never);
+
+    const container = document.createElement("div");
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    act(() => {
+      root.render(decorated);
+    });
+
+    const probe = container.querySelector('[data-testid="probe-dark"]');
+    expect(probe?.closest(".dark")).not.toBeNull();
 
     act(() => {
       root.unmount();

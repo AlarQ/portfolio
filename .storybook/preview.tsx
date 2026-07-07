@@ -22,6 +22,14 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
  * baseline injects UNLAYERED and defeats the `@layer theme,utilities,mui`
  * quarantine the live app relies on — inverting every story vs Figma. Stories
  * render on the raw light tokens so Storybook matches the Figma frames.
+ *
+ * Task 008 (FR-9): the `theme` toolbar item below (a `globalTypes` toggle, the
+ * idiomatic Storybook 9/10 mechanism) flips `.dark` on this SAME wrapper div.
+ * No `next-themes`/`ThemeProvider` is needed here — `tokens.css`'s `.dark {}`
+ * block is a plain class selector, not a `:root`-only rule, so it cascades from
+ * any ancestor element carrying the class. Existing stories from tasks 001-007
+ * need zero per-story change to pick up dark: they already bind only to the
+ * semantic aliases this class swap re-points (FR-9 acceptance #2).
  */
 const preview: Preview = {
   globalTypes: {
@@ -45,11 +53,7 @@ const preview: Preview = {
     (Story, context) => (
       <div
         className={`${inter.variable}${context.globals?.theme === "dark" ? " dark" : ""}`}
-        style={{
-          fontFamily: "var(--font-inter)",
-          background: "var(--background)",
-          minHeight: "100vh",
-        }}
+        style={{ fontFamily: "var(--font-inter)" }}
       >
         <Story />
       </div>
@@ -73,12 +77,18 @@ const preview: Preview = {
         },
       },
     },
+    /**
+     * Task 008: no `backgrounds.values` dark swatch here. That mechanism paints
+     * the preview iframe body a static color and would conflict with the real
+     * dark-mode mechanism above (the `theme` toolbar's `.dark` class swap,
+     * which repaints every semantic-token consumer, not just the iframe body).
+     * A stale swatch previously pointed at the legacy MUI dark bg (`#0a1118`,
+     * `brand.backgroundDefault`) — since removed to leave exactly one "dark"
+     * definition (the real Figma dark frame in `tokens.ts`/`tokens.css`).
+     */
     backgrounds: {
       default: "light",
-      values: [
-        { name: "light", value: brand.white },
-        { name: "dark", value: brand.backgroundDefault },
-      ],
+      values: [{ name: "light", value: brand.white }],
     },
     controls: {
       matchers: {

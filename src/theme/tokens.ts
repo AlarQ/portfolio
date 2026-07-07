@@ -116,9 +116,8 @@ function primaryRamp(): PrimaryRamp {
 
 /**
  * Layer 1 — primitive palette. Hand-pinned Figma hues plus the generated
- * primary ramp. Dark-frame-only hues (bg `#090d1f`, body `#c0c5d0`) land with
- * Task 008; only the ramp, the `--primary-strong` escape hatch, and the shared
- * light/neutral hues are authored here.
+ * primary ramp, including the Task 008 dark-frame hues (bg `#090d1f`, body
+ * `#c0c5d0`).
  */
 export const primitives = {
   ...primaryRamp(),
@@ -133,6 +132,16 @@ export const primitives = {
   headingLight: "#181a2a",
   bodyLight: "#667085",
   accentByline: "#6941c6",
+  /**
+   * Figma dark frame (node `614:679`, ADR-DS-5) — hand-pinned literals, never
+   * run through `hslToHex`/`primaryRamp` (ADR-DS-7: only the primary 50–900
+   * ramp is synthetic). `accentBylineDark` intentionally equals `accentByline`
+   * — the byline accent is unchanged between light and dark frames.
+   */
+  backgroundDark: "#090d1f",
+  headingDark: "#ffffff",
+  bodyDark: "#c0c5d0",
+  accentBylineDark: "#6941c6",
   /**
    * shadcn-role primitives (Task 004, FR-4) — restyling the stock shadcn
    * primitive set (badge/button/input/card/avatar/navigation-menu/sheet) to
@@ -216,10 +225,16 @@ export const semanticLight = {
 } as const satisfies Record<string, PrimitiveName>;
 
 /**
- * Layer 2 (dark) — intentionally empty until Task 008 (FR-9) maps the observed
- * Figma dark-frame values onto these same aliases. The generator already emits
- * a `.dark {}` block from this map, so 008 is a pure token-value edit here plus
- * a `generate:tokens` re-run — never a generator change or a `tokens.css`
- * hand-edit (ADR-DS-5).
+ * Layer 2 (dark) — Task 008 (FR-9): the Figma dark frame (node `614:679`)
+ * mapped onto the SAME alias names `semanticLight` uses (a strict subset, no
+ * dark-only aliases). Aliases not yet re-pointed here fall through to the
+ * `:root` light value (ADR-DS-5); a pure token-value edit plus a
+ * `generate:tokens` re-run — never a generator change or a `tokens.css`
+ * hand-edit.
  */
-export const semanticDark = {} as const satisfies Record<string, PrimitiveName>;
+export const semanticDark = {
+  "--background": "backgroundDark",
+  "--foreground": "headingDark",
+  "--muted-foreground": "bodyDark",
+  "--accent": "accentBylineDark",
+} as const satisfies Record<string, PrimitiveName>;

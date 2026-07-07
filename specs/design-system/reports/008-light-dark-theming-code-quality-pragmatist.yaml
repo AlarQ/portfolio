@@ -1,0 +1,19 @@
+gate: code-quality-pragmatist
+task_id: 008-light-dark-theming
+status: findings
+findings:
+  - id: code-quality-pragmatist-1
+    severity: low
+    category: quality
+    title: Repeated decorator-array-normalization boilerplate across three tests
+    description: >
+      The `Array.isArray(preview.decorators) ? preview.decorators : ...`
+      normalization block is copy-pasted verbatim in three separate `it`
+      blocks in previewThemeDecorator.test.tsx. A small local helper
+      (e.g. `getDecorators(preview)`) would remove the duplication and read
+      more declaratively, per the project's "small functions, DRY test
+      helpers" style guidance.
+    file: src/storybook-tooling/previewThemeDecorator.test.tsx
+    lines: "27-31,80-84,110-114"
+    source: llm
+    review_status: accepted
