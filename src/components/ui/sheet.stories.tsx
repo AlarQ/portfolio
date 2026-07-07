@@ -13,6 +13,7 @@ import {
 const meta: Meta<typeof Sheet> = {
   title: "Atoms/Sheet",
   component: Sheet,
+  tags: ["autodocs"],
 };
 
 export default meta;

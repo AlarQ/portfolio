@@ -9,17 +9,12 @@ import {
   AvatarImage,
 } from "./avatar";
 
+const AVATAR_SIZES = ["sm", "default", "lg"] as const;
+
 const meta: Meta<typeof Avatar> = {
   title: "Atoms/Avatar",
   component: Avatar,
-};
-
-export default meta;
-type Story = StoryObj<typeof Avatar>;
-
-export const Playground: Story = {
-  args: { size: "default" },
-  argTypes: { size: { control: "select", options: ["default", "sm", "lg"] } },
+  tags: ["autodocs"],
   render: (args) => (
     <Avatar {...args}>
       <AvatarImage src="https://i.pravatar.cc/64" alt="User" />
@@ -28,30 +23,24 @@ export const Playground: Story = {
   ),
 };
 
-export const Default: Story = {
-  render: () => (
-    <Avatar>
-      <AvatarImage src="https://i.pravatar.cc/64" alt="User" />
-      <AvatarFallback>AB</AvatarFallback>
-    </Avatar>
-  ),
+export default meta;
+type Story = StoryObj<typeof Avatar>;
+
+export const Playground: Story = {
+  args: { size: "default" },
+  argTypes: { size: { control: "select", options: AVATAR_SIZES } },
 };
 
-export const Small: Story = {
+export const AllSizes: Story = {
   render: () => (
-    <Avatar size="sm">
-      <AvatarImage src="https://i.pravatar.cc/64" alt="User" />
-      <AvatarFallback>AB</AvatarFallback>
-    </Avatar>
-  ),
-};
-
-export const Large: Story = {
-  render: () => (
-    <Avatar size="lg">
-      <AvatarImage src="https://i.pravatar.cc/64" alt="User" />
-      <AvatarFallback>AB</AvatarFallback>
-    </Avatar>
+    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+      {AVATAR_SIZES.map((size) => (
+        <Avatar key={size} size={size}>
+          <AvatarImage src="https://i.pravatar.cc/64" alt="User" />
+          <AvatarFallback>AB</AvatarFallback>
+        </Avatar>
+      ))}
+    </div>
   ),
 };
 

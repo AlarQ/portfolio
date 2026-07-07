@@ -12,7 +12,7 @@ import { CascadeTieFixtureCard } from "./CascadeTieFixtureCard";
  * approximation.
  */
 const meta: Meta<typeof CascadeTieFixtureCard> = {
-  title: "Atoms/CascadeTieFixtureCard",
+  title: "Internal/CascadeTieFixtureCard",
   component: CascadeTieFixtureCard,
   decorators: [
     (Story) => (
