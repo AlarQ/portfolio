@@ -4,6 +4,7 @@ import { Conclusion } from "./Conclusion";
 const meta: Meta<typeof Conclusion> = {
   title: "Molecules/Conclusion",
   component: Conclusion,
+  parameters: { layout: "centered" },
 };
 
 export default meta;

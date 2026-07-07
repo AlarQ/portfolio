@@ -5,6 +5,7 @@ import { PageInfo } from "./PageInfo";
 const meta: Meta<typeof PageInfo> = {
   title: "Molecules/PageInfo",
   component: PageInfo,
+  parameters: { layout: "centered" },
 };
 
 export default meta;

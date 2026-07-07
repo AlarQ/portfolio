@@ -4,6 +4,7 @@ import { AuthorInfo } from "./AuthorInfo";
 const meta: Meta<typeof AuthorInfo> = {
   title: "Molecules/AuthorInfo",
   component: AuthorInfo,
+  parameters: { layout: "centered" },
 };
 
 export default meta;
