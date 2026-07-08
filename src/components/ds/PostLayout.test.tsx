@@ -32,12 +32,31 @@ describe("PostLayout", () => {
     expect(container.textContent).toContain("Body content");
     // Conclusion: renders a closing heading.
     expect(container.querySelector("section h2")).not.toBeNull();
-    // Newsletter: renders a signup form.
+    // Newsletter: renders the "Stories and interviews" signup form.
     expect(container.querySelector("form")).not.toBeNull();
-    // AdsSpace: renders the ad placeholder copy.
-    expect(container.textContent).toContain("Advertisement");
+    expect(container.textContent).toContain("Stories and interviews");
     // Footer: renders the site footer landmark.
     expect(container.querySelector("footer")).not.toBeNull();
+
+    unmount();
+  });
+
+  it("renders the optional hero image and category badges when supplied", () => {
+    const { container, unmount } = renderIntoDocument(
+      <PostLayout
+        post={samplePost}
+        coverImageUrl="/images/profile.jpg"
+        coverImageAlt="Hero"
+        categories={[{ label: "Leadership", category: "violet" }]}
+      >
+        <p>Body content</p>
+      </PostLayout>
+    );
+
+    // ArticleProse hero: an <img> with the supplied alt text.
+    expect(container.querySelector('img[alt="Hero"]')).not.toBeNull();
+    // Category badge row: renders each category label.
+    expect(container.textContent).toContain("Leadership");
 
     unmount();
   });

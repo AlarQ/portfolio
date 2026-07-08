@@ -15,7 +15,7 @@ import { SinglePost } from "./SinglePost";
  * from `@/components/ds/` (import-statement check) and that the rendered
  * DOM contains the organism's own structural markers (the `<article>`
  * wrapper `PostCard` owns, plus shadcn `data-slot` attributes owned by
- * `AuthorInfo`/`AdsSpace`) — not a scan for the organism's copy strings, which
+ * `AuthorInfo`) — not a scan for the organism's copy strings, which
  * would pass for an unrelated reimplementation with different text and
  * fail on any unrelated copy edit.
  */
@@ -55,14 +55,16 @@ describe("Pages components — compose organisms, never reimplement them", () =>
     unmount();
   });
 
-  it("SinglePost renders PostLayout's own AuthorInfo avatar and AdsSpace card structure", () => {
+  it("SinglePost renders PostLayout's own AuthorInfo avatar and Newsletter form structure", () => {
     const { container, unmount } = renderIntoDocument(
       <SinglePost post={samplePost}>Body content</SinglePost>
     );
 
     expect(container.querySelector('[data-slot="avatar"]')).not.toBeNull();
-    // AdsSpace is the sole `Card` composed by PostLayout that isn't a PostCard.
-    expect(container.querySelectorAll('[data-slot="card"]')).toHaveLength(1);
+    // AdsSpace was removed (Figma parity); PostLayout no longer composes any Card.
+    expect(container.querySelectorAll('[data-slot="card"]')).toHaveLength(0);
+    // Newsletter: the "Stories and interviews" signup form.
+    expect(container.querySelector("form")).not.toBeNull();
     expect(container.querySelector("footer")).not.toBeNull();
 
     unmount();

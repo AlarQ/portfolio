@@ -12,12 +12,29 @@ type Story = StoryObj<typeof Newsletter>;
 
 export const Default: Story = {
   args: {
-    heading: "Get new posts in your inbox",
-    description: "One email whenever a new post ships. No spam.",
+    heading: "Stories and interviews",
+    description:
+      "Subscribe to learn about new product features, the latest in technology, solutions, and updates.",
     ctaLabel: "Subscribe",
   },
   render: (args) => (
-    <div style={{ width: 420 }}>
+    <div style={{ width: 560 }}>
+      <Newsletter {...args} />
+    </div>
+  ),
+};
+
+export const WithHint: Story = {
+  args: {
+    heading: "Stories and interviews",
+    description:
+      "Subscribe to learn about new product features, the latest in technology, solutions, and updates.",
+    ctaLabel: "Subscribe",
+    hint: "We care about your data in our",
+    privacyHref: "/privacy",
+  },
+  render: (args) => (
+    <div style={{ width: 560 }}>
       <Newsletter {...args} />
     </div>
   ),
