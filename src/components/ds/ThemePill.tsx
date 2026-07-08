@@ -17,7 +17,7 @@ export function ThemePill({ className }: ThemePillProps) {
     <span
       aria-hidden
       className={cn(
-        "inline-flex items-center gap-4 rounded-[29px] bg-foreground px-4 py-2 text-background",
+        "inline-flex items-center gap-4 rounded-pill bg-foreground px-4 py-2 text-background",
         className
       )}
     >

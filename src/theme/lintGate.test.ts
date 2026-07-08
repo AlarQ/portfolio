@@ -105,6 +105,74 @@ describe("no-direct-palette-import lint gate (FR-3)", () => {
     expect(result.stderr).toContain("Namespace import");
   });
 
+  it("rgba_color_function_literal_fails_lint_plain_string", () => {
+    const fixture = "src/theme/BadRgbaPlain.tsx";
+    writeFileSync(
+      join(sandbox, fixture),
+      'export const Bad = () => <div style={{ c: "rgba(0,0,0,.2)" }} />;\n'
+    );
+
+    const result = runBiomeCheck(fixture);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain(fixture);
+    expect(result.stderr).toContain("Raw color-function literal not allowed");
+  });
+
+  it("rgba_color_function_literal_in_template_literal_is_a_known_residual_gap", () => {
+    // GritQL string-literal matching does not currently reach the string parts
+    // of a template literal — pin the actual (limited) behavior rather than
+    // assume coverage. Residual gap: rgba()/hsl() inside a `${...}` template
+    // literal is NOT caught by this rule.
+    const fixture = "src/theme/BadRgbaTemplate.tsx";
+    writeFileSync(
+      join(sandbox, fixture),
+      "export const Bad = () => <div style={{ c: `rgba(0,0,0,.2)` }} />;\n"
+    );
+
+    const result = runBiomeCheck(fixture);
+
+    expect(result.status).toBe(0);
+  });
+
+  it("tailwind_arbitrary_hex_color_class_fails_lint", () => {
+    const fixture = "src/theme/BadArbitraryHex.tsx";
+    writeFileSync(
+      join(sandbox, fixture),
+      'export const Bad = () => <div className="bg-[#f00]" />;\n'
+    );
+
+    const result = runBiomeCheck(fixture);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain(fixture);
+    expect(result.stderr).toContain("Tailwind arbitrary-value color not allowed");
+  });
+
+  it("tailwind_arbitrary_clamp_value_passes_lint", () => {
+    const fixture = "src/theme/GoodArbitraryClamp.tsx";
+    writeFileSync(
+      join(sandbox, fixture),
+      'export const Good = () => <div className="text-[clamp(1rem,2cqi,3px)]" />;\n'
+    );
+
+    const result = runBiomeCheck(fixture);
+
+    expect(result.status).toBe(0);
+  });
+
+  it("tailwind_arbitrary_css_var_reference_passes_lint", () => {
+    const fixture = "src/theme/GoodArbitraryVar.tsx";
+    writeFileSync(
+      join(sandbox, fixture),
+      'export const Good = () => <div className="w-[var(--x)]" />;\n'
+    );
+
+    const result = runBiomeCheck(fixture);
+
+    expect(result.status).toBe(0);
+  });
+
   it("component_using_only_semantic_aliases_passes_lint", () => {
     const fixture = "src/theme/Good.tsx";
     writeFileSync(

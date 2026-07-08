@@ -9,6 +9,7 @@ import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import type { ReadingItem } from "@/data/books";
 import { useCarousel } from "@/hooks/useCarousel";
+import { brand, withAlpha } from "@/theme/theme";
 import { glowCardSx } from "@/utils/glowCardPresentation";
 import { iconTileSx } from "@/utils/iconTilePresentation";
 import { readingCategoryColor } from "@/utils/readingPresentation";
@@ -37,7 +38,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
       borderColor: theme.palette.primary.main,
     },
     zIndex: 2,
-    boxShadow: `0 2px 8px rgba(0, 0, 0, 0.2)`,
+    boxShadow: `0 2px 8px ${withAlpha(brand.black, 0.2)}`,
   };
 
   return (
@@ -119,7 +120,7 @@ export function ReadingSection({ books = [] }: ReadingSectionProps) {
                           borderRadius: 2,
                           overflow: "hidden",
                           flexShrink: 0,
-                          boxShadow: `0 4px 12px rgba(0, 0, 0, 0.3)`,
+                          boxShadow: `0 4px 12px ${withAlpha(brand.black, 0.3)}`,
                           mx: { xs: "auto", md: 0 },
                         }}
                       >

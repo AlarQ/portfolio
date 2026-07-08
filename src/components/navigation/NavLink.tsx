@@ -5,6 +5,7 @@ import { useTheme } from "@mui/material/styles";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { brand, withAlpha } from "@/theme/theme";
 import { navLinkColor, navLinkHoverColor } from "@/utils/navPresentation";
 
 interface NavLinkProps {
@@ -36,7 +37,7 @@ export function NavLink({ href, label, external = false, onClick }: NavLinkProps
         letterSpacing: "0.05em",
         opacity: 1,
         cursor: "pointer",
-        textShadow: "0 2px 4px rgba(0, 0, 0, 0.4)",
+        textShadow: `0 2px 4px ${withAlpha(brand.black, 0.4)}`,
         transition: "color 0.2s ease, transform 0.2s ease",
         "&:hover": {
           color: navLinkHoverColor,
