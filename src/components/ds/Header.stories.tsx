@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { sampleNavItems } from "@/stories/fixtures/nav";
+import { mobileViewportParameters } from "@/stories/mobileViewport";
 import { Header } from "./Header";
 
 const meta: Meta<typeof Header> = {
@@ -27,6 +28,19 @@ export const MastheadDark: Story = {
 
 export const NavbarDark: Story = {
   args: { activeHref: "/blog" },
+  globals: { theme: "dark" },
+};
+
+// Mobile (< md): inline nav collapses to brand + hamburger (Figma 618:705).
+// Open the drawer from the story toolbar's rendered hamburger to review it.
+export const NavbarMobile: Story = {
+  args: { activeHref: "/blog" },
+  parameters: mobileViewportParameters,
+};
+
+export const NavbarMobileDark: Story = {
+  args: { activeHref: "/blog" },
+  parameters: mobileViewportParameters,
   globals: { theme: "dark" },
 };
 

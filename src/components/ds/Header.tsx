@@ -1,6 +1,7 @@
 import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import type { NavItem } from "@/data/navItems";
+import { HeaderMobileMenu } from "./HeaderMobileMenu";
 
 /**
  * Bespoke organism for the site-wide header: a navbar (brand + prop-driven
@@ -24,7 +25,7 @@ export function Header({ items, activeHref, brandLabel = "Your Name", title }: H
     <header className="bg-background py-[30px] text-foreground">
       <div className="mx-auto flex w-full max-w-[1216px] items-center justify-between px-6 py-[10px]">
         <span className="text-xl font-semibold leading-6">{brandLabel}</span>
-        <nav aria-label="Primary" className="flex items-center gap-[14px]">
+        <nav aria-label="Primary" className="hidden items-center gap-[14px] md:flex">
           {items.map((item) => {
             const active = item.href === activeHref;
             return (
@@ -49,6 +50,9 @@ export function Header({ items, activeHref, brandLabel = "Your Name", title }: H
             <Moon className="size-6" />
           </span>
         </nav>
+        <div className="md:hidden">
+          <HeaderMobileMenu items={items} activeHref={activeHref} />
+        </div>
       </div>
       {title ? (
         <div className="mx-auto mt-[50px] w-full max-w-[1216px] overflow-hidden border-y border-border px-6">
