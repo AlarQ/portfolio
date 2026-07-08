@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { sampleNavItems } from "@/stories/fixtures/nav";
-import { mobileViewportParameters } from "@/stories/mobileViewport";
 import { Header } from "./Header";
 
+// Dark and mobile are toolbar concerns, not separate stories: flip the Theme
+// toolbar for dark, and the Viewport toolbar (iphone15, 390x844) for the mobile
+// layout where the inline nav collapses to brand + hamburger (Figma 618:705).
 const meta: Meta<typeof Header> = {
   title: "Organisms/Header",
   component: Header,
@@ -19,29 +21,6 @@ export const Navbar: Story = {
 
 export const Masthead: Story = {
   args: { title: "THE BLOG" },
-};
-
-export const MastheadDark: Story = {
-  args: { title: "THE BLOG" },
-  globals: { theme: "dark" },
-};
-
-export const NavbarDark: Story = {
-  args: { activeHref: "/blog" },
-  globals: { theme: "dark" },
-};
-
-// Mobile (< md): inline nav collapses to brand + hamburger (Figma 618:705).
-// Open the drawer from the story toolbar's rendered hamburger to review it.
-export const NavbarMobile: Story = {
-  args: { activeHref: "/blog" },
-  parameters: mobileViewportParameters,
-};
-
-export const NavbarMobileDark: Story = {
-  args: { activeHref: "/blog" },
-  parameters: mobileViewportParameters,
-  globals: { theme: "dark" },
 };
 
 // Long-content: whitespace-nowrap + clamp means an over-long title clips

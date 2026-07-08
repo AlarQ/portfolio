@@ -27,14 +27,6 @@ export const Open: Story = {
   },
 };
 
-export const OpenDark: Story = {
-  globals: { theme: "dark" },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: "Open menu" }));
-  },
-};
-
 // Empty items: the drawer opens with no links, just the theme pill.
 export const EmptyItems: Story = {
   args: { items: [] },
