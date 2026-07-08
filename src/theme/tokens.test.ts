@@ -154,11 +154,12 @@ describe("token codegen (FR-2, ADR-DS-3)", () => {
   });
 
   it("no_dimension_alias_name_collides_with_its_primitive_kebab", () => {
-    // If an alias name equals `--${kebab(primitive)}` (e.g. primitive `radiusPill`
-    // → `--radius-pill`, alias also `--radius-pill`), both land in the same `:root`
-    // rule and the alias overwrites the primitive with `var(--radius-pill)` — a
-    // guaranteed-invalid self-reference that silently drops the value. Guard the
-    // source so the collision can never reach the emitted CSS again.
+    // Keep alias names distinct from their primitive's kebab (e.g. primitive
+    // `pillRadius` → `--pill-radius`, alias `--radius-pill`). If they matched,
+    // the alias's `var(--pill-radius)` in `:root` would land on the same name as
+    // the primitive and collapse to a self-reference. This is a source-hygiene
+    // guard; the actual bug that shipped was the `@theme inline` bridge emitting
+    // `--radius-pill: var(--radius-pill)` (see the bridge test below).
     const kebab = (key: string) =>
       key
         .replace(/([a-z])([A-Z])/g, "$1-$2")
@@ -171,13 +172,24 @@ describe("token codegen (FR-2, ADR-DS-3)", () => {
     }
   });
 
-  it("emitted_css_bridges_dimension_aliases_into_theme_inline_verbatim", () => {
+  it("theme_inline_bridge_references_primitive_never_self", () => {
+    // The `@theme inline` bridge must point each dimension alias at its
+    // PRIMITIVE (`--container-content: var(--content-measure)`), not at itself.
+    // A `--x: var(--x)` self-reference is invalid at computed-value time and
+    // collapses the utility (e.g. `rounded-pill` → `border-radius: 0`).
     const css = emitTokensCss();
-    expect(css).toMatch(/--container-content:\s*var\(--content-measure\)/);
     const themeBlockMatch = css.match(/@theme inline\s*\{([^}]*)\}/);
     expect(themeBlockMatch).not.toBeNull();
     const themeBlock = themeBlockMatch?.[1] ?? "";
-    expect(themeBlock).toMatch(/--container-content:\s*var\(--container-content\)/);
+    expect(themeBlock).toMatch(/--container-content:\s*var\(--content-measure\)/);
+    expect(themeBlock).toMatch(/--radius-pill:\s*var\(--pill-radius\)/);
+    // Regression guard: no dimension alias may bridge to itself.
+    for (const alias of Object.keys(semanticDimensions)) {
+      const escaped = alias.replace(/[-]/g, "\\-");
+      expect(themeBlock, `${alias} must not self-reference`).not.toMatch(
+        new RegExp(`${escaped}:\\s*var\\(${escaped}\\)`)
+      );
+    }
   });
 
   it("committed_tokens_css_is_fresh", () => {

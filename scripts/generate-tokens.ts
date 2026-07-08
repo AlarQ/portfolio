@@ -91,11 +91,14 @@ export function emitTokensCss(): string {
   const colorBridgeDecls = Object.keys(semanticLight).map(
     (alias) => [`--color-${alias.replace(/^--/, "")}`, `var(${alias})`] as [string, string]
   );
-  // Dimension alias names already carry their Tailwind `@theme` namespace
-  // prefix (`--container-*`, `--spacing-*`, `--radius-*`), so the bridge is
-  // verbatim — no re-prefixing, unlike the `--color-*` bridge above.
-  const dimensionBridgeDecls = Object.keys(semanticDimensions).map(
-    (alias) => [alias, `var(${alias})`] as [string, string]
+  // Dimension aliases reuse the Tailwind `@theme` namespace (`--container-*`,
+  // `--spacing-*`, `--radius-*`) *as* their own name, so bridging an alias to
+  // `var(${alias})` is a circular `--x: var(--x)` self-reference — invalid at
+  // computed-value time, collapsing e.g. `rounded-pill` to `0`. Bridge each
+  // alias to its primitive instead (mirrors `dimensionAliasDecls` and the
+  // `--color-*` bridge, whose re-prefixing sidesteps the collision).
+  const dimensionBridgeDecls = Object.entries(semanticDimensions).map(
+    ([alias, primitive]) => [alias, `var(--${kebab(primitive)})`] as [string, string]
   );
   const theme = [
     "@theme inline {",
