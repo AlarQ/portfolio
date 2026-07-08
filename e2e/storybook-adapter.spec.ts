@@ -27,7 +27,7 @@ test("next/image and next/font render without missing-mock console warnings", as
   page.on("console", (msg) => consoleMessages.push(msg.text()));
 
   await page.goto(
-    `${storybookServer.baseUrl}/iframe.html?id=atoms-adapterfidelitycard--default&viewMode=story`
+    `${storybookServer.baseUrl}/iframe.html?id=internal-adapterfidelitycard--default&viewMode=story`
   );
   await page.waitForSelector("img");
 

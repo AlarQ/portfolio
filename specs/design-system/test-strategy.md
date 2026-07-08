@@ -117,7 +117,7 @@ Verification for this pack is dominated by **four non-runtime gate types** — S
   task_name: pages-stories-real-post-type
   test_theme: "Four screen-level stories compose real organisms against the actual Post type, so any divergence is a compile error — the pack's cheap insurance against pack-2 rework."
   owns:
-    - "pages-stories-render: Home, Blog Listing, Single Post, Author each compose real organisms into a full screen under Pages/"
+    - "pages-stories-render: Home, Single Post, Author each compose real organisms into a full screen under Pages/ (Home and Blog Listing merged under the blog-first IA — see spec.md FR-8)"
     - "pages-use-real-post-type: fixtures typed as the actual Post from postLoader.ts (slug, title, dek, date, readingTimeMinutes, formattedDate, published)"
     - "invented-post-prop-rejected: omitting/renaming a real Post field is a tsc --noEmit compile error (type-level check — the FR-8 guardrail)"
     - "Fixture portion of sec-no-secrets-in-tokens-or-fixtures: fixtures reuse only the public Post type, reference no .env/credential"

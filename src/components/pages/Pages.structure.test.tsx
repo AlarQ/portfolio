@@ -2,9 +2,9 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { renderIntoDocument } from "@/components/ds/testUtils";
+import { sampleNavItems } from "@/stories/fixtures/nav";
 import { samplePost, samplePosts } from "@/stories/fixtures/posts";
 import { Author } from "./Author";
-import { BlogListing } from "./BlogListing";
 import { Home } from "./Home";
 import { SinglePost } from "./SinglePost";
 
@@ -25,7 +25,6 @@ const PAGES_DIR = import.meta.dirname;
 describe("Pages components — import organisms (structural)", () => {
   it.each([
     ["Home.tsx"],
-    ["BlogListing.tsx"],
     ["SinglePost.tsx"],
     ["Author.tsx"],
   ])("%s imports at least one organism from @/components/ds/", (file) => {
@@ -36,16 +35,9 @@ describe("Pages components — import organisms (structural)", () => {
 
 describe("Pages components — compose organisms, never reimplement them", () => {
   it("Home renders PostCard's own `article` structure per post, not hand-rolled markup", () => {
-    const { container, unmount } = renderIntoDocument(<Home posts={samplePosts} />);
-
-    expect(container.querySelectorAll("article")).toHaveLength(samplePosts.length);
-    expect(container.querySelector("footer")).not.toBeNull();
-
-    unmount();
-  });
-
-  it("BlogListing renders PostCard's own `article` structure per post, not hand-rolled markup", () => {
-    const { container, unmount } = renderIntoDocument(<BlogListing posts={samplePosts} />);
+    const { container, unmount } = renderIntoDocument(
+      <Home posts={samplePosts} navItems={sampleNavItems} />
+    );
 
     expect(container.querySelectorAll("article")).toHaveLength(samplePosts.length);
     expect(container.querySelector("footer")).not.toBeNull();

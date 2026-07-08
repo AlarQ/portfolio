@@ -49,7 +49,7 @@ graph TB
     Atoms["Atoms/ (exhaustive matrices)"] --> Primitives
     Molecules["Molecules/"] --> Bespoke
     Organisms["Organisms/"] --> Bespoke
-    Pages["Pages/ (Home, Blog Listing, Single Post, Author)"] --> Organisms
+    Pages["Pages/ (Home, Single Post, Author — Home+Blog Listing merged, FR-8)"] --> Organisms
     Pages --> PostType
   end
 

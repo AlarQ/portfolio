@@ -31,7 +31,7 @@ test("MUI sx background wins the cascade tie against a colliding Tailwind utilit
   page,
 }) => {
   await page.goto(
-    `${storybookServer.baseUrl}/iframe.html?id=atoms-cascadetiefixturecard--default&viewMode=story`
+    `${storybookServer.baseUrl}/iframe.html?id=internal-cascadetiefixturecard--default&viewMode=story`
   );
 
   const fixture = page.getByTestId("cascade-tie-fixture");

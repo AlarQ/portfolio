@@ -1,29 +1,116 @@
 import { Footer } from "@/components/ds/Footer";
-import { Newsletter } from "@/components/ds/Newsletter";
-import { PostCard } from "@/components/ds/PostCard";
+import { Header } from "@/components/ds/Header";
+import { Pagination } from "@/components/ds/Pagination";
+import { PostCard, type PostCardCategory } from "@/components/ds/PostCard";
+import type { NavItem } from "@/data/navItems";
 import type { Post } from "@/data/posts";
 
 export interface HomeProps {
   readonly posts: readonly Post[];
+  /**
+   * Injected nav for the `Header` — supplied by the caller (stories pass the
+   * Figma fixture, a future route passes the real `navItems`) so this page
+   * never depends on `src/stories/` and stays route-wireable.
+   */
+  readonly navItems: readonly NavItem[];
+  readonly activeHref?: string;
+}
+
+/** How many newest Posts fill the "Recent blog posts" featured cluster. */
+const RECENT_COUNT = 4;
+
+/**
+ * Presentation-only fidelity stand-ins for Figma 614:383. The `Post` model
+ * carries neither a cover image nor categories; wiring real ones is out of
+ * scope for this blog-first merge. Every card reuses the one bundled `/public`
+ * asset so the `@storybook/nextjs` `next/image` mock resolves it with no
+ * remote-host config (ADR-DS-1), plus a fixed badge set so cards read like the
+ * frame.
+ */
+const CARD_COVER = "/images/profile.jpg";
+const CARD_CATEGORIES: readonly PostCardCategory[] = [
+  { label: "Design", category: "violet" },
+  { label: "Research", category: "indigo" },
+];
+
+interface PostPartition {
+  readonly recent: readonly Post[];
+  readonly all: readonly Post[];
 }
 
 /**
- * `Pages/Home` screen: composes Task 006 organisms (`PostCard`, `Newsletter`,
- * `Footer`) into the site's landing screen. Owns layout/ordering only; each
- * organism owns its own rendering.
+ * Split the newest-first Post set disjointly into the "Recent blog posts"
+ * featured cluster (first {@link RECENT_COUNT}) and the "All blog posts" grid
+ * (the remainder), so every Post renders in exactly one section — keeping the
+ * structural invariant `article count === posts.length`. Mirrors the intent of
+ * `splitFeatured` in the MUI `PostList`, kept local to this Tailwind `ds/`
+ * stack rather than importing across the two component families.
  */
-export function Home({ posts }: HomeProps) {
+function partitionPosts(posts: readonly Post[]): PostPartition {
+  return { recent: posts.slice(0, RECENT_COUNT), all: posts.slice(RECENT_COUNT) };
+}
+
+/**
+ * `Pages/Home` screen: the Figma-faithful blog index (node 614:383, the
+ * blog-first front door). Composes the `ds/` organisms — `Header` masthead →
+ * "Recent blog posts" featured cluster → "All blog posts" 3-column grid →
+ * `Pagination` → `Footer`. Owns layout/ordering only; each organism owns its
+ * own rendering. No inline Newsletter (the frame has none).
+ */
+export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
+  const { recent, all } = partitionPosts(posts);
+
   return (
-    <div className="flex flex-col gap-10">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-12">
-        <h1 className="text-3xl font-bold text-foreground">Latest posts</h1>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {posts.map((post) => (
-            <PostCard key={post.slug} post={post} />
-          ))}
-        </div>
-        <Newsletter heading="Get new posts by email" />
+    <div className="flex flex-col gap-16 bg-background pb-16">
+      <Header items={navItems} activeHref={activeHref} title="THE BLOG" />
+
+      <div className="mx-auto flex w-full max-w-[1216px] flex-col gap-16 px-6">
+        {recent.length > 0 && (
+          <section aria-labelledby="recent-heading" className="flex flex-col gap-8">
+            <h2 id="recent-heading" className="text-2xl font-semibold text-foreground">
+              Recent blog posts
+            </h2>
+            {/* First post takes the full-height left column; the next two stack
+                in the right column; a fourth spans the full width beneath.
+                (PostCard's cover is a fixed height, so the tall track holds the
+                card rather than stretching the cover — a known fidelity gap.) */}
+            <div className="grid gap-6 md:grid-cols-2">
+              {recent.map((post, index) => (
+                <div
+                  key={post.slug}
+                  className={
+                    index === 0 ? "md:row-span-2" : index === 3 ? "md:col-span-2" : undefined
+                  }
+                >
+                  <PostCard post={post} coverImageUrl={CARD_COVER} categories={CARD_CATEGORIES} />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {all.length > 0 && (
+          <section aria-labelledby="all-heading" className="flex flex-col gap-8">
+            <h2 id="all-heading" className="text-2xl font-semibold text-foreground">
+              All blog posts
+            </h2>
+            <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+              {all.map((post) => (
+                <PostCard
+                  key={post.slug}
+                  post={post}
+                  coverImageUrl={CARD_COVER}
+                  categories={CARD_CATEGORIES}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* TODO: a route owns paging — these are inert placeholder values. */}
+        <Pagination currentPage={1} totalPages={10} />
       </div>
+
       <Footer />
     </div>
   );

@@ -46,9 +46,11 @@ migration by proving the design system before migrating any route.
   exhaustive CVA variant map (missing category = compile error).
 - **Storybook** — atomic-design sidebar (`Atoms/`, `Molecules/`, `Organisms/`,
   `Pages/`). Atoms get exhaustive variant/state matrices; molecules/organisms get
-  representative-content stories; 4 `Pages` stories (Home, Blog Listing, Single
-  Post, Author) built from real organisms + **the actual `Post` type from
-  `src/data/posts.ts`** as fixtures, not invented props.
+  representative-content stories; the `Pages` stories (Home, Single Post,
+  Author) built from real organisms + **the actual `Post` type from
+  `src/data/posts.ts`** as fixtures, not invented props. (Home and Blog Listing
+  were later merged into one Figma-faithful `Home` under the blog-first IA —
+  three Pages stories, not four; see spec.md FR-8.)
 
 ### Out
 
