@@ -151,12 +151,12 @@
   --color-badge-orange-fg: var(--badge-orange-fg);
   --color-badge-rose-bg: var(--badge-rose-bg);
   --color-badge-rose-fg: var(--badge-rose-fg);
-  --container-content: var(--container-content);
-  --container-drawer: var(--container-drawer);
-  --radius-pill: var(--radius-pill);
-  --spacing-header-y: var(--spacing-header-y);
-  --spacing-navbar-y: var(--spacing-navbar-y);
-  --spacing-nav-gap: var(--spacing-nav-gap);
-  --spacing-nav-active: var(--spacing-nav-active);
-  --spacing-masthead-top: var(--spacing-masthead-top);
+  --container-content: var(--content-measure);
+  --container-drawer: var(--drawer-measure);
+  --radius-pill: var(--pill-radius);
+  --spacing-header-y: var(--space-header-y);
+  --spacing-navbar-y: var(--space-navbar-y);
+  --spacing-nav-gap: var(--space-nav-gap);
+  --spacing-nav-active: var(--space-nav-active);
+  --spacing-masthead-top: var(--space-masthead-top);
 }
