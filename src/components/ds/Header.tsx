@@ -48,8 +48,17 @@ export function Header({ items, activeHref, brandLabel = "Your Name", title }: H
         </div>
       </div>
       {title ? (
-        <div className="mx-auto mt-[50px] w-full max-w-[1216px] overflow-hidden border-y border-border px-6">
-          <h1 className="whitespace-nowrap text-[clamp(3rem,18vw,243.8px)] font-bold leading-none text-foreground">
+        // Masthead: `@container` makes the band a container-query context so the
+        // headline is sized in `cqi` (band inline-size), not `vw`. Because `cqi`
+        // tracks the band's *content* box, it accounts for `px-6` and fills the
+        // band at every width (320→1216) without clipping — the fit-to-band fix.
+        // The band is `max-w-[1216px]`, so `19cqi` tops out at ~222px on desktop;
+        // the `243.8px` clamp arg is therefore an inert safety ceiling that only
+        // bites if the band's max width is ever raised. `overflow-hidden` +
+        // `whitespace-nowrap` remain the guard that clips a genuinely over-long
+        // title (see the `LongTitle` story) instead of breaking page layout.
+        <div className="@container mx-auto mt-[50px] w-full max-w-[1216px] overflow-hidden border-y border-border px-6">
+          <h1 className="whitespace-nowrap text-[clamp(3rem,19cqi,243.8px)] font-bold leading-none text-foreground">
             {title}
           </h1>
         </div>
