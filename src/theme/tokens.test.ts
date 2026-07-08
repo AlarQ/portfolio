@@ -3,7 +3,13 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { assertInsideThemeDir, emitTokensCss, writeTokensCss } from "../../scripts/generate-tokens";
-import { primitives, semanticDark, semanticLight } from "./tokens";
+import {
+  dimensionPrimitives,
+  primitives,
+  semanticDark,
+  semanticDimensions,
+  semanticLight,
+} from "./tokens";
 
 const repoRoot = process.cwd();
 const HEX = /^#[0-9a-fA-F]{3,8}$/;
@@ -129,5 +135,56 @@ describe("token codegen (FR-2, ADR-DS-3)", () => {
     // start even while the dark values are empty until Task 008 fills them.
     expect(css).toMatch(/:root\s*\{/);
     expect(css).toMatch(/\.dark\s*\{/);
+  });
+
+  it("every_dimension_alias_resolves_to_a_dimension_primitive", () => {
+    const dimensionPrimitiveNames = new Set(Object.keys(dimensionPrimitives));
+    for (const [alias, value] of Object.entries(semanticDimensions)) {
+      expect(
+        dimensionPrimitiveNames,
+        `${alias} → ${value} must be a dimension primitive`
+      ).toContain(value);
+    }
+  });
+
+  it("every_dimension_alias_carries_a_known_theme_namespace_prefix", () => {
+    for (const alias of Object.keys(semanticDimensions)) {
+      expect(alias).toMatch(/^--(container|spacing|radius)-/);
+    }
+  });
+
+  it("no_dimension_alias_name_collides_with_its_primitive_kebab", () => {
+    // If an alias name equals `--${kebab(primitive)}` (e.g. primitive `radiusPill`
+    // → `--radius-pill`, alias also `--radius-pill`), both land in the same `:root`
+    // rule and the alias overwrites the primitive with `var(--radius-pill)` — a
+    // guaranteed-invalid self-reference that silently drops the value. Guard the
+    // source so the collision can never reach the emitted CSS again.
+    const kebab = (key: string) =>
+      key
+        .replace(/([a-z])([A-Z])/g, "$1-$2")
+        .replace(/([a-zA-Z])([0-9])/g, "$1-$2")
+        .toLowerCase();
+    for (const [alias, primitive] of Object.entries(semanticDimensions)) {
+      expect(alias, `alias ${alias} must not collide with its primitive's kebab`).not.toBe(
+        `--${kebab(primitive)}`
+      );
+    }
+  });
+
+  it("emitted_css_bridges_dimension_aliases_into_theme_inline_verbatim", () => {
+    const css = emitTokensCss();
+    expect(css).toMatch(/--container-content:\s*var\(--content-measure\)/);
+    const themeBlockMatch = css.match(/@theme inline\s*\{([^}]*)\}/);
+    expect(themeBlockMatch).not.toBeNull();
+    const themeBlock = themeBlockMatch?.[1] ?? "";
+    expect(themeBlock).toMatch(/--container-content:\s*var\(--container-content\)/);
+  });
+
+  it("committed_tokens_css_is_fresh", () => {
+    // The committed artifact must equal what the generator emits right now —
+    // otherwise `tokens.css` has drifted from `tokens.ts` (run `npm run
+    // generate:tokens` and commit the result).
+    const committed = readFileSync(join(repoRoot, "src/theme/tokens.css"), "utf-8");
+    expect(committed).toBe(emitTokensCss());
   });
 });

@@ -16,5 +16,19 @@ or {
     not $filename <: r".*/theme/tokens\.ts$",
     not $filename <: r".*/scripts/generate-tokens\.ts$",
     register_diagnostic(span=$nsImp, message="Namespace import of theme/tokens not allowed; import the semantic aliases (semanticLight/semanticDark) by name")
+  },
+  r`"[^"]*(?:rgb|rgba|hsl|hsla|oklch)\\([^"]*"` as $colorFn where {
+    not $filename <: r".*/theme/(?:theme|tokens)\.ts$",
+    not $filename <: r".*/scripts/generate-tokens\.ts$",
+    not $filename <: r".*\.test\.ts$",
+    not $filename <: r".*/e2e/.*",
+    register_diagnostic(span=$colorFn, message="Raw color-function literal not allowed in component source; reference a semantic token instead")
+  },
+  r`"[^"]*\\[(?:#|rgb|hsl|oklch|color:)[^"]*"` as $arbitraryColor where {
+    not $filename <: r".*/theme/(?:theme|tokens)\.ts$",
+    not $filename <: r".*/scripts/generate-tokens\.ts$",
+    not $filename <: r".*\.test\.ts$",
+    not $filename <: r".*/e2e/.*",
+    register_diagnostic(span=$arbitraryColor, message="Tailwind arbitrary-value color not allowed in component source; reference a semantic token utility instead")
   }
 }

@@ -48,7 +48,19 @@ src/components/*.tsx    MUI components — consume presentation output, never re
 
 Rules that keep this honest:
 
-- **`src/theme/theme.ts` is the single brand-color seam.** Every named hue is a token on the exported `brand` object. Data and presentation modules import `brand.sky` etc.; they never re-type raw hex. Change a color in one place.
+### Design tokens
+
+`src/theme/tokens.ts` is the token source of truth for the shadcn/`ui`-`ds`-`pages` surface, two layers:
+
+- **Primitives** (`primitives`, `dimensionPrimitives`) — raw values (hex, px). `primitives` is the only file besides legacy `theme.ts` where hex literals live.
+- **Semantic aliases** (`semanticLight`/`semanticDark`, `semanticDimensions`) — each alias resolves to a primitive NAME, never an inline value; `satisfies Record<string, PrimitiveName>` makes an unbacked alias a **compile error**, not a runtime gap. Dimension tokens follow the identical pattern for spacing/radius/container sizes.
+
+Components bind **only** the semantic layer via Tailwind utilities (`bg-background`, `max-w-content`, `rounded-pill`, …) — never hex/rgb/hsl/oklch literals, never `primitives`/`dimensionPrimitives` imports, never Tailwind arbitrary-value colors (`bg-[#...]`). All lint-enforced by `grit/no-direct-palette-import.grit` via `npm run lint` (arbitrary non-color values like `w-[80%]` or `text-[clamp(...)]` are unrestricted).
+
+`tokens.css` is `@generated` by `npm run generate:tokens` — **never hand-edit it**; change `tokens.ts` and regenerate. A freshness test in `tokens.test.ts` fails pre-push if the committed CSS has drifted from the source maps.
+
+Coexistence: the legacy `brand` seam in `theme.ts` remains the single brand-color seam for the un-migrated MUI surface (+ its shiki mirror, guarded by `shikiVars.test.ts`). New `ui/`/`ds/`/`pages/` components use the semantic token layer, not `brand`.
+
 - **Presentation seams own all icon/color resolution.** E.g. `skillPresentation.tsx` maps an `IconKey` → a concrete MUI icon via an exhaustive `Record<IconKey, ...>`. A missing entry is a **compile error**, not a runtime gap. Components ask the seam, never the icon registry directly.
 - **`src/data/domains.ts` is the home of the Domain Area concept.** A Domain Area is evidenced by Achievements and rated by Skills (two views, one area — see `CONTEXT.md`). Adding/renaming an area is one edit here — no parallel arrays, no new props threaded through `page.tsx`. Avoid reintroducing parallel `leadershipX`/`technicalX` arrays at the call site.
 

@@ -64,7 +64,7 @@ export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
     <div className="flex flex-col gap-16 bg-background pb-16">
       <Header items={navItems} activeHref={activeHref} title="THE BLOG" />
 
-      <div className="mx-auto flex w-full max-w-[1216px] flex-col gap-16 px-6">
+      <div className="mx-auto flex w-full max-w-content flex-col gap-16 px-6">
         {recent.length > 0 && (
           <section aria-labelledby="recent-heading" className="flex flex-col gap-8">
             <h2 id="recent-heading" className="text-2xl font-semibold text-foreground">

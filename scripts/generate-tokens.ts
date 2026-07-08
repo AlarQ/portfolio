@@ -10,7 +10,13 @@
 import { writeFileSync } from "node:fs";
 import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { primitives, semanticDark, semanticLight } from "../src/theme/tokens.ts";
+import {
+  dimensionPrimitives,
+  primitives,
+  semanticDark,
+  semanticDimensions,
+  semanticLight,
+} from "../src/theme/tokens.ts";
 
 // Hardcoded literal output path (sec-codegen-path-safety) — never derived from
 // env, CLI args, or any external input.
@@ -48,6 +54,13 @@ export function emitTokensCss(): string {
   const semanticDecls = (map: Record<string, string>): [string, string][] =>
     Object.entries(map).map(([alias, primitive]) => [alias, `var(--${kebab(primitive)})`]);
 
+  const dimensionPrimitiveDecls = Object.entries(dimensionPrimitives).map(
+    ([name, value]) => [`--${kebab(name)}`, value] as [string, string]
+  );
+  const dimensionAliasDecls = Object.entries(semanticDimensions).map(
+    ([alias, primitive]) => [alias, `var(--${kebab(primitive)})`] as [string, string]
+  );
+
   const root = [
     ":root {",
     "  /* primitives */",
@@ -55,6 +68,12 @@ export function emitTokensCss(): string {
     "",
     "  /* semantic aliases → primitives */",
     declarations(semanticDecls(semanticLight), "  "),
+    "",
+    "  /* dimension primitives */",
+    declarations(dimensionPrimitiveDecls, "  "),
+    "",
+    "  /* semantic dimension aliases → dimension primitives */",
+    declarations(dimensionAliasDecls, "  "),
     "}",
   ].join("\n");
 
@@ -69,10 +88,20 @@ export function emitTokensCss(): string {
   // values as `var(--…)` references. Emitted here (not hand-authored in
   // globals.css) so the bridge auto-tracks the alias set and biome never has to
   // parse the Tailwind-specific `@theme` directive in a hand-edited file.
-  const bridgeDecls = Object.keys(semanticLight).map(
+  const colorBridgeDecls = Object.keys(semanticLight).map(
     (alias) => [`--color-${alias.replace(/^--/, "")}`, `var(${alias})`] as [string, string]
   );
-  const theme = ["@theme inline {", declarations(bridgeDecls, "  "), "}"].join("\n");
+  // Dimension alias names already carry their Tailwind `@theme` namespace
+  // prefix (`--container-*`, `--spacing-*`, `--radius-*`), so the bridge is
+  // verbatim — no re-prefixing, unlike the `--color-*` bridge above.
+  const dimensionBridgeDecls = Object.keys(semanticDimensions).map(
+    (alias) => [alias, `var(${alias})`] as [string, string]
+  );
+  const theme = [
+    "@theme inline {",
+    declarations([...colorBridgeDecls, ...dimensionBridgeDecls], "  "),
+    "}",
+  ].join("\n");
 
   return `${BANNER}\n\n${root}\n\n${dark}\n\n${theme}\n`;
 }

@@ -238,3 +238,40 @@ export const semanticDark = {
   "--muted-foreground": "bodyDark",
   "--accent": "accentBylineDark",
 } as const satisfies Record<string, PrimitiveName>;
+
+/**
+ * Dimension token layer — same two-layer pattern as the color tokens, for the
+ * magic px values previously inlined as Tailwind arbitrary values in `ds/`
+ * (`max-w-[1216px]`, `py-[30px]`, `rounded-[29px]`, …). Theme-invariant: no
+ * light/dark split, `:root` only.
+ */
+export const dimensionPrimitives = {
+  contentMeasure: "1216px",
+  drawerMeasure: "320px",
+  pillRadius: "29px",
+  spaceHeaderY: "30px",
+  spaceNavbarY: "10px",
+  spaceNavGap: "14px",
+  spaceNavActive: "5px",
+  spaceMastheadTop: "50px",
+} as const;
+
+type DimensionPrimitiveName = keyof typeof dimensionPrimitives;
+
+/**
+ * Semantic dimension aliases, each carrying the Tailwind v4 `@theme`
+ * namespace prefix its consumers need (`--container-*` → `max-w-<name>`,
+ * `--spacing-*` → `py-/gap-/pb-/mt-<name>`, `--radius-*` → `rounded-<name>`),
+ * so the generator bridges them into `@theme inline` verbatim, unlike the
+ * `--color-*` re-prefixing the color aliases get.
+ */
+export const semanticDimensions = {
+  "--container-content": "contentMeasure",
+  "--container-drawer": "drawerMeasure",
+  "--radius-pill": "pillRadius",
+  "--spacing-header-y": "spaceHeaderY",
+  "--spacing-navbar-y": "spaceNavbarY",
+  "--spacing-nav-gap": "spaceNavGap",
+  "--spacing-nav-active": "spaceNavActive",
+  "--spacing-masthead-top": "spaceMastheadTop",
+} as const satisfies Record<string, DimensionPrimitiveName>;

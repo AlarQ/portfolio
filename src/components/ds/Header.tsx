@@ -22,10 +22,10 @@ export interface HeaderProps {
 
 export function Header({ items, activeHref, brandLabel = "Your Name", title }: HeaderProps) {
   return (
-    <header className="bg-background py-[30px] text-foreground">
-      <div className="mx-auto flex w-full max-w-[1216px] items-center justify-between px-6 py-[10px]">
+    <header className="bg-background py-header-y text-foreground">
+      <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-navbar-y">
         <span className="text-xl font-semibold leading-6">{brandLabel}</span>
-        <nav aria-label="Primary" className="hidden items-center gap-[14px] md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-nav-gap md:flex">
           {items.map((item) => {
             const active = item.href === activeHref;
             return (
@@ -34,7 +34,7 @@ export function Header({ items, activeHref, brandLabel = "Your Name", title }: H
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={`p-2 text-xl leading-6 text-foreground no-underline ${
-                  active ? "border-b border-foreground pb-[5px] font-bold" : "font-normal"
+                  active ? "border-b border-foreground pb-nav-active font-bold" : "font-normal"
                 }`}
               >
                 {item.label}
@@ -52,12 +52,12 @@ export function Header({ items, activeHref, brandLabel = "Your Name", title }: H
         // headline is sized in `cqi` (band inline-size), not `vw`. Because `cqi`
         // tracks the band's *content* box, it accounts for `px-6` and fills the
         // band at every width (320→1216) without clipping — the fit-to-band fix.
-        // The band is `max-w-[1216px]`, so `19cqi` tops out at ~222px on desktop;
-        // the `243.8px` clamp arg is therefore an inert safety ceiling that only
-        // bites if the band's max width is ever raised. `overflow-hidden` +
-        // `whitespace-nowrap` remain the guard that clips a genuinely over-long
+        // The band is `max-w-content` (1216px), so `19cqi` tops out at ~222px on
+        // desktop; the `243.8px` clamp arg is therefore an inert safety ceiling
+        // that only bites if the band's max width is ever raised. `overflow-hidden`
+        // + `whitespace-nowrap` remain the guard that clips a genuinely over-long
         // title (see the `LongTitle` story) instead of breaking page layout.
-        <div className="@container mx-auto mt-[50px] w-full max-w-[1216px] overflow-hidden border-y border-border px-6">
+        <div className="@container mx-auto mt-masthead-top w-full max-w-content overflow-hidden border-y border-border px-6">
           <h1 className="whitespace-nowrap text-[clamp(3rem,19cqi,243.8px)] font-bold leading-none text-foreground">
             {title}
           </h1>

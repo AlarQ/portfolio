@@ -6,6 +6,7 @@ import Image from "next/image";
 import { cloneElement } from "react";
 import { domainAreas } from "@/data/domains";
 import { ownerProfile } from "@/data/profile";
+import { brand, withAlpha } from "@/theme/theme";
 import { glowCardSx } from "@/utils/glowCardPresentation";
 import { skillIcon } from "@/utils/skillPresentation";
 import { AchievementsList } from "./AchievementsList";
@@ -35,7 +36,7 @@ export function HeroContent() {
               borderRadius: "50%",
               border: `4px solid ${theme.palette.background.paper}`,
               overflow: "hidden",
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+              boxShadow: `0 4px 20px ${withAlpha(brand.black, 0.3)}`,
               flexShrink: 0,
             }}
           >
