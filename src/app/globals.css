@@ -24,6 +24,17 @@
 @import "tailwindcss/theme" layer(theme);
 @import "tailwindcss/utilities" layer(utilities);
 
+/*
+ * Bind Tailwind's `dark:` variant to the `.dark` class the theme toggle drives
+ * (Storybook decorator + app both toggle `.dark` on the root), NOT the default
+ * `prefers-color-scheme` media query which follows the OS. Required so
+ * class-based `dark:` utilities track the site theme — see design-system PRD
+ * ("the v4 `@custom-variant dark (&:is(.dark *))` requirement"). Semantic-token
+ * utilities (`bg-foreground` etc.) already invert via the `.dark {}` block in
+ * tokens.css; this covers positional `dark:` variants like ThemePill's knob.
+ */
+@custom-variant dark (&:is(.dark *));
+
 :root {
   /*
    * Shiki code-block palette — the second surface of the brand seam (ADR-0001).

@@ -1,11 +1,12 @@
 "use client";
 
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { NavItem } from "@/data/navItems";
 import { useDrawerA11y } from "@/hooks/useDrawerA11y";
+import { ThemePill } from "./ThemePill";
 
 /**
  * Client child of the `ds/Header` organism: the mobile hamburger trigger plus
@@ -93,14 +94,7 @@ export function HeaderMobileMenu({ items, activeHref }: HeaderMobileMenuProps) {
             );
           })}
         </div>
-        {/* Visual-only theme pill — inverts with theme via semantic tokens. */}
-        <span
-          aria-hidden
-          className="mt-auto mb-8 inline-flex w-fit items-center gap-4 rounded-[29px] bg-foreground px-4 py-2 text-background"
-        >
-          <Sun className="size-6" />
-          <Moon className="size-6" />
-        </span>
+        <ThemePill className="mt-auto mb-8 w-fit" />
       </div>
     </>
   );
