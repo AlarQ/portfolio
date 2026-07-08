@@ -12,13 +12,8 @@ import { describe, expect, it } from "vitest";
  */
 
 const PAGES_DIR = import.meta.dirname;
-const COMPONENT_FILES = ["Home.tsx", "BlogListing.tsx", "SinglePost.tsx", "Author.tsx"];
-const STORY_FILES = [
-  "Home.stories.tsx",
-  "BlogListing.stories.tsx",
-  "SinglePost.stories.tsx",
-  "Author.stories.tsx",
-];
+const COMPONENT_FILES = ["Home.tsx", "SinglePost.tsx", "Author.tsx"];
+const STORY_FILES = ["Home.stories.tsx", "SinglePost.stories.tsx", "Author.stories.tsx"];
 
 describe("Pages fixtures — reuse shared Post fixture, never recreate it", () => {
   it("every Pages story imports samplePost/samplePosts from the shared fixture module", () => {

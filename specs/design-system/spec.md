@@ -103,14 +103,23 @@ verified — see design.md spike).
 **Scenarios:** storybook-boots, atoms-have-exhaustive-matrices,
 sidebar-atomic-design-order
 
-### FR-8: Four composed Pages stories bound to the real `Post` type
+### FR-8: Composed Pages stories bound to the real `Post` type
 
-Four `Pages/` stories — Home, Blog Listing, Single Post, Author — are composed
+The `Pages/` stories — Home, Single Post, Author — are composed
 from real organisms and use the **actual `Post` type from `src/data/posts.ts`**
 (the module `postLoader.ts` itself imports it from) as
 fixtures, not invented props. Each page-composing component accepts the real
 `Post` shape; a divergence from that type is a compile error (the pack's
 cheap-insurance guardrail against pack-2 rework).
+
+> **Merge note (blog-first IA):** this task originally shipped **four** Pages
+> stories, splitting the blog listing into a separate `Home` and `BlogListing`.
+> Under the blog-first IA (`ROADMAP.md`, DECIDED 2026-06-20) the blog index *is*
+> the front door — one screen, not two — so `Home` and `BlogListing` were merged
+> into a single Figma-faithful `Home` (node `614:383`: `ds/Header` masthead →
+> "Recent blog posts" featured cluster → "All blog posts" 3-col grid →
+> `ds/Pagination` → `ds/Footer`, no inline Newsletter). The pack now has **three**
+> Pages stories. The `Blog` name is reserved for a single Post page.
 
 **Scenarios:** pages-stories-render, pages-use-real-post-type,
 invented-post-prop-rejected
@@ -278,7 +287,7 @@ Then they group under Atoms/, Molecules/, Organisms/, Pages/ by atomic-design ti
 
 ### pages-stories-render
 ```
-Given the four Pages stories (Home, Blog Listing, Single Post, Author)
+Given the Pages stories (Home, Single Post, Author — Home and Blog Listing merged, see FR-8)
 When Storybook renders them
 Then each composes real organisms into a full screen
 ```

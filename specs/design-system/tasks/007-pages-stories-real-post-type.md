@@ -30,6 +30,13 @@ pr_url: https://github.com/AlarQ/portfolio/pull/53
 ## Objective
 Compose the four screen-level stories (Home, Blog Listing, Single Post, Author) from real organisms and type their fixtures as the actual `Post` from `src/data/posts.ts`, so a divergence is a compile error — the pack's cheap insurance against pack-2 rework (FR-8).
 
+> **Superseded (blog-first IA):** `Home` and `BlogListing` were later merged into
+> a single Figma-faithful `Home` (node `614:383`), since the blog index *is* the
+> front door under the blog-first IA (`ROADMAP.md`, DECIDED 2026-06-20) — one
+> screen, not two. The pack now has **three** Pages stories (Home, Single Post,
+> Author); `BlogListing.*` is deleted. See FR-8's merge note. The "each has
+> genuinely different layout" reasoning below no longer holds for those two.
+
 ## Implements
 | Kind      | Ref                                                                 |
 |-----------|---------------------------------------------------------------------|
