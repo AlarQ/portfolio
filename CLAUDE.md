@@ -56,6 +56,23 @@ When adding a domain concept, follow this layering: type+data in `src/data/`, an
 
 `CONTEXT.md` is the domain glossary (Project, MVP Progress, Domain Area, Achievement, Skill, Reading, Topic) with the precise meaning of each term and deliberately-rejected synonyms. Read it before naming anything.
 
+## Component workflow — Storybook first
+
+Every visual component is developed and verified in Storybook **before** it is wired into an app route. Order is mandatory, not advisory:
+
+1. **Build the component + its story together.** A new component under `src/components/ui/`, `src/components/ds/`, or `src/components/pages/` is not done until a sibling `*.stories.tsx` exists covering its meaningful states (variants, empty, long-content, and light + dark via the theme toggle).
+2. **Verify in Storybook** (`npm run storybook`, port 6006) — check the a11y addon panel and both themes — before any page integration.
+3. **Only then** consume it from `src/app/` routes.
+
+Rules that keep this honest:
+
+- **No story, no page usage.** Do not import a `ui/` or `ds/` component into a route unless its `*.stories.tsx` exists. `npm run lint:stories` (also run by the pre-commit hook) fails the commit if any component in the storied tiers lacks a sibling story.
+- **Changing a component's props/variants/visual states updates its story in the same commit.** Stories are the component's contract; a stale story is a broken contract.
+- **Stories stay page-agnostic.** No app-route imports, no Next.js router dependencies inside `ui/`/`ds/` stories; needed data comes from local fixtures (see `src/components/storybook-fixtures/`).
+- **Page-level stories** (`src/components/pages/*.stories.tsx`) compose already-storied components — they are integration views, not the place to first exercise a new component.
+- Follow the existing taxonomy: `Atoms/…` (`ui/` primitives), `Molecules/…` and `Organisms/…` (`ds/` composites), `Pages/…` (full pages), `Internal/…` (Storybook-only fixtures). Don't invent new top-level categories.
+- Legacy components at the root of `src/components/` (pre-replatform MUI) are exempt until migrated; when one moves into `ui/`/`ds/`, it enters the regime and needs a story.
+
 ## Notes
 
 - `src/components/AreaHeadlineCard.tsx` renders a **Domain Area**'s headline card (the bottom card stating the area's offering), driven by `DomainArea.headline`. The old `ServiceCard`/`serviceTitle` naming is gone — "Service" was never a domain concept.
