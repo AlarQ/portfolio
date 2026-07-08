@@ -1,7 +1,7 @@
-import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import type { NavItem } from "@/data/navItems";
 import { HeaderMobileMenu } from "./HeaderMobileMenu";
+import { ThemePill } from "./ThemePill";
 
 /**
  * Bespoke organism for the site-wide header: a navbar (brand + prop-driven
@@ -41,14 +41,7 @@ export function Header({ items, activeHref, brandLabel = "Your Name", title }: H
               </Link>
             );
           })}
-          {/* Visual-only theme pill — inverts with theme via semantic tokens. */}
-          <span
-            aria-hidden
-            className="inline-flex items-center gap-4 rounded-[29px] bg-foreground px-4 py-2 text-background"
-          >
-            <Sun className="size-6" />
-            <Moon className="size-6" />
-          </span>
+          <ThemePill />
         </nav>
         <div className="md:hidden">
           <HeaderMobileMenu items={items} activeHref={activeHref} />
