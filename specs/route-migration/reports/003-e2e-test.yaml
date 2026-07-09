@@ -1,0 +1,40 @@
+gate: e2e-test
+task_id: "003"
+status: findings
+findings:
+  - id: e2e-test-1
+    severity: medium
+    category: testing
+    title: "Blog MDX → MUI mapping heading color mismatch (chromium)"
+    description: >
+      expect(received).toBe(expected) // Object.is equality — Expected: "rgb(226, 232, 240)", Received: "rgb(24, 26, 42)" for h.color assertion.
+
+    file: e2e/blog-mdx-mapping.spec.ts
+    lines: "30-30"
+    code_snippet: "expect(h.color).toBe(\"rgb(226, 232, 240)\");"
+    review_status: accepted
+    source: tool
+  - id: e2e-test-2
+    severity: medium
+    category: testing
+    title: "Blog MDX → MUI mapping heading color mismatch (firefox)"
+    description: >
+      expect(received).toBe(expected) // Object.is equality — Expected: "rgb(226, 232, 240)", Received: "rgb(24, 26, 42)" for h.color assertion.
+
+    file: e2e/blog-mdx-mapping.spec.ts
+    lines: "30-30"
+    code_snippet: "expect(h.color).toBe(\"rgb(226, 232, 240)\");"
+    review_status: accepted
+    source: tool
+  - id: e2e-test-3
+    severity: medium
+    category: testing
+    title: "Blog MDX → MUI mapping heading color mismatch (Mobile Chrome)"
+    description: >
+      expect(received).toBe(expected) // Object.is equality — Expected: "rgb(226, 232, 240)", Received: "rgb(24, 26, 42)" for h.color assertion.
+
+    file: e2e/blog-mdx-mapping.spec.ts
+    lines: "30-30"
+    code_snippet: "expect(h.color).toBe(\"rgb(226, 232, 240)\");"
+    review_status: accepted
+    source: tool

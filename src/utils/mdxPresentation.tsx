@@ -1,7 +1,14 @@
 import type { MDXComponents } from "mdx/types";
 import { Callout } from "@/components/Callout";
 import { Diagram } from "@/components/Diagram";
-import { ListItem, MdxImage, OrderedList, Pre, UnorderedList } from "./mdxPresentationBlock";
+import {
+  Blockquote,
+  ListItem,
+  MdxImage,
+  OrderedList,
+  Pre,
+  UnorderedList,
+} from "./mdxPresentationBlock";
 import { Anchor, heading, InlineCode, Paragraph } from "./mdxPresentationText";
 
 /**
@@ -46,6 +53,7 @@ export const mdxComponents: MDXComponents = {
   ul: UnorderedList,
   ol: OrderedList,
   li: ListItem,
+  blockquote: Blockquote,
   // Post-body images render through the single image seam. Diagrams now arrive
   // as pre-rendered SVGs via `<Diagram>` (see below), not inline Markdown images.
   img: MdxImage,

@@ -27,6 +27,17 @@ export function MdxImage({ alt, ...props }: ComponentPropsWithoutRef<"img">) {
   );
 }
 
+export function Blockquote({ children, ...props }: ComponentPropsWithoutRef<"blockquote">) {
+  return (
+    <blockquote
+      className="my-6 border-l-4 border-border pl-4 italic text-muted-foreground"
+      {...props}
+    >
+      {children}
+    </blockquote>
+  );
+}
+
 export function ListItem({ children, ...props }: { children?: ReactNode }) {
   return (
     <li className="my-1 text-lg leading-[1.7] text-muted-foreground" {...props}>

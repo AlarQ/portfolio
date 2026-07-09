@@ -1,7 +1,7 @@
 ---
 id: "004"
 name: Migrate /blog/[slug] to pages/SinglePost (full-route pass)
-status: blocked
+status: todo
 blocked_by: ["002", "003"]
 max_files: 16
 ground_rules:

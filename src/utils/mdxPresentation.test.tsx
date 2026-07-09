@@ -120,6 +120,21 @@ describe("mdx seam trust-boundary neutralizers", () => {
     unmount();
   });
 
+  it("blockquote_renders_with_token_bound_classes", () => {
+    const Blockquote = mdxComponents.blockquote as React.ElementType;
+    const { container, unmount } = renderIntoDocument(
+      createElement(Blockquote, {}, "Owner-authored quote")
+    );
+
+    const blockquote = container.querySelector("blockquote");
+    expect(blockquote?.className).toContain("text-muted-foreground");
+    expect(blockquote?.className).toContain("border-l-4");
+    expect(blockquote?.className).toContain("border-border");
+    expect(blockquote?.textContent).toBe("Owner-authored quote");
+
+    unmount();
+  });
+
   it("internal_link_carries_no_rel_or_target", () => {
     const Anchor = mdxComponents.a as React.ElementType;
 

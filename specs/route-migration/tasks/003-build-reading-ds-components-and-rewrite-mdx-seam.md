@@ -1,15 +1,16 @@
 ---
 id: "003"
 name: Reading ds/ components + MDX seam rewrite (Storybook-first)
-status: implemented
+status: done
 blocked_by: []
-max_files: 13
+max_files: 15
 ground_rules:
   - frontend/components.md
   - frontend/styling.md
   - frontend/accessibility.md
   - frontend/design-tokens.md
   - security/input-validation.md
+  - languages/typescript/patterns.md
 test_cases:
   - script_element_renders_nothing_neutralizer_survives_rewrite
   - iframe_element_renders_nothing
