@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PostReadingLayout } from "@/components/PostReadingLayout";
+import { SinglePost } from "@/components/pages/SinglePost";
 import { getAdjacentPosts } from "@/data/postLoader";
 import { getPost, getPosts } from "@/data/posts";
 import { getPostToc } from "@/data/postToc";
@@ -35,16 +35,26 @@ export default async function PostPage({ params }: PostPageProps) {
   const { default: PostBody } = await import(`../../../../content/posts/${slug}.mdx`);
 
   // ToC derived from the same validated slug — no second slug gate (CLAUDE.md).
-  // The reading scaffold owns the prose↔ToC layout; the route just hands off data.
+  // pages/SinglePost owns the prose/ToC/nav layout; the route just hands off data.
   const toc = getPostToc(slug);
 
   // Adjacency walks the loader's already-ordered, already-validated Post set —
   // no independent slug source, no second gate (single slug-validation gate).
   const adjacency = getAdjacentPosts(getPosts(), slug);
 
+  // The route resolves nothing visual: `coverImageUrl`/`categories` are passed
+  // through as plain loader data (Post.coverImage / Post.categories); the
+  // category → Badge hue resolution happens inside pages/SinglePost via the
+  // categoryPresentation seam (CLAUDE.md seam pattern).
   return (
-    <PostReadingLayout title={post.title} toc={toc} adjacency={adjacency}>
+    <SinglePost
+      post={post}
+      toc={toc}
+      adjacency={adjacency}
+      coverImageUrl={post.coverImage}
+      categories={post.categories}
+    >
       <PostBody />
-    </PostReadingLayout>
+    </SinglePost>
   );
 }

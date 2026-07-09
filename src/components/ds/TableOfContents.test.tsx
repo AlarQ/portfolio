@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { TocEntry } from "@/data/postToc";
-import { TableOfContents } from "./TableOfContents";
+import { TableOfContents, TOC_ACCESSIBLE_NAME } from "./TableOfContents";
 import { renderIntoDocument } from "./testUtils";
 
 const sampleEntries: readonly TocEntry[] = [
@@ -16,8 +16,8 @@ describe("TableOfContents", () => {
 
     const nav = container.querySelector("nav");
     // Byte-for-byte the accessible name `e2e/blog-toc.spec.ts` asserts via
-    // getByRole("navigation", { name: "Table of contents" }).
-    expect(nav?.getAttribute("aria-label")).toBe("Table of contents");
+    // getByRole("navigation", { name: TOC_ACCESSIBLE_NAME }).
+    expect(nav?.getAttribute("aria-label")).toBe(TOC_ACCESSIBLE_NAME);
 
     unmount();
   });

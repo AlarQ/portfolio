@@ -3,17 +3,27 @@ import { expect, test } from "@playwright/test";
 /**
  * Blog Post detail E2E Tests
  *
- * Tests the Post detail page at /blog/[slug]
+ * Tests the Post detail page at /blog/[slug], migrated onto `pages/SinglePost`
+ * (route-migration task 004) — asserts against the SinglePost render tree
+ * (`ArticleProse`'s `<h1>` + prose, `PageInfo`'s `<time>`), not the retired
+ * `PostReadingLayout`/MUI carriers.
  *
- * Scenario: detail-renders-body (FR-2)
- * - Given an authored Post `my-spec-driven-workflow`
- * - When a reader visits /blog/my-spec-driven-workflow
- * - Then the MDX body renders as HTML in the statically generated page
+ * Scenario: post-page-renders (FR-2)
+ * - Given a Post with slug `s` exists
+ * - When a reader visits /blog/s
+ * - Then pages/SinglePost renders the Post's title, date, and MDX body,
+ *   statically generated via generateStaticParams
  */
 
 test.describe("Blog Post detail", () => {
-  test("renders the authored MDX body as HTML", async ({ page }) => {
+  test("renders the Post title, date, and MDX body via pages/SinglePost", async ({ page }) => {
     await page.goto("/blog/my-spec-driven-workflow");
+
+    // Title: SinglePost -> PostLayout -> ArticleProse's <h1>.
+    await expect(page.getByRole("heading", { level: 1, name: "Bounded Chaos" })).toBeVisible();
+
+    // Date: SinglePost -> PostLayout -> PageInfo's <time>, the Post's formatted date.
+    await expect(page.locator("time")).toBeVisible();
 
     // A distinctive sentence from the MDX body appears as rendered text.
     const bodyProse = page.getByText(
@@ -82,5 +92,22 @@ test.describe("Blog Post detail", () => {
     const response = await page.goto("/blog/does-not-exist");
 
     expect(response?.status()).toBe(404);
+  });
+
+  /**
+   * Scenario: post-page-renders (FR-2, acceptance row 5, presence-only per
+   * Test Strategist scope narrowing — absent-state degradation is task 005's
+   * PostCard ownership).
+   * `content/posts/second-post.mdx` carries both `coverImage` and
+   * `categories: [Engineering, Workflow]` — a live fixture with both set.
+   */
+  test("renders the cover image and vocabulary-hued category badges when present", async ({
+    page,
+  }) => {
+    await page.goto("/blog/second-post");
+
+    await expect(page.locator("article img").first()).toBeVisible();
+    await expect(page.getByText("Engineering", { exact: true })).toBeVisible();
+    await expect(page.getByText("Workflow", { exact: true })).toBeVisible();
   });
 });

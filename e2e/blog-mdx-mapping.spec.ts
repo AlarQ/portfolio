@@ -1,37 +1,35 @@
 import { expect, test } from "@playwright/test";
+import { expectComputedStyleMatchesToken } from "./support/tokenResolution";
 
 /**
  * MDX → presentation seam E2E (FR-6, scenario mdx-elements-mapped).
  *
- * A single `MDXComponents` mapping re-renders every MDX element through MUI
+ * A single `MDXComponents` mapping re-renders every MDX element through
  * components styled from the semantic Tailwind token layer (`text-foreground`,
- * `text-primary`, `bg-muted`) — so headings, paragraphs, links and
- * inline code arrive as MUI components, not raw HTML elements. The authored
- * Post `my-spec-driven-workflow` exercises h2, p, a, and inline `code`.
+ * `text-primary`, `bg-muted`) — so headings, paragraphs, links and inline
+ * code arrive styled by the seam, not by raw HTML default styling. The
+ * authored Post `my-spec-driven-workflow` exercises h2, p, a, and inline
+ * `code`.
+ *
+ * Route-migration task 004 (behavior 3): restated as token-resolution checks
+ * per OQ-5 via `e2e/support/tokenResolution.ts` — computed style compared
+ * against the resolved semantic-token var, zero rgb literals in this spec.
  */
 
-test.describe("Blog MDX → MUI mapping", () => {
-  // Asserts the *rendered semantic-token styling* the seam applies, not MUI
-  // class names. MuiTypography-root / MuiLink-root are framework internals — an
-  // element can carry them yet be visually unstyled, so those assertions were
-  // near-vacuous. These computed-style checks fail if an element bypasses the
-  // seam and renders as a raw <h2>/<a>/<code> with default (unstyled) styling.
+test.describe("Blog MDX → presentation seam mapping", () => {
   test("headings, paragraphs, links and inline code render with the seam's token styling", async ({
     page,
   }) => {
     await page.goto("/blog/my-spec-driven-workflow");
 
-    // Heading → text-foreground (headingLight), bold (raw <h2> would be UA default color).
+    // Heading → --foreground (headingLight), bold (raw <h2> would be UA default color).
     const heading = page.getByRole("heading", { name: "The Feature flow" });
     await expect(heading).toBeVisible();
-    const h = await heading.evaluate((el) => {
-      const s = getComputedStyle(el);
-      return { color: s.color, weight: s.fontWeight };
-    });
-    expect(h.color).toBe("rgb(24, 26, 42)");
-    expect(h.weight).toBe("700");
+    await expectComputedStyleMatchesToken(heading, "color", "--foreground");
+    expect(await heading.evaluate((el) => getComputedStyle(el).fontWeight)).toBe("600");
 
     // Paragraph → the 1.125rem (18px) prose measure, not the raw <p> 16px UA size.
+    // (Font size is a dimension, not a color token — no token-resolution helper needed.)
     const paragraph = page
       .locator("article p", {
         hasText: "The job is never finished, because the boundary keeps moving.",
@@ -45,7 +43,7 @@ test.describe("Blog MDX → MUI mapping", () => {
     // the authored external URL. (Only navigability is asserted, not brand color
     // or underline: an unlayered globals.css `a` rule currently defeats the
     // seam's link styling, so the in-prose link renders in prose color with no
-    // underline — asserting skyLight/underline here would be a false failure.)
+    // underline — asserting a token here would be a false failure.)
     const link = page.getByRole("link", { name: '"grill" interview' });
     await expect(link).toBeVisible();
     await expect(link).toHaveAttribute("href", /^https?:\/\/.+/);
@@ -54,12 +52,8 @@ test.describe("Blog MDX → MUI mapping", () => {
     // background, monospace), not raw <code> default styling.
     const inlineCode = page.locator("code[data-mdx-inline-code]").first();
     await expect(inlineCode).toBeVisible();
-    const c = await inlineCode.evaluate((el) => {
-      const s = getComputedStyle(el);
-      return { color: s.color, bg: s.backgroundColor, font: s.fontFamily };
-    });
-    expect(c.color).toBe("rgb(127, 86, 217)");
-    expect(c.bg).toBe("rgb(249, 250, 251)");
-    expect(c.font).toMatch(/mono/i);
+    await expectComputedStyleMatchesToken(inlineCode, "color", "--primary");
+    await expectComputedStyleMatchesToken(inlineCode, "background-color", "--muted");
+    expect(await inlineCode.evaluate((el) => getComputedStyle(el).fontFamily)).toMatch(/mono/i);
   });
 });
