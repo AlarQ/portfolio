@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import type { CategoryName } from "./categories";
 import { buildPostSet, type RawPostFile } from "./postLoader";
 
 /**
@@ -17,6 +18,10 @@ export interface Post {
   readonly readingTimeMinutes: number;
   readonly formattedDate: string;
   readonly published: boolean;
+  /** Optional site-relative cover image path (`/…` under `public/`), validated in the loader. */
+  readonly coverImage?: string;
+  /** Optional vocabulary categories, validated against `categories.ts` in the loader. */
+  readonly categories?: readonly CategoryName[];
 }
 
 const POSTS_DIR = join(process.cwd(), "content", "posts");

@@ -7,3 +7,23 @@
 {"ts":"2026-07-09T06:46:42.000Z","category":"task_transition","task":"001","feature":"route-migration","data":{"from_status":"implemented","to_status":"review","task_file":"/Users/ernestbednarczyk/Desktop/projects/portfolio/specs/route-migration/tasks/001-rehome-shiki-palette-to-token-layer.md"}}
 {"ts":"2026-07-09T08:22:04.000Z","category":"task_transition","task":"001","feature":"route-migration","data":{"from_status":"review","to_status":"done","task_file":"specs/route-migration/tasks/001-rehome-shiki-palette-to-token-layer.md"}}
 {"ts":"2026-07-09T09:00:56.000Z","category":"fix_shipped","task":"001","feature":"route-migration","data":{"pr_url":"https://github.com/AlarQ/portfolio/pull/68","note":"pr marked ready-for-review"}}
+{"ts":"2026-07-09T10:01:37.000Z","category":"task_transition","task":"002","feature":"route-migration","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/route-migration/tasks/002-extend-post-frontmatter-and-category-vocabulary.md"}}
+{"ts":"2026-07-09T10:08:35.000Z","category":"tdd_red","task":"002","feature":"route-migration","data":{"behavior":"coverImage external-URL dropped with warning"}}
+{"ts":"2026-07-09T10:09:11.000Z","category":"tdd_green","task":"002","feature":"route-migration","data":{"behavior":"coverImage external-URL dropped with warning"}}
+{"ts":"2026-07-09T10:09:33.000Z","category":"tdd_red","task":"002","feature":"route-migration","data":{"behavior":"coverImage dot-dot traversal dropped"}}
+{"ts":"2026-07-09T10:09:44.000Z","category":"tdd_green","task":"002","feature":"route-migration","data":{"behavior":"coverImage dot-dot traversal dropped"}}
+{"ts":"2026-07-09T10:10:01.000Z","category":"tdd_red","task":"002","feature":"route-migration","data":{"behavior":"coverImage protocol-relative dropped"}}
+{"ts":"2026-07-09T10:10:14.000Z","category":"tdd_green","task":"002","feature":"route-migration","data":{"behavior":"coverImage protocol-relative dropped"}}
+{"ts":"2026-07-09T10:10:42.000Z","category":"tdd_red","task":"002","feature":"route-migration","data":{"behavior":"unknown category omitted with warning, post publishes"}}
+{"ts":"2026-07-09T10:11:34.000Z","category":"tdd_green","task":"002","feature":"route-migration","data":{"behavior":"unknown category omitted with warning, post publishes"}}
+{"ts":"2026-07-09T10:12:03.000Z","category":"tdd_green","task":"002","feature":"route-migration","data":{"behavior":"valid coverImage and known categories carried onto Post model"}}
+{"ts":"2026-07-09T10:12:29.000Z","category":"tdd_red","task":"002","feature":"route-migration","data":{"behavior":"every vocabulary category resolves via seam Record"}}
+{"ts":"2026-07-09T10:12:50.000Z","category":"tdd_green","task":"002","feature":"route-migration","data":{"behavior":"every vocabulary category resolves via seam Record"}}
+{"ts":"2026-07-09T10:14:16.000Z","category":"tdd_red","task":"002","feature":"route-migration","data":{"behavior":"seam missing-record-entry fails compile (typetest fixture)"}}
+{"ts":"2026-07-09T10:14:38.000Z","category":"tdd_green","task":"002","feature":"route-migration","data":{"behavior":"seam missing-record-entry fails compile (typetest fixture)"}}
+{"ts":"2026-07-09T10:41:22.000Z","category":"coverage_audit_start","task":"002","feature":"route-migration","data":{}}
+{"ts":"2026-07-09T10:42:43.000Z","category":"coverage_audit_done","task":"002","feature":"route-migration","data":{"verdict":"complete","report":"/Users/ernestbednarczyk/Desktop/projects/portfolio/specs/route-migration/reports/002-coverage.yaml"}}
+{"ts":"2026-07-09T10:43:20.000Z","category":"task_transition","task":"002","feature":"route-migration","data":{"from_status":"implemented","to_status":"review","task_file":"specs/route-migration/tasks/002-extend-post-frontmatter-and-category-vocabulary.md"}}
+{"ts":"2026-07-09T10:57:25.000Z","category":"task_transition","task":"002","feature":"route-migration","data":{"from_status":"review","to_status":"done","task_file":"specs/route-migration/tasks/002-extend-post-frontmatter-and-category-vocabulary.md"}}
+{"ts":"2026-07-09T10:57:25.000Z","category":"task_transition","task":"005","feature":"route-migration","data":{"from_status":"blocked","to_status":"todo","task_file":"specs/route-migration/tasks//005-invert-ia-home-index-with-blog-redirect.md"}}
+{"ts":"2026-07-09T11:00:14.000Z","category":"fix_shipped","task":"002","feature":"route-migration","data":{"pr_url":"https://github.com/AlarQ/portfolio/pull/69"}}
