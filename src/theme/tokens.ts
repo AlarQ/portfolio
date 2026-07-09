@@ -176,6 +176,20 @@ export const primitives = {
   categoryOrangeFg: "#c4320a",
   categoryRoseBg: "#fef3f2",
   categoryRoseFg: "#b42318",
+  /**
+   * Shiki syntax-highlighting palette (FR-8, ADR-RM-3), re-homed from
+   * `theme/theme.ts` `brand`. Deliberately ungrouped and NOT routed through
+   * `semanticLight`/`semanticDark` — code blocks stay a single dark island in
+   * both themes (OQ-2), so there is no light variant to alias.
+   */
+  shikiBg: "#141b22",
+  shikiFg: "#e2e8f0",
+  shikiTokenComment: "#64748b",
+  shikiTokenKeyword: "#38bdf8",
+  shikiTokenString: "#84cc16",
+  shikiTokenConstant: "#f97316",
+  shikiTokenFunction: "#a855f7",
+  shikiTokenVariable: "#7dd3fc",
 } as const;
 
 type PrimitiveName = keyof typeof primitives;
