@@ -1,0 +1,9 @@
+gate: coverage
+task_id: 004-migrate-post-route-to-singlepost
+status: pass
+findings: []
+skip_reason: user_override
+note: >
+  Coverage audit (Phase 3) could not resolve a diff range (wf_vi_task_diff_range
+  rc=5). Skipped by explicit user instruction rather than re-run. Not a
+  verified pass — treated as zero-weight for aggregation purposes.

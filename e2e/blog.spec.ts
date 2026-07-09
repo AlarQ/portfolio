@@ -110,7 +110,7 @@ test.describe("Post detail readability & a11y", () => {
 
   // typography-measure-constrained (task 005): the prose column's declared CSS
   // measure is exactly the `proseMeasure` token (64ch), shared with the
-  // PostReadingLayout ToC grid — not a raw per-component literal.
+  // PostLayout ToC grid — not a raw per-component literal.
   test("prose column measure resolves to the 64ch theme token at desktop viewport", async ({
     page,
   }) => {

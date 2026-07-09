@@ -1,11 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import {
-  samplePost,
-  samplePostCategories,
-  samplePostCoverImageUrl,
-} from "@/stories/fixtures/posts";
+import type { CategoryName } from "@/data/categories";
+import type { PostAdjacency } from "@/data/postLoader";
+import type { TocEntry } from "@/data/postToc";
+import { samplePost, samplePostCoverImageUrl, samplePosts } from "@/stories/fixtures/posts";
 import { mobileViewportParameters } from "@/stories/mobileViewport";
 import { SinglePost } from "./SinglePost";
+
+const sampleCategories: readonly CategoryName[] = ["Leadership", "Management", "Presentation"];
+
+const sampleToc: readonly TocEntry[] = [
+  { depth: 2, text: "Composing over re-implementing", id: "composing-over-re-implementing" },
+];
+
+const sampleAdjacency: PostAdjacency = {
+  prev: samplePosts[1],
+  next: samplePosts[2],
+};
 
 const meta: Meta<typeof SinglePost> = {
   title: "Pages/SinglePost",
@@ -39,9 +49,11 @@ const sampleBody = (
 
 const baseArgs = {
   post: samplePost,
+  toc: sampleToc,
+  adjacency: sampleAdjacency,
   coverImageUrl: samplePostCoverImageUrl,
   coverImageAlt: "Hero image for the sample post",
-  categories: samplePostCategories,
+  categories: sampleCategories,
   children: sampleBody,
 };
 

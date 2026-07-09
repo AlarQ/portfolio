@@ -1,0 +1,4 @@
+gate: type-check
+task_id: 004-migrate-post-route-to-singlepost
+status: pass
+findings: []

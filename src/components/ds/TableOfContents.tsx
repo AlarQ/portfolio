@@ -6,6 +6,13 @@ export interface TableOfContentsProps {
 }
 
 /**
+ * Single source of truth for the ToC's accessible name — shared by this
+ * component, its unit test, and the route-level e2e contract
+ * (`e2e/blog-toc.spec.ts`) so the string can't drift between levels.
+ */
+export const TOC_ACCESSIBLE_NAME = "Table of contents";
+
+/**
  * Presentational Table of Contents for a Post (FR-3). Renders the build-time
  * heading tree (`TocEntry[]`) as a `<nav>` of in-page anchors, each linking to
  * the `#id` the single heading seam (rehype-slug, task 001) already rendered —
@@ -20,7 +27,7 @@ export function TableOfContents({ entries }: TableOfContentsProps) {
   if (entries.length === 0) return null;
 
   return (
-    <nav aria-label="Table of contents" className="flex flex-col gap-3">
+    <nav aria-label={TOC_ACCESSIBLE_NAME} className="flex flex-col gap-3">
       <p className="text-xs font-bold tracking-wider text-muted-foreground uppercase">
         On this page
       </p>
