@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 /**
- * The Post-body reading font size. `PostReadingLayout`'s `ch`-based grid measure
+ * The Post-body reading font size. `PostLayout`'s `ch`-based grid measure
  * anchors its column font-size to this exact value so the prose column is 64
  * characters of the actual body text; the paragraph seam below renders the same
  * size via the `text-lg` utility.

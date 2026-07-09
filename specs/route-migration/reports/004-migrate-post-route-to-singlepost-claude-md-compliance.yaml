@@ -1,0 +1,19 @@
+gate: claude-md-compliance
+task_id: 004-migrate-post-route-to-singlepost
+status: findings
+findings:
+  - id: comp-001
+    severity: medium
+    category: claude-md-violation
+    title: "PostLayout gained new visual states (ToC, PrevNextNav) without a story update in the same commit"
+    description: >
+      CLAUDE.md's Component workflow section states: "Changing a component's props/variants/visual states updates its story in the same commit. Stories are the component's contract; a stale story is a broken contract." Commit 285495f adds two new optional props to src/components/ds/PostLayout.tsx (toc, adjacency) with new conditional render branches (<TableOfContents entries={toc} /> and <PrevNextNav prev={...} next={...} />), neither of which existed on PostLayout before this commit. src/components/ds/PostLayout.stories.tsx was not touched in this commit and its Default/WithoutHeroOrCategories stories exercise neither toc nor adjacency, so the with-ToC and with-prev/next-nav composed states of this organism are unverified in Storybook. npm run lint:stories only checks that a sibling story file exists, not that it covers the new props, so it passes despite the gap.
+
+    file: src/components/ds/PostLayout.stories.tsx
+    lines: "1-42"
+    fix_proposal: >
+      Add a story (or extend Default) that passes toc and adjacency sample data (mirroring what SinglePost.stories.tsx now provides via sampleToc/sampleAdjacency) so the composed with-ToC and with-prev/next-nav states of PostLayout are verified in Storybook, per the Component workflow rule in CLAUDE.md.
+
+    source: llm
+    review_status: accepted
+    rule_added: true

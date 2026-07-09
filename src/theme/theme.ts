@@ -48,7 +48,7 @@ export const brand = {
 
 /**
  * The long-form reading measure — the single source of truth shared by the Post
- * prose column (`PostArticle`) and the ToC grid (`page.tsx`). Measured in `ch`
+ * prose column (`ArticleProse`) and the ToC grid (`PostLayout`). Measured in `ch`
  * (the width of `0`), `64ch` renders a real line length of ≈66–72 CPL, within
  * the readability comfort band. Not a color, so it lives beside `brand` rather
  * than inside it (the `brand` seam stays colors-only).

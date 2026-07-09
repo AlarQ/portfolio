@@ -1,0 +1,56 @@
+gate: e2e-test
+task_id: 004-migrate-post-route-to-singlepost
+status: findings
+findings:
+  - id: e2e-test-1
+    severity: medium
+    category: testing
+    title: "prose column measure resolves to the 64ch theme token at desktop viewport"
+    description: >
+      expect(chCount).toBeGreaterThan(62) failed: Expected > 62, Received NaN. Failed on [chromium], [firefox], [Mobile Chrome].
+
+    file: e2e/blog.spec.ts
+    lines: "114-137"
+    code_snippet: |
+      expect(chCount).toBeGreaterThan(62);
+      expect(chCount).toBeLessThan(66);
+    source: tool
+    review_status: rejected
+    review_notes: 'Explicitly deferred in task doc (specs/route-migration/tasks/004-migrate-post-route-to-singlepost.md:100): known legacy MUI/framer-motion assertions (64ch proseMeasure token, article[data-reduced-motion] x2), not in this task''s estimated_files, slated for removal/fix under FR-9/FR-10 in a later task.'
+    rule_added: true
+  - id: e2e-test-2
+    severity: medium
+    category: testing
+    title: "respects prefers-reduced-motion by flagging entrance motion suppressed"
+    description: >
+      expect(locator).toHaveAttribute failed: locator('article[data-reduced-motion]') expected "true", element(s) not found. Failed on [chromium], [firefox], [Mobile Chrome].
+
+    file: e2e/blog.spec.ts
+    lines: "251-260"
+    code_snippet: |
+      await expect(page.locator("article[data-reduced-motion]")).toHaveAttribute(
+        "data-reduced-motion",
+        "true"
+      );
+    source: tool
+    review_status: rejected
+    review_notes: 'Explicitly deferred in task doc (specs/route-migration/tasks/004-migrate-post-route-to-singlepost.md:100): known legacy MUI/framer-motion assertions (64ch proseMeasure token, article[data-reduced-motion] x2), not in this task''s estimated_files, slated for removal/fix under FR-9/FR-10 in a later task.'
+    rule_added: true
+  - id: e2e-test-3
+    severity: medium
+    category: testing
+    title: "marks entrance motion active when reduced motion is not requested"
+    description: >
+      expect(locator).toHaveAttribute failed: locator('article[data-reduced-motion]') expected "false", element(s) not found. Failed on [chromium], [firefox], [Mobile Chrome].
+
+    file: e2e/blog.spec.ts
+    lines: "266-273"
+    code_snippet: |
+      await expect(page.locator("article[data-reduced-motion]")).toHaveAttribute(
+        "data-reduced-motion",
+        "false"
+      );
+    source: tool
+    review_status: rejected
+    review_notes: 'Explicitly deferred in task doc (specs/route-migration/tasks/004-migrate-post-route-to-singlepost.md:100): known legacy MUI/framer-motion assertions (64ch proseMeasure token, article[data-reduced-motion] x2), not in this task''s estimated_files, slated for removal/fix under FR-9/FR-10 in a later task.'
+    rule_added: true

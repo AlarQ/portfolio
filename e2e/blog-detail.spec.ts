@@ -6,7 +6,7 @@ import { expect, test } from "@playwright/test";
  * Tests the Post detail page at /blog/[slug], migrated onto `pages/SinglePost`
  * (route-migration task 004) — asserts against the SinglePost render tree
  * (`ArticleProse`'s `<h1>` + prose, `PageInfo`'s `<time>`), not the retired
- * `PostReadingLayout`/MUI carriers.
+ * `PostArticle`/MUI carriers.
  *
  * Scenario: post-page-renders (FR-2)
  * - Given a Post with slug `s` exists
