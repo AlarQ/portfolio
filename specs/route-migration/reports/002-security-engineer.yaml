@@ -1,0 +1,23 @@
+task_id: "002"
+gate: security-engineer
+status: findings
+source: llm
+findings:
+  - severity: medium
+    file: src/data/postLoader.ts
+    line: 407
+    rule: input-validation.md:SHOULD (validate URLs via a URL parser, not string prefix/substring checks)
+    summary: "coverImage gate uses string prefix/substring checks instead of a URL parser, missing a backslash protocol-relative bypass"
+    detail: >
+      `validateCoverImage` accepts any string that `startsWith("/")`, does not `startsWith("//")`, and has no `".."` path segment. This blocks the plain `//evil.example.com` case (covered by the test suite) but not the backslash variant, e.g. `coverImage: "/\\evil.example.com/x.png"`: it starts with a single `/` (passes the `//` check) and contains no `/../` segment when split on `/` (the backslash isn't a `/`), so it passes the gate untouched. Browsers/Next's `<Image>` normalize a leading `/\` the same as `//`, resolving it to a cross-origin URL — this is the exact bypass pattern called out in `input-validation.md`'s own example (`/safe/\evil` slipping past a `startsWith("/safe/")` check). The KB rule's prescribed fix is to parse with the platform URL constructor against a known base and check `origin`/`pathname` explicitly, rather than layering ad hoc string checks.
+
+    rationale: >
+      Denylist-style string checks (block `//`, block `..`) drift and miss novel bypass shapes; allowlist-via-URL-parsing is the KB-mandated pattern precisely because platform URL normalization (backslash-as-slash) happens downstream of naive string checks.
+
+    impact: >
+      A malicious or mistaken frontmatter `coverImage` value can smuggle a cross-origin image URL past the loader's "site-relative only" gate. Given this repo's MDX trust boundary is owner-authored-only content, exploitability today is low (no external input reaches this path), but the gate itself does not enforce the invariant its own doc comment claims ("no external fetch ... is ever derived from frontmatter") — the comment overstates what the code guarantees, and the gap would matter immediately if the owner-authored trust assumption is ever loosened, which is the scenario CLAUDE.md's "MDX trust boundary" section explicitly warns about.
+
+    references: ["input-validation.md#SHOULD-validate-urls-via-parser"]
+    confidence: medium
+    review_status: accepted
+    source: llm

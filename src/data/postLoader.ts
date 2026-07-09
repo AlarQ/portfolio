@@ -129,18 +129,26 @@ function validateCategories(
  * URL, protocol-relative URL, or a value containing a `..` traversal segment is
  * rejected with a build warning and dropped, so no external fetch or path
  * traversal is ever derived from frontmatter (`security/input-validation.md`,
- * allow-list). No filesystem existence check (accepted gap R-3) — the pure core
- * stays fs-free.
+ * allow-list). Same-origin is verified by resolving with the platform `URL`
+ * parser against a fixed sentinel base rather than string prefix checks, since
+ * platform normalization (e.g. a leading `/\`) can fold into a cross-origin
+ * authority that a naive `startsWith`/`split` check misses. No filesystem
+ * existence check (accepted gap R-3) — the pure core stays fs-free.
  */
 function validateCoverImage(file: RawPostFile, value: unknown): string | undefined {
   if (value === undefined) return undefined;
-  if (
-    typeof value === "string" &&
-    value.startsWith("/") &&
-    !value.startsWith("//") &&
-    !value.split("/").includes("..")
-  ) {
-    return value;
+  if (typeof value === "string" && value.startsWith("/") && !value.split("/").includes("..")) {
+    // Resolve against a fixed sentinel base and require the value to stay
+    // same-origin (allow-list), not just to look site-relative as a string.
+    try {
+      const base = "https://portfolio.invalid";
+      const resolved = new URL(value, base);
+      if (resolved.origin === base) {
+        return value;
+      }
+    } catch {
+      // fall through to warn+drop
+    }
   }
   console.warn(
     `[posts] "${file.filename}": dropping coverImage "${String(value)}" — must be a site-relative path (/…)`

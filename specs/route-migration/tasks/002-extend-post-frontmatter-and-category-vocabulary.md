@@ -1,7 +1,7 @@
 ---
 id: "002"
 name: Extend Post frontmatter + category vocabulary
-status: implemented
+status: done
 blocked_by: []
 max_files: 8
 ground_rules:
