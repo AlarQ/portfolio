@@ -107,12 +107,14 @@ test.describe("existing routes render without regression (FR-1)", () => {
     };
   }
 
-  test("/ redirects to /blog and renders without regression", async ({ page }) => {
+  // TODO(task 010): this whole describe block relocates once `/blog` is fully
+  // retired; for now it only reflects the inverted redirect (ADR-RM-4).
+  test("/blog 308-redirects to / and renders without regression", async ({ page }) => {
     const assertNoErrors = trackErrors(page);
 
-    const response = await page.goto("/");
+    const response = await page.goto("/blog");
     expect(response?.ok()).toBe(true);
-    await expect(page).toHaveURL(/\/blog$/);
+    await expect(page).toHaveURL(/\/$/);
     await expect(page.locator("h1").first()).toHaveText(/blog/i);
 
     assertNoErrors();

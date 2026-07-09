@@ -4,12 +4,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactCompiler: true,
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
-  // Blog-only surface: `/` redirects to the blog index, and the home layout
-  // (`src/app/page.tsx`) is shadowed by this rule (Next.js applies config
-  // redirects before filesystem routes). `temporary` (307) keeps the option to
-  // restore a real home page later open.
+  // Inverted IA (ADR-RM-4): the Blog index now lives at `/` (`src/app/page.tsx`),
+  // so `/blog` permanently 308-redirects there. `/blog/[slug]` and `/feed.xml`
+  // are untouched — Next.js redirects() only matches the exact `source`, never
+  // a prefix, so neither route is affected by this rule.
   async redirects() {
-    return [{ source: "/", destination: "/blog", permanent: false }];
+    return [{ source: "/blog", destination: "/", permanent: true }];
   },
 };
 

@@ -59,6 +59,9 @@ function partitionPosts(posts: readonly Post[]): PostPartition {
  */
 export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
   const { recent, all } = partitionPosts(posts);
+  // No `?page=` routing this pack (OQ-6) — every Post renders on one page, so
+  // there is exactly one page of results until a route owns real paging.
+  const totalPages = posts.length > 0 ? 1 : 0;
 
   return (
     <div className="flex flex-col gap-16 bg-background pb-16">
@@ -107,8 +110,7 @@ export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
           </section>
         )}
 
-        {/* TODO: a route owns paging — these are inert placeholder values. */}
-        <Pagination currentPage={1} totalPages={10} />
+        {totalPages > 1 && <Pagination currentPage={1} totalPages={totalPages} />}
       </div>
 
       <Footer />

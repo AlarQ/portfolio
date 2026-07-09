@@ -26,4 +26,14 @@ describe("Home", () => {
 
     unmount();
   });
+
+  it("omits Pagination when the Post set fits on one page", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Home posts={samplePosts} navItems={sampleNavItems} />
+    );
+
+    expect(container.querySelector("nav[aria-label='Pagination']")).toBeNull();
+
+    unmount();
+  });
 });
