@@ -1,0 +1,24 @@
+tier: large
+track: feature
+branch_strategy: per-task
+tags: [route-migration, mui-removal, shadcn, tailwind, mdx]
+gates:
+  - lint
+  - format-check
+  - type-check
+  - unit-test
+  - e2e-test
+agents:
+  explore:
+    - engineering/software-architect
+  propose:
+    - engineering/software-architect
+  implement:
+    - engineering/frontend-developer
+    - code-quality-pragmatist
+  validate:
+    - engineering/security-engineer
+    - code-quality-pragmatist
+    - claude-md-compliance-checker
+  pr-review:
+    - engineering/code-reviewer

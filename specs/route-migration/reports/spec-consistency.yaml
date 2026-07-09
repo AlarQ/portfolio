@@ -1,0 +1,79 @@
+gate: spec-consistency
+status: findings
+findings:
+  - id: spec-consistency-001
+    severity: medium
+    category: repo-misalignment
+    title: design.md/ADR-RM-4 names next.config.js but the repo config is next.config.ts
+    description: >
+      design.md refers to the redirect config file as `next.config.js` in the architecture
+      diagram, the IA-inversion trade-off, and throughout ADR-RM-4 (title, decision,
+      consequence). The repository has only `next.config.ts` — `ls next.config.js` misses —
+      and the implementing task (005) correctly lists `next.config.ts` in estimated_files.
+      The authoritative design/ADR names a file that does not exist.
+    file: specs/route-migration/design.md
+    lines: "200-210"
+    code_snippet: |
+      ### ADR-RM-4: `/blog` → `/` redirect implemented via `next.config.js` `redirects()`
+      ...
+      **Decision:** Declare the redirect in `next.config.js` via `redirects()` with `permanent: true` (emits 308), not a route-level `redirect()` call in `src/app/blog/page.tsx`.
+      ...
+      - `next.config.js` becomes the canonical audit point for site-level redirects.
+    fix_proposal: >
+      In design.md replace every `next.config.js` occurrence (mermaid node line 15, trade-off
+      line 143, ADR-RM-4 title line 200, decision line 206, consequence line 210) with
+      `next.config.ts` to match the repo and task 005.
+    rationale: >
+      Pillar 4 requires every file path in the spec bundle to resolve against the real repo.
+      Next.js loads exactly one config file; a reader following the ADR literally could create
+      a shadow `next.config.js` that Next silently ignores, leaving the 308 redirect unshipped.
+    impact: >
+      Bounded because task 005 (the implementer's actual instruction) already uses the correct
+      `.ts` file; the risk is reviewer/author confusion and a possibly-ignored config if the ADR
+      is followed verbatim.
+    references: ["specs/route-migration/design.md ADR-RM-4", "next.config.ts", "specs/route-migration/tasks/005-invert-ia-home-index-with-blog-redirect.md"]
+    confidence: high
+    review_status: resolved
+    source: llm
+  - id: spec-consistency-002
+    severity: medium
+    category: consistency
+    title: estimated_files exceeds max_files in tasks 002 and 004
+    description: >
+      Task 002 declares `max_files: 7` but lists 8 entries in estimated_files
+      (categories.ts, categoryPresentation.tsx, categoryPresentation.test.tsx, postLoader.ts,
+      postLoader.test.ts, posts.ts, my-spec-driven-workflow.mdx, second-post.mdx). Task 004
+      declares `max_files: 15` but lists 16 entries in estimated_files (page.tsx, SinglePost.tsx,
+      SinglePost.stories.tsx, PostArticle.tsx, PostReadingLayout.tsx, PostToc.tsx, PostNav.tsx,
+      PostNav.test.tsx, six e2e specs, blog-security.spec.ts, e2e/support/tokenResolution.ts).
+      All listed paths are distinct real (or plausibly-new) files, so the planned touch-list
+      already exceeds each task's own declared file cap.
+    file: specs/route-migration/tasks/004-migrate-post-route-to-singlepost.md
+    lines: "6-38"
+    fix_proposal: >
+      Raise `max_files` to 8 in task 002 and to 16 in task 004 so the cap covers the planned
+      estimated_files, or split each task if the true intent is a tighter budget (e.g. carve
+      the shared e2e/support/tokenResolution.ts helper or the fixture MDX out to a sibling task).
+    rationale: >
+      max_files is the per-task file-touch ceiling and estimated_files is the plan; a plan that
+      already overshoots the ceiling is an internal contradiction the implementer cannot satisfy
+      without amending the frontmatter.
+    impact: >
+      At implement time each task trips its own file budget on the first pass, forcing an
+      unplanned cap bump or task split — avoidable rework flagged pre-implementation.
+    references: ["specs/route-migration/tasks/002-extend-post-frontmatter-and-category-vocabulary.md", "specs/route-migration/tasks/004-migrate-post-route-to-singlepost.md"]
+    confidence: medium
+    review_status: resolved
+    source: llm
+summary: >
+  route-migration bundle is largely coherent: all 10 FRs owned, all 31 scenarios owned
+  exactly once (mui-gone partial-annotation disambiguated), blocked_by forms a valid DAG
+  honoring every design sequencing constraint, and all repo paths/deletion targets/KB
+  ground_rules resolve. Two medium findings: design.md/ADR-RM-4 names a non-existent
+  next.config.js (repo has next.config.ts), and tasks 002 and 004 list more estimated_files
+  than their own max_files cap. Both resolved in-place at propose time (see resolution note
+  appended below).
+resolution_note: >
+  Both findings were mechanical and introduced during propose-time amendments. Resolved
+  directly: design.md line 15/143/200/206/210 now read next.config.ts; task 002 max_files
+  raised 7→8, task 004 max_files raised 15→16 to cover their amended estimated_files.
