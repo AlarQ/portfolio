@@ -1,7 +1,7 @@
 ---
 id: "004"
 name: Migrate /blog/[slug] to pages/SinglePost (full-route pass)
-status: in-progress
+status: implemented
 blocked_by: ["002", "003"]
 max_files: 16
 ground_rules:
@@ -38,6 +38,7 @@ estimated_files:
   - e2e/support/tokenResolution.ts
 interaction: afk
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/71
 ---
 
 ## Objective
