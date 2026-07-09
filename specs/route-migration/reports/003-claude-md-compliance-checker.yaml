@@ -1,0 +1,27 @@
+gate: claude-md-compliance-checker
+task_id: "003"
+status: findings
+findings:
+  - id: comp-001
+    severity: low
+    category: claude-md-violation
+    title: "File-count overage vs task budget (15 touched vs max_files: 13)"
+    description: >
+      The task file declares `max_files: 13`, but the diff touches 15 source files under src/. The two extras — `src/components/PostReadingLayout.tsx` (out-of-seam consumer of the removed `proseTextSx` export) and `src/components/ds/readingNav.ts` (extraction of a shared focus-ring constant) — are self-disclosed in the task's Implementation Log as "unforeseen but justified" and "Flagged for /validate". Both changes are small and mechanically necessary; they violate no architectural rule, but the task exceeded its declared file budget without a task-file amendment.
+
+    file: "specs/route-migration/tasks/003-build-reading-ds-components-and-rewrite-mdx-seam.md"
+    lines: "6,81"
+    code_snippet: |
+      max_files: 13
+      ...
+      **File-count note:** 15 source files touched vs `max_files: 13`.
+    fix_proposal: >
+      Either bump `max_files` in the task frontmatter to reflect actual scope (13 → 15) as part of this commit, or split the PostReadingLayout.tsx rename and readingNav.ts extraction into a follow-up task so the declared budget stays accurate. Process/traceability nit, not a code defect.
+
+    rationale: >
+      CLAUDE.md / task budget declares max_files as a scope contract; exceeding it without amending the frontmatter breaks traceability of the declared review unit.
+
+    impact: "Low — budget/traceability hygiene only; no functional, security, or architectural risk."
+    review_status: accepted
+    source: llm
+    confidence: high
