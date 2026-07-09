@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { kebab } from "../../scripts/generate-tokens";
 import { primitives } from "./tokens";
 
 /**
@@ -31,13 +32,6 @@ function readShikiVarsFromTokensCss(): Record<string, string> {
     declarations[match[1]] = match[2].trim();
   }
   return declarations;
-}
-
-function kebab(key: string): string {
-  return key
-    .replace(/([a-z])([A-Z])/g, "$1-$2")
-    .replace(/([a-zA-Z])([0-9])/g, "$1-$2")
-    .toLowerCase();
 }
 
 describe("shikivars_test_passes_against_tokens_source_with_theme_ts_still_present", () => {

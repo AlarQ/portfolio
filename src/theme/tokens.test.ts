@@ -2,7 +2,12 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "nod
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { assertInsideThemeDir, emitTokensCss, writeTokensCss } from "../../scripts/generate-tokens";
+import {
+  assertInsideThemeDir,
+  emitTokensCss,
+  kebab,
+  writeTokensCss,
+} from "../../scripts/generate-tokens";
 import {
   dimensionPrimitives,
   primitives,
@@ -160,11 +165,6 @@ describe("token codegen (FR-2, ADR-DS-3)", () => {
     // the primitive and collapse to a self-reference. This is a source-hygiene
     // guard; the actual bug that shipped was the `@theme inline` bridge emitting
     // `--radius-pill: var(--radius-pill)` (see the bridge test below).
-    const kebab = (key: string) =>
-      key
-        .replace(/([a-z])([A-Z])/g, "$1-$2")
-        .replace(/([a-zA-Z])([0-9])/g, "$1-$2")
-        .toLowerCase();
     for (const [alias, primitive] of Object.entries(semanticDimensions)) {
       expect(alias, `alias ${alias} must not collide with its primitive's kebab`).not.toBe(
         `--${kebab(primitive)}`

@@ -1,0 +1,16 @@
+gate: e2e-test
+task_id: "001"
+status: findings
+findings:
+  - id: e2e-test-1
+    severity: medium
+    category: testing
+    title: "Hydration mismatch on / to /blog redirect (Mobile Chrome)"
+    description: >-
+      [Mobile Chrome] e2e/coexistence.spec.ts:110:7 "existing routes render without regression (FR-1) > / redirects to /blog and renders without regression" failed. expect(received).toEqual(expected) deep equality: expected an empty console-error array but received 44 entries, headed by a React hydration mismatch warning ("A tree hydrated but some attributes of the server rendered HTML didn't match the client properties...") captured while rendering /blog after redirecting from /.
+    file: e2e/coexistence.spec.ts
+    lines: "110-126"
+    code_snippet: null
+    fix_proposal: null
+    review_status: accepted
+    source: tool

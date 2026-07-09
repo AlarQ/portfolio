@@ -1,12 +1,13 @@
 ---
 id: "001"
 name: Re-home shiki palette to the token layer
-status: implemented
+status: done
 blocked_by: []
 max_files: 5
 ground_rules:
   - frontend/design-tokens.md
   - architecture/general.md
+  - languages/typescript/patterns.md
 test_cases:
   - shikivars_test_passes_against_tokens_source_with_theme_ts_still_present
   - tokens_css_freshness_guard_passes_after_regeneration
