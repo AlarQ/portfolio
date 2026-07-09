@@ -27,6 +27,7 @@ estimated_files:
   - content/posts/second-post.mdx
 interaction: afk
 implementer: generalist
+pr_url: https://github.com/AlarQ/portfolio/pull/69
 ---
 
 ## Objective
