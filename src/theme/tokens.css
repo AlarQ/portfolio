@@ -49,6 +49,14 @@
   --category-orange-fg: #c4320a;
   --category-rose-bg: #fef3f2;
   --category-rose-fg: #b42318;
+  --shiki-bg: #141b22;
+  --shiki-fg: #e2e8f0;
+  --shiki-token-comment: #64748b;
+  --shiki-token-keyword: #38bdf8;
+  --shiki-token-string: #84cc16;
+  --shiki-token-constant: #f97316;
+  --shiki-token-function: #a855f7;
+  --shiki-token-variable: #7dd3fc;
 
   /* semantic aliases → primitives */
   --background: var(--white);

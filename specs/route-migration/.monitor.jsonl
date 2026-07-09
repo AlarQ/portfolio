@@ -1,2 +1,3 @@
 {"ts":"2026-07-08T20:01:30.000Z","category":"config_approved","feature":"route-migration","data":{"config_path":"specs/route-migration/config.yml"}}
 {"ts":"2026-07-09T05:55:50.000Z","category":"task_transition","task":"001","feature":"route-migration","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/route-migration/tasks/001-rehome-shiki-palette-to-token-layer.md"}}
+{"ts":"2026-07-09T06:04:59.000Z","category":"task_transition","task":"001","feature":"route-migration","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/route-migration/tasks/001-rehome-shiki-palette-to-token-layer.md"}}
