@@ -1,7 +1,7 @@
 ---
 id: "005"
 name: Invert IA — Blog index at / with /blog 308 redirect
-status: todo
+status: in-progress
 blocked_by: ["002"]
 max_files: 13
 ground_rules:
