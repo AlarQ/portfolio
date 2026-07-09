@@ -1,3 +1,5 @@
+"use client";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
@@ -11,6 +13,12 @@ import { brand } from "@/theme/theme";
  * component draws no independent slug source and re-validates nothing (single
  * slug gate, CLAUDE.md). "Newer/Older" labeling (not "Previous/Next") is a
  * presentation-only choice: the data layer stays generic prev/next.
+ *
+ * Client component: it renders MUI `Box component={Link}`, and passing the
+ * `Link` function as a prop cannot cross a Server→Client boundary (RSC
+ * serialization). The `prev`/`next` Post props are plain serializable data, so
+ * the server route can still hand them down. (Legacy MUI surface — replaced by
+ * `ds/PrevNextNav` in the route-migration; this keeps the build green until then.)
  */
 export interface PostNavProps extends PostAdjacency {}
 

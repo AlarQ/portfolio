@@ -1,7 +1,7 @@
 ---
 id: "002"
 name: Extend Post frontmatter + category vocabulary
-status: todo
+status: implemented
 blocked_by: []
 max_files: 8
 ground_rules:
@@ -57,3 +57,35 @@ Extend `buildPostSet`'s pure core to validate optional `coverImage` + `categorie
 - **Shared fixture (test strategy):** create a second published Post MDX under `content/posts/` (valid `coverImage`, known `categories`, headings, a fenced code block, an external link). This is the ≥2-Posts fixture consumed by 004 (prevnext-navigation) and 005 (newest-first ordering, cover cards) — the repo currently has only one Post, so those e2e assertions have no data without it.
 
 ## Implementation Log
+
+### Outcome
+All 8 behaviors delivered TDD (RED→GREEN each). Green: unit 244✓ / type-check✓ / lint✓ / build SSG✓ (both `/blog/[slug]` routes prerender) / chromium e2e 50/50✓.
+
+### What was built
+- `src/data/categories.ts` — closed `CATEGORY_NAMES` const → `CategoryName` union + `isCategoryName` guard. Product data only, no color/JSX (ADR-RM-2). Vocabulary (SF-3) derived from existing Post topics + Figma badge frame.
+- `src/utils/categoryPresentation.tsx` — exhaustive `Record<CategoryName, BadgeCategory>` seam (+ `.test.tsx`, `.typetest.tsx`). Missing entry = compile error, mirrors `skillPresentation`/`badgeVariants` precedent. R-4 cross-pack dep documented in header.
+- `src/data/postLoader.ts` — `validateCoverImage` (allow-list: site-relative `/…`, reject external / protocol-relative `//` / `..`; warn+drop; **no** fs existence check, accepted gap R-3) + `validateCategories` (warn+omit unknown, Post still publishes) in the pure `toPost` core. Single gate; consumers re-validate nothing.
+- `src/data/posts.ts` — `Post` gains optional `coverImage?: string` / `categories?: readonly CategoryName[]`.
+- `content/posts/second-post.mdx` — mandated ≥2-Post shared fixture (valid coverImage `/images/profile.jpg`, categories `[Engineering, Workflow]`, headings, fenced code, external link). Consumed by 004/005.
+
+### Scope: files vs `max_files: 8`
+Final count **11** touched (8 estimated + 3 forced). The 3 overages are all downstream consequences of the mandated `second-post.mdx` fixture, not scope creep — going from N=1 to N=2 Posts activated latent issues:
+1. `src/components/PostNav.tsx` — added `"use client"`. Second post made `/blog/[slug]` actually render `PostNav` with a non-null adjacent Post; passing the `next/link` function as a prop across the RSC Server→Client boundary threw a serialization error at build. `prev`/`next` are plain serializable data so the server route still hands them down. (Legacy MUI surface; superseded by `ds/PrevNextNav` later in the migration — this keeps the build green until then.)
+2. `e2e/blog-nav.spec.ts` — the prev/next nav spec was written for N=1 (asserted nav absent); N=2 invalidated it, rewritten to assert real Newer/Older linking.
+3. `e2e/feed.spec.ts` — **latent bug the fixture exposed.** The test derived expected feed-item count from `[data-testid="featured-post"]` only, which is always 1 (`PostList`/`splitFeatured` carves one featured card + a `post-list-item` tail). Coincidentally equalled the 1-item feed at N=1; at N=2 the feed correctly had 2 items but the selector still counted 1. Fixed to count `featured-post` + `post-list-item` = the full published set. Test-only correction, no product-code change.
+
+`content/posts/my-spec-driven-workflow.mdx` (in `estimated_files`) was **not** edited — its existing frontmatter already satisfied the new optional fields; no change needed.
+
+### Gotchas
+- **Stray dev-server / `SITE_URL` config-loader gotcha.** `playwright.config.ts` sets `SITE_URL=https://ernest.dev` only for a Playwright-*started* server, with `reuseExistingServer: !CI`. A leftover `npm run dev` on :3000 (started without `SITE_URL`) gets reused → the feed renders `localhost:3000` links → `feed.spec.ts` "never localhost" assertion fails. Not a code bug: kill :3000 before the sweep so Playwright starts its own server with the env. (Also: config env-var expansion is zsh-vs-bash sensitive — wrap in `bash -c` when driving it manually.)
+
+### Pre-flight review (code-quality-pragmatist)
+Two findings applied, rest declined:
+- **Applied (medium):** `validateCategories` now dedupes (`[...new Set(known)]`) — a repeated frontmatter category (`[AI, …, AI]`) would otherwise render a duplicate badge with no warning. Added `dedupes repeated categories …` unit test.
+- **Applied (low):** `validateCoverImage` `..` guard changed from substring `!value.includes("..")` to path-segment `!value.split("/").includes("..")`, so the impl matches its comment's traversal-prevention claim precisely and won't false-reject a filename that merely contains `..`. Existing `/images/../../etc/passwd.png` drop-test stays green.
+- **Declined:** extracting a shared `validateOptional` helper (premature for two call sites — revisit if a third optional-field validator lands) and `String(value)` → `[object Object]` warning nit (owner-authored build-time input, not worth it).
+
+Post-fix green: unit **245**✓ / type-check✓ / lint✓ / build SSG✓ / chromium e2e 50/50✓.
+
+### Integration
+Branch `feat/route-migration/002-…`; PR base is `feat/route-migration-integration` (the real integration branch, not the skill's literal `feat/route-migration`).

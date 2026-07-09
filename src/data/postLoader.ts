@@ -1,5 +1,6 @@
 import matter from "gray-matter";
 import { JSON_SCHEMA, load as loadYaml } from "js-yaml";
+import { type CategoryName, isCategoryName } from "./categories";
 import type { Post } from "./posts";
 
 // Parse frontmatter under YAML's JSON schema so every value stays a primitive
@@ -89,7 +90,62 @@ function toPost(file: RawPostFile): Post {
     readingTimeMinutes: readingTime(body),
     formattedDate: formatDate(date),
     published: true,
+    coverImage: validateCoverImage(file, data.coverImage),
+    categories: validateCategories(file, data.categories),
   };
+}
+
+/**
+ * Validate optional `categories` against the closed vocabulary at the single
+ * loader gate. Absent is legal (returns undefined, no warning). Each entry is
+ * checked against `isCategoryName`: an unknown entry is warned + omitted while
+ * the Post still publishes (FR-5). Returns undefined when nothing valid remains
+ * so the field stays cleanly absent rather than an empty array.
+ */
+function validateCategories(
+  file: RawPostFile,
+  value: unknown
+): readonly CategoryName[] | undefined {
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value)) {
+    console.warn(`[posts] "${file.filename}": dropping categories — expected a list`);
+    return undefined;
+  }
+  const known = value.filter((entry): entry is CategoryName => {
+    if (typeof entry === "string" && isCategoryName(entry)) return true;
+    console.warn(`[posts] "${file.filename}": omitting unknown category "${String(entry)}"`);
+    return false;
+  });
+  // Dedupe repeated entries so a Post can never render the same category badge
+  // twice; Set preserves first-seen order.
+  const unique = [...new Set(known)];
+  return unique.length > 0 ? unique : undefined;
+}
+
+/**
+ * Validate an optional `coverImage` at the single loader gate — same warn+drop
+ * posture as the slug gate. Absent is legal (returns undefined, no warning). A
+ * present value must be a site-relative path (`/…` under `public/`): an external
+ * URL, protocol-relative URL, or a value containing a `..` traversal segment is
+ * rejected with a build warning and dropped, so no external fetch or path
+ * traversal is ever derived from frontmatter (`security/input-validation.md`,
+ * allow-list). No filesystem existence check (accepted gap R-3) — the pure core
+ * stays fs-free.
+ */
+function validateCoverImage(file: RawPostFile, value: unknown): string | undefined {
+  if (value === undefined) return undefined;
+  if (
+    typeof value === "string" &&
+    value.startsWith("/") &&
+    !value.startsWith("//") &&
+    !value.split("/").includes("..")
+  ) {
+    return value;
+  }
+  console.warn(
+    `[posts] "${file.filename}": dropping coverImage "${String(value)}" — must be a site-relative path (/…)`
+  );
+  return undefined;
 }
 
 /**

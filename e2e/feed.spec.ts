@@ -14,9 +14,13 @@ test.describe("RSS feed", () => {
     request,
   }) => {
     // The Post index gives us the expected item count independent of the feed
-    // implementation itself.
+    // implementation itself. The list carves the set into one featured card plus
+    // the remaining tail (`PostList`/`splitFeatured`), so counting all Post cards
+    // — not just the featured slot — is the whole published set.
     await page.goto("/blog");
-    const postCount = await page.locator('[data-testid="featured-post"]').count();
+    const postCount = await page
+      .locator('[data-testid="featured-post"], [data-testid="post-list-item"]')
+      .count();
     expect(postCount).toBeGreaterThan(0);
 
     const response = await request.get("/feed.xml");

@@ -3,27 +3,45 @@ import { expect, test } from "@playwright/test";
 /**
  * Prev/next Post navigation E2E (FR-3).
  *
- * `content/posts/` currently holds a single real Post
- * (`my-spec-driven-workflow.mdx` — see task 003 repo-reality note), so this
- * spec covers only the scenario directly exercisable against real content:
- * acceptance #4, the single-Post boundary (neither link renders, no error).
- *
- * The middle-Post (both links) and multi-Post-boundary (one-sided link)
- * scenarios need >=2-3 Posts to exercise meaningfully through a real route;
- * they are covered instead as component-level tests against fixture props in
- * `src/components/PostNav.test.tsx` (see that file's header comment for the
- * rationale — no fixture-content-dir mechanism exists in this repo to inject
- * extra Posts for e2e).
+ * `content/posts/` now holds two real Posts — `my-spec-driven-workflow.mdx`
+ * (2026-06-15, newest) and `second-post.mdx` (2026-05-20, oldest) — so this spec
+ * exercises the multi-Post *boundary* scenario against real content: the newest
+ * Post links only to its older neighbour, the oldest only to its newer
+ * neighbour, and neither shows a link on its outer edge. (The middle-Post
+ * both-links case needs >=3 Posts and stays a component test in
+ * `src/components/PostNav.test.tsx`.)
  */
 
-test.describe("Blog Post navigation (single-Post set)", () => {
-  test("renders neither a Newer nor an Older link, and no error occurs", async ({ page }) => {
+test.describe("Blog Post navigation (multi-Post boundary)", () => {
+  test("newest Post links to its older neighbour only (Older, no Newer)", async ({ page }) => {
     const response = await page.goto("/blog/my-spec-driven-workflow");
     expect(response?.status()).toBe(200);
 
     const nav = page.getByRole("navigation", { name: "Post navigation" });
-    await expect(nav).toHaveCount(0);
+    await expect(nav).toBeVisible();
+
+    // The older neighbour (second-post) is reachable via an "Older post" link;
+    // the newest Post has no newer neighbour.
+    await expect(nav.getByRole("link", { name: /Older post/ })).toHaveAttribute(
+      "href",
+      "/blog/second-post"
+    );
     await expect(page.getByText("Newer post", { exact: false })).toHaveCount(0);
+  });
+
+  test("oldest Post links to its newer neighbour only (Newer, no Older)", async ({ page }) => {
+    const response = await page.goto("/blog/second-post");
+    expect(response?.status()).toBe(200);
+
+    const nav = page.getByRole("navigation", { name: "Post navigation" });
+    await expect(nav).toBeVisible();
+
+    // The newer neighbour (my-spec-driven-workflow) is reachable via a "Newer
+    // post" link; the oldest Post has no older neighbour.
+    await expect(nav.getByRole("link", { name: /Newer post/ })).toHaveAttribute(
+      "href",
+      "/blog/my-spec-driven-workflow"
+    );
     await expect(page.getByText("Older post", { exact: false })).toHaveCount(0);
   });
 });
