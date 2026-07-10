@@ -1,12 +1,13 @@
 ---
 id: "009"
 name: Delete orphaned data modules + presentation seams
-status: blocked
+status: todo
 blocked_by: ["008"]
 max_files: 14
 ground_rules:
   - architecture/general.md
   - style/general.md
+  - languages/typescript/patterns.md
 test_cases:
   - build_and_unit_suite_green_after_data_seam_deletion
   - no_references_to_deleted_modules

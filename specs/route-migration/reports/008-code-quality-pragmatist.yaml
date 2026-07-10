@@ -1,0 +1,78 @@
+gate: code-quality-pragmatist
+task_id: "008"
+status: findings
+findings:
+  - id: cq-001
+    severity: medium
+    category: dry-violation
+    title: "Presentation seams left behind with zero remaining consumers"
+    description: >
+      src/utils/glowCardPresentation.ts and src/utils/iconTilePresentation.ts were each imported exclusively by the components deleted in 7d706e5 (HeroContent.tsx, ProjectCard.tsx, ReadingSection.tsx, SkillsGrid.tsx, TopicSection.tsx). After the deletion, grep confirms zero remaining imports anywhere in src/ (including tests) for either file — they are fully dead code that the deletion pass did not sweep.
+
+    file: src/utils/glowCardPresentation.ts
+    lines: "1-25"
+    fix_proposal: >
+      Delete src/utils/glowCardPresentation.ts and src/utils/iconTilePresentation.ts in the same cleanup pass; re-run `npm run type-check` and `npm run lint` to confirm no residual references.
+
+    rationale: >
+      CLAUDE.md's seam pattern (src/data -> *Presentation -> components) implies a presentation seam only exists to serve a component layer; once every consuming component is gone, the seam is not "reusable infrastructure" — it's orphaned code with no compile-time or runtime signal to catch its staleness (task 008's own commit message claims "pure deletion... reachability-verified from src/app/ routes" but reachability was checked one layer too shallow, at the component tier, not transitively through the seams those components alone consumed).
+
+    impact: >
+      Two more files (48 lines) of unreachable code ship in the bundle analysis / grep noise indefinitely; a future contributor may mistake these for live seams and build new components against stale APIs (e.g. glowCardSx's box-shadow tokens), reintroducing MUI-era patterns the shadcn migration is trying to retire.
+
+    references:
+      - "architecture/general.md"
+      - "portfolio/CLAUDE.md#architecture-the-seam-pattern"
+    confidence: high
+    review_status: accepted
+    source: llm
+    auto_accepted: true
+  - id: cq-002
+    severity: medium
+    category: dry-violation
+    title: "projectPresentation.ts and readingPresentation.ts only referenced by their own test files"
+    description: >
+      src/utils/projectPresentation.ts (mvpProgressTone) and src/utils/readingPresentation.ts (readingCategoryColor) previously had their sole production consumers in ProjectCard.tsx / ProjectDetailPanel.tsx / ReadingSection.tsx, all deleted in 7d706e5. Post-deletion, the only remaining imports are from their own *.test.ts files — the tests now exercise pure dead code, giving false-green test coverage for functionality nothing calls.
+
+    file: src/utils/projectPresentation.ts
+    lines: "1-21"
+    fix_proposal: >
+      Delete src/utils/projectPresentation.ts, src/utils/projectPresentation.test.ts, src/utils/readingPresentation.ts, and src/utils/readingPresentation.test.ts together, then confirm `npm run test` and `npm run type-check` stay green.
+
+    rationale: >
+      Test behavior, not implementation (code-quality.md non-negotiable) — a passing test for a function with zero production callers is testing nothing of value and hides the fact the seam is dead.
+
+    impact: >
+      CI keeps running tests for unreachable logic, inflating perceived coverage and masking the true blast radius of the deletion; a later contributor may spend time "fixing" one of these tests believing it protects live behavior.
+
+    references:
+      - "architecture/general.md"
+      - "testing/principles.md"
+    confidence: high
+    review_status: accepted
+    source: llm
+    auto_accepted: true
+  - id: cq-003
+    severity: medium
+    category: unnecessary-complexity
+    title: "Data modules (domains.ts, projects.ts, topic.ts, books.ts) now have no consumers"
+    description: >
+      src/data/domains.ts, src/data/projects.ts, and src/data/topic.ts have zero remaining imports anywhere in src/. src/data/books.ts is imported only by the now-dead src/utils/readingPresentation.ts (cq-002), making it transitively dead too. CLAUDE.md names domains.ts as "the home of the Domain Area concept" and the single source for that concept — but the concept currently has no live consumer at all post-deletion.
+
+    file: src/data/domains.ts
+    lines: "1-65"
+    fix_proposal: >
+      If the Domain Area / Project / Reading / Topic concepts are truly gone from the shipped site (per the route-migration IA), delete these four data modules (and their .test.ts files, if any) in the same pass as cq-001/cq-002. If they are intentionally retained for an upcoming route in the migration plan, add a one-line note in CONTEXT.md or the task doc stating so, so the next reader doesn't have to reverse-engineer "temporarily orphaned" from "dead."
+
+    rationale: >
+      Per this project's CLAUDE.md, src/data/*.ts should have no purpose except feeding a *Presentation seam and, ultimately, a component; data with no seam and no component is not "data," it's inventory with no owner, and it is exactly the kind of half-migrated state the review was asked to check for.
+
+    impact: >
+      Ambiguity about whether these modules are load-bearing for still-to-come route-migration tasks or simply missed; left as-is they accumulate as silent dead weight and risk bit-rotting out of sync with the rest of the (now shadcn-based) data model.
+
+    references:
+      - "portfolio/CLAUDE.md#src-data-domains-ts-is-the-home-of-the-domain-area-concept"
+      - "architecture/general.md"
+    confidence: medium
+    review_status: accepted
+    source: llm
