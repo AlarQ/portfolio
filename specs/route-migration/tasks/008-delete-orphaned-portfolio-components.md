@@ -1,7 +1,7 @@
 ---
 id: "008"
 name: Delete orphaned portfolio components
-status: todo
+status: implemented
 blocked_by: ["005"]
 max_files: 14
 ground_rules:
@@ -52,3 +52,17 @@ Delete the dead portfolio component cluster (Hero/Skills/Projects/Reading/Topic/
 - SF-2: 008/009 are one conceptual unit split only by the 20-file cap.
 
 ## Implementation Log
+
+### Decisions
+- **Pure deletion, reachability-verified before removal (R-5).** Confirmed the cluster is unreachable from `src/app/` routes, not by import-grep alone: the routes (`page.tsx`, `layout.tsx`, `author/page.tsx`, `blog/[slug]/page.tsx`, `feed.xml/route.ts`) import only `pages/*`, `@/data/*`, and `@/theme/ThemeProvider` — none of the 13. The 13 form a closed cluster (`ProjectSidebar`→sidebar children; `HeroContent`→`SkillsGrid`/`StatCard`/`AchievementsList`/`AreaHeadlineCard`) referenced by nothing live.
+- **Deleted 13 files** (the 13 in `estimated_files`) + the now-empty `src/components/sidebar/` directory (git dropped it automatically). `max_files: 14` honored (13 files + dir).
+- **Residual identifier hits are comment-only and belong to 009.** After deletion, grepping the deleted names in `src/` returns hits *only* inside doc comments in `src/utils/glowCardPresentation.ts`, `src/utils/iconTilePresentation.ts`, and `src/data/domains.ts` — the data-module/seam layer 009 deletes (SF-2: 008/009 are one unit split by the file cap; ADR-RM-5). Zero live code references remain; build + type-check + unit suite prove no dangling import/usage. Deliberately did **not** edit those comments — out of 008 scope and the files die in 009.
+- **Test Strategist not spawned:** test-strategy.md §5 pre-resolves 008 to `add: [], remove: []`, "no spec-scenario ownership; keep decrement checks" — a zero-delta refinement, so the 3 task `test_cases` are the backlog verbatim.
+
+### Verification (all green)
+- `type-check` clean; `test:unit` 52 files / 261 tests pass (identical to pre-deletion baseline — no test depended on the cluster); `build` succeeds (`/`, `/author`, `/blog/[slug]`, `/feed.xml`).
+- `grep_for_deleted_identifiers_returns_nothing`: zero live code refs (residuals comment-only in 009's files, per above).
+- `mui_import_count_decreased`: `@mui/` consumer files **17 → 5** (surviving: `glowCardPresentation.ts`, `skillPresentation.tsx` → 009; `CascadeTieFixtureCard.tsx`/`.stories.tsx`, `theme.ts` → 010).
+
+### Refactor
+- None — pure deletion; no surviving code to deepen or dedupe.
