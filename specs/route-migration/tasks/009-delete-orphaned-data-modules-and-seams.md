@@ -26,6 +26,7 @@ estimated_files:
   - src/utils/iconTilePresentation.ts
 interaction: afk
 implementer: generalist
+pr_url: https://github.com/AlarQ/portfolio/pull/76
 ---
 
 ## Objective
