@@ -46,7 +46,9 @@ describe("Pages components — compose organisms, never reimplement them", () =>
   });
 
   it("Author renders AuthorInfo's own avatar structure plus PostCard's article structure", () => {
-    const { container, unmount } = renderIntoDocument(<Author posts={samplePosts} />);
+    const { container, unmount } = renderIntoDocument(
+      <Author posts={samplePosts} navItems={sampleNavItems} />
+    );
 
     expect(container.querySelector('[data-slot="avatar"]')).not.toBeNull();
     expect(container.querySelectorAll("article")).toHaveLength(samplePosts.length);

@@ -4,6 +4,12 @@ export interface Stat {
 }
 
 export interface OwnerProfile {
+  /**
+   * The owner's display name — the single source of the human identity shown
+   * on `/author` (FR-6). Kept distinct from `imageAlt`: identity must not leak
+   * through an alt-text field, so consumers read `name`, never `imageAlt`.
+   */
+  name: string;
   imageSrc: string;
   imageAlt: string;
   title: string;
@@ -12,6 +18,7 @@ export interface OwnerProfile {
 }
 
 export const ownerProfile: OwnerProfile = {
+  name: "Ernest Bednarczyk",
   imageSrc: "/images/profile.jpg",
   imageAlt: "Ernest Bednarczyk",
   title: "SOFTWARE ENGINEER",

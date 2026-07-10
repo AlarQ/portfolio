@@ -30,6 +30,15 @@ test.describe("Navigation", () => {
         "page"
       );
     });
+
+    // FR-6 (scenario author-nav-link): the single-source navItems.ts entry
+    // surfaces the Author link in the desktop nav. getByRole excludes the
+    // hidden mobile <nav> (asserted separately below).
+    test("should display the Author navigation link", async ({ page }) => {
+      await page.goto("/");
+
+      await expect(page.getByRole("link", { name: "Author", exact: true })).toBeVisible();
+    });
   });
 
   test.describe("Mobile Navigation", () => {
@@ -93,6 +102,18 @@ test.describe("Navigation", () => {
       // and that the drawer closed.
       await expect(page).toHaveURL(/\/$/);
       await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "true");
+    });
+
+    // FR-6 (scenario author-nav-link): the same navItems.ts entry surfaces the
+    // Author link inside the mobile drawer — proving the single-source nav
+    // feeds both layouts.
+    test("should show the Author link in the drawer", async ({ page }) => {
+      await page.goto("/");
+
+      await page.click('button[aria-label="Open menu"]');
+      await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "false");
+
+      await expect(page.locator('#header-mobile-menu a[href="/author"]')).toBeVisible();
     });
 
     test("should close drawer on backdrop click", async ({ page }) => {
