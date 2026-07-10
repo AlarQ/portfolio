@@ -1,7 +1,7 @@
 ---
 id: "008"
 name: Delete orphaned portfolio components
-status: blocked
+status: todo
 blocked_by: ["005"]
 max_files: 14
 ground_rules:

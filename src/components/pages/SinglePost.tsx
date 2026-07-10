@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { PostLayout } from "@/components/ds/PostLayout";
 import type { CategoryName } from "@/data/categories";
+import type { NavItem } from "@/data/navItems";
 import type { PostAdjacency } from "@/data/postLoader";
 import type { Post } from "@/data/posts";
 import type { TocEntry } from "@/data/postToc";
@@ -14,6 +15,8 @@ export interface SinglePostProps {
   readonly coverImageUrl?: string;
   readonly coverImageAlt?: string;
   readonly categories?: readonly CategoryName[];
+  /** Injected nav for `PostLayout`'s `Header` — see `PostLayoutProps.navItems`. */
+  readonly navItems?: readonly NavItem[];
 }
 
 /**
@@ -35,6 +38,7 @@ export function SinglePost({
   coverImageUrl,
   coverImageAlt,
   categories,
+  navItems,
 }: SinglePostProps) {
   return (
     <PostLayout
@@ -43,6 +47,7 @@ export function SinglePost({
       adjacency={adjacency}
       coverImageUrl={coverImageUrl}
       coverImageAlt={coverImageAlt}
+      navItems={navItems}
       categories={categories?.map((name) => ({
         label: name,
         category: categoryPresentation(name),

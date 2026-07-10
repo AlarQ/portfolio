@@ -4,6 +4,7 @@ import { Pagination } from "@/components/ds/Pagination";
 import { PostCard, type PostCardCategory } from "@/components/ds/PostCard";
 import type { NavItem } from "@/data/navItems";
 import type { Post } from "@/data/posts";
+import { categoryPresentation } from "@/utils/categoryPresentation";
 
 export interface HomeProps {
   readonly posts: readonly Post[];
@@ -20,18 +21,18 @@ export interface HomeProps {
 const RECENT_COUNT = 4;
 
 /**
- * Presentation-only fidelity stand-ins for Figma 614:383. The `Post` model
- * carries neither a cover image nor categories; wiring real ones is out of
- * scope for this blog-first merge. Every card reuses the one bundled `/public`
- * asset so the `@storybook/nextjs` `next/image` mock resolves it with no
- * remote-host config (ADR-DS-1), plus a fixed badge set so cards read like the
- * frame.
+ * Resolve a Post's vocabulary `categories` (`src/data/categories.ts`) into the
+ * `PostCard` badge props via the `categoryPresentation` seam — the label is
+ * the vocabulary name itself, the hue comes from the seam's exhaustive map.
+ * Absent/empty `categories` yields `undefined` so `PostCard` no-renders the
+ * badge row, per Acceptance #5.
  */
-const CARD_COVER = "/images/profile.jpg";
-const CARD_CATEGORIES: readonly PostCardCategory[] = [
-  { label: "Design", category: "violet" },
-  { label: "Research", category: "indigo" },
-];
+function toPostCardCategories(post: Post): readonly PostCardCategory[] | undefined {
+  if (!post.categories || post.categories.length === 0) {
+    return undefined;
+  }
+  return post.categories.map((name) => ({ label: name, category: categoryPresentation(name) }));
+}
 
 interface PostPartition {
   readonly recent: readonly Post[];
@@ -85,7 +86,11 @@ export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
                     index === 0 ? "md:row-span-2" : index === 3 ? "md:col-span-2" : undefined
                   }
                 >
-                  <PostCard post={post} coverImageUrl={CARD_COVER} categories={CARD_CATEGORIES} />
+                  <PostCard
+                    post={post}
+                    coverImageUrl={post.coverImage}
+                    categories={toPostCardCategories(post)}
+                  />
                 </div>
               ))}
             </div>
@@ -102,8 +107,8 @@ export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
                 <PostCard
                   key={post.slug}
                   post={post}
-                  coverImageUrl={CARD_COVER}
-                  categories={CARD_CATEGORIES}
+                  coverImageUrl={post.coverImage}
+                  categories={toPostCardCategories(post)}
                 />
               ))}
             </div>

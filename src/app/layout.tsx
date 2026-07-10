@@ -1,8 +1,6 @@
-import Box from "@mui/material/Box";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Orbitron } from "next/font/google";
-import { Navigation } from "@/components/navigation";
 import { getSiteUrl } from "@/data/siteConfig";
 import { ThemeProvider } from "@/theme/ThemeProvider";
 import "./globals.css";
@@ -57,11 +55,12 @@ export default function RootLayout({
             (ThemeProvider.tsx) only toggles a compat flag consumed by MUI's
             style hooks; without also setting it here, only some MUI CSS is
             layered, producing a real (not test-detectable) cascade gap. */}
+        {/* No global nav mount here (task 005, e2e-test-1): each top-level
+            page (`pages/Home`, `ds/PostLayout`) renders its own `ds/Header` so
+            there is exactly one primary nav per page — mounting a second one
+            globally previously produced a strict-mode duplicate "Blog" link. */}
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <ThemeProvider>
-            <Navigation />
-            <Box sx={{ pt: { xs: 11, sm: 13 } }}>{children}</Box>
-          </ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

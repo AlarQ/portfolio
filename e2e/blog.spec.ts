@@ -33,7 +33,10 @@ test.describe("Blog navigation", () => {
     await page.click('button[aria-label="Open menu"]');
     await page.waitForTimeout(500);
 
-    await expect(page.locator('#mobile-menu a[href="/blog"]')).toBeVisible();
+    // Nav consolidation (task 005, e2e-test-1): the legacy MUI drawer
+    // (`#mobile-menu`) is retired — `ds/Header`'s `HeaderMobileMenu` is now the
+    // sole mobile drawer, with the real Blog destination `/` (ADR-RM-4).
+    await expect(page.locator('#header-mobile-menu a[href="/"]')).toBeVisible();
   });
 
   // nav-active-on-detail (FR-7): active on /blog and on /blog/[slug]

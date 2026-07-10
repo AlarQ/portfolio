@@ -24,4 +24,21 @@ test.describe("/ renders the Blog index (FR-1)", () => {
     expect(firstArticleText).toContain("You can't make an LLM deterministic");
     expect(secondArticleText).toContain("The Seam Pattern");
   });
+
+  test("/blog 308-redirects to / and renders without regression", async ({ page }) => {
+    const consoleErrors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") consoleErrors.push(msg.text());
+    });
+    const pageErrors: string[] = [];
+    page.on("pageerror", (err) => pageErrors.push(err.message));
+
+    const response = await page.goto("/blog");
+    expect(response?.ok()).toBe(true);
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page.locator("h1").first()).toHaveText(/blog/i);
+
+    expect(pageErrors).toEqual([]);
+    expect(consoleErrors).toEqual([]);
+  });
 });
