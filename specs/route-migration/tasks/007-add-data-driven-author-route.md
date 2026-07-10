@@ -22,6 +22,7 @@ estimated_files:
   - e2e/blog-nav.spec.ts
 interaction: afk
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/74
 ---
 
 ## Objective
