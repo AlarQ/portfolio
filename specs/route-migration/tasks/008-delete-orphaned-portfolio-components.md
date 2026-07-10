@@ -1,11 +1,13 @@
 ---
 id: "008"
 name: Delete orphaned portfolio components
-status: implemented
+status: done
 blocked_by: ["005"]
 max_files: 14
+task_base_sha: "55d2a9f87cd93d216ee0321d1ae21b5bfd5b0447"
 ground_rules:
   - architecture/general.md
+  - languages/typescript/patterns.md
 test_cases:
   - build_and_full_unit_suite_green_after_deletion
   - grep_for_deleted_identifiers_returns_nothing

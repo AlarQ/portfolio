@@ -8,6 +8,7 @@ ground_rules:
   - security/deps-and-config.md
   - architecture/general.md
   - frontend/styling.md
+  - languages/typescript/patterns.md
 test_cases:
   - repo_wide_grep_zero_mui_emotion_framer_motion
   - depspinned_green_after_uninstall
