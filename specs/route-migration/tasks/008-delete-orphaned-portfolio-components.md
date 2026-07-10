@@ -26,6 +26,7 @@ estimated_files:
   - src/components/AreaHeadlineCard.tsx
 interaction: afk
 implementer: generalist
+pr_url: https://github.com/AlarQ/portfolio/pull/75
 ---
 
 ## Objective
