@@ -34,6 +34,7 @@ estimated_files:
   - e2e/navigation.spec.ts
 interaction: afk
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/73
 ---
 
 ## Objective
