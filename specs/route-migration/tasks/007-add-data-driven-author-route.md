@@ -1,7 +1,7 @@
 ---
 id: "007"
 name: Add data-driven /author route
-status: blocked
+status: todo
 blocked_by: ["006"]
 max_files: 7
 ground_rules:
