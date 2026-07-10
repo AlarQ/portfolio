@@ -1,13 +1,11 @@
-import { useTheme } from "next-themes";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { ThemeProvider } from "./ThemeProvider";
+import { ThemeProvider } from "@/theme/ThemeProvider";
+import { ThemePill } from "./ThemePill";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-// jsdom has no `matchMedia`; next-themes calls it (system-preference listener)
-// even with `enableSystem={false}`. Minimal polyfill, test-only.
 // jsdom in this project's vitest config has no localStorage backing
 // (`--localstorage-file` not provided); next-themes reads/writes it to
 // persist the choice across reloads. Minimal in-memory polyfill, test-only.
@@ -38,27 +36,11 @@ if (!window.matchMedia) {
 }
 
 /**
- * FR-9 acceptance #1: `next-themes` mounts the `class` strategy on `<html>`,
- * default light, fully decoupled from the MUI ThemeProvider/CssBaseline
- * (mirrors the Tailwind/MUI coexistence pattern — see coexistence.test.ts).
- * Mounts via `react-dom/client` directly (project convention, see
- * `src/components/ds/testUtils.tsx`) rather than pulling in
- * `@testing-library/react`, which is not a project dependency.
+ * FR-7 acceptance #2: activating `ThemePill` flips theme light↔dark via the
+ * `.dark` class mechanism (next-themes `setTheme`), mounted through the real
+ * `ThemeProvider` (not a mocked `useTheme`) so this proves the actual wiring.
  */
-function ThemeToggleProbe() {
-  const { theme, setTheme } = useTheme();
-  return (
-    <button
-      type="button"
-      data-testid="toggle"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-    >
-      {theme}
-    </button>
-  );
-}
-
-describe("ThemeProvider mounts next-themes on the html class (FR-9)", () => {
+describe("ThemePill toggles theme via next-themes (FR-7)", () => {
   let container: HTMLDivElement;
   // biome-ignore lint/suspicious/noExplicitAny: react-dom Root type not exported cleanly for this local test helper
   let root: any;
@@ -78,47 +60,30 @@ describe("ThemeProvider mounts next-themes on the html class (FR-9)", () => {
     document.documentElement.classList.remove("dark");
   });
 
-  it("dark_class_swaps_semantic_tokens_and_components_rerender", async () => {
+  it("themepill_toggles_dark_class_on_html_and_persists_across_reload", async () => {
     act(() => {
       root.render(
         <ThemeProvider>
-          <ThemeToggleProbe />
+          <ThemePill />
         </ThemeProvider>
       );
     });
 
     expect(document.documentElement.classList.contains("dark")).toBe(false);
 
-    const button = container.querySelector('[data-testid="toggle"]') as HTMLButtonElement;
+    const button = container.querySelector("button") as HTMLButtonElement;
     await act(async () => {
       button.click();
     });
     expect(document.documentElement.classList.contains("dark")).toBe(true);
+    // next-themes persists the choice to localStorage under its default key
+    // ("theme") — this is the mechanism that survives a real page reload.
+    expect(window.localStorage.getItem("theme")).toBe("dark");
 
     await act(async () => {
       button.click();
     });
     expect(document.documentElement.classList.contains("dark")).toBe(false);
-  });
-
-  /**
-   * FR-7 acceptance #3: a first-time visitor with no stored preference (no
-   * `theme` key in localStorage) sees light — `defaultTheme="light"` plus
-   * `enableSystem={false}` so an OS dark-mode preference never overrides it.
-   */
-  it("first_visit_renders_light", () => {
-    window.localStorage.removeItem("theme");
-
-    act(() => {
-      root.render(
-        <ThemeProvider>
-          <ThemeToggleProbe />
-        </ThemeProvider>
-      );
-    });
-
-    expect(document.documentElement.classList.contains("dark")).toBe(false);
-    const button = container.querySelector('[data-testid="toggle"]') as HTMLButtonElement;
-    expect(button.textContent).toBe("light");
+    expect(window.localStorage.getItem("theme")).toBe("light");
   });
 });

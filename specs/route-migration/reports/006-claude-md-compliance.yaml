@@ -1,0 +1,34 @@
+gate: claude-md-compliance
+task_id: "006"
+status: findings
+findings:
+  - id: comp-001
+    severity: medium
+    category: claude-md-violation
+    title: "ThemePill touch target likely below the 44x44 CSS px minimum"
+    description: >
+      `ThemePill` is now an interactive `<button>` (previously decorative `aria-hidden` span), so the accessibility touch-target rule now applies to it. Its box is sized by `px-4 py-2` (8px vertical padding) around two `size-6` (24px) icons plus `gap-4` between them, giving an estimated rendered height near 40px and no explicit min-height/min-width — under the 44x44 CSS px minimum (48x48 preferred).
+
+    file: src/components/ds/ThemePill.tsx
+    lines: "20-32"
+    code_snippet: |
+      <button
+        type="button"
+        aria-label="Toggle color theme"
+        onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+        className={cn(
+          "inline-flex items-center gap-4 rounded-pill bg-foreground px-4 py-2 text-background",
+          className
+        )}
+      >
+    rationale: >
+      frontend/accessibility.md MUST: "Size interactive targets at minimum 44×44 CSS px (48×48 preferred)." This rule was inert while ThemePill was `aria-hidden` and non-interactive; converting it to a real toggle (this task's own change) brings it into scope, and the task's stories/tests do not assert or visually confirm the rendered box meets the minimum.
+
+    impact: >
+      Mobile and low-dexterity users may mis-tap the toggle or fail to activate it reliably, and this is exactly the class of issue an a11y audit (axe/Storybook a11y addon) or a Lighthouse pass would flag once the component is live site-wide (this task wires it into every route via `ds/Header`/mobile drawer).
+
+    fix_proposal: >
+      Add an explicit `min-h-11 min-w-11` (44px) or `min-h-12 min-w-12` (48px, preferred) utility to the button's className, or increase padding so the rendered hit area clears 44px in both dimensions at all supported viewport widths; verify against the Storybook a11y addon panel per the Storybook-first workflow.
+
+    review_status: accepted
+    source: llm

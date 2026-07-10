@@ -1,4 +1,3 @@
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Orbitron } from "next/font/google";
 import { getSiteUrl } from "@/data/siteConfig";
@@ -49,19 +48,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${inter.variable}`}
       >
-        {/* ADR-DS-2: `enableCssLayer` must be set here too — this registry's
-            `cache.insert` is what actually wraps every emitted Emotion rule
-            in `@layer mui {...}`. `StyledEngineProvider`'s own `enableCssLayer`
-            (ThemeProvider.tsx) only toggles a compat flag consumed by MUI's
-            style hooks; without also setting it here, only some MUI CSS is
-            layered, producing a real (not test-detectable) cascade gap. */}
         {/* No global nav mount here (task 005, e2e-test-1): each top-level
             page (`pages/Home`, `ds/PostLayout`) renders its own `ds/Header` so
             there is exactly one primary nav per page — mounting a second one
             globally previously produced a strict-mode duplicate "Blog" link. */}
-        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <ThemeProvider>{children}</ThemeProvider>
-        </AppRouterCacheProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
