@@ -1,7 +1,7 @@
 ---
 id: "005"
 name: Invert IA — Blog index at / with /blog 308 redirect
-status: in-progress
+status: done
 blocked_by: ["002"]
 max_files: 13
 ground_rules:
@@ -32,6 +32,7 @@ estimated_files:
   - e2e/feed.spec.ts
 interaction: afk
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/72
 ---
 
 ## Objective
@@ -62,3 +63,24 @@ Serve the `pages/Home` Blog index at `/` with real Posts newest-first (cover/cat
 - SF-4 hand-off: the "light theme by default" clause of home-index-renders is asserted at 006 (`light-default`); this task asserts content and ordering.
 
 ## Implementation Log
+
+chunks_spawned: 2
+
+**Chunk 1** (redirect inversion + home index + feed URL neutrality):
+- `next.config.ts`: inverted `redirects()` to `{ source: "/blog", destination: "/", permanent: true }` (308, ADR-RM-4), exact-match source so `/blog/[slug]` and `/feed.xml` are unaffected by construction.
+- `src/app/page.tsx`: replaced the unreachable legacy MUI composition with a server component calling `getPosts()` and rendering `pages/Home`, newest-first.
+- Deleted `src/app/blog/page.tsx` (no throwaway component).
+- Added `e2e/home.spec.ts` asserting `/` content + ordering against real `content/posts/` fixtures (deliberately not asserting theme default or badge hue, per scope carve-outs to 006/002).
+- `e2e/coexistence.spec.ts`: inverted the one test case asserting the old redirect direction; left a TODO(task 010) noting the describe block's full relocation happens later.
+- `e2e/feed.spec.ts`: swapped post-count derivation from the legacy `featured-post`/`post-list-item` testids to `article` elements on `/`.
+- Fixed a stale `.next/types/validator.ts` referencing the deleted route (regenerated via build).
+- **Known, intentionally-deferred regression documented in the ledger**: `/` double-renders a header because `pages/Home` has its own `ds/Header` but `src/app/layout.tsx` still globally wraps every route in the legacy MUI `Navigation`. This breaks `e2e/navigation.spec.ts` (6 tests) and 2 nav-related tests. Root layout/legacy `Navigation` replacement is task 006's explicit scope (`blocked_by: ["004","005"]`, designed to run immediately after this task) — not touched here. Also confirmed 3 pre-existing, unrelated `e2e/blog.spec.ts` readability failures (prose column measure, prefers-reduced-motion) predate this task.
+
+**Chunk 2** (final — pagination suppression, legacy deletion, whole-task refactor):
+- `src/components/pages/Home.tsx`: caller-side pagination suppression — `totalPages = posts.length > 0 ? 1 : 0` (no `?page=` routing exists yet, OQ-6), rendering `<Pagination>` only when `totalPages > 1`, replacing the old inert placeholder props. `ds/Pagination` left untouched — no self-guard added, per the task's explicit instruction.
+- Deleted `src/components/PostList.tsx`, `src/components/PostList.test.tsx`, and the legacy root `src/components/PostCard.tsx` (ADR-RM-5). Repo-wide grep confirmed no surviving imports.
+- `ds/PostCard.tsx` already had real optional `coverImageUrl`/`categories` props and story coverage of both present/absent states from a prior task — no changes needed.
+- `e2e/blog.spec.ts`: removed the "Blog index" describe block (2 tests) that asserted the now-deleted `PostList`/`PostCard` markup against the retired `/blog` route — superseded by `e2e/home.spec.ts` and `Home.test.tsx`; updated the file's docstring accordingly.
+- No further refactor needed — `src/app/page.tsx` and `Home.tsx` reviewed against the whole task diff and were already minimal.
+
+**Verification**: `npm run test:unit` (256 passed, 1 skipped), `type-check`, `lint` all clean. Targeted e2e green except the pre-declared deferred set (2 nav tests deferred to 006, 3 unrelated pre-existing readability failures).

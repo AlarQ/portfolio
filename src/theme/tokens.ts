@@ -268,6 +268,16 @@ export const dimensionPrimitives = {
   spaceNavGap: "14px",
   spaceNavActive: "5px",
   spaceMastheadTop: "50px",
+  /**
+   * Task 005 (typography-measure-constrained): the Post body prose column's
+   * measure, in `ch` (character-count-relative), not `px` — a reading-measure
+   * constraint scales with the resolved font rather than pinning an arbitrary
+   * pixel width. Applied directly to `ArticleProse`'s `<article>` so the
+   * rendered element's own `max-width` is the literal 64ch contract the e2e
+   * suite measures against, replacing the previous ad-hoc `max-w-3xl` (64rem)
+   * wrapper approximation.
+   */
+  proseMeasure: "64ch",
 } as const;
 
 type DimensionPrimitiveName = keyof typeof dimensionPrimitives;
@@ -288,4 +298,5 @@ export const semanticDimensions = {
   "--spacing-nav-gap": "spaceNavGap",
   "--spacing-nav-active": "spaceNavActive",
   "--spacing-masthead-top": "spaceMastheadTop",
+  "--container-prose-measure": "proseMeasure",
 } as const satisfies Record<string, DimensionPrimitiveName>;

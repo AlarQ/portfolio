@@ -1,7 +1,7 @@
 ---
 id: "006"
 name: Replace layout chrome + wire theme toggle
-status: blocked
+status: todo
 blocked_by: ["004", "005"]
 max_files: 17
 ground_rules:

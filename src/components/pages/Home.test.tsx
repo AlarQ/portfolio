@@ -26,4 +26,42 @@ describe("Home", () => {
 
     unmount();
   });
+
+  it("omits Pagination when the Post set fits on one page", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Home posts={samplePosts} navItems={sampleNavItems} />
+    );
+
+    expect(container.querySelector("nav[aria-label='Pagination']")).toBeNull();
+
+    unmount();
+  });
+
+  it("renders each PostCard's real per-Post cover + category badges, and omits both when absent", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Home posts={samplePosts} navItems={sampleNavItems} />
+    );
+
+    // samplePosts[0] carries a real coverImage + categories — its cover image
+    // and vocabulary badges must render.
+    const withCoverAndCategories = samplePosts[0];
+    expect(withCoverAndCategories.coverImage).toBeDefined();
+    expect(withCoverAndCategories.categories?.length).toBeGreaterThan(0);
+    const images = Array.from(container.querySelectorAll("img"));
+    expect(images.some((img) => img.getAttribute("src")?.includes("profile"))).toBe(true);
+    for (const category of withCoverAndCategories.categories ?? []) {
+      expect(container.textContent).toContain(category);
+    }
+
+    // Every other sample Post has no coverImage/categories — no card should
+    // render more cover images or badges than the one Post that has them.
+    const withoutCoverOrCategories = samplePosts.slice(1);
+    for (const post of withoutCoverOrCategories) {
+      expect(post.coverImage).toBeUndefined();
+      expect(post.categories).toBeUndefined();
+    }
+    expect(images).toHaveLength(1);
+
+    unmount();
+  });
 });

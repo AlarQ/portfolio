@@ -14,13 +14,11 @@ test.describe("RSS feed", () => {
     request,
   }) => {
     // The Post index gives us the expected item count independent of the feed
-    // implementation itself. The list carves the set into one featured card plus
-    // the remaining tail (`PostList`/`splitFeatured`), so counting all Post cards
-    // — not just the featured slot — is the whole published set.
-    await page.goto("/blog");
-    const postCount = await page
-      .locator('[data-testid="featured-post"], [data-testid="post-list-item"]')
-      .count();
+    // implementation itself. `pages/Home` (served at `/` post-ADR-RM-4) renders
+    // exactly one `ds/PostCard` `<article>` per Post across its Recent/All
+    // sections, so counting articles is the whole published set.
+    await page.goto("/");
+    const postCount = await page.locator("article").count();
     expect(postCount).toBeGreaterThan(0);
 
     const response = await request.get("/feed.xml");

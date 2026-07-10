@@ -1,0 +1,25 @@
+gate: claude-md
+task_id: "005"
+status: findings
+findings:
+  - id: claude-md-1
+    severity: medium
+    category: storybook-contract
+    title: Home.stories.tsx not updated after Pagination visual-state change
+    description: >
+      CLAUDE.md's Component workflow section states "Changing a component's props/variants/visual states updates its story in the same commit. Stories are the component's contract; a stale story is a broken contract." This diff changes Home's rendering logic so `totalPages` is now `posts.length > 0 ? 1 : 0` — meaning `<Pagination>` can never render regardless of the data passed in (it only shows when `totalPages > 1`, which is now unreachable). The story file (src/components/pages/Home.stories.tsx) was not touched in this diff: its `Mobile` story docstring still claims to verify "pagination" reflow at the mobile breakpoint, but Pagination is now permanently absent from every story variant, including with `samplePosts` (multiple posts). The story's contract is now stale/misleading and no longer exercises the Pagination-present visual state at all.
+
+    file: src/components/pages/Home.stories.tsx
+    lines: "20-29"
+    fix_proposal: >
+      Update Home.stories.tsx in the same commit: either remove the "pagination" reflow claim from the Mobile story docstring (since Pagination is currently unreachable), or add a story/fixture demonstrating the Pagination-present state (e.g. by allowing totalPages to be data-driven, or documenting explicitly that Pagination is deferred to a future task per OQ-6) so the story accurately reflects Home's current visual states.
+
+    rationale: >
+      CLAUDE.md, "Component workflow — Storybook first": "Changing a component's props/variants/visual states updates its story in the same commit. Stories are the component's contract; a stale story is a broken contract."
+
+    impact: >
+      Reviewers/consumers relying on Storybook to understand Home's visual states will be misled into thinking Pagination reflow is verified there, when in fact the state is currently unreachable; the contract documented by the story no longer matches the component's real behavior.
+
+    confidence: medium
+    review_status: accepted
+    source: llm

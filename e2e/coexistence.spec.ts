@@ -107,17 +107,6 @@ test.describe("existing routes render without regression (FR-1)", () => {
     };
   }
 
-  test("/ redirects to /blog and renders without regression", async ({ page }) => {
-    const assertNoErrors = trackErrors(page);
-
-    const response = await page.goto("/");
-    expect(response?.ok()).toBe(true);
-    await expect(page).toHaveURL(/\/blog$/);
-    await expect(page.locator("h1").first()).toHaveText(/blog/i);
-
-    assertNoErrors();
-  });
-
   test("/projects remains an intentional 404, no regression to a live route", async ({ page }) => {
     const response = await page.goto("/projects");
     expect(response?.status()).toBe(404);

@@ -104,6 +104,7 @@
   --space-nav-gap: 14px;
   --space-nav-active: 5px;
   --space-masthead-top: 50px;
+  --prose-measure: 64ch;
 
   /* semantic dimension aliases → dimension primitives */
   --container-content: var(--content-measure);
@@ -114,6 +115,7 @@
   --spacing-nav-gap: var(--space-nav-gap);
   --spacing-nav-active: var(--space-nav-active);
   --spacing-masthead-top: var(--space-masthead-top);
+  --container-prose-measure: var(--prose-measure);
 }
 
 .dark {
@@ -167,4 +169,5 @@
   --spacing-nav-gap: var(--space-nav-gap);
   --spacing-nav-active: var(--space-nav-active);
   --spacing-masthead-top: var(--space-masthead-top);
+  --container-prose-measure: var(--prose-measure);
 }
