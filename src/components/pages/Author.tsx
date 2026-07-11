@@ -26,9 +26,9 @@ export interface AuthorProps {
  */
 export function Author({ posts, navItems, activeHref }: AuthorProps) {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex min-h-dvh flex-col gap-10">
       <Header items={navItems} activeHref={activeHref} />
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6 py-12">
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-6 py-12">
         <AuthorInfo name={ownerProfile.name} title={ownerProfile.title} fallback="EB" />
         <h2 className="text-xl font-semibold text-foreground">Posts</h2>
         <div className="grid gap-6">

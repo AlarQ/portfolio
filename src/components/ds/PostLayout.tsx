@@ -57,9 +57,9 @@ export function PostLayout({
   navItems = defaultNavItems,
 }: PostLayoutProps) {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex min-h-dvh flex-col gap-10">
       <Header items={navItems} activeHref="/" />
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-6 py-12">
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-6 py-12">
         <AuthorInfo name="Ernest Bednarczyk" title="Author" fallback="EB" />
         <PageInfo formattedDate={post.formattedDate} readingTimeMinutes={post.readingTimeMinutes} />
         {toc && toc.length > 0 ? <TableOfContents entries={toc} /> : null}
