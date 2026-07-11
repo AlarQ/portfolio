@@ -72,3 +72,5 @@
 {"ts":"2026-07-11T09:37:42.000Z","category":"task_transition","task":"010","feature":"route-migration","data":{"from_status":"blocked","to_status":"todo","task_file":"specs/route-migration/tasks//010-final-legacy-sweep-deps-preflight-docs.md"}}
 {"ts":"2026-07-11T09:48:04.000Z","category":"task_transition","task":"010","feature":"route-migration","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/route-migration/tasks/010-final-legacy-sweep-deps-preflight-docs.md"}}
 {"ts":"2026-07-11T10:12:14.000Z","category":"task_transition","task":"010","feature":"route-migration","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/route-migration/tasks/010-final-legacy-sweep-deps-preflight-docs.md"}}
+{"ts":"2026-07-11T10:43:21.000Z","category":"task_transition","task":"010","feature":"route-migration","data":{"from_status":"implemented","to_status":"done","task_file":"specs/route-migration/tasks/010-final-legacy-sweep-deps-preflight-docs.md"}}
+{"ts":"2026-07-11T10:43:21.000Z","category":"spec_last_task_done","feature":"route-migration","data":{"tasks_dir":"specs/route-migration/tasks"}}

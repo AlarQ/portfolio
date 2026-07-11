@@ -1,8 +1,9 @@
 ---
 id: "010"
 name: Final legacy sweep — theme.ts, deps, preflight, docs
-status: implemented
+status: done
 blocked_by: ["001", "006", "007", "009"]
+task_base_sha: "2d9680a0d1e50ec6bef0234b577292b95d5a7fed"
 max_files: 16
 ground_rules:
   - security/deps-and-config.md
