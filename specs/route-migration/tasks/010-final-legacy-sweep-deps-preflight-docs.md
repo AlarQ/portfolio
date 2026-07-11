@@ -1,7 +1,7 @@
 ---
 id: "010"
 name: Final legacy sweep — theme.ts, deps, preflight, docs
-status: blocked
+status: todo
 blocked_by: ["001", "006", "007", "009"]
 max_files: 16
 ground_rules:
