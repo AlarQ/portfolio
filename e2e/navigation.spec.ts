@@ -56,32 +56,32 @@ test.describe("Navigation", () => {
       // (it slides via a `translate-x` transform rather than unmounting), so
       // its accessibility state — `aria-hidden` — is the source of truth, not
       // Playwright's `toBeVisible` (which ignores off-screen transforms).
-      await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "true");
+      await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "true");
     });
 
     test("should open and close drawer", async ({ page }) => {
       await page.goto("/blog");
 
       // Verify drawer is initially closed
-      await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "true");
+      await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "true");
 
       // Open drawer
       await page.click('button[aria-label="Open menu"]');
       // Wait for animation to complete
       await page.waitForTimeout(500);
-      await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "false");
+      await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "false");
 
       // Verify hamburger button changed to close button (aria-expanded state is
       // asserted in the Accessibility describe below). Scoped by aria-controls
       // since the drawer's own X button is also labeled "Close menu".
-      const closeButton = page.locator('button[aria-controls="header-mobile-menu"]');
+      const closeButton = page.locator('button[aria-controls="mobile-menu"]');
       await expect(closeButton).toHaveAttribute("aria-label", "Close menu");
 
       // Close drawer by pressing Escape (more reliable than clicking covered button)
       await page.keyboard.press("Escape");
       // Wait for animation to complete
       await page.waitForTimeout(500);
-      await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "true");
+      await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "true");
     });
 
     test("should navigate from drawer", async ({ page }) => {
@@ -92,16 +92,16 @@ test.describe("Navigation", () => {
 
       // Open drawer
       await page.click('button[aria-label="Open menu"]');
-      await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "false");
+      await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "false");
 
       // Click the Blog link in the drawer — the IA was inverted, so the Blog
       // nav item now points at the site root "/" (see src/data/navItems.ts).
-      await page.click('#header-mobile-menu a[href="/"]');
+      await page.click('#mobile-menu a[href="/"]');
 
       // Verify real navigation off the detail route to the blog index at "/",
       // and that the drawer closed.
       await expect(page).toHaveURL(/\/$/);
-      await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "true");
+      await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "true");
     });
 
     // FR-6 (scenario author-nav-link): the same navItems.ts entry surfaces the
@@ -111,9 +111,9 @@ test.describe("Navigation", () => {
       await page.goto("/");
 
       await page.click('button[aria-label="Open menu"]');
-      await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "false");
+      await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "false");
 
-      await expect(page.locator('#header-mobile-menu a[href="/author"]')).toBeVisible();
+      await expect(page.locator('#mobile-menu a[href="/author"]')).toBeVisible();
     });
 
     test("should close drawer on backdrop click", async ({ page }) => {
@@ -122,14 +122,14 @@ test.describe("Navigation", () => {
       // Open drawer
       await page.click('button[aria-label="Open menu"]');
       await page.waitForTimeout(500);
-      await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "false");
+      await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "false");
 
       // Click backdrop (area outside drawer) - using fixed position backdrop
       await page.mouse.click(50, 300);
       await page.waitForTimeout(500);
 
       // Verify drawer closed
-      await expect(page.locator("#header-mobile-menu")).toHaveAttribute("aria-hidden", "true");
+      await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "true");
     });
 
     // Escape-to-close is covered by "should open and close drawer" above.
@@ -147,7 +147,7 @@ test.describe("Navigation", () => {
       await page.waitForTimeout(200);
 
       // Verify first link is focused
-      await expect(page.locator('#header-mobile-menu a[href="/"]')).toBeFocused();
+      await expect(page.locator('#mobile-menu a[href="/"]')).toBeFocused();
     });
   });
 
@@ -160,7 +160,7 @@ test.describe("Navigation", () => {
 
       // Check initial state
       await expect(hamburger).toHaveAttribute("aria-expanded", "false");
-      await expect(hamburger).toHaveAttribute("aria-controls", "header-mobile-menu");
+      await expect(hamburger).toHaveAttribute("aria-controls", "mobile-menu");
 
       // Open drawer
       await hamburger.click();
@@ -168,7 +168,7 @@ test.describe("Navigation", () => {
       // Check expanded state. Scoped by aria-controls since the drawer's own
       // X button is also labeled "Close menu" (button[aria-label="Close menu"]
       // alone matches both and violates Playwright's strict mode).
-      const closeButton = page.locator('button[aria-controls="header-mobile-menu"]');
+      const closeButton = page.locator('button[aria-controls="mobile-menu"]');
       await expect(closeButton).toHaveAttribute("aria-label", "Close menu");
       await expect(closeButton).toHaveAttribute("aria-expanded", "true");
     });

@@ -84,7 +84,7 @@ test.describe("Blog navigation", () => {
     // Nav consolidation (task 005, e2e-test-1): the legacy MUI drawer
     // (`#mobile-menu`) is retired — `ds/Header`'s `HeaderMobileMenu` is now the
     // sole mobile drawer, with the real Blog destination `/` (ADR-RM-4).
-    await expect(page.locator('#header-mobile-menu a[href="/"]')).toBeVisible();
+    await expect(page.locator('#mobile-menu a[href="/"]')).toBeVisible();
   });
 
   // nav-active-on-detail (FR-7): active on /blog and on /blog/[slug]

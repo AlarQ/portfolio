@@ -74,3 +74,6 @@
 {"ts":"2026-07-11T10:12:14.000Z","category":"task_transition","task":"010","feature":"route-migration","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/route-migration/tasks/010-final-legacy-sweep-deps-preflight-docs.md"}}
 {"ts":"2026-07-11T10:43:21.000Z","category":"task_transition","task":"010","feature":"route-migration","data":{"from_status":"implemented","to_status":"done","task_file":"specs/route-migration/tasks/010-final-legacy-sweep-deps-preflight-docs.md"}}
 {"ts":"2026-07-11T10:43:21.000Z","category":"spec_last_task_done","feature":"route-migration","data":{"tasks_dir":"specs/route-migration/tasks"}}
+{"ts":"2026-07-11T10:50:14.000Z","category":"spec_audit_start","feature":"route-migration","data":{}}
+{"ts":"2026-07-11T10:56:45.000Z","category":"spec_audit_done","feature":"route-migration","data":{"verdict":"reopen","report":"/Users/ernestbednarczyk/Desktop/projects/portfolio/specs/route-migration/reports/spec-audit-2026-07-11T10-56-45Z.md"}}
+{"ts":"2026-07-11T10:56:45.000Z","category":"spec_reopened","feature":"route-migration","data":{}}
