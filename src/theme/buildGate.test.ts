@@ -4,8 +4,9 @@ import { describe, expect, it } from "vitest";
 /**
  * FR-1 (`build_succeeds_and_existing_routes_render_unchanged`), build-gate
  * half. The visual-unchanged half of this behavior is already covered by
- * `e2e/coexistence.spec.ts`'s "existing routes render without regression"
- * suite, which runs against a real dev server — this test only needs to
+ * `e2e/blog.spec.ts`'s "existing routes render without regression" (route-
+ * regression sweep) suite, which runs against a real dev server — this test
+ * only needs to
  * prove the *production* build (`next build`, the actual SSG path routes
  * ship through) still exits 0 with the coexistence tooling in place. Skipped
  * outside CI by default (a full `next build` is too slow to run on every

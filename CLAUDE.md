@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Personal portfolio site. Next.js 16 (App Router, SSG) + React 19 + MUI 7, TypeScript strict. Content is self-authored static data — there is **no CMS, no database, no external input**.
+Personal portfolio site. Next.js 16 (App Router, SSG) + React 19 + Tailwind/shadcn, TypeScript strict. Content is self-authored static data — there is **no CMS, no database, no external input**.
 
 There **is** a **Blog** of **Posts**: long-form prose authored as MDX files under `content/posts/`, rendered statically at build time (see [ADR-0001](docs/adr/0001-mdx-for-blog-posts.md) and the **Post**/**Blog** glossary in `CONTEXT.md`). Routes are `/`, `/projects`, `/blog`, and `/blog/[slug]`. The `README.md` is stale (it predates the real build and may describe a different model) — trust `CONTEXT.md`, the ADRs, and the code, not the README.
 
@@ -43,7 +43,7 @@ src/data/*.ts          domain data + types — NO JSX, NO colors-as-literals, NO
    ↓
 src/utils/*Presentation.tsx   "presentation seam" — resolves data → icons/colors/JSX
    ↓
-src/components/*.tsx    MUI components — consume presentation output, never reach past it
+src/components/*.tsx    components — consume presentation output, never reach past it
 ```
 
 Rules that keep this honest:
@@ -52,16 +52,14 @@ Rules that keep this honest:
 
 `src/theme/tokens.ts` is the token source of truth for the shadcn/`ui`-`ds`-`pages` surface, two layers:
 
-- **Primitives** (`primitives`, `dimensionPrimitives`) — raw values (hex, px). `primitives` is the only file besides legacy `theme.ts` where hex literals live.
+- **Primitives** (`primitives`, `dimensionPrimitives`) — raw values (hex, px). `primitives` is the only file where hex literals live.
 - **Semantic aliases** (`semanticLight`/`semanticDark`, `semanticDimensions`) — each alias resolves to a primitive NAME, never an inline value; `satisfies Record<string, PrimitiveName>` makes an unbacked alias a **compile error**, not a runtime gap. Dimension tokens follow the identical pattern for spacing/radius/container sizes.
 
 Components bind **only** the semantic layer via Tailwind utilities (`bg-background`, `max-w-content`, `rounded-pill`, …) — never hex/rgb/hsl/oklch literals, never `primitives`/`dimensionPrimitives` imports, never Tailwind arbitrary-value colors (`bg-[#...]`). All lint-enforced by `grit/no-direct-palette-import.grit` via `npm run lint` (arbitrary non-color values like `w-[80%]` or `text-[clamp(...)]` are unrestricted).
 
 `tokens.css` is `@generated` by `npm run generate:tokens` — **never hand-edit it**; change `tokens.ts` and regenerate. A freshness test in `tokens.test.ts` fails pre-push if the committed CSS has drifted from the source maps.
 
-Coexistence: the legacy `brand` seam in `theme.ts` remains the single brand-color seam for the un-migrated MUI surface (+ its shiki mirror, guarded by `shikiVars.test.ts`). New `ui/`/`ds/`/`pages/` components use the semantic token layer, not `brand`.
-
-- **Presentation seams own all icon/color resolution.** E.g. `skillPresentation.tsx` maps an `IconKey` → a concrete MUI icon via an exhaustive `Record<IconKey, ...>`. A missing entry is a **compile error**, not a runtime gap. Components ask the seam, never the icon registry directly.
+- **Presentation seams own all icon/color resolution.** E.g. `skillPresentation.tsx` maps an `IconKey` → a concrete icon via an exhaustive `Record<IconKey, ...>`. A missing entry is a **compile error**, not a runtime gap. Components ask the seam, never the icon registry directly.
 - **`src/data/domains.ts` is the home of the Domain Area concept.** A Domain Area is evidenced by Achievements and rated by Skills (two views, one area — see `CONTEXT.md`). Adding/renaming an area is one edit here — no parallel arrays, no new props threaded through `page.tsx`. Avoid reintroducing parallel `leadershipX`/`technicalX` arrays at the call site.
 
 When adding a domain concept, follow this layering: type+data in `src/data/`, any icon/color/JSX resolution in a `*Presentation` seam, rendering in a component. Don't put hex or JSX in data modules; don't resolve icons inside components.
@@ -83,7 +81,6 @@ Rules that keep this honest:
 - **Stories stay page-agnostic.** No app-route imports, no Next.js router dependencies inside `ui/`/`ds/` stories; needed data comes from local fixtures (see `src/components/storybook-fixtures/`).
 - **Page-level stories** (`src/components/pages/*.stories.tsx`) compose already-storied components — they are integration views, not the place to first exercise a new component.
 - Follow the existing taxonomy: `Atoms/…` (`ui/` primitives), `Molecules/…` and `Organisms/…` (`ds/` composites), `Pages/…` (full pages), `Internal/…` (Storybook-only fixtures). Don't invent new top-level categories.
-- Legacy components at the root of `src/components/` (pre-replatform MUI) are exempt until migrated; when one moves into `ui/`/`ds/`, it enters the regime and needs a story.
 
 ## Notes
 

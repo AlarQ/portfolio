@@ -39,9 +39,7 @@ if (!window.matchMedia) {
 
 /**
  * FR-9 acceptance #1: `next-themes` mounts the `class` strategy on `<html>`,
- * default light, fully decoupled from the MUI ThemeProvider/CssBaseline
- * (mirrors the Tailwind/MUI coexistence pattern — see coexistence.test.ts).
- * Mounts via `react-dom/client` directly (project convention, see
+ * default light. Mounts via `react-dom/client` directly (project convention, see
  * `src/components/ds/testUtils.tsx`) rather than pulling in
  * `@testing-library/react`, which is not a project dependency.
  */
