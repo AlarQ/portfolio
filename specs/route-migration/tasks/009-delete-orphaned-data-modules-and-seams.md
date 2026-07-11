@@ -1,7 +1,7 @@
 ---
 id: "009"
 name: Delete orphaned data modules + presentation seams
-status: implemented
+status: done
 blocked_by: ["008"]
 max_files: 14
 ground_rules:

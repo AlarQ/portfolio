@@ -1,0 +1,4 @@
+gate: type-check
+task_id: "009"
+status: pass
+findings: []

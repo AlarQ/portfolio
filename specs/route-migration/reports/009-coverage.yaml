@@ -1,0 +1,12 @@
+gate: coverage
+task_id: 009
+status: findings
+findings:
+  - id: coverage-1
+    severity: medium
+    category: coverage
+    title: "3. theme.ts/brand consumer count strictly decreased; remaining consumers are only theme/-internal files awaiting 010"
+    description: "Acceptance point not fully covered by the task diff (status: partial)."
+    review_status: accepted
+    source: llm
+    auto_accepted: true
