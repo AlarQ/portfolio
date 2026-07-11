@@ -1,5 +1,5 @@
-import { globSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { readdirSync, readFileSync } from "node:fs";
+import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 
 /**
@@ -20,9 +20,19 @@ const ALLOWED_BRAND_CONSUMERS = [
 
 const BRAND_IMPORT_PATTERN = /import\s*\{[^}]*\bbrand\b[^}]*\}\s*from\s*["']@\/theme\/theme["']/;
 
+function listSourceFiles(dir: string): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const fullPath = join(dir, entry.name);
+    if (entry.isDirectory()) return listSourceFiles(fullPath);
+    if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) return [fullPath];
+    return [];
+  });
+}
+
 function findBrandConsumers(repoRoot: string): string[] {
-  const files = globSync("src/**/*.{ts,tsx}", { cwd: repoRoot });
+  const files = listSourceFiles(join(repoRoot, "src"));
   return files
+    .map((absolutePath) => relative(repoRoot, absolutePath))
     .filter((relativePath) => relativePath !== "src/theme/theme.ts")
     .filter((relativePath) => {
       const contents = readFileSync(join(repoRoot, relativePath), "utf-8");
