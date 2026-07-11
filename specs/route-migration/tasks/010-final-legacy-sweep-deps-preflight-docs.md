@@ -37,6 +37,7 @@ estimated_files:
   - CONTEXT.md
 interaction: afk
 implementer: generalist
+pr_url: https://github.com/AlarQ/portfolio/pull/77
 ---
 
 ## Objective
