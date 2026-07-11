@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import type { Post } from "@/data/posts";
@@ -40,12 +39,9 @@ export function ArticleProse({ post, children, coverImageUrl, coverImageAlt }: A
   const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
-    <motion.article
-      className="flex max-w-prose-measure flex-col gap-8"
+    <article
+      className="flex max-w-prose-measure flex-col gap-8 animate-article-entrance data-[reduced-motion=true]:animate-none"
       data-reduced-motion={String(prefersReducedMotion)}
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
     >
       <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
         {post.title}
@@ -58,6 +54,6 @@ export function ArticleProse({ post, children, coverImageUrl, coverImageAlt }: A
       <div className="flex flex-col gap-6 text-lg leading-relaxed text-muted-foreground [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:text-foreground [&>figure]:flex [&>figure]:flex-col [&>figure]:gap-2 [&_figcaption]:text-sm [&_figcaption]:text-muted-foreground [&_img]:w-full [&_img]:rounded-2xl">
         {children}
       </div>
-    </motion.article>
+    </article>
   );
 }

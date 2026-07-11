@@ -6,10 +6,9 @@ import { primitives } from "./tokens";
 
 /**
  * Enforcement test for the shiki palette's re-homed source of truth (FR-8,
- * ADR-RM-3). `--shiki-*` is now emitted by `tokens.css` from ungrouped
- * `tokens.ts` primitives — no longer from `theme.ts` `brand`/`shikiVars`. This
- * guards D-9 (repoint, don't delete): `theme.ts` is still present during the
- * overlap window, but is no longer the shiki source.
+ * ADR-RM-3). `--shiki-*` is emitted by `tokens.css` from ungrouped
+ * `tokens.ts` primitives — never from `theme.ts` `brand`/`shikiVars`, which is
+ * now deleted (task 010, shiki-gate-green: Given theme.ts is DELETED).
  */
 
 const SHIKI_PRIMITIVE_NAMES = [
@@ -34,9 +33,9 @@ function readShikiVarsFromTokensCss(): Record<string, string> {
   return declarations;
 }
 
-describe("shikivars_test_passes_against_tokens_source_with_theme_ts_still_present", () => {
-  it("theme.ts still exists (overlap window, not yet deleted)", () => {
-    expect(existsSync(join(process.cwd(), "src", "theme", "theme.ts"))).toBe(true);
+describe("shikivars_gate_green_with_theme_ts_absent", () => {
+  it("theme.ts is deleted (final sweep, task 010)", () => {
+    expect(existsSync(join(process.cwd(), "src", "theme", "theme.ts"))).toBe(false);
   });
 
   it("defines the full shiki primitive set in tokens.ts", () => {

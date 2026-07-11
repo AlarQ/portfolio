@@ -12,11 +12,11 @@ import {
 import { Anchor, heading, InlineCode, Paragraph } from "./mdxPresentationText";
 
 /**
- * The single MDX → MUI presentation seam (FR-6). Every Post-body element is
- * re-rendered through an MUI component styled from `brand` tokens, so an `.mdx`
+ * The single MDX → presentation seam (FR-6). Every Post-body element is
+ * re-rendered through a component styled from semantic tokens, so an `.mdx`
  * file never carries a raw hue or styling literal — visual treatment lives only
  * here. Code-block surfaces inherit the build-time `--shiki-*` palette (also
- * brand-sourced, ADR-0001); this seam owns everything around them.
+ * token-sourced, ADR-0001); this seam owns everything around them.
  *
  * Security (FR-5, sec-external-link-rel): external anchors are hardened with
  * `rel="noopener noreferrer"` at the `a` mapping below. Active-content elements

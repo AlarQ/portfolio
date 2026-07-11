@@ -1,23 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Orbitron } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import { getSiteUrl } from "@/data/siteConfig";
 import { ThemeProvider } from "@/theme/ThemeProvider";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 /**
@@ -45,9 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${inter.variable}`}
-      >
+      <body className={`${geistMono.variable} ${inter.variable}`}>
         {/* No global nav mount here (task 005, e2e-test-1): each top-level
             page (`pages/Home`, `ds/PostLayout`) renders its own `ds/Header` so
             there is exactly one primary nav per page — mounting a second one

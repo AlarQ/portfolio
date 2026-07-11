@@ -43,9 +43,7 @@ interface PostPartition {
  * Split the newest-first Post set disjointly into the "Recent blog posts"
  * featured cluster (first {@link RECENT_COUNT}) and the "All blog posts" grid
  * (the remainder), so every Post renders in exactly one section — keeping the
- * structural invariant `article count === posts.length`. Mirrors the intent of
- * `splitFeatured` in the MUI `PostList`, kept local to this Tailwind `ds/`
- * stack rather than importing across the two component families.
+ * structural invariant `article count === posts.length`.
  */
 function partitionPosts(posts: readonly Post[]): PostPartition {
   return { recent: posts.slice(0, RECENT_COUNT), all: posts.slice(RECENT_COUNT) };

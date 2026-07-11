@@ -16,6 +16,54 @@ import { expect, test } from "@playwright/test";
  * Scenarios: nav-blog-present, nav-active-on-detail.
  */
 
+/**
+ * Salvaged route-regression block (task 010, ADR-RM-5). Relocated from
+ * `e2e/coexistence.spec.ts` (deleted same commit) — its MUI/Tailwind
+ * cascade-layer assertions are gone with MUI, but the no-console/page-error
+ * regression sweep across the live IA survives, restated for the post-
+ * migration routes (`/`, `/blog` redirect, `/blog/[slug]`, `/author`,
+ * `/projects` 404). `/` and `/blog` redirect coverage already lives in
+ * `e2e/home.spec.ts` — not duplicated here.
+ */
+test.describe("existing routes render without regression (route-regression sweep)", () => {
+  function trackErrors(page: import("@playwright/test").Page) {
+    const consoleErrors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") consoleErrors.push(msg.text());
+    });
+    const pageErrors: string[] = [];
+    page.on("pageerror", (err) => pageErrors.push(err.message));
+    return () => {
+      expect(pageErrors).toEqual([]);
+      expect(consoleErrors).toEqual([]);
+    };
+  }
+
+  test("/projects remains an intentional 404, no regression to a live route", async ({ page }) => {
+    const response = await page.goto("/projects");
+    expect(response?.status()).toBe(404);
+  });
+
+  test("/blog/[slug] (real slug) renders without console/page errors", async ({ page }) => {
+    const assertNoErrors = trackErrors(page);
+
+    const response = await page.goto("/blog/my-spec-driven-workflow");
+    expect(response?.ok()).toBe(true);
+    await expect(page.locator("h1").first()).toHaveText(/bounded chaos/i);
+
+    assertNoErrors();
+  });
+
+  test("/author renders without console/page errors", async ({ page }) => {
+    const assertNoErrors = trackErrors(page);
+
+    const response = await page.goto("/author");
+    expect(response?.ok()).toBe(true);
+
+    assertNoErrors();
+  });
+});
+
 test.describe("Blog navigation", () => {
   // nav-blog-present (FR-7): Blog appears in the desktop nav
   test("shows a Blog entry in the desktop nav", async ({ page }) => {

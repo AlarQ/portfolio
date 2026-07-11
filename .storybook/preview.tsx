@@ -1,7 +1,6 @@
 import type { Decorator, Preview } from "@storybook/nextjs";
 import { Inter } from "next/font/google";
 import { useEffect } from "react";
-import { brand } from "../src/theme/theme";
 import "../src/app/globals.css";
 
 /**
@@ -115,7 +114,7 @@ const preview: Preview = {
      */
     backgrounds: {
       default: "light",
-      values: [{ name: "light", value: brand.white }],
+      values: [{ name: "light", value: "var(--background)" }],
     },
     controls: {
       matchers: {
