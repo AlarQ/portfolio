@@ -1,10 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
+import type { PostAdjacency } from "@/data/postLoader";
+import type { TocEntry } from "@/data/postToc";
 import {
   samplePost,
   samplePostCategories,
   samplePostCoverImageUrl,
+  samplePosts,
 } from "@/stories/fixtures/posts";
 import { PostLayout } from "./PostLayout";
+
+const sampleToc: readonly TocEntry[] = [
+  { depth: 2, text: "Composing over re-implementing", id: "composing-over-re-implementing" },
+];
+
+const sampleAdjacency: PostAdjacency = {
+  prev: samplePosts[1],
+  next: samplePosts[2],
+};
 
 const meta: Meta<typeof PostLayout> = {
   title: "Organisms/PostLayout",
@@ -40,6 +52,19 @@ export const Default: Story = {
 export const WithoutHeroOrCategories: Story = {
   args: {
     post: samplePost,
+    children: sampleBody,
+  },
+};
+
+/** With a table of contents and prev/next adjacency — exercises both gated branches. */
+export const WithToCAndAdjacency: Story = {
+  args: {
+    post: samplePost,
+    coverImageUrl: samplePostCoverImageUrl,
+    coverImageAlt: "Hero image for the sample post",
+    categories: samplePostCategories,
+    toc: sampleToc,
+    adjacency: sampleAdjacency,
     children: sampleBody,
   },
 };

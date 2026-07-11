@@ -1,28 +1,13 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { brand } from "@/theme/theme";
-import { proseTextSx } from "./mdxPresentationText";
 
 export function Pre({ children, ...props }: ComponentPropsWithoutRef<"pre">) {
   // rehype-pretty-code already sets the --shiki-bg background + token colors on
   // the <pre>. This seam adds layout/overflow only: the block scrolls within
   // itself on narrow viewports, never introducing body-level scroll (FR-10).
   return (
-    <Box
-      component="pre"
-      sx={{
-        my: 3,
-        p: 2,
-        borderRadius: 2,
-        overflowX: "auto",
-        maxWidth: "100%",
-        border: `1px solid ${brand.borderSubtle}`,
-      }}
-      {...props}
-    >
+    <pre className="my-6 max-w-full overflow-x-auto rounded-lg border border-border p-4" {...props}>
       {children}
-    </Box>
+    </pre>
   );
 }
 
@@ -30,47 +15,49 @@ export function MdxImage({ alt, ...props }: ComponentPropsWithoutRef<"img">) {
   // The only images in a Post body today are pre-rendered Mermaid diagrams,
   // referenced by `<Diagram>` as static `/diagrams/*.svg` files (rendered at
   // commit time, not during `next build`). This seam owns their layout:
-  // centered, scaled to the column, brand-framed. `alt` is kept so the diagram
+  // centered, scaled to the column, token-framed. `alt` is kept so the diagram
   // stays accessible.
   return (
-    <Box
-      component="img"
+    // biome-ignore lint/performance/noImgElement: pre-rendered Mermaid SVG from the MDX body, not an app-rendered image
+    <img
       alt={alt ?? ""}
-      sx={{
-        display: "block",
-        mx: "auto",
-        my: 3,
-        maxWidth: "100%",
-        height: "auto",
-        p: 2,
-        borderRadius: 2,
-        border: `1px solid ${brand.borderSubtle}`,
-      }}
+      className="mx-auto my-6 block h-auto max-w-full rounded-lg border border-border p-4"
       {...props}
     />
   );
 }
 
+export function Blockquote({ children, ...props }: ComponentPropsWithoutRef<"blockquote">) {
+  return (
+    <blockquote
+      className="my-6 border-l-4 border-border pl-4 italic text-muted-foreground"
+      {...props}
+    >
+      {children}
+    </blockquote>
+  );
+}
+
 export function ListItem({ children, ...props }: { children?: ReactNode }) {
   return (
-    <Typography component="li" variant="body1" sx={{ ...proseTextSx, my: 0.5 }} {...props}>
+    <li className="my-1 text-lg leading-[1.7] text-muted-foreground" {...props}>
       {children}
-    </Typography>
+    </li>
   );
 }
 
 export function UnorderedList({ children, ...props }: { children?: ReactNode }) {
   return (
-    <Box component="ul" sx={{ pl: 3, my: 2, color: brand.slateLight }} {...props}>
+    <ul className="my-4 list-disc pl-6 text-muted-foreground" {...props}>
       {children}
-    </Box>
+    </ul>
   );
 }
 
 export function OrderedList({ children, ...props }: { children?: ReactNode }) {
   return (
-    <Box component="ol" sx={{ pl: 3, my: 2, color: brand.slateLight }} {...props}>
+    <ol className="my-4 list-decimal pl-6 text-muted-foreground" {...props}>
       {children}
-    </Box>
+    </ol>
   );
 }

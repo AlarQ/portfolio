@@ -29,18 +29,11 @@
     "release:patch": "commit-and-tag-version --release-as patch"
   },
   "dependencies": {
-    "@emotion/cache": "^11.14.0",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
-    "@mui/icons-material": "^7.3.7",
-    "@mui/material": "^7.3.7",
-    "@mui/material-nextjs": "^7.3.7",
     "@next/mdx": "^16.2.7",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
-    "framer-motion": "^12.34.0",
     "github-slugger": "2.0.0",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.2.0",

@@ -1,22 +1,30 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { brand, shikiVars } from "./theme";
+import { kebab } from "../../scripts/generate-tokens";
+import { primitives } from "./tokens";
 
 /**
- * Enforcement test for the *one source of color truth, two surfaces* invariant
- * (ADR-0001). The `--shiki-*` CSS vars in `globals.css` are the second surface of
- * the `brand` seam; this test locks each var's value to its source `brand` token
- * so a `brand` change that fails to propagate to the CSS var fails CI rather than
- * silently splitting the syntax-highlighting palette.
+ * Enforcement test for the shiki palette's re-homed source of truth (FR-8,
+ * ADR-RM-3). `--shiki-*` is emitted by `tokens.css` from ungrouped
+ * `tokens.ts` primitives — never from `theme.ts` `brand`/`shikiVars`, which is
+ * now deleted (task 010, shiki-gate-green: Given theme.ts is DELETED).
  */
 
-/** All declared brand hex/rgba values — the closed set a shiki var may resolve to. */
-const brandValues = new Set(Object.values(brand));
+const SHIKI_PRIMITIVE_NAMES = [
+  "shikiBg",
+  "shikiFg",
+  "shikiTokenComment",
+  "shikiTokenKeyword",
+  "shikiTokenString",
+  "shikiTokenConstant",
+  "shikiTokenFunction",
+  "shikiTokenVariable",
+] as const;
 
-/** Parse `--shiki-*: <value>;` declarations out of globals.css. */
-function readShikiVarsFromCss(): Record<string, string> {
-  const css = readFileSync(join(process.cwd(), "src", "app", "globals.css"), "utf-8");
+/** Parse `--shiki-*: <value>;` declarations out of the generated tokens.css. */
+function readShikiVarsFromTokensCss(): Record<string, string> {
+  const css = readFileSync(join(process.cwd(), "src", "theme", "tokens.css"), "utf-8");
   const declarations: Record<string, string> = {};
   const pattern = /(--shiki-[a-z0-9-]+)\s*:\s*([^;]+);/g;
   for (const match of css.matchAll(pattern)) {
@@ -25,45 +33,35 @@ function readShikiVarsFromCss(): Record<string, string> {
   return declarations;
 }
 
-describe("shikiVars seam (theme.ts)", () => {
-  it("every shiki var value is a brand token — no raw hue", () => {
-    for (const [name, value] of Object.entries(shikiVars)) {
-      expect(brandValues, `${name} must resolve to a brand token`).toContain(value);
+describe("shikivars_gate_green_with_theme_ts_absent", () => {
+  it("theme.ts is deleted (final sweep, task 010)", () => {
+    expect(existsSync(join(process.cwd(), "src", "theme", "theme.ts"))).toBe(false);
+  });
+
+  it("defines the full shiki primitive set in tokens.ts", () => {
+    for (const name of SHIKI_PRIMITIVE_NAMES) {
+      expect(Object.keys(primitives), `tokens.ts primitives must define ${name}`).toContain(name);
     }
   });
 
-  it("defines the full token palette a code block needs", () => {
-    const required = [
-      "--shiki-bg",
-      "--shiki-fg",
-      "--shiki-token-comment",
-      "--shiki-token-keyword",
-      "--shiki-token-string",
-      "--shiki-token-constant",
-      "--shiki-token-function",
-      "--shiki-token-variable",
-    ];
-    for (const name of required) {
-      expect(Object.keys(shikiVars), `shikiVars must define ${name}`).toContain(name);
-    }
-  });
-});
-
-describe("shiki-vars-match-brand (globals.css ↔ theme.ts)", () => {
-  const cssVars = readShikiVarsFromCss();
-
-  it("each --shiki-* declared in globals.css matches its source brand token", () => {
-    for (const [name, brandValue] of Object.entries(shikiVars)) {
-      expect(cssVars, `globals.css must declare ${name}`).toHaveProperty(name);
-      expect(cssVars[name], `${name} drifted from its brand source`).toBe(brandValue);
+  it("each --shiki-* var emitted by tokens.css equals its tokens.ts primitive source — not brand", () => {
+    const cssVars = readShikiVarsFromTokensCss();
+    for (const name of SHIKI_PRIMITIVE_NAMES) {
+      const cssVarName = `--${kebab(name)}`;
+      expect(cssVars, `tokens.css must declare ${cssVarName}`).toHaveProperty(cssVarName);
+      expect(cssVars[cssVarName], `${cssVarName} drifted from its tokens.ts primitive source`).toBe(
+        primitives[name as keyof typeof primitives]
+      );
     }
   });
 
-  it("globals.css declares no --shiki-* var that is absent from the theme seam", () => {
+  it("tokens.css declares no --shiki-* var absent from the tokens.ts primitive source", () => {
+    const cssVars = readShikiVarsFromTokensCss();
+    const expectedNames = new Set(SHIKI_PRIMITIVE_NAMES.map((name) => `--${kebab(name)}`));
     for (const name of Object.keys(cssVars)) {
       expect(
-        Object.keys(shikiVars),
-        `${name} in globals.css has no source in theme.ts shikiVars`
+        expectedNames,
+        `${name} in tokens.css has no source in tokens.ts primitives`
       ).toContain(name);
     }
   });

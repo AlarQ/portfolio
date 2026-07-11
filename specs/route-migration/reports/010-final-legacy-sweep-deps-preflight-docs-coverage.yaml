@@ -1,0 +1,4 @@
+gate: coverage
+task_id: 010-final-legacy-sweep-deps-preflight-docs
+status: pass
+findings: []

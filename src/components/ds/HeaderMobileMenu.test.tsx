@@ -19,7 +19,7 @@ function trigger(container: Element) {
 
 /** The drawer renders into a body portal, so it is queried off document. */
 function drawer() {
-  return document.getElementById("header-mobile-menu");
+  return document.getElementById("mobile-menu");
 }
 
 /**
@@ -39,7 +39,7 @@ describe("HeaderMobileMenu", () => {
 
     const button = trigger(container);
     expect(button.getAttribute("aria-expanded")).toBe("false");
-    expect(button.getAttribute("aria-controls")).toBe("header-mobile-menu");
+    expect(button.getAttribute("aria-controls")).toBe("mobile-menu");
     expect(drawerOpen()).toBe(false);
 
     click(button);

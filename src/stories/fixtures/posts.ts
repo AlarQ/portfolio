@@ -15,6 +15,8 @@ export const samplePost: Post = {
   readingTimeMinutes: 6,
   formattedDate: "May 12, 2026",
   published: true,
+  coverImage: "/images/profile.jpg",
+  categories: ["Leadership", "Management"],
 };
 
 export const samplePostCoverImageUrl = "/images/profile.jpg";

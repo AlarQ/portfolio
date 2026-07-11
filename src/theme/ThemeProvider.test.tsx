@@ -8,6 +8,22 @@ import { ThemeProvider } from "./ThemeProvider";
 
 // jsdom has no `matchMedia`; next-themes calls it (system-preference listener)
 // even with `enableSystem={false}`. Minimal polyfill, test-only.
+// jsdom in this project's vitest config has no localStorage backing
+// (`--localstorage-file` not provided); next-themes reads/writes it to
+// persist the choice across reloads. Minimal in-memory polyfill, test-only.
+if (!window.localStorage) {
+  const store = new Map<string, string>();
+  Object.defineProperty(window, "localStorage", {
+    value: {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => store.set(key, value),
+      removeItem: (key: string) => store.delete(key),
+      clear: () => store.clear(),
+    },
+    configurable: true,
+  });
+}
+
 if (!window.matchMedia) {
   window.matchMedia = ((query: string) => ({
     matches: false,
@@ -23,9 +39,7 @@ if (!window.matchMedia) {
 
 /**
  * FR-9 acceptance #1: `next-themes` mounts the `class` strategy on `<html>`,
- * default light, fully decoupled from the MUI ThemeProvider/CssBaseline
- * (mirrors the Tailwind/MUI coexistence pattern — see coexistence.test.ts).
- * Mounts via `react-dom/client` directly (project convention, see
+ * default light. Mounts via `react-dom/client` directly (project convention, see
  * `src/components/ds/testUtils.tsx`) rather than pulling in
  * `@testing-library/react`, which is not a project dependency.
  */
@@ -83,5 +97,26 @@ describe("ThemeProvider mounts next-themes on the html class (FR-9)", () => {
       button.click();
     });
     expect(document.documentElement.classList.contains("dark")).toBe(false);
+  });
+
+  /**
+   * FR-7 acceptance #3: a first-time visitor with no stored preference (no
+   * `theme` key in localStorage) sees light — `defaultTheme="light"` plus
+   * `enableSystem={false}` so an OS dark-mode preference never overrides it.
+   */
+  it("first_visit_renders_light", () => {
+    window.localStorage.removeItem("theme");
+
+    act(() => {
+      root.render(
+        <ThemeProvider>
+          <ThemeToggleProbe />
+        </ThemeProvider>
+      );
+    });
+
+    expect(document.documentElement.classList.contains("dark")).toBe(false);
+    const button = container.querySelector('[data-testid="toggle"]') as HTMLButtonElement;
+    expect(button.textContent).toBe("light");
   });
 });

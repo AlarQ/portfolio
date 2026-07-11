@@ -1,0 +1,34 @@
+gate: code-quality
+task_id: "001"
+status: findings
+findings:
+  - id: cq-001
+    severity: low
+    category: dry-violation
+    title: "kebab() helper duplicated a third time in shikiVars.test.ts"
+    description: >
+      shikiVars.test.ts introduces its own local `kebab()` function (camelCase → kebab-case CSS-var name) that is byte-for-byte identical to the one already defined in scripts/generate-tokens.ts (the canonical generator) and again inlined in src/theme/tokens.test.ts. This diff adds a third copy rather than importing/reusing an existing implementation.
+
+    file: src/theme/shikiVars.test.ts
+    lines: "36-41"
+    code_snippet: |
+      function kebab(key: string): string {
+        return key
+          .replace(/([a-z])([A-Z])/g, "$1-$2")
+          .replace(/([a-zA-Z])([0-9])/g, "$1-$2")
+          .toLowerCase();
+      }
+    fix_proposal: null
+    rationale: >
+      Three independent copies of the same transform (generate-tokens.ts, tokens.test.ts, shikiVars.test.ts) can drift silently since none of them import from a shared source; a future primitive-naming edge case fixed in one copy won't propagate to the others. Not flagged as a drop-in auto-fix because the generator's kebab() is not currently exported for test consumption — extracting/exporting it is a judgment call, not a mechanical swap.
+
+    impact: >
+      Low — test-only helper, ~6 lines, pre-existing project pattern (this is already the second duplicate before this diff). Worth consolidating into a shared test util if a fourth copy ever appears, but not urgent.
+
+    references:
+      - scripts/generate-tokens.ts
+      - src/theme/tokens.test.ts
+    confidence: medium
+    review_status: accepted
+    source: llm
+    rule_added: true

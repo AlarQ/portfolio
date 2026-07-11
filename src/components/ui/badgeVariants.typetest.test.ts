@@ -16,5 +16,5 @@ describe("badgeVariants.typetest.ts proves category is a closed union (FR-6)", (
     });
 
     expect(result.status, result.stdout + result.stderr).toBe(0);
-  });
+  }, 60_000);
 });

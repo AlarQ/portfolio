@@ -4,7 +4,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { describe, expect, it } from "vitest";
-import { heading, InlineCode, Paragraph, proseTextSx } from "./mdxPresentationText";
+import { heading, InlineCode, Paragraph } from "./mdxPresentationText";
 
 /**
  * Runs rehype-slug standalone to assert the library's id-slugging is deterministic.
@@ -66,29 +66,30 @@ describe("heading seam", () => {
   });
 });
 
-describe("prose rhythm and scale (task 005)", () => {
-  it("Paragraph renders at the 18px/1.7 reading spec (not the old 1.75) via the shared proseTextSx token", () => {
-    // Given the Paragraph seam, which consumes proseTextSx
+describe("prose rhythm and scale (route migration)", () => {
+  it("Paragraph binds the 18px/1.7 reading spec through semantic-token utilities, not an sx literal", () => {
+    // Given the Paragraph seam
     const element = Paragraph({ children: "Some prose" });
 
-    // Then its rendered sx reflects the 18px / 1.7 rhythm directly, not merely
-    // matching proseTextSx.fontSize/lineHeight back to themselves
-    const sx = element.props.sx as Record<string, unknown>;
-    expect(sx.fontSize).toBe("1.125rem");
-    expect(sx.lineHeight).toBe(1.7);
-    // And it does so by spreading the shared token rather than a per-component override
-    expect(sx.fontSize).toBe(proseTextSx.fontSize);
-    expect(sx.lineHeight).toBe(proseTextSx.lineHeight);
+    // Then it carries the reading scale as Tailwind token utilities: 18px body
+    // (`text-lg`), the pinned 1.7 rhythm, and the semantic muted-foreground hue.
+    const className = element.props.className as string;
+    expect(className).toContain("text-lg");
+    expect(className).toContain("leading-[1.7]");
+    expect(className).toContain("text-muted-foreground");
+
+    // And no MUI sx object — styling now flows through the token layer, not sx.
+    expect(element.props.sx).toBeUndefined();
   });
 
   it("InlineCode scales relative to the surrounding prose (em-based), not a fixed px value", () => {
     // Given an inline code element (not a highlighted block — no data-language)
     const element = InlineCode({ children: "const x" });
 
-    // Then its font-size is relative (em/rem), keeping code-in-text scale consistent
-    // with whatever prose size it sits inside — never a raw px literal.
-    const sx = element.props.sx as Record<string, unknown>;
-    expect(String(sx.fontSize)).toMatch(/(em|rem)$/);
+    // Then its font-size utility is em-based, keeping code-in-text scale
+    // consistent with whatever prose size it sits inside — never a raw px literal.
+    const className = element.props.className as string;
+    expect(className).toMatch(/text-\[[\d.]+em\]/);
   });
 });
 

@@ -1,0 +1,26 @@
+gate: coverage
+task_id: "005"
+status: findings
+findings:
+  - id: coverage-1
+    severity: high
+    category: acceptance-gap
+    title: "Acceptance #5 missing — Home never forwards real Post coverImage/categories"
+    description: >
+      Acceptance criterion 5 requires cards to render the real per-Post cover + vocabulary-hued Badges when present, and no cover/no badge row when absent. src/components/pages/Home.tsx hardcodes CARD_COVER = "/images/profile.jpg" (line 30) and a fixed CARD_CATEGORIES array (lines 31-34) and passes them identically to every PostCard (lines 88, 105-106), regardless of the real post.coverImage / post.categories values. The with/without distinction from real Posts is therefore never exercised end-to-end — the code comment itself states "wiring real ones is out of scope for this blog-first merge", directly contradicting the task's Approach ("swap ds/PostCard's hardcoded cover/category stand-ins for the real optional props") and Acceptance #5. ds/PostCard correctly no-renders cover/badges when props are absent (unit-tested with synthetic props), but no test in this diff (unit, Home.test.tsx, or e2e/home.spec.ts) asserts per-post cover/category presence or absence at the Home integration point.
+
+    file: src/components/pages/Home.tsx
+    lines: "30-34"
+    fix_proposal: >
+      Pass the real optional props through Home: replace `coverImageUrl={CARD_COVER}` / `categories={CARD_CATEGORIES}` with values derived from each `post` (e.g. `coverImageUrl={post.coverImage}` and categories mapped from `post.categories` to the vocabulary hue), remove the CARD_COVER / CARD_CATEGORIES stand-ins, and add an integration assertion (Home.test.tsx or e2e/home.spec.ts) covering one Post with and one without cover/categories.
+
+    rationale: >
+      Task Acceptance #5 and the task Approach both require wiring real optional PostCard props; the implementation substitutes fixed stand-ins instead, leaving the criterion unimplemented.
+
+    impact: >
+      The blog index shows the same placeholder cover and the same two badges on every card; real Post cover images and categories never appear, and Posts authored without them still get a spurious cover + badge row.
+
+    references: ["specs/route-migration/tasks/005-invert-ia-home-index-with-blog-redirect.md#Acceptance"]
+    confidence: high
+    review_status: accepted
+    source: llm

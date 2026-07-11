@@ -1,0 +1,4 @@
+gate: lint
+task_id: "007"
+status: pass
+findings: []
