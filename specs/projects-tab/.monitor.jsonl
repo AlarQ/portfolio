@@ -7,3 +7,4 @@
 {"ts":"2026-07-12T12:26:49.000Z","category":"task_transition","task":"001","feature":"projects-tab","data":{"from_status":"implemented","to_status":"review","task_file":"specs/projects-tab/tasks/001-project-data-model-and-slug-gate.md"}}
 {"ts":"2026-07-12T12:33:15.000Z","category":"task_transition","task":"001","feature":"projects-tab","data":{"from_status":"review","to_status":"done","task_file":"specs/projects-tab/tasks/001-project-data-model-and-slug-gate.md"}}
 {"ts":"2026-07-12T12:33:15.000Z","category":"task_transition","task":"005","feature":"projects-tab","data":{"from_status":"blocked","to_status":"todo","task_file":"specs/projects-tab/tasks//005-brief-route-and-orphan-handling.md"}}
+{"ts":"2026-07-12T13:01:21.000Z","category":"task_transition","task":"002","feature":"projects-tab","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/projects-tab/tasks/002-ui-atoms-and-meter-tokens.md"}}

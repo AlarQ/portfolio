@@ -1,7 +1,7 @@
 ---
 id: "002"
 name: Storybook-first status-dot, tab-pill, meter atoms with meter progress tokens
-status: todo
+status: in-progress
 blocked_by: []
 max_files: 11
 ground_rules:
