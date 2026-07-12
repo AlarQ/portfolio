@@ -12,3 +12,4 @@
 {"ts":"2026-07-12T13:32:30.000Z","category":"task_transition","task":"002","feature":"projects-tab","data":{"from_status":"implemented","to_status":"review","task_file":"specs/projects-tab/tasks/002-ui-atoms-and-meter-tokens.md"}}
 {"ts":"2026-07-12T14:37:05.000Z","category":"task_transition","task":"002","feature":"projects-tab","data":{"from_status":"review","to_status":"done","task_file":"specs/projects-tab/tasks/002-ui-atoms-and-meter-tokens.md"}}
 {"ts":"2026-07-12T14:37:05.000Z","category":"task_transition","task":"003","feature":"projects-tab","data":{"from_status":"blocked","to_status":"todo","task_file":"specs/projects-tab/tasks//003-presentation-seam-organisms-and-page.md"}}
+{"ts":"2026-07-12T16:05:31.000Z","category":"task_transition","task":"003","feature":"projects-tab","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/projects-tab/tasks/003-presentation-seam-organisms-and-page.md"}}
