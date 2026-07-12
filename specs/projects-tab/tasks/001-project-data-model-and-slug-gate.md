@@ -54,3 +54,16 @@ Introduce `src/data/projects.ts` (typed, JSX-free `Project` record + owner-order
 - `Project` is JSX/color/icon-free (seam pattern) — mirrors `domains.ts`. `TechKey` is a closed union; its Badge mapping is resolved in the seam (Task 003), not here.
 
 ## Implementation Log
+
+chunks_spawned: 2
+
+**Chunk 1** (behaviors 1-3 — typed Project record, invalid-slug skip+warn, traversal-slug never touches fs):
+Mirrored `buildPostSet`/`posts.ts` seam split, adapted for `projects.ts` being an in-code owner-curated array (no MDX frontmatter, no filesystem read). `buildProjectSet(candidates: readonly Project[]): Project[]` filters via an inline `^[a-z0-9-]+$` regex (not yet shared), `console.warn`s naming rejected slugs. No `fs` import in `projectLoader.ts`. `Project`/`TechKey`/`RelatedPostRef`/`Status` declared in `projects.ts` per spec's data model; `TechKey` is the closed 11-key union. Seeded `projects` array with one placeholder entry ("Portfolio Site").
+
+**Chunk 2** (behaviors 4-6, final — iteration order, TechKey compile-error, shared slug-regex constant + whole-task refactor):
+- Extracted `SLUG_PATTERN` to `src/data/slug.ts`; both `postLoader.ts` and `projectLoader.ts` now import it instead of each declaring their own regex — behavior stays byte-for-byte identical, all prior blog-loader tests unmodified and green.
+- `buildProjectSet` already used `Array.prototype.filter` (inherently order-preserving); added a dedicated test proving declaration order survives validation rather than changing the implementation.
+- `TechKey` closure asserted via `src/data/projects.typetest.ts`, mirroring the existing `badgeVariants.typetest.ts` convention (`@ts-expect-error` on an invalid literal, never imported at runtime); the existing `badgeVariants.typetest.test.ts` runner already invokes `tsc --noEmit` across the project so it transitively validates this new fixture — no new runner file needed.
+- Added `src/data/slug.test.ts` proving both loaders defer to the shared constant and reject the same invalid slugs.
+- Deviation: found and fixed a pre-existing regression in `src/security/mdxTrustSeam.test.ts` (FR-11 MDX trust-seam guard) — it asserted the literal `^[a-z0-9-]+$` string verbatim inside `postLoader.ts`'s source text. Since the regex moved to `slug.ts`, updated the guard to check `postLoader.ts` imports `SLUG_PATTERN`, and added a guard asserting the literal pattern lives in `slug.ts` — preserving the seam-integrity intent without reverting the extraction.
+- Final full suite: 252 tests green; type-check and lint clean.
