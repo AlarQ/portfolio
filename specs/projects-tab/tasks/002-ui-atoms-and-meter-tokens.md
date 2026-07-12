@@ -1,7 +1,7 @@
 ---
 id: "002"
 name: Storybook-first status-dot, tab-pill, meter atoms with meter progress tokens
-status: in-progress
+status: implemented
 blocked_by: []
 max_files: 11
 ground_rules:
@@ -58,3 +58,11 @@ Add three dumb `ui/` primitives (`status-dot`, `tab-pill`, `meter`) with sibling
 - Atoms stay dumb — no data, no seam, no ARIA tablist logic (that is Task 003's organism).
 
 ## Implementation Log
+
+chunks_spawned: 2
+
+- `StatusTone = "muted" | "info" | "success"` in `src/components/ui/statusDotVariants.ts` (cva, follows `badgeVariants.ts`'s exhaustive-array-drives-union precedent). Chose these 3 because spec.md's `Status` domain is `exploring | in-progress | shipped`; `exploring` resolves to `muted`, `in-progress`/`shipped` cover `info`/`success`. Actual `Status → StatusTone` mapping is deferred to Task 003's seam. Tones bind existing semantic tokens only (`bg-muted-foreground`, `bg-badge-sky-fg`, `bg-badge-green-fg`) — no new color tokens needed.
+- `tab-pill` is a plain `<span>` + local `cva`; `selected` prop toggles `bg-primary`/`bg-secondary`. No ARIA tablist/roving-tabIndex logic (reserved for Task 003's organism).
+- `meter` renders a `data-slot="meter-group"` wrapper containing a `<div role="progressbar">` track (switched from `role="meter"` after biome's `useSemanticElements` flagged it) with a `bg-primary` fill sized via `style={{width}}`, plus a `data-slot="meter-legend"` `<p>` rendering `"{clamped}% to first usable release"`. `className` prop applies to the group wrapper (not the track) to keep the atom's sizing API stable. Exported pure helper `clampMeterValue` (0–100 clamp) as an independently-testable seam, verified via `react-dom/server`'s `renderToStaticMarkup` (`@testing-library/react` is not installed in this repo).
+- Exactly two new semantic dimension tokens added to `tokens.ts`: primitives `meterTrackHeight: "8px"` / `spaceMeterLegendGap: "6px"`, semantic aliases `--spacing-meter-track` / `--spacing-meter-legend-gap` (both `satisfies Record<string, DimensionPrimitiveName>`), consumed in `meter.tsx` as `h-meter-track` / `mt-meter-legend-gap`. `tokens.css` regenerated via `npm run generate:tokens` (never hand-edited); `tokens.test.ts` freshness check passes.
+- `lint:stories` confirmed green for all three atoms. Full suite (type-check, lint, lint:stories, 273 unit tests) green throughout both chunks. Refactor pass found no duplication worth extracting across the three atoms — each is small and single-concern, consistent with `badgeVariants.ts`.
