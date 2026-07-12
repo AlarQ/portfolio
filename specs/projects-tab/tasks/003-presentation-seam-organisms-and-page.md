@@ -1,7 +1,7 @@
 ---
 id: "003"
 name: projectPresentation seam, ProjectTabStrip/ProjectSummary organisms, and pages/Projects
-status: blocked
+status: todo
 blocked_by: ["001", "002"]
 max_files: 12
 ground_rules:

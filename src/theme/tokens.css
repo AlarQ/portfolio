@@ -105,6 +105,8 @@
   --space-nav-active: 5px;
   --space-masthead-top: 50px;
   --prose-measure: 64ch;
+  --meter-track-height: 8px;
+  --space-meter-legend-gap: 6px;
 
   /* semantic dimension aliases → dimension primitives */
   --container-content: var(--content-measure);
@@ -116,6 +118,8 @@
   --spacing-nav-active: var(--space-nav-active);
   --spacing-masthead-top: var(--space-masthead-top);
   --container-prose-measure: var(--prose-measure);
+  --spacing-meter-track: var(--meter-track-height);
+  --spacing-meter-legend-gap: var(--space-meter-legend-gap);
 }
 
 .dark {
@@ -170,4 +174,6 @@
   --spacing-nav-active: var(--space-nav-active);
   --spacing-masthead-top: var(--space-masthead-top);
   --container-prose-measure: var(--prose-measure);
+  --spacing-meter-track: var(--meter-track-height);
+  --spacing-meter-legend-gap: var(--space-meter-legend-gap);
 }
