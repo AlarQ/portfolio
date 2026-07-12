@@ -24,6 +24,7 @@ estimated_files:
   - src/app/projects-prototype/page.tsx
 interaction: afk
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/82
 ---
 
 ## Objective
