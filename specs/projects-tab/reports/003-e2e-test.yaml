@@ -1,0 +1,4 @@
+gate: e2e-test
+task_id: "003"
+status: pass
+findings: []
