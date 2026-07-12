@@ -1,7 +1,7 @@
 ---
 id: "004"
 name: Wire /projects route, add nav item, and delete the prototype
-status: in-progress
+status: implemented
 blocked_by: ["003"]
 max_files: 8
 ground_rules:
