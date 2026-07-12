@@ -26,6 +26,7 @@ estimated_files:
   - src/data/postLoader.ts
 interaction: afk
 implementer: engineering/frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/79
 ---
 
 ## Objective
