@@ -1,0 +1,4 @@
+{"ts":"2026-07-11T19:33:45.000Z","category":"config_inferred","feature":"projects-tab","data":{"source":"inferencer"}}
+{"ts":"2026-07-11T19:33:45.000Z","category":"tier_inferred","feature":"projects-tab","data":{"tier":"medium"}}
+{"ts":"2026-07-11T19:36:16.000Z","category":"config_approved","feature":"projects-tab","data":{"config_path":"specs/projects-tab/config.yml"}}
+{"ts":"2026-07-11T19:36:16.000Z","category":"tier_approved","feature":"projects-tab","data":{"tier":"medium"}}

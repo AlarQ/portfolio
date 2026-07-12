@@ -9,8 +9,12 @@ A piece of work the owner built or is building, at any point in its lifecycle (s
 _Avoid_: Showcase, demo, portfolio piece
 
 **Project Brief**:
-The owner-authored, on-site description page for a single **Project** — public-facing documentation of what the Project is, rendered from MDX. Distinct from a **Post**: a Brief documents a Project; a Post is standalone blog writing. Each Project has exactly one Brief.
+The owner-authored, on-site description page for a single **Project** — public-facing documentation of what the Project is, rendered from MDX at `/projects/[slug]`. Distinct from a **Post**: a Brief documents a Project; a Post is standalone blog writing. Each Project has exactly one Brief. The Brief's long-form body lives in `content/projects/[slug].mdx`; its structured fields live in `src/data/projects.ts` (see [ADR-0002](docs/adr/0002-mdx-project-briefs.md)). Distinct from the **Project summary** below — the Brief is the deep page, the summary is the card.
 _Avoid_: Article, post, readme, showcase, case study
+
+**Project summary**:
+The compact card view of a **Project** shown inline on the `/projects` index (tab-strip layout): title, tagline, **Status**, **MVP Progress**, current state, **Tech stack**, and related-**Post** links. Rendered from the typed fields in `src/data/projects.ts` — it carries no long-form prose and no MDX. Selecting a pill swaps the summary client-side; a "Read full brief" link navigates to the Project's **Project Brief** (`/projects/[slug]`). Not a synonym for Brief — the summary is the index card, the Brief is the page.
+_Avoid_: Brief, card, tile, preview
 
 **MVP Progress**:
 A percentage expressing how close a **Project** is to its first usable release; a maturity indicator, not a binary shipped/unshipped flag.
