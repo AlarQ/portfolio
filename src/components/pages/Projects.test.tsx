@@ -68,4 +68,20 @@ describe("Projects page", () => {
 
     unmount();
   });
+
+  it("wires the active tab's aria-controls to a rendered tabpanel via matching id/aria-labelledby", () => {
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
+
+    const alphaTab = container.querySelector('[role="tab"][aria-selected="true"]') as HTMLElement;
+    expect(alphaTab).toBeTruthy();
+    const controlsId = alphaTab.getAttribute("aria-controls");
+    expect(controlsId).toBe("project-panel-alpha");
+
+    const panel = container.querySelector(`#${controlsId}`);
+    expect(panel).not.toBeNull();
+    expect(panel?.getAttribute("role")).toBe("tabpanel");
+    expect(panel?.getAttribute("aria-labelledby")).toBe(alphaTab.id);
+
+    unmount();
+  });
 });

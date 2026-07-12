@@ -35,6 +35,9 @@ export function Projects({ projects }: ProjectsProps) {
         <div
           key={selectedProject.slug}
           data-testid="project-summary-swap"
+          role="tabpanel"
+          id={`project-panel-${selectedProject.slug}`}
+          aria-labelledby={`project-tab-${selectedProject.slug}`}
           className="motion-safe:transition-opacity motion-safe:duration-200 motion-reduce:transition-none"
         >
           <ProjectSummary project={selectedProject} />
