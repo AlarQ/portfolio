@@ -1,7 +1,7 @@
 ---
 id: "002"
 name: Storybook-first status-dot, tab-pill, meter atoms with meter progress tokens
-status: implemented
+status: done
 blocked_by: []
 max_files: 11
 ground_rules:
@@ -67,3 +67,4 @@ chunks_spawned: 2
 - `meter` renders a `data-slot="meter-group"` wrapper containing a `<div role="progressbar">` track (switched from `role="meter"` after biome's `useSemanticElements` flagged it) with a `bg-primary` fill sized via `style={{width}}`, plus a `data-slot="meter-legend"` `<p>` rendering `"{clamped}% to first usable release"`. `className` prop applies to the group wrapper (not the track) to keep the atom's sizing API stable. Exported pure helper `clampMeterValue` (0–100 clamp) as an independently-testable seam, verified via `react-dom/server`'s `renderToStaticMarkup` (`@testing-library/react` is not installed in this repo).
 - Exactly two new semantic dimension tokens added to `tokens.ts`: primitives `meterTrackHeight: "8px"` / `spaceMeterLegendGap: "6px"`, semantic aliases `--spacing-meter-track` / `--spacing-meter-legend-gap` (both `satisfies Record<string, DimensionPrimitiveName>`), consumed in `meter.tsx` as `h-meter-track` / `mt-meter-legend-gap`. `tokens.css` regenerated via `npm run generate:tokens` (never hand-edited); `tokens.test.ts` freshness check passes.
 - `lint:stories` confirmed green for all three atoms. Full suite (type-check, lint, lint:stories, 273 unit tests) green throughout both chunks. Refactor pass found no duplication worth extracting across the three atoms — each is small and single-concern, consistent with `badgeVariants.ts`.
+- 2026-07-12 — status-dot a11y addon panel verification (coverage-1) ATTEMPTED in light and dark but BLOCKED — evidence NOT obtained. `@storybook/addon-a11y` (10.4.6) IS configured in `.storybook/main.ts` and installed. Storybook manager UI served (HTTP 200; sidebar, StatusDot/All Tones story, and Accessibility tab all rendered), but the story-preview iframe webpack bundle never finished compiling — stuck at `38% building` with a recurring `Unhandled Rejection: TypeError: Cannot read properties of undefined (reading 'length')`, reproduced across two fresh `npm run storybook` instances (Node v26.4.0; cf. MEMORY note on Node 26 toolchain hangs). `iframe.html?id=atoms-statusdot--all-tones` timed out (HTTP 000). Consequently the a11y panel stayed on "Preparing accessibility scan / Please wait while the addon is initializing…" in both themes and produced NO violation counts for tones muted/info/success. No clean result is being claimed — the panel could not be read. The coverage-1 finding remains accepted as unautomatable (no axe/testing-library dep in-repo); this manual check is documented as blocked pending a working Storybook preview build.
