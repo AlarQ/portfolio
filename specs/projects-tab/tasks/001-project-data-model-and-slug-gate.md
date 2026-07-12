@@ -1,7 +1,7 @@
 ---
 id: "001"
 name: Project data model with authoritative slug set and pure slug gate
-status: in-progress
+status: implemented
 blocked_by: []
 max_files: 6
 ground_rules:

@@ -3,3 +3,4 @@
 {"ts":"2026-07-11T19:36:16.000Z","category":"config_approved","feature":"projects-tab","data":{"config_path":"specs/projects-tab/config.yml"}}
 {"ts":"2026-07-11T19:36:16.000Z","category":"tier_approved","feature":"projects-tab","data":{"tier":"medium"}}
 {"ts":"2026-07-12T11:28:35.000Z","category":"task_transition","task":"001","feature":"projects-tab","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/projects-tab/tasks/001-project-data-model-and-slug-gate.md"}}
+{"ts":"2026-07-12T11:39:24.000Z","category":"task_transition","task":"001","feature":"projects-tab","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/projects-tab/tasks/001-project-data-model-and-slug-gate.md"}}
