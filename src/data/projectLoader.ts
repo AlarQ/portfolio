@@ -21,7 +21,7 @@ export function buildProjectSet(candidates: readonly Project[]): Project[] {
 function isSlugValid(project: Project): boolean {
   if (SLUG_PATTERN.test(project.slug)) return true;
   console.warn(
-    `[projects] skipping "${project.slug}": slug "${project.slug}" must match ${SLUG_PATTERN}`
+    `[projects] skipping project with invalid slug "${project.slug}": must match ${SLUG_PATTERN}`
   );
   return false;
 }
