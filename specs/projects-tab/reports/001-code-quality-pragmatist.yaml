@@ -1,0 +1,18 @@
+gate: code-quality-pragmatist
+task_id: "001"
+status: findings
+findings:
+  - id: code-quality-pragmatist-1
+    severity: low
+    category: test-quality
+    title: Tautological assertion in slug.test.ts
+    description: >-
+      The test asserting `SLUG_PATTERN.source === "^[a-z0-9-]+$"` checks the constant against its own literal, rather than exercising it through consuming behavior.
+    file: src/data/slug.test.ts
+    lines: "15-15"
+    rationale: >-
+      testing/test-quality.md: assert a constant where it's consumed, not against its own literal. Adjacent behavior-based tests (accept/reject cases, buildPostSet/ buildProjectSet rejection) already provide real coverage of the same invariant.
+    impact: Low signal test; does not catch regressions beyond what other tests already cover.
+    confidence: high
+    review_status: accepted
+    source: llm

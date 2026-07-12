@@ -13,10 +13,6 @@ import { SLUG_PATTERN } from "./slug";
  */
 
 describe("SLUG_PATTERN — shape", () => {
-  it("is the lowercase-alphanumeric-plus-hyphen allow-list", () => {
-    expect(SLUG_PATTERN.source).toBe("^[a-z0-9-]+$");
-  });
-
   it("accepts a valid slug and rejects uppercase, whitespace, and traversal segments", () => {
     expect(SLUG_PATTERN.test("valid-slug-123")).toBe(true);
     expect(SLUG_PATTERN.test("Has_Uppercase")).toBe(false);

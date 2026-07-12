@@ -4,3 +4,6 @@
 {"ts":"2026-07-11T19:36:16.000Z","category":"tier_approved","feature":"projects-tab","data":{"tier":"medium"}}
 {"ts":"2026-07-12T11:28:35.000Z","category":"task_transition","task":"001","feature":"projects-tab","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/projects-tab/tasks/001-project-data-model-and-slug-gate.md"}}
 {"ts":"2026-07-12T11:39:24.000Z","category":"task_transition","task":"001","feature":"projects-tab","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/projects-tab/tasks/001-project-data-model-and-slug-gate.md"}}
+{"ts":"2026-07-12T12:26:49.000Z","category":"task_transition","task":"001","feature":"projects-tab","data":{"from_status":"implemented","to_status":"review","task_file":"specs/projects-tab/tasks/001-project-data-model-and-slug-gate.md"}}
+{"ts":"2026-07-12T12:33:15.000Z","category":"task_transition","task":"001","feature":"projects-tab","data":{"from_status":"review","to_status":"done","task_file":"specs/projects-tab/tasks/001-project-data-model-and-slug-gate.md"}}
+{"ts":"2026-07-12T12:33:15.000Z","category":"task_transition","task":"005","feature":"projects-tab","data":{"from_status":"blocked","to_status":"todo","task_file":"specs/projects-tab/tasks//005-brief-route-and-orphan-handling.md"}}
