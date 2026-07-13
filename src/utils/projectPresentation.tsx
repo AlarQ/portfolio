@@ -25,6 +25,8 @@ export interface StatusPresentation {
 }
 
 /** Below this, a Project reads as too early to carry its Status's own tone. */
+// PROVISIONAL: 10 is a design-owner-agreed placeholder, not data-derived —
+// revisit once real product input on "too early" is available.
 const LOW_MVP_PROGRESS_THRESHOLD = 10;
 
 /** Pure predicate: is `mvpProgress` low enough to force a muted tone (FR-3)? */

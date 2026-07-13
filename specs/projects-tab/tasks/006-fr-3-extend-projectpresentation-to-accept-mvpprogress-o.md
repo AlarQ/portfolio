@@ -1,7 +1,7 @@
 ---
 id: "006"
 name: "Follow-up for FR-3: Extend projectPresentation to accept mvpProgress (or add pure isLowMvpProgress helper with agreed threshold) so a non-exploring Project with low mvpProgress also resolves to tone muted; add unit test (status:in-progress, mvpProgress:5 -> muted) + Storybook state."
-status: implemented
+status: done
 blocked_by: []
 max_files: 5
 estimated_files: []

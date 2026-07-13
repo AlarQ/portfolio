@@ -35,3 +35,7 @@
 {"ts":"2026-07-13T11:44:43.000Z","category":"spec_reopened","feature":"projects-tab","data":{}}
 {"ts":"2026-07-13T13:00:38.000Z","category":"task_transition","task":"006","feature":"projects-tab","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/projects-tab/tasks/006-fr-3-extend-projectpresentation-to-accept-mvpprogress-o.md"}}
 {"ts":"2026-07-13T13:05:54.000Z","category":"task_transition","task":"006","feature":"projects-tab","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/projects-tab/tasks/006-fr-3-extend-projectpresentation-to-accept-mvpprogress-o.md"}}
+{"ts":"2026-07-13T13:28:36.000Z","category":"coverage_audit_start","task":"006","feature":"projects-tab","data":{}}
+{"ts":"2026-07-13T13:30:17.000Z","category":"coverage_audit_done","task":"006","feature":"projects-tab","data":{"verdict":"complete","report":"specs/projects-tab/reports/006-coverage.yaml"}}
+{"ts":"2026-07-13T13:30:41.000Z","category":"task_transition","task":"006","feature":"projects-tab","data":{"from_status":"implemented","to_status":"review","task_file":"specs/projects-tab/tasks/006-fr-3-extend-projectpresentation-to-accept-mvpprogress-o.md"}}
+{"ts":"2026-07-13T13:42:16.000Z","category":"task_transition","task":"006","feature":"projects-tab","data":{"from_status":"review","to_status":"done","task_file":"specs/projects-tab/tasks/006-fr-3-extend-projectpresentation-to-accept-mvpprogress-o.md"}}
