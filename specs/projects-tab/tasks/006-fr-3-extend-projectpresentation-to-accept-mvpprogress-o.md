@@ -19,6 +19,7 @@ ground_rules:
   - security/input-validation.md
   - testing/structure.md
   - testing/test-quality.md
+pr_url: https://github.com/AlarQ/portfolio/pull/84
 ---
 
 ## Description
