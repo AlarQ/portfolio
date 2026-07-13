@@ -1,7 +1,7 @@
 ---
 id: "007"
 name: "Follow-up for FR-5: Add e2e assertions for reduced-motion-swap (page.emulateMedia reducedMotion:reduce -> swap wrapper has no active transition/duration) and zoom-200-tablist (tablist stays one row, all tabs keyboard-reachable while overflowing)."
-status: implemented
+status: done
 blocked_by: []
 max_files: 5
 estimated_files: []

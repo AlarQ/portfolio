@@ -1,0 +1,28 @@
+gate: claude-md-compliance-checker
+task_id: "007-fr-5-add-e2e-assertions-for-reduced-motion-swap-page-em"
+status: findings
+findings:
+  - id: comp-001
+    severity: medium
+    category: claude-md-violation
+    title: Gitignored build/tooling artifacts committed alongside the test change
+    description: >
+      Commit d141814 modifies/adds `playwright-report/index.html` and `specs/projects-tab/.monitor.jsonl` in addition to the intended `e2e/projects-index.spec.ts` change. Both paths are covered by `.gitignore` (`playwright-report/` and the `.monitor-context*` patterns), meaning they were force-added into version control rather than excluded, polluting the commit with a generated Playwright HTML report blob and an internal task-monitor log unrelated to the FR-5 e2e assertions this task set out to add.
+
+    file: playwright-report/index.html
+    lines: "87-87"
+    code_snippet: '<template id="playwrightReportBase64">data:application/zip;base64,...'
+    fix_proposal: >
+      Remove `playwright-report/index.html` and `specs/projects-tab/.monitor.jsonl` from the commit (git rm --cached), verify they are actually gitignored going forward, and keep the commit scoped to `e2e/projects-index.spec.ts` and the task file status update per CLAUDE.md's emphasis on small, focused, maintainable changes.
+
+    rationale: >
+      Committing generated/report artifacts that are already gitignored indicates the changes were staged with a broad `git add` rather than deliberate file selection, working against repo hygiene and the Global Instructions code-quality prelude's maintainability goals; it also risks accumulating binary/base64 report noise in git history.
+
+    impact: >
+      Diff noise obscures the actual test change in review/blame, and the base64-encoded report blob grows the repo unnecessarily on every test run if this pattern repeats.
+
+    references:
+      - general:code-quality.md
+    confidence: high
+    review_status: accepted
+    source: llm

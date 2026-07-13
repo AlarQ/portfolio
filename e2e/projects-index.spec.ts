@@ -71,13 +71,22 @@ test.describe("Projects index", () => {
     test.skip(projects.length < 2, "needs at least two Projects to exercise a pill swap");
 
     await page.goto("/projects");
+    // Let dev-mode (Turbopack) settle: the initial load can fire a delayed
+    // second `framenavigated` event for the same URL (chunk compilation)
+    // well after `goto` resolves. Wait for network idle before attaching the
+    // listener so that trailing event doesn't land after we start watching.
+    await page.waitForLoadState("networkidle");
 
     const secondTitle = projects[1].title;
     const secondTab = page.getByRole("tab", { name: new RegExp(secondTitle) });
 
+    const urlBeforeClick = page.url();
     let navigated = false;
     page.on("framenavigated", (frame) => {
-      if (frame === page.mainFrame()) navigated = true;
+      // A same-URL `framenavigated` (e.g. a trailing dev-server chunk event)
+      // is not a real navigation for this test's purposes — only a URL
+      // change counts.
+      if (frame === page.mainFrame() && frame.url() !== urlBeforeClick) navigated = true;
     });
 
     await secondTab.click();
