@@ -77,6 +77,16 @@ export const projects: readonly Project[] = [
     ],
     relatedPosts: [],
   },
+  {
+    title: "CLI Habit Tracker",
+    slug: "cli-habit-tracker",
+    tagline: "A terminal-first habit tracker for daily streaks.",
+    status: "exploring",
+    mvpProgress: 10,
+    currentState: "Sketching the command surface and local storage format.",
+    techStack: ["node", "typescript"],
+    relatedPosts: [],
+  },
 ];
 
 /**

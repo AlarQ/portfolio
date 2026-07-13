@@ -71,13 +71,22 @@ test.describe("Projects index", () => {
     test.skip(projects.length < 2, "needs at least two Projects to exercise a pill swap");
 
     await page.goto("/projects");
+    // Let dev-mode (Turbopack) settle: the initial load can fire a delayed
+    // second `framenavigated` event for the same URL (chunk compilation)
+    // well after `goto` resolves. Wait for network idle before attaching the
+    // listener so that trailing event doesn't land after we start watching.
+    await page.waitForLoadState("networkidle");
 
     const secondTitle = projects[1].title;
     const secondTab = page.getByRole("tab", { name: new RegExp(secondTitle) });
 
+    const urlBeforeClick = page.url();
     let navigated = false;
     page.on("framenavigated", (frame) => {
-      if (frame === page.mainFrame()) navigated = true;
+      // A same-URL `framenavigated` (e.g. a trailing dev-server chunk event)
+      // is not a real navigation for this test's purposes — only a URL
+      // change counts.
+      if (frame === page.mainFrame() && frame.url() !== urlBeforeClick) navigated = true;
     });
 
     await secondTab.click();
@@ -87,5 +96,52 @@ test.describe("Projects index", () => {
     // No full navigation / reload: URL stays on /projects.
     await expect(page).toHaveURL(/\/projects$/);
     expect(navigated).toBe(false);
+  });
+
+  test("summary swap has no active transition under prefers-reduced-motion: reduce", async ({
+    page,
+  }) => {
+    test.skip(projects.length < 2, "needs at least two Projects to exercise a pill swap");
+
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/projects");
+
+    const secondTab = page.getByRole("tab", { name: new RegExp(projects[1].title) });
+    await secondTab.click();
+
+    const swap = page.getByTestId("project-summary-swap");
+    await expect(swap).toBeVisible();
+    const transitionDuration = await swap.evaluate((el) => getComputedStyle(el).transitionDuration);
+    // motion-reduce:transition-none collapses all transition-duration values to 0s.
+    expect(transitionDuration.split(",").every((d) => Number.parseFloat(d) === 0)).toBe(true);
+  });
+
+  test("tablist stays one row and every tab stays reachable at a narrow (~600px) viewport (200%-zoom proxy)", async ({
+    page,
+  }) => {
+    await page.goto("/projects");
+    // Playwright has no real browser-zoom emulation; a halved viewport is the
+    // standard proxy for WCAG 1.4.10 reflow checks (it does not model DPR changes).
+    await page.setViewportSize({ width: 600, height: 800 });
+
+    const tablist = page.getByRole("tablist", { name: "Projects" });
+    await expect(tablist).toBeVisible();
+
+    const flexWrap = await tablist.evaluate((el) => getComputedStyle(el).flexWrap);
+    expect(flexWrap).toBe("nowrap");
+
+    const tabs = tablist.getByRole("tab");
+    const count = await tabs.count();
+    for (let i = 0; i < count; i++) {
+      await tabs.nth(i).scrollIntoViewIfNeeded();
+      await expect(tabs.nth(i)).toBeVisible();
+    }
+
+    // Keyboard reachability: Home/End roving-tabIndex still reaches first/last tab while overflowing.
+    await tabs.first().focus();
+    await page.keyboard.press("End");
+    await expect(tabs.nth(count - 1)).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(tabs.first()).toBeFocused();
   });
 });
