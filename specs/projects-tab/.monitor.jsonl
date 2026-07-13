@@ -33,3 +33,5 @@
 {"ts":"2026-07-13T11:37:24.000Z","category":"spec_audit_start","feature":"projects-tab","data":{}}
 {"ts":"2026-07-13T11:44:36.000Z","category":"spec_audit_done","feature":"projects-tab","data":{"verdict":"reopen","report":"/Users/ernestbednarczyk/Desktop/projects/portfolio/specs/projects-tab/reports/spec-audit-2026-07-13T11-44-36Z.md"}}
 {"ts":"2026-07-13T11:44:43.000Z","category":"spec_reopened","feature":"projects-tab","data":{}}
+{"ts":"2026-07-13T13:00:38.000Z","category":"task_transition","task":"006","feature":"projects-tab","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/projects-tab/tasks/006-fr-3-extend-projectpresentation-to-accept-mvpprogress-o.md"}}
+{"ts":"2026-07-13T13:05:54.000Z","category":"task_transition","task":"006","feature":"projects-tab","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/projects-tab/tasks/006-fr-3-extend-projectpresentation-to-accept-mvpprogress-o.md"}}

@@ -26,7 +26,7 @@ export interface ProjectSummaryProps {
  * here.
  */
 export function ProjectSummary({ project, briefHref }: ProjectSummaryProps) {
-  const { tone, label } = projectPresentation(project.status);
+  const { tone, label } = projectPresentation(project.status, project.mvpProgress);
 
   return (
     <section aria-labelledby="project-summary-heading" className="flex flex-col gap-6">

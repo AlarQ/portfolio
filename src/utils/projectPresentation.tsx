@@ -24,10 +24,25 @@ export interface StatusPresentation {
   readonly dot: StatusTone;
 }
 
-/** Resolve a Project `Status` to its `{tone, label, dot}` presentation triple. */
-export function projectPresentation(status: Status): StatusPresentation {
+/** Below this, a Project reads as too early to carry its Status's own tone. */
+const LOW_MVP_PROGRESS_THRESHOLD = 10;
+
+/** Pure predicate: is `mvpProgress` low enough to force a muted tone (FR-3)? */
+export function isLowMvpProgress(mvpProgress: number): boolean {
+  return mvpProgress < LOW_MVP_PROGRESS_THRESHOLD;
+}
+
+/**
+ * Resolve a Project `Status` (+ optional `mvpProgress`) to its `{tone, label,
+ * dot}` presentation triple. A non-exploring Project with low `mvpProgress`
+ * also resolves to a `muted` tone — de-emphasis is a seam rule, not a
+ * component branch (FR-3). `label` always reflects the Status's own text;
+ * only `tone`/`dot` are muted by low `mvpProgress`.
+ */
+export function projectPresentation(status: Status, mvpProgress?: number): StatusPresentation {
   const { tone, label } = STATUS_PRESENTATION[status];
-  return { tone, label, dot: tone };
+  const resolvedTone = mvpProgress !== undefined && isLowMvpProgress(mvpProgress) ? "muted" : tone;
+  return { tone: resolvedTone, label, dot: resolvedTone };
 }
 
 /**
