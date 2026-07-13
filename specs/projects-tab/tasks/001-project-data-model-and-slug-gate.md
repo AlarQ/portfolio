@@ -25,7 +25,7 @@ estimated_files:
   - src/data/slug.ts
   - src/data/postLoader.ts
 interaction: afk
-implementer: engineering/frontend-developer
+implementer: engineering-frontend-developer
 pr_url: https://github.com/AlarQ/portfolio/pull/79
 ---
 
@@ -52,7 +52,7 @@ Introduce `src/data/projects.ts` (typed, JSX-free `Project` record + owner-order
 ## Approach
 - Mirror `buildPostSet` in `src/data/postLoader.ts` in spirit: a pure core over already-read inputs, `console.warn` + skip on invalid slug, no `fs` in the core.
 - Extract the `^[a-z0-9-]+$` regex to a single shared constant (`src/data/slug.ts`) consumed by both `postLoader.ts` and `projectLoader.ts` so the gate cannot drift (Security Engineer note); keep the blog's behaviour byte-for-byte.
-- `Project` is JSX/color/icon-free (seam pattern) — mirrors `domains.ts`. `TechKey` is a closed union; its Badge mapping is resolved in the seam (Task 003), not here.
+- `Project` is JSX/color/icon-free (seam pattern) — mirrors `categories.ts`. `TechKey` is a closed union; its Badge mapping is resolved in the seam (Task 003), not here.
 
 ## Implementation Log
 

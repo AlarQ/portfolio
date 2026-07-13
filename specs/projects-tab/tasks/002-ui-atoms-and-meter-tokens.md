@@ -29,7 +29,7 @@ estimated_files:
   - src/theme/tokens.ts
   - src/theme/tokens.css
 interaction: afk
-implementer: engineering/frontend-developer
+implementer: engineering-frontend-developer
 pr_url: https://github.com/AlarQ/portfolio/pull/80
 ---
 

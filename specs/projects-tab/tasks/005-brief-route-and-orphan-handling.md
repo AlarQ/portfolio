@@ -26,7 +26,7 @@ estimated_files:
   - content/projects/portfolio-blog.mdx
   - e2e/project-brief.spec.ts
 interaction: afk
-implementer: engineering/frontend-developer
+implementer: engineering-frontend-developer
 pr_url: https://github.com/AlarQ/portfolio/pull/83
 ---
 
