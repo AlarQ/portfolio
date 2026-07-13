@@ -1,3 +1,5 @@
+import { buildProjectSet, filterProjectsWithBrief } from "./projectLoader";
+
 /**
  * A Project's build/delivery status. Presentation labels (`Exploring`,
  * `In progress`, `Shipped`) and tone resolution are owned by the presentation
@@ -76,3 +78,25 @@ export const projects: readonly Project[] = [
     relatedPosts: [],
   },
 ];
+
+/**
+ * The validated, Brief-having Project set — computed once at module load so
+ * `generateStaticParams`, `generateMetadata`, and the `/projects/[slug]` page
+ * component all share a single `buildProjectSet`/`filterProjectsWithBrief`
+ * pass instead of recomputing (and re-warning) on every call. Mirrors
+ * `getPosts()` in `posts.ts`.
+ */
+const projectsWithBrief: readonly Project[] = filterProjectsWithBrief(buildProjectSet(projects));
+
+/** The single public source of Projects that have a Brief route. */
+export function getProjects(): readonly Project[] {
+  return projectsWithBrief;
+}
+
+/**
+ * The one per-slug lookup over the Brief-having Project set. Mirrors
+ * `getPost`/`getPosts` in `posts.ts` (blog `[slug]` route).
+ */
+export function getProject(slug: string): Project | undefined {
+  return projectsWithBrief.find((project) => project.slug === slug);
+}

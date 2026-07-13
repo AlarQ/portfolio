@@ -3,35 +3,22 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/ds/Footer";
 import { Header } from "@/components/ds/Header";
 import { navItems } from "@/data/navItems";
-import { buildProjectSet, filterProjectsWithBrief } from "@/data/projectLoader";
-import { projects } from "@/data/projects";
+import { getProject, getProjects } from "@/data/projects";
 
 /**
- * The loader's validated Project set, further narrowed to Projects with a
- * matching Brief body (FR-9): only a slug that survives both `buildProjectSet`
- * and `filterProjectsWithBrief` gets a Brief route, mirroring
- * `getPost`/`getPosts` in the blog `[slug]` route. A Project with no Brief
- * warns via `filterProjectsWithBrief` and is simply absent here — `getProject`
- * returns `undefined`, so the route 404s via the `notFound()` call below
- * rather than throwing on a missing dynamic import.
- */
-function getProject(slug: string) {
-  return filterProjectsWithBrief(buildProjectSet(projects)).find(
-    (project) => project.slug === slug
-  );
-}
-
-/**
- * `generateStaticParams` enumerates ONLY the already-validated `projects.ts`
- * slug set that also has a matching Brief body — it never reads
- * `content/projects/` directory contents itself (enumerate-not-glob,
- * FR-8/FR-9); `filterProjectsWithBrief` only checks existence for each
- * already-known candidate slug, never scans for new ones. Combined with
+ * `generateStaticParams` enumerates ONLY the already-validated, Brief-having
+ * Project set from `getProjects()` — it never reads `content/projects/`
+ * directory contents itself (enumerate-not-glob, FR-8/FR-9).
+ * `getProjects()`/`getProject()` compute `buildProjectSet` +
+ * `filterProjectsWithBrief` once at module load (`src/data/projects.ts`), so
+ * `generateStaticParams`, `generateMetadata`, and the page component below
+ * share a single pass instead of each recomputing it (mirrors
+ * `getPost`/`getPosts` in the blog `[slug]` route). Combined with
  * `dynamicParams = false` below, a slug outside this set can never resolve to
  * a route, and a Project with no Brief gets no route (missing-brief-warning).
  */
 export function generateStaticParams(): Array<{ slug: string }> {
-  return filterProjectsWithBrief(buildProjectSet(projects)).map((project) => ({
+  return getProjects().map((project) => ({
     slug: project.slug,
   }));
 }

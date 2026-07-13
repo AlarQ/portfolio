@@ -1,7 +1,7 @@
 ---
 id: "005"
 name: MDX Brief route mirroring the blog [slug] pipeline with enumerate-not-glob safety
-status: implemented
+status: done
 blocked_by: ["001"]
 max_files: 7
 ground_rules:
