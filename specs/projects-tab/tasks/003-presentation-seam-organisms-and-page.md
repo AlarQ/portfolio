@@ -33,7 +33,7 @@ estimated_files:
   - src/components/pages/Projects.tsx
   - src/components/pages/Projects.stories.tsx
 interaction: afk
-implementer: engineering/frontend-developer
+implementer: engineering-frontend-developer
 pr_url: https://github.com/AlarQ/portfolio/pull/81
 ---
 

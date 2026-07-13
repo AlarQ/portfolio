@@ -68,7 +68,7 @@ export function ProjectTabStrip({ projects, selectedSlug, onSelectSlug }: Projec
       >
         {projects.map((project, index) => {
           const isSelected = project.slug === selectedSlug;
-          const { tone } = projectPresentation(project.status);
+          const { tone } = projectPresentation(project.status, project.mvpProgress);
 
           return (
             <button

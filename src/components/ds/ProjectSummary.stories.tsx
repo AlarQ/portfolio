@@ -62,6 +62,21 @@ export const Exploring: Story = {
   },
 };
 
+/**
+ * Non-exploring status with low `mvpProgress` — the seam still resolves a
+ * muted tone (FR-3: de-emphasis isn't limited to `status: "exploring"`).
+ */
+export const LowMvpProgress: Story = {
+  args: {
+    project: {
+      ...PROJECT,
+      status: "in-progress",
+      mvpProgress: 5,
+      currentState: "Just started — too early to carry the in-progress tone.",
+    },
+  },
+};
+
 /** Empty tech stack and no related posts — sections are omitted, not rendered blank. */
 export const Minimal: Story = {
   args: {

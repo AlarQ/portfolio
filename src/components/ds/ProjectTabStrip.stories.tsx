@@ -75,6 +75,27 @@ export const LongContent: Story = {
   },
 };
 
+/**
+ * A non-exploring pill with low `mvpProgress` still resolves a muted dot
+ * (FR-3: de-emphasis isn't limited to `status: "exploring"`).
+ */
+export const LowMvpProgress: Story = {
+  args: {
+    projects: [
+      project({
+        title: "Portfolio Site",
+        slug: "portfolio-site",
+        status: "in-progress",
+        mvpProgress: 5,
+      }),
+      project({ title: "Weekend Sketch", slug: "weekend-sketch", status: "exploring" }),
+      project({ title: "Shipped Thing", slug: "shipped-thing", status: "shipped" }),
+    ],
+    selectedSlug: "portfolio-site",
+    onSelectSlug: () => {},
+  },
+};
+
 /** No Projects — the tablist renders with zero tabs, no crash. */
 export const Empty: Story = {
   args: {
