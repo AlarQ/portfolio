@@ -1,0 +1,4 @@
+gate: coverage
+task_id: "006"
+status: pass
+findings: []

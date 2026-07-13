@@ -30,7 +30,7 @@ Glossary terms used exactly per `CONTEXT.md`: **Project**, **Project summary** (
 `status`, `mvpProgress` 0–100, `currentState`, `techStack`, `relatedPosts`) and an
 owner-curated, manually-ordered array. This array is the single source of truth for the
 Project concept and the authoritative slug set consumed by every downstream layer —
-mirroring `domains.ts`. No hex, no icons, no JSX in this module.
+mirroring `categories.ts`. No hex, no icons, no JSX in this module.
 
 **Data:** `Project`
 **Scenarios:** first-pill-default, exploring-muted-tone
@@ -214,3 +214,20 @@ sequenceDiagram
     Summary->>Brief: navigate /projects/[slug]
     Brief-->>Visitor: MDX Brief via mdxPresentation seam
 ```
+
+## Applicable Ground Rules
+
+Ground rules governing this spec (union of the per-task `ground_rules`; inherited by spec-audit follow-up tasks):
+
+- `frontend/accessibility.md`
+- `frontend/components.md`
+- `frontend/design-tokens.md`
+- `frontend/styling.md`
+- `languages/nextjs/app-router.md`
+- `languages/nextjs/server-vs-client.md`
+- `languages/typescript/patterns.md`
+- `languages/typescript/type-safety.md`
+- `security/authz.md`
+- `security/input-validation.md`
+- `testing/structure.md`
+- `testing/test-quality.md`

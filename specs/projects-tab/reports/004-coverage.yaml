@@ -1,0 +1,29 @@
+task_id: "004"
+gate: coverage
+status: findings
+source: llm
+verdict: reopen
+findings:
+  - id: coverage-1
+    severity: high
+    category: coverage
+    title: "Acceptance point 3 (Read-full-brief link) not implemented in this diff"
+    description: >
+      ds/ProjectSummary.tsx supports an optional briefHref prop but src/app/projects/page.tsx never supplies briefHref to Projects/ProjectSummary, and no /projects/[slug] route exists in this diff. The route's own doc-comment states the link is intentionally deferred to Task 005. As written, task 004's acceptance criteria still list point 3, which this diff does not satisfy — a task-scoping conflict (point 3 belongs to task 005) rather than missing 004 code.
+
+    file: src/app/projects/page.tsx
+    lines: "19-20"
+    source: llm
+    review_status: accepted
+    review_notes: 'Accepted: acceptance point 3 (Read-brief link / briefHref) intentionally deferred to Task 005 (FR-8/FR-9) per route doc-comment. No code change in task 004.'
+  - id: coverage-2
+    severity: medium
+    category: coverage
+    title: "Acceptance point 4 partial — e2e not green (stale 404 assertion)"
+    description: >
+      Prototype deletion, type-check and lint are clean, but e2e is red: e2e/blog.spec.ts:41-45 ("/projects remains an intentional 404") still asserts response.status() === 404 and fails with 200 — a direct consequence of this task making /projects a live route. The stale assertion was not updated in this diff. Acceptance point 4 requires e2e green as a completion condition.
+
+    file: e2e/blog.spec.ts
+    lines: "41-45"
+    source: llm
+    review_status: accepted

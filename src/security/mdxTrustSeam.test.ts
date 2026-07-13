@@ -22,6 +22,13 @@ const REPO_ROOT = join(import.meta.dirname, "../..");
 const SEAM_FILES: Array<{ path: string; markers: string[] }> = [
   {
     path: "src/data/postLoader.ts",
+    // The `^[a-z0-9-]+$` gate now lives in the single shared `src/data/slug.ts`
+    // constant (consumed identically by Projects) — postLoader.ts imports it
+    // rather than declaring its own copy.
+    markers: ["SLUG_PATTERN"],
+  },
+  {
+    path: "src/data/slug.ts",
     markers: ["^[a-z0-9-]+$"],
   },
   {

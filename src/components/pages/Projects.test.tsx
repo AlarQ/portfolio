@@ -1,0 +1,114 @@
+import { act } from "react";
+import { describe, expect, it } from "vitest";
+import { renderIntoDocument } from "@/components/ds/testUtils";
+import type { Project } from "@/data/projects";
+import { Projects } from "./Projects";
+
+const PROJECTS: readonly Project[] = [
+  {
+    title: "Alpha",
+    slug: "alpha",
+    tagline: "The first project.",
+    status: "in-progress",
+    mvpProgress: 50,
+    currentState: "",
+    techStack: [],
+    relatedPosts: [],
+  },
+  {
+    title: "Beta",
+    slug: "beta",
+    tagline: "The second project.",
+    status: "exploring",
+    mvpProgress: 10,
+    currentState: "",
+    techStack: [],
+    relatedPosts: [],
+  },
+];
+
+describe("Projects page", () => {
+  it("shows the first Project's summary on initial render with no interaction", () => {
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
+
+    expect(container.textContent).toContain("Alpha");
+    expect(container.textContent).toContain("The first project.");
+    expect(container.textContent).not.toContain("The second project.");
+
+    unmount();
+  });
+
+  it("clicking a different pill swaps the summary client-side, with no navigation", () => {
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
+
+    const betaTab = [...container.querySelectorAll('[role="tab"]')].find((el) =>
+      el.textContent?.includes("Beta")
+    ) as HTMLElement;
+    expect(betaTab).toBeTruthy();
+
+    act(() => {
+      betaTab.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
+
+    expect(container.textContent).toContain("The second project.");
+    expect(container.textContent).not.toContain("The first project.");
+
+    unmount();
+  });
+
+  it("wraps the summary swap in a motion-safe-only transition (instant under prefers-reduced-motion)", () => {
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
+
+    const wrapper = container.querySelector('[data-testid="project-summary-swap"]');
+    expect(wrapper).not.toBeNull();
+    const classes = wrapper?.className.split(/\s+/) ?? [];
+    expect(classes).toContain("motion-safe:transition-opacity");
+    expect(classes).toContain("motion-safe:duration-200");
+    expect(classes).not.toContain("transition-opacity");
+
+    unmount();
+  });
+
+  it("wires the active tab's aria-controls to a rendered tabpanel via matching id/aria-labelledby", () => {
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
+
+    const alphaTab = container.querySelector('[role="tab"][aria-selected="true"]') as HTMLElement;
+    expect(alphaTab).toBeTruthy();
+    const controlsId = alphaTab.getAttribute("aria-controls");
+    expect(controlsId).toBe("project-panel-alpha");
+
+    const panel = container.querySelector(`#${controlsId}`);
+    expect(panel).not.toBeNull();
+    expect(panel?.getAttribute("role")).toBe("tabpanel");
+    expect(panel?.getAttribute("aria-labelledby")).toBe(alphaTab.id);
+
+    unmount();
+  });
+
+  it("passes briefHrefBySlug's matching href through to the summary's Read full brief link", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Projects projects={PROJECTS} briefHrefBySlug={{ alpha: "/projects/alpha" }} />
+    );
+
+    const link = [...container.querySelectorAll("a")].find(
+      (a) => a.textContent === "Read full brief"
+    );
+    expect(link).toBeTruthy();
+    expect(link?.getAttribute("href")).toBe("/projects/alpha");
+
+    unmount();
+  });
+
+  it("omits the Read full brief link when the slug has no entry in briefHrefBySlug", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Projects projects={PROJECTS} briefHrefBySlug={{}} />
+    );
+
+    const link = [...container.querySelectorAll("a")].find(
+      (a) => a.textContent === "Read full brief"
+    );
+    expect(link).toBeUndefined();
+
+    unmount();
+  });
+});

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { navItems } from "@/data/navItems";
 import { sampleNavItems } from "@/stories/fixtures/nav";
 import { Header } from "./Header";
 import { renderIntoDocument } from "./testUtils";
@@ -30,6 +31,19 @@ describe("Header", () => {
     expect(active?.className).toContain("font-bold");
     expect(inactive?.getAttribute("aria-current")).toBeNull();
     expect(inactive?.className).toContain("font-normal");
+
+    unmount();
+  });
+
+  it("exposes the real navItems Projects link and marks it active on /projects", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Header items={navItems} activeHref="/projects" />
+    );
+
+    const projectsLink = container.querySelector('a[href="/projects"]');
+    expect(projectsLink?.textContent).toBe("Projects");
+    expect(projectsLink?.getAttribute("aria-current")).toBe("page");
+    expect(projectsLink?.className).toContain("font-bold");
 
     unmount();
   });

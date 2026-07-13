@@ -1,0 +1,5 @@
+task_id: "004"
+gate: claude-md-compliance-checker
+status: pass
+source: llm
+findings: []

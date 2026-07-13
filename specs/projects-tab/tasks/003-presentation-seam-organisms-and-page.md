@@ -1,7 +1,7 @@
 ---
 id: "003"
 name: projectPresentation seam, ProjectTabStrip/ProjectSummary organisms, and pages/Projects
-status: blocked
+status: done
 blocked_by: ["001", "002"]
 max_files: 12
 ground_rules:
@@ -33,7 +33,8 @@ estimated_files:
   - src/components/pages/Projects.tsx
   - src/components/pages/Projects.stories.tsx
 interaction: afk
-implementer: engineering/frontend-developer
+implementer: engineering-frontend-developer
+pr_url: https://github.com/AlarQ/portfolio/pull/81
 ---
 
 ## Objective
@@ -62,3 +63,15 @@ Resolve `Status → {tone,label,dot}` and `TechKey → BadgeCategory` in `projec
 - Taxonomy `Organisms/…` + `Pages/Projects`; page-agnostic fixtures under `storybook-fixtures/`, no router deps (`lint:stories` gate before route import in Task 004).
 
 ## Implementation Log
+
+chunks_spawned: 3
+
+- `projectPresentation.tsx`: exhaustive `Record<Status, {tone, label}>` (`STATUS_PRESENTATION`) + exhaustive `Record<TechKey, BadgeCategory>` (`TECH_HUES`), mirroring `categoryPresentation.tsx`. `projectPresentation(status)` returns `{tone, label, dot}` (dot mirrors tone — no separate dot-icon concept, `status-dot` is a plain colored dot). `techPresentation(key)` resolves the Badge hue; hue assignments are decorative (no external requirement pinned specific hues), analogous to `BADGE_CATEGORIES` being decorative-only. Compile-time exhaustiveness proven via `projectPresentation.typetest.ts` (`@ts-expect-error` on invalid `Status`/`TechKey`), following the existing `*.typetest.ts` pattern.
+- `ProjectTabStrip.tsx`: controlled organism (`projects`, `selectedSlug`, `onSelectSlug` — no internal selection state, mirrors `Pagination`'s controlled shape). `role="tablist"` wrapper; each tab is a real `<button role="tab">` (native focus/keyboard semantics) wrapping the `TabPill` atom (visual `selected` state, unchanged atom API/contract) + `StatusDot` (tone from the seam). Roving tabIndex (selected=0, others=-1); ArrowRight/Left wrap around, Home/End jump to first/last; `moveTo` calls `onSelectSlug` and imperatively focuses the target button ref, keeping focus and `aria-selected` in sync per ARIA APG tablist pattern.
+- Deviation: `TabPill` (task 002) is a plain `<span>` with no `asChild`/Slot support, so button semantics were put on the wrapping `<button role="tab">` rather than forced onto the atom — keeps the atom's existing contract/story intact while still composing it as required.
+- Scroll-snap + peek/fade: outer `relative` wrapper; tablist gained `flex-nowrap snap-x snap-mandatory overflow-x-auto scroll-smooth`, tabs `snap-start`. Trailing peek-fade overlay (`aria-hidden`, `pointer-events-none`, `bg-gradient-to-l from-background to-transparent` — semantic tokens only, no hex/arbitrary-color literals) hints more content instead of wrapping to multiple rows at 200% zoom.
+- `pages/Projects.tsx`: `"use client"`, lifts `selectedSlug` state initialized to `projects[0]?.slug ?? ""` (array order authoritative per `projects.ts` doc comment) — satisfies first-pill-selected-on-load. Renders `ProjectTabStrip` (controlled) + `ProjectSummary` for the active project; swap is a pure `useState` update, no router import, no URL change.
+- Reduced-motion swap: active `ProjectSummary` wrapped in a `key`-ed div with `motion-safe:transition-opacity motion-safe:duration-200 motion-reduce:transition-none` — Tailwind's native `motion-safe:`/`motion-reduce:` variants handle `prefers-reduced-motion`, no JS media-query polyfill needed.
+- `ProjectSummary.tsx` fleshed out to full acceptance content: title, tagline, Status (`StatusDot` + label via `projectPresentation`), MVP meter (`Meter` atom fed `mvpProgress`), `currentState`, tech badges (`Badge` + `techPresentation` per `techStack` key, mirroring `SinglePost`'s `categoryPresentation` usage), related-Post links (`next/link` to `/blog/[slug]`), and a "Read full brief" link gated on a `briefHref?: string` prop. `briefHref` is deliberately a `ProjectSummary`-only prop (not on the `Project` domain type — a Project with no Brief body has no brief route, FR-9). Tech-badge and related-post sections render only when non-empty rather than an empty wrapper.
+- Whole-task refactor pass (all 3 chunks' diff reviewed together): no duplication found — `techPresentation`/`projectPresentation` are single-owner seams consumed by both organisms without local re-derivation; `ProjectTabStrip`'s keyboard-nav functions stay small and separate from render; `Projects.tsx` stays minimal/page-agnostic (no router usage). No further changes needed.
+- Full suite: 290 passed, 1 skipped (pre-existing, unrelated). `type-check`, `lint`, `lint:stories` all clean throughout.

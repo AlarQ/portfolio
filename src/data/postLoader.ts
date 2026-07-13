@@ -2,6 +2,7 @@ import matter from "gray-matter";
 import { JSON_SCHEMA, load as loadYaml } from "js-yaml";
 import { type CategoryName, isCategoryName } from "./categories";
 import type { Post } from "./posts";
+import { SLUG_PATTERN } from "./slug";
 
 // Parse frontmatter under YAML's JSON schema so every value stays a primitive
 // string — in particular, an unquoted `date: 2026-02-30` is NOT auto-cast to a
@@ -12,7 +13,6 @@ const FRONTMATTER_OPTIONS = {
 };
 
 const WORDS_PER_MINUTE = 200;
-const SLUG_PATTERN = /^[a-z0-9-]+$/;
 const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 /**

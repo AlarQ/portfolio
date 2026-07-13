@@ -30,6 +30,7 @@ export const Masthead: Story = {
 // tight case the shared iphone15 (390px) frame only nearly hit.
 export const MastheadMobile: Story = {
   args: { title: "THE BLOG" },
+
   parameters: {
     viewport: {
       viewports: {
@@ -39,7 +40,13 @@ export const MastheadMobile: Story = {
           type: "mobile",
         },
       },
-      defaultViewport: "narrow",
+    },
+  },
+
+  globals: {
+    viewport: {
+      value: "narrow",
+      isRotated: false,
     },
   },
 };

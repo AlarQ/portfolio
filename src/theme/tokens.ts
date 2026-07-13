@@ -278,6 +278,9 @@ export const dimensionPrimitives = {
    * wrapper approximation.
    */
   proseMeasure: "64ch",
+  /** Meter atom (FR-6, D-8): track thickness and the gap between track and its legend. */
+  meterTrackHeight: "8px",
+  spaceMeterLegendGap: "6px",
 } as const;
 
 type DimensionPrimitiveName = keyof typeof dimensionPrimitives;
@@ -299,4 +302,6 @@ export const semanticDimensions = {
   "--spacing-nav-active": "spaceNavActive",
   "--spacing-masthead-top": "spaceMastheadTop",
   "--container-prose-measure": "proseMeasure",
+  "--spacing-meter-track": "meterTrackHeight",
+  "--spacing-meter-legend-gap": "spaceMeterLegendGap",
 } as const satisfies Record<string, DimensionPrimitiveName>;

@@ -1,0 +1,68 @@
+gate: code-quality-pragmatist
+task_id: "005"
+status: findings
+findings:
+  - id: cq-001
+    severity: medium
+    category: unnecessary-complexity
+    title: getProject recomputes and re-warns filterProjectsWithBrief on every call within one request
+    description: >
+      src/app/projects/[slug]/page.tsx's getProject(slug) calls
+      filterProjectsWithBrief(buildProjectSet(projects)) fresh on every
+      invocation, and it is invoked independently from generateMetadata AND the
+      default page component (two calls per route render), each re-running
+      buildProjectSet's slug validation and filterProjectsWithBrief's existsSync
+      checks, and re-firing console.warn for every Project missing a Brief.
+      generateStaticParams performs a third independent call. The blog route
+      avoids this by centralizing computation in posts.ts's getPosts()/getPost();
+      the projects route lacks that equivalent memoized/single-call boundary.
+    file: src/app/projects/[slug]/page.tsx
+    lines: "17-25"
+    code_snippet: |
+      function getProject(slug: string) {
+        return filterProjectsWithBrief(buildProjectSet(projects)).find(
+          (project) => project.slug === slug
+        );
+      }
+    fix_proposal: >
+      Add getProject/getProjects to src/data/projects.ts (mirroring posts.ts),
+      computing filterProjectsWithBrief(buildProjectSet(projects)) once and
+      reusing it across generateStaticParams/generateMetadata/the page body,
+      matching the blog route's structure this task was asked to mirror.
+    rationale: >
+      Triples the filesystem existsSync checks and produces duplicate build
+      warnings for the same missing-Brief Project, which is noisy and makes the
+      "single enumerate-not-glob authority" harder to audit since it's called
+      from three call sites instead of one shared source.
+    impact: >
+      Duplicate/confusing build-warning noise at scale (N missing Briefs -> up to
+      3N warnings), and a future maintainer editing the filter logic must find
+      and update three call sites instead of one.
+    references: ["src/data/posts.ts", "src/app/blog/[slug]/page.tsx"]
+    confidence: medium
+    review_status: accepted
+    source: llm
+    rule_added: true
+  - id: cq-002
+    severity: low
+    category: dry-violation
+    title: hasBrief existence check duplicates the "exists" half of buildPostSet's file-read pattern without reuse
+    description: >
+      hasBrief(slug) in projectLoader.ts is a small, project-specific existsSync
+      check and is reasonably scoped — but it is called independently from three
+      places (src/app/projects/page.tsx, and indirectly via
+      filterProjectsWithBrief in the [slug] route) that each re-derive the
+      "does this slug have a Brief" answer rather than sharing one computed
+      result per build, similar to cq-001.
+    file: src/data/projectLoader.ts
+    lines: "32-41"
+    rationale: >
+      Not a functional bug — existsSync is cheap — but it's a symptom of the
+      missing projects.ts data-layer helper (cq-001) rather than a separate
+      problem; flagging for awareness only, no separate fix needed beyond cq-001.
+    impact: Minor; folds into the cq-001 fix.
+    references: ["src/data/projectLoader.ts"]
+    confidence: low
+    review_status: accepted
+    source: llm
+    rule_added: true

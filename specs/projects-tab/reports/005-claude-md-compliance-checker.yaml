@@ -1,0 +1,38 @@
+gate: claude-md-compliance-checker
+task_id: "005"
+status: findings
+findings:
+  - id: comp-001
+    severity: low
+    category: testing-strategy
+    title: "no-script/iframe" e2e assertion is a vacuous negative check
+    description: >
+      In e2e/project-brief.spec.ts, the test "no third-party script or iframe is
+      injected into the Brief article" only asserts absence of script[src]/iframe
+      elements in content/projects/portfolio-site.mdx, which contains no such
+      tags in the first place. Per testing/structure.md ("A negative assertion
+      must be able to fail"), this passes vacuously regardless of whether
+      mdxPresentation.tsx's neutralizer mapping actually works, since the fixture
+      never exercises the neutralized path.
+    file: e2e/project-brief.spec.ts
+    lines: "84-96"
+    code_snippet: |
+      test("no third-party script or iframe is injected into the Brief article", async ({ page }) => {
+        await page.goto("/projects/portfolio-site");
+        const thirdPartyScripts = await page.locator("article script[src]")...
+        expect(thirdPartyScripts).toEqual([]);
+        await expect(page.locator("article iframe")).toHaveCount(0);
+      });
+    fix_proposal: >
+      Add a <script src="https://evil.example.com/x.js" /> / <iframe src="https://evil.example.com" />
+      block to content/projects/portfolio-site.mdx (mirroring content/posts fixtures)
+      so the assertion can actually fail if mdxPresentation.tsx's neutralizer
+      regresses. This mirrors the same gap already present in e2e/blog-security.spec.ts —
+      consider fixing both together.
+    rationale: A negative assertion that can never fail provides false-positive coverage in the FR-to-test map for FR-9's security scenario.
+    impact: A regression in mdxPresentation.tsx's script/iframe neutralizer (e.g. an exhaustive Record losing an entry) would ship undetected by this suite.
+    references:
+      - "general:testing/structure.md#negative-assertion-must-be-able-to-fail"
+    confidence: medium
+    review_status: accepted
+    source: llm
