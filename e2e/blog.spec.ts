@@ -22,7 +22,7 @@ import { expect, test } from "@playwright/test";
  * cascade-layer assertions are gone with MUI, but the no-console/page-error
  * regression sweep across the live IA survives, restated for the post-
  * migration routes (`/`, `/blog` redirect, `/blog/[slug]`, `/author`,
- * `/projects` 404). `/` and `/blog` redirect coverage already lives in
+ * `/projects` — now a live route, task 004). `/` and `/blog` redirect coverage already lives in
  * `e2e/home.spec.ts` — not duplicated here.
  */
 test.describe("existing routes render without regression (route-regression sweep)", () => {
@@ -39,9 +39,13 @@ test.describe("existing routes render without regression (route-regression sweep
     };
   }
 
-  test("/projects remains an intentional 404, no regression to a live route", async ({ page }) => {
+  test("/projects renders as a live route without console/page errors", async ({ page }) => {
+    const assertNoErrors = trackErrors(page);
+
     const response = await page.goto("/projects");
-    expect(response?.status()).toBe(404);
+    expect(response?.ok()).toBe(true);
+
+    assertNoErrors();
   });
 
   test("/blog/[slug] (real slug) renders without console/page errors", async ({ page }) => {
