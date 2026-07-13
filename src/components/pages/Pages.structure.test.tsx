@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { renderIntoDocument } from "@/components/ds/testUtils";
+import { ownerProfile } from "@/data/profile";
 import { sampleNavItems } from "@/stories/fixtures/nav";
 import { samplePost, samplePosts } from "@/stories/fixtures/posts";
 import { Author } from "./Author";
@@ -45,12 +46,16 @@ describe("Pages components — compose organisms, never reimplement them", () =>
     unmount();
   });
 
-  it("Author renders AuthorInfo's own avatar structure plus PostCard's article structure", () => {
+  it("Author composes the IdentityRail organism (its `identity-rail` slot + portrait) plus PostCard's article structure", () => {
     const { container, unmount } = renderIntoDocument(
       <Author posts={samplePosts} navItems={sampleNavItems} />
     );
 
-    expect(container.querySelector('[data-slot="avatar"]')).not.toBeNull();
+    // Composition, not reimplementation: the rail's own `data-slot` marker
+    // proves the page mounts `ds/IdentityRail` rather than hand-rolling the
+    // portrait/gallery markup inline.
+    expect(container.querySelector('[data-slot="identity-rail"]')).not.toBeNull();
+    expect(container.querySelector(`img[alt="${ownerProfile.imageAlt}"]`)).not.toBeNull();
     expect(container.querySelectorAll("article")).toHaveLength(samplePosts.length);
     expect(container.querySelector("footer")).not.toBeNull();
 

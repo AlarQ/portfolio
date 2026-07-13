@@ -6,16 +6,32 @@ import { samplePosts } from "@/stories/fixtures/posts";
 import { Author } from "./Author";
 
 describe("Author", () => {
-  it("renders a full screen composing AuthorInfo, that author's PostCards, and the Footer", () => {
+  it("renders a full screen composing the identity rail, that author's PostCards, and the Footer", () => {
     const { container, unmount } = renderIntoDocument(
       <Author posts={samplePosts} navItems={sampleNavItems} />
     );
 
-    expect(container.textContent).toContain("EB");
+    expect(container.querySelector(`img[alt="${ownerProfile.imageAlt}"]`)).not.toBeNull();
     for (const post of samplePosts) {
       expect(container.textContent).toContain(post.title);
     }
     expect(container.querySelector("footer")).not.toBeNull();
+
+    unmount();
+  });
+
+  it("renders the About bio and every experience area from the profile module", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Author posts={samplePosts} navItems={sampleNavItems} />
+    );
+
+    expect(container.textContent).toContain(ownerProfile.bio);
+    for (const area of ownerProfile.experienceAreas) {
+      expect(container.textContent).toContain(area.heading);
+      for (const highlight of area.highlights) {
+        expect(container.textContent).toContain(highlight);
+      }
+    }
 
     unmount();
   });
