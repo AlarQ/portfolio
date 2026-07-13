@@ -6,11 +6,11 @@
  * one-line edit here that cannot drift between the two layouts.
  *
  * The Blog index lives at `/` and `/blog` 308-redirects there (ADR-RM-4,
- * `next.config.ts`); `/projects` is a 404. The nav exposes the Blog link
- * pointed at `/` (its real destination) and the data-driven `/author` route
- * (FR-6). `Header`'s active-state check is a plain `href === activeHref`
- * equality (`ds/Header.tsx`), so each link target and every caller's
- * `activeHref` must agree on the same value.
+ * `next.config.ts`). The nav exposes the Blog link pointed at `/` (its real
+ * destination), the data-driven `/author` route (FR-6), and the `/projects`
+ * index (projects-tab FR-4). `Header`'s active-state check is a plain
+ * `href === activeHref` equality (`ds/Header.tsx`), so each link target and
+ * every caller's `activeHref` must agree on the same value.
  */
 export interface NavItem {
   readonly href: string;
@@ -20,4 +20,5 @@ export interface NavItem {
 export const navItems: readonly NavItem[] = [
   { href: "/", label: "Blog" },
   { href: "/author", label: "Author" },
+  { href: "/projects", label: "Projects" },
 ];
