@@ -88,4 +88,51 @@ test.describe("Projects index", () => {
     await expect(page).toHaveURL(/\/projects$/);
     expect(navigated).toBe(false);
   });
+
+  test("summary swap has no active transition under prefers-reduced-motion: reduce", async ({
+    page,
+  }) => {
+    test.skip(projects.length < 2, "needs at least two Projects to exercise a pill swap");
+
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/projects");
+
+    const secondTab = page.getByRole("tab", { name: new RegExp(projects[1].title) });
+    await secondTab.click();
+
+    const swap = page.getByTestId("project-summary-swap");
+    await expect(swap).toBeVisible();
+    const transitionDuration = await swap.evaluate((el) => getComputedStyle(el).transitionDuration);
+    // motion-reduce:transition-none collapses all transition-duration values to 0s.
+    expect(transitionDuration.split(",").every((d) => Number.parseFloat(d) === 0)).toBe(true);
+  });
+
+  test("tablist stays one row and every tab stays reachable at a narrow (~600px) viewport (200%-zoom proxy)", async ({
+    page,
+  }) => {
+    await page.goto("/projects");
+    // Playwright has no real browser-zoom emulation; a halved viewport is the
+    // standard proxy for WCAG 1.4.10 reflow checks (it does not model DPR changes).
+    await page.setViewportSize({ width: 600, height: 800 });
+
+    const tablist = page.getByRole("tablist", { name: "Projects" });
+    await expect(tablist).toBeVisible();
+
+    const flexWrap = await tablist.evaluate((el) => getComputedStyle(el).flexWrap);
+    expect(flexWrap).toBe("nowrap");
+
+    const tabs = tablist.getByRole("tab");
+    const count = await tabs.count();
+    for (let i = 0; i < count; i++) {
+      await tabs.nth(i).scrollIntoViewIfNeeded();
+      await expect(tabs.nth(i)).toBeVisible();
+    }
+
+    // Keyboard reachability: Home/End roving-tabIndex still reaches first/last tab while overflowing.
+    await tabs.first().focus();
+    await page.keyboard.press("End");
+    await expect(tabs.nth(count - 1)).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(tabs.first()).toBeFocused();
+  });
 });
