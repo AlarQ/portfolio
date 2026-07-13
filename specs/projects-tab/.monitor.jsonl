@@ -24,3 +24,9 @@
 {"ts":"2026-07-13T07:16:06.000Z","category":"coverage_audit_start","task":"004","feature":"projects-tab","data":{}}
 {"ts":"2026-07-13T07:20:40.000Z","category":"task_transition","task":"004","feature":"projects-tab","data":{"from_status":"implemented","to_status":"review","task_file":"/Users/ernestbednarczyk/Desktop/projects/portfolio/specs/projects-tab/tasks/004-projects-index-route-nav-and-prototype-removal.md"}}
 {"ts":"2026-07-13T08:13:39.000Z","category":"task_transition","task":"004","feature":"projects-tab","data":{"from_status":"review","to_status":"done","task_file":"specs/projects-tab/tasks/004-projects-index-route-nav-and-prototype-removal.md"}}
+{"ts":"2026-07-13T08:52:39.000Z","category":"task_transition","task":"005","feature":"projects-tab","data":{"from_status":"todo","to_status":"in-progress","task_file":"specs/projects-tab/tasks/005-brief-route-and-orphan-handling.md"}}
+{"ts":"2026-07-13T09:13:54.000Z","category":"task_transition","task":"005","feature":"projects-tab","data":{"from_status":"in-progress","to_status":"implemented","task_file":"specs/projects-tab/tasks/005-brief-route-and-orphan-handling.md"}}
+{"ts":"2026-07-13T09:15:32.000Z","category":"task_update","task":"005","feature":"projects-tab","data":{"note":"draft pr opened","pr_url":"https://github.com/AlarQ/portfolio/pull/83"}}
+{"ts":"2026-07-13T09:41:33.000Z","category":"task_transition","task":"005","feature":"projects-tab","data":{"from_status":"implemented","to_status":"review","task_file":"specs/projects-tab/tasks/005-brief-route-and-orphan-handling.md"}}
+{"ts":"2026-07-13T09:58:01.000Z","category":"task_transition","task":"005","feature":"projects-tab","data":{"from_status":"review","to_status":"done","task_file":"specs/projects-tab/tasks/005-brief-route-and-orphan-handling.md"}}
+{"ts":"2026-07-13T09:58:01.000Z","category":"spec_last_task_done","feature":"projects-tab","data":{"tasks_dir":"specs/projects-tab/tasks"}}

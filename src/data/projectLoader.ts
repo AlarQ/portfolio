@@ -1,5 +1,9 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import type { Project } from "./projects";
 import { SLUG_PATTERN } from "./slug";
+
+const CONTENT_PROJECTS_DIR = join(process.cwd(), "content", "projects");
 
 /**
  * Pure core of the Project loader.
@@ -24,4 +28,34 @@ function isSlugValid(project: Project): boolean {
     `[projects] skipping project with invalid slug "${project.slug}": must match ${SLUG_PATTERN}`
   );
   return false;
+}
+
+/**
+ * Checks whether an already-validated Project slug has a matching Brief body
+ * under `content/projects/`. This is an EXISTENCE check for a single,
+ * already-known candidate — never a directory scan (no `readdirSync`) — so it
+ * cannot introduce a new slug into the route set; the enumerate-not-glob
+ * authority stays solely with `buildProjectSet`/`projects.ts` (FR-8/FR-9).
+ */
+export function hasBrief(slug: string): boolean {
+  return existsSync(join(CONTENT_PROJECTS_DIR, `${slug}.mdx`));
+}
+
+/**
+ * Filters an already-validated Project[] (`buildProjectSet` output) down to
+ * those with a Brief body, warning once per Project skipped (FR-9,
+ * missing-brief-warning) — mirrors the build-warning style of `isSlugValid`
+ * above / `postLoader.ts`'s `isSlugValid`. `briefExists` defaults to the real
+ * filesystem check (`hasBrief`) but is injectable so this stays testable
+ * without touching disk.
+ */
+export function filterProjectsWithBrief(
+  validatedProjects: readonly Project[],
+  briefExists: (slug: string) => boolean = hasBrief
+): Project[] {
+  return validatedProjects.filter((project) => {
+    if (briefExists(project.slug)) return true;
+    console.warn(`[projects] no Brief found for "${project.slug}" — skipping its route`);
+    return false;
+  });
 }

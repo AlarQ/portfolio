@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { buildProjectSet } from "./projectLoader";
+import { buildProjectSet, filterProjectsWithBrief } from "./projectLoader";
 import type { Project } from "./projects";
 
 /**
@@ -91,5 +91,57 @@ describe("buildProjectSet — path traversal slug", () => {
     // the pure core has no fs import, so it cannot have joined this to a path
     expect(result).toHaveLength(0);
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("../../etc/passwd"));
+  });
+});
+
+/**
+ * `filterProjectsWithBrief` — the missing-brief-warning gate (FR-9). Takes an
+ * injected `briefExists` predicate so it's testable without touching the real
+ * `content/projects/` filesystem (the real check, `hasBrief`, is a thin
+ * `existsSync` wrapper exercised end-to-end by the Brief route's e2e suite).
+ */
+describe("filterProjectsWithBrief", () => {
+  it("keeps a Project whose Brief exists, without warning", () => {
+    // Given a single validated Project with a matching Brief
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const candidates: Project[] = [project({ slug: "has-brief" })];
+
+    // When filtering by an injected briefExists predicate that says "yes"
+    const result = filterProjectsWithBrief(candidates, () => true);
+
+    // Then the Project is kept and no warning fires
+    expect(result).toEqual(candidates);
+    expect(warnSpy).not.toHaveBeenCalled();
+  });
+
+  it("drops a Project with no matching Brief and warns naming its slug", () => {
+    // Given a validated Project with no matching Brief
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const candidates: Project[] = [project({ slug: "no-brief" })];
+
+    // When filtering by an injected briefExists predicate that says "no"
+    const result = filterProjectsWithBrief(candidates, () => false);
+
+    // Then the Project is excluded and a build warning names the slug
+    expect(result).toEqual([]);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("no-brief"));
+  });
+
+  it("preserves order across a mixed set, warning only for the missing one", () => {
+    // Given two validated Projects, only the second of which has a Brief
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const candidates: Project[] = [
+      project({ slug: "missing-brief" }),
+      project({ slug: "present-brief" }),
+    ];
+    const briefExists = (slug: string) => slug === "present-brief";
+
+    // When filtering
+    const result = filterProjectsWithBrief(candidates, briefExists);
+
+    // Then only the Project with a Brief survives, in original order
+    expect(result.map((p) => p.slug)).toEqual(["present-brief"]);
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("missing-brief"));
   });
 });

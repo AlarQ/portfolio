@@ -84,4 +84,31 @@ describe("Projects page", () => {
 
     unmount();
   });
+
+  it("passes briefHrefBySlug's matching href through to the summary's Read full brief link", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Projects projects={PROJECTS} briefHrefBySlug={{ alpha: "/projects/alpha" }} />
+    );
+
+    const link = [...container.querySelectorAll("a")].find(
+      (a) => a.textContent === "Read full brief"
+    );
+    expect(link).toBeTruthy();
+    expect(link?.getAttribute("href")).toBe("/projects/alpha");
+
+    unmount();
+  });
+
+  it("omits the Read full brief link when the slug has no entry in briefHrefBySlug", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Projects projects={PROJECTS} briefHrefBySlug={{}} />
+    );
+
+    const link = [...container.querySelectorAll("a")].find(
+      (a) => a.textContent === "Read full brief"
+    );
+    expect(link).toBeUndefined();
+
+    unmount();
+  });
 });

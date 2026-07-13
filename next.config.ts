@@ -1,5 +1,15 @@
+import { fileURLToPath } from "node:url";
 import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
+
+// `@next/mdx`'s loader resolves rehype/remark plugin file paths with
+// `require.resolve(path, { paths: [projectRoot] })` — a request starting
+// with `./` is always resolved relative to the *loader's own* directory
+// (Node module-resolution rules), ignoring the `paths` option entirely. An
+// absolute path sidesteps that and resolves correctly regardless of caller.
+const rehypeNeutralizeActiveContentPath = fileURLToPath(
+  new URL("./src/utils/rehypeNeutralizeActiveContent.mjs", import.meta.url)
+);
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
@@ -80,6 +90,10 @@ const withMDX = createMDX({
     rehypePlugins: [
       ["rehype-slug"],
       ["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }],
+      // comp-001: strips explicit-JSX `<script>`/`<iframe>` before the
+      // recma JSX-rewrite stage, since that stage never routes explicit JSX
+      // through `_components` (see rehypeNeutralizeActiveContent.ts).
+      [rehypeNeutralizeActiveContentPath],
     ],
   },
 });
