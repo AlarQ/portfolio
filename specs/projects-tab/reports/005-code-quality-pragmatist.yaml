@@ -42,6 +42,7 @@ findings:
     confidence: medium
     review_status: accepted
     source: llm
+    rule_added: true
   - id: cq-002
     severity: low
     category: dry-violation
@@ -64,3 +65,4 @@ findings:
     confidence: low
     review_status: accepted
     source: llm
+    rule_added: true
