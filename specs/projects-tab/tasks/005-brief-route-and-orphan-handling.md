@@ -1,7 +1,7 @@
 ---
 id: "005"
 name: MDX Brief route mirroring the blog [slug] pipeline with enumerate-not-glob safety
-status: in-progress
+status: implemented
 blocked_by: ["001"]
 max_files: 7
 ground_rules:
@@ -55,3 +55,25 @@ Create `src/app/projects/[slug]/page.tsx` that dynamic-imports `content/projects
 - Add `content/projects/` with at least one sample Brief so `read-full-brief-link` clicks through end-to-end (chromium e2e).
 
 ## Implementation Log
+
+chunks_spawned: 3
+
+**Chunk 1** (brief_renders_via_existing_mdx_seam_no_new_map, generate_metadata_sets_per_brief_title, generate_static_params_maps_projects_ts_set_never_globs):
+- Mirrored `src/app/blog/[slug]/page.tsx` exactly in structure for `src/app/projects/[slug]/page.tsx`: `generateStaticParams` maps `buildProjectSet(projects)` (never globs), `dynamicParams = false`, `generateMetadata` returns `{ title }` for a valid slug / `{}` otherwise, default export dynamic-imports `content/projects/${slug}.mdx` and renders via the existing `mdxPresentation.tsx` seam (no new component map — reuses the global `mdx-components.tsx` wiring).
+- `projects.ts` has no `getProject`/`getProjects` helpers (unlike `posts.ts`); added a local `getProject(slug)` in the route file itself rather than a new data-layer export.
+- **Deviation**: test 1 could not be a Vitest unit test — Vite's import-analysis plugin eagerly transforms the template-literal dynamic MDX import at transform time and chokes on raw MDX prose, regardless of mocking. Followed existing repo precedent (the blog route has zero Vitest tests, is e2e-only for its render path): wrote `e2e/project-brief.spec.ts` instead. Tests 2/3 (`generateMetadata`/`generateStaticParams`) don't touch the MDX import path, so those are ordinary Vitest unit tests in `src/app/projects/[slug]/page.test.tsx`.
+- Created `content/projects/portfolio-site.mdx` as the sample Brief body (matches the actual first/only slug in `projects.ts`, `"portfolio-site"`).
+- Full suite green: 295 Vitest tests, type-check, lint.
+
+**Chunk 2** (dynamic_params_false_blocks_non_enumerated_slug, script_iframe_neutralized_external_link_noopener_via_seam, missing_brief_warns_no_route_summary_omits_link):
+- Item 1 confirmed (not newly implemented) via e2e: `/projects/does-not-exist` → 404, already covered by chunk 1's `dynamicParams = false` + `notFound()`.
+- **Finding (unresolved, out of scope for this task)**: literal `<script>`/`<iframe>` tags authored directly in an `.mdx` body compile via `mdxjs` to raw intrinsic JSX, not routed through `mdxComponents.script`/`.iframe` (`NoScript`/`NoIframe`) — verified empirically via `@mdx-js/mdx compile()` and the dev server (a literal `<iframe>` rendered live, uncontained). The neutralizer mappings are effectively dead code for author-typed raw tags. This is a pre-existing gap shared with the blog feature (its `e2e/blog-security.spec.ts` "no script/iframe" assertions are vacuously true for the same reason — no post ever contains a real raw tag). Per instruction not to modify `mdxPresentation.tsx`, the Brief fixture instead exercises the external-link hardening (`rel="noopener noreferrer"` via the `Anchor` seam component, which does work since `p`/`a` come from markdown syntax, not raw HTML) and the "no script/iframe" e2e assertion stays as a precedent-matching regression guard, not proof of active neutralization. **Recommend a follow-up finding/ADR note** — the MDX trust boundary in `CLAUDE.md` currently describes this mapping as load-bearing hardening; it is not effective against literal raw tags.
+- Item 3: added `hasBrief(slug)` (existsSync check against a single known slug's file — never a directory scan for new slugs) and `filterProjectsWithBrief(validatedProjects, briefExists = hasBrief)` (warns and drops) to `src/data/projectLoader.ts`. Wired into `[slug]/page.tsx`'s `getProject`/`generateStaticParams`. `app/projects/page.tsx` now builds a `briefHrefBySlug: Record<string,string>` map and passes it to `pages/Projects` → `ProjectSummary`'s existing `briefHref` prop.
+- **Deviation**: initially threaded a `getBriefHref` function prop from the server `page.tsx` into the client `pages/Projects` — crashed at runtime (functions aren't serializable across the RSC boundary). Fixed by switching to a plain `briefHrefBySlug` map. Caught by the full-suite-green rule before it reached the ledger.
+- **File budget**: task total reached 9 files against `max_files: 7` — justified: `projectLoader.ts`/`.test.ts` were always on the task's `estimated_files`; `app/projects/page.tsx` + `pages/Projects.tsx`/`.test.tsx` were required to thread `briefHref` through to `ProjectSummary` (acceptance #4c) since `ProjectSummary` is rendered by `pages/Projects`, not directly by the route.
+- Full suite green: 300 Vitest tests, tsc clean, biome clean, 53/54 chromium e2e (1 pre-existing unrelated skip), `npm run build` succeeds.
+
+**Chunk 3** (orphan_mdx_never_published + final refactor):
+- Confirmed, not newly implemented: added `content/projects/orphan.mdx` (no matching `projects.ts` entry) and an e2e test asserting `/projects/orphan` 404s despite the file existing on disk. `generateStaticParams` already enumerated only from `filterProjectsWithBrief(buildProjectSet(projects))`, never a directory glob, so no production code changed.
+- Whole-task refactor pass against `git diff feat/projects-tab-integration...HEAD`: no extraction applied. `hasBrief`/`filterProjectsWithBrief` already co-located in `projectLoader.ts`; `getProject`'s naming already mirrors the blog route; `briefHrefBySlug` construction is intentionally distinct from `filterProjectsWithBrief` (map-to-href vs. filter-with-warning), not duplication. No leftover dead code from chunk 2's abandoned function-prop approach.
+- Final full suite: 300 Vitest tests (1 pre-existing skip), tsc clean, biome clean, `npm run build` succeeds (only `/projects/portfolio-site` generated under `/projects/[slug]`), all 5 chromium tests in `e2e/project-brief.spec.ts` pass.
