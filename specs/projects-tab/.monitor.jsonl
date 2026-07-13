@@ -30,3 +30,6 @@
 {"ts":"2026-07-13T09:41:33.000Z","category":"task_transition","task":"005","feature":"projects-tab","data":{"from_status":"implemented","to_status":"review","task_file":"specs/projects-tab/tasks/005-brief-route-and-orphan-handling.md"}}
 {"ts":"2026-07-13T09:58:01.000Z","category":"task_transition","task":"005","feature":"projects-tab","data":{"from_status":"review","to_status":"done","task_file":"specs/projects-tab/tasks/005-brief-route-and-orphan-handling.md"}}
 {"ts":"2026-07-13T09:58:01.000Z","category":"spec_last_task_done","feature":"projects-tab","data":{"tasks_dir":"specs/projects-tab/tasks"}}
+{"ts":"2026-07-13T11:37:24.000Z","category":"spec_audit_start","feature":"projects-tab","data":{}}
+{"ts":"2026-07-13T11:44:36.000Z","category":"spec_audit_done","feature":"projects-tab","data":{"verdict":"reopen","report":"/Users/ernestbednarczyk/Desktop/projects/portfolio/specs/projects-tab/reports/spec-audit-2026-07-13T11-44-36Z.md"}}
+{"ts":"2026-07-13T11:44:43.000Z","category":"spec_reopened","feature":"projects-tab","data":{}}
