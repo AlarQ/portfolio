@@ -20,9 +20,12 @@ import { Anchor, heading, InlineCode, Paragraph } from "./mdxPresentationText";
  *
  * Security (FR-5, sec-external-link-rel): external anchors are hardened with
  * `rel="noopener noreferrer"` at the `a` mapping below. Active-content elements
- * a Post body must never embed — `<script>` and `<iframe>` — are mapped to
- * no-render neutralizers here, so the protection holds by leverage at the seam
- * rather than by author vigilance. MDX is trusted ONLY while 100% owner-authored
+ * a Post body must never embed — `<script>` and `<iframe>` — are neutralized in
+ * two complementary places: this component map catches them when they arrive as
+ * Markdown/hast elements, and the `rehypeNeutralizeActiveContent` AST plugin
+ * (wired in `next.config.ts`) strips them when authored as explicit JSX, which
+ * bypasses the component map. Together the protection holds by leverage rather
+ * than by author vigilance. MDX is trusted ONLY while 100% owner-authored
  * (CONTEXT.md, ADR-0001): admitting any external/PR-submitted MDX requires
  * `rehype-sanitize` + a CSP before merge.
  */
