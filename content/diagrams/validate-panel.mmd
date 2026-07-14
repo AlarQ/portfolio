@@ -25,9 +25,9 @@ flowchart TB
   arch --> findings
   odium --> findings
 
-  classDef verify fill:#241033,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
-  class lint,types,tests,fmt,sec,cq,arch,odium,findings verify;
-  style validate fill:#0a1118,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
-  style p1 fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
-  style p2 fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
-  style p3 fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
+  %% Roles only. Colours are resolved per theme by
+  %% scripts/prerender-mermaid.ts (the diagram presentation seam).
+  class lint,types,tests,fmt gate
+  class sec,cq,arch agent
+  class odium audit
+  class findings sink

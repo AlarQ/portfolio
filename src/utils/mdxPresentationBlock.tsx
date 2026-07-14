@@ -1,4 +1,13 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { cn } from "@/lib/utils";
+
+/**
+ * Shared "framed-image" visual language: centered, column-scaled, token-framed
+ * (`rounded-lg border border-border p-4`). Consumed by `MdxImage` here and by
+ * `<Diagram>`'s `<figure>` — each appending its own extras — so a border/padding
+ * tweak is made in ONE place.
+ */
+export const MDX_FRAME_CLASS = "mx-auto my-6 max-w-full rounded-lg border border-border p-4";
 
 export function Pre({ children, ...props }: ComponentPropsWithoutRef<"pre">) {
   // rehype-pretty-code already sets the --shiki-bg background + token colors on
@@ -12,18 +21,15 @@ export function Pre({ children, ...props }: ComponentPropsWithoutRef<"pre">) {
 }
 
 export function MdxImage({ alt, ...props }: ComponentPropsWithoutRef<"img">) {
-  // The only images in a Post body today are pre-rendered Mermaid diagrams,
-  // referenced by `<Diagram>` as static `/diagrams/*.svg` files (rendered at
-  // commit time, not during `next build`). This seam owns their layout:
-  // centered, scaled to the column, token-framed. `alt` is kept so the diagram
-  // stays accessible.
+  // Styles literal `![]()` markdown images in a Post body: centered, scaled to
+  // the column, token-framed. This seam owns the layout for those raw images,
+  // and `alt` is kept so they stay accessible. `<Diagram>` intentionally does
+  // NOT route through here — it owns its own `<figure>` frame because it renders
+  // a light/dark SVG pair (`/diagrams/<name>-{light,dark}.svg`) rather than a
+  // single image.
   return (
     // biome-ignore lint/performance/noImgElement: pre-rendered Mermaid SVG from the MDX body, not an app-rendered image
-    <img
-      alt={alt ?? ""}
-      className="mx-auto my-6 block h-auto max-w-full rounded-lg border border-border p-4"
-      {...props}
-    />
+    <img alt={alt ?? ""} className={cn(MDX_FRAME_CLASS, "block h-auto")} {...props} />
   );
 }
 

@@ -57,24 +57,40 @@ test.describe("Blog Post detail", () => {
    * REGRESSION GUARD: pre-rendered Mermaid diagrams ship as committed SVGs.
    * The Vercel browserless-build fix replaced in-build `rehype-mermaid` (which
    * launched headless Chromium during `next build`) with a pre-commit step that
-   * renders `content/diagrams/*.mmd` → `public/diagrams/*.svg`, referenced from
-   * the Post body via the `<Diagram>` component (src/components/Diagram.tsx).
-   * This pins the rendered contract: four `<img src="/diagrams/*.svg">` with
-   * non-empty alt text, and — crucially — each SVG actually resolves (200), so
-   * a missing/unbuilt diagram fails here instead of silently 404-ing in prod.
+   * renders `content/diagrams/*.mmd` → `public/diagrams/*-{light,dark}.svg`,
+   * referenced from the Post body via the `<Diagram>` component
+   * (src/components/Diagram.tsx). A diagram is a theme-tracking figure: a LIGHT
+   * SVG (visible in light mode, carries the accessible description) and a DARK
+   * SVG (aria-hidden twin, swapped in via the `.dark` class). This pins the
+   * rendered contract: for each of the four diagrams both SVGs render as
+   * `<img>` and — crucially — actually resolve (200), so a missing/unbuilt
+   * diagram fails here instead of silently 404-ing in prod.
    */
-  test("renders pre-rendered Mermaid diagrams as resolvable SVG images", async ({ page }) => {
+  test("renders pre-rendered Mermaid diagrams as resolvable light+dark SVG images", async ({
+    page,
+  }) => {
     await page.goto("/blog/my-spec-driven-workflow");
 
     const names = ["feature-flow", "task-states", "validate-panel", "learning-loop"];
     for (const name of names) {
-      const img = page.locator(`article img[src="/diagrams/${name}.svg"]`);
-      await expect(img).toHaveCount(1);
-      // Non-empty alt: the diagram carries an accessible description, not an empty box.
-      expect((await img.getAttribute("alt")) ?? "").not.toBe("");
-      // The committed SVG actually exists and serves (the whole point of the fix).
-      const res = await page.request.get(`/diagrams/${name}.svg`);
-      expect(res.status()).toBe(200);
+      // The light SVG is present but decorative; the accessible name lives on the
+      // figure (role="img" + non-empty aria-label), theme-independent.
+      const light = page.locator(`article img[src="/diagrams/${name}-light.svg"]`);
+      await expect(light).toHaveCount(1);
+      const figure = page.locator(`article figure:has(img[src="/diagrams/${name}-light.svg"])`);
+      await expect(figure).toHaveAttribute("role", "img");
+      expect((await figure.getAttribute("aria-label")) ?? "").not.toBe("");
+
+      // The dark twin is present but hidden from a11y (announced once, not twice).
+      const dark = page.locator(`article img[src="/diagrams/${name}-dark.svg"]`);
+      await expect(dark).toHaveCount(1);
+      await expect(dark).toHaveAttribute("aria-hidden", "true");
+
+      // Both committed SVGs actually exist and serve (the whole point of the fix).
+      for (const theme of ["light", "dark"]) {
+        const res = await page.request.get(`/diagrams/${name}-${theme}.svg`);
+        expect(res.status()).toBe(200);
+      }
     }
   });
 
