@@ -19,7 +19,11 @@ describe("projects — data contract", () => {
       expect(entry.mvpProgress).toBeGreaterThanOrEqual(0);
       expect(entry.mvpProgress).toBeLessThanOrEqual(100);
       expect(typeof entry.currentState).toBe("string");
-      expect(Array.isArray(entry.techStack)).toBe(true);
+      expect(Array.isArray(entry.repos)).toBe(true);
+      for (const repo of entry.repos) {
+        expect(["frontend", "backend"]).toContain(repo.role);
+        expect(Array.isArray(repo.techKeys)).toBe(true);
+      }
       expect(Array.isArray(entry.relatedPosts)).toBe(true);
 
       // No JSX (React elements are plain objects with a $$typeof symbol) and

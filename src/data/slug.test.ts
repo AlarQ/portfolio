@@ -45,7 +45,7 @@ describe("SLUG_PATTERN — shared identically by both loaders", () => {
         status: "in-progress",
         mvpProgress: 0,
         currentState: "s",
-        techStack: [],
+        repos: [],
         relatedPosts: [],
       },
     ];

@@ -13,7 +13,7 @@ A Project Brief is long-form prose with code blocks and the occasional inline co
 ## Considered options
 
 - **Inline summary only, defer the MDX page** — smallest v1 scope, but contradicts the `CONTEXT.md` glossary (which already commits each Project to exactly one MDX Brief) and forces renaming the reserved term. Rejected.
-- **Store everything in MDX frontmatter** (mirror `postLoader` / `buildPostSet` end-to-end) — one source of truth per Project, closest to Posts. Rejected because the structured fields (status, mvpProgress, techStack, relatedPosts) are strongly-typed domain data that belong in a typed `src/data/` module per the seam pattern, not in stringly-typed frontmatter.
+- **Store everything in MDX frontmatter** (mirror `postLoader` / `buildPostSet` end-to-end) — one source of truth per Project, closest to Posts. Rejected because the structured fields (status, mvpProgress, repos, relatedPosts) are strongly-typed domain data that belong in a typed `src/data/` module per the seam pattern, not in stringly-typed frontmatter.
 - **Split: typed data in `src/data/projects.ts`, body in `content/projects/[slug].mdx`, joined by slug** — chosen. Structured fields stay typed and JSX-free (like `domains.ts`); MDX owns only the Brief body.
 
 ## Consequences

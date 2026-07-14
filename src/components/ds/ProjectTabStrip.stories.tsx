@@ -11,7 +11,7 @@ function project(overrides: Partial<Project>): Project {
     status: "in-progress",
     mvpProgress: 50,
     currentState: "",
-    techStack: [],
+    repos: [],
     relatedPosts: [],
     ...overrides,
   };

@@ -12,7 +12,7 @@ function project(overrides: Partial<Project>): Project {
     status: overrides.status ?? "in-progress",
     mvpProgress: overrides.mvpProgress ?? 50,
     currentState: "",
-    techStack: [],
+    repos: [],
     relatedPosts: [],
     ...overrides,
   };

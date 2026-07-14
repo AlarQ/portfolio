@@ -10,7 +10,7 @@ const PROJECT: Project = {
   status: "in-progress",
   mvpProgress: 80,
   currentState: "Building the Projects tab.",
-  techStack: ["nextjs", "react"],
+  repos: [{ role: "frontend", techKeys: ["nextjs", "react"] }],
   relatedPosts: [{ label: "Building the tablist", slug: "building-the-tablist" }],
 };
 
@@ -52,6 +52,33 @@ describe("ProjectSummary", () => {
 
     expect(categories).toContain("gray-blue"); // nextjs
     expect(categories).toContain("sky"); // react
+
+    unmount();
+  });
+
+  it("omits the role-label gutter for a single-repo Project", () => {
+    const { container, unmount } = renderIntoDocument(<ProjectSummary project={PROJECT} />);
+
+    expect(container.textContent).not.toContain("Frontend");
+    expect(container.textContent).not.toContain("Backend");
+
+    unmount();
+  });
+
+  it("renders the role-label gutter for a multi-repo Project", () => {
+    const multiRepoProject: Project = {
+      ...PROJECT,
+      repos: [
+        { role: "frontend", techKeys: ["nextjs"] },
+        { role: "backend", techKeys: ["rust"] },
+      ],
+    };
+    const { container, unmount } = renderIntoDocument(
+      <ProjectSummary project={multiRepoProject} />
+    );
+
+    expect(container.textContent).toContain("Frontend");
+    expect(container.textContent).toContain("Backend");
 
     unmount();
   });

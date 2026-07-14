@@ -9,7 +9,12 @@ const PROJECT: Project = {
   status: "in-progress",
   mvpProgress: 80,
   currentState: "Building the Projects tab on top of the existing seam-pattern architecture.",
-  techStack: ["nextjs", "react", "typescript", "tailwind", "shadcn"],
+  repos: [
+    {
+      role: "frontend",
+      techKeys: ["nextjs", "react", "typescript", "tailwind", "shadcn"],
+    },
+  ],
   relatedPosts: [{ label: "Building the Projects tab", slug: "building-the-projects-tab" }],
 };
 
@@ -77,13 +82,64 @@ export const LowMvpProgress: Story = {
   },
 };
 
-/** Empty tech stack and no related posts — sections are omitted, not rendered blank. */
+/** Empty repos and no related posts — sections are omitted, not rendered blank. */
 export const Minimal: Story = {
   args: {
     project: {
       ...PROJECT,
-      techStack: [],
+      repos: [],
       relatedPosts: [],
+    },
+  },
+};
+
+/** Multi-repo Project — the role-label gutter (Frontend/Backend) renders. */
+export const MultiRepo: Story = {
+  args: {
+    project: {
+      ...PROJECT,
+      repos: [
+        {
+          role: "frontend",
+          techKeys: ["nextjs", "react", "typescript", "playwright"],
+        },
+        { role: "backend", techKeys: ["rust", "postgres"] },
+      ],
+    },
+  },
+};
+
+/** Single-repo Project — no role-label gutter, plain badge row. */
+export const SingleRepo: Story = {
+  args: {
+    project: {
+      ...PROJECT,
+      repos: [{ role: "backend", techKeys: ["rust"] }],
+    },
+  },
+};
+
+/** A repo with a long tech list — checks the badge row wraps instead of overflowing. */
+export const LongStack: Story = {
+  args: {
+    project: {
+      ...PROJECT,
+      repos: [
+        {
+          role: "frontend",
+          techKeys: [
+            "nextjs",
+            "react",
+            "typescript",
+            "tailwind",
+            "shadcn",
+            "biome",
+            "playwright",
+            "mdx",
+          ],
+        },
+        { role: "backend", techKeys: ["rust", "axum", "postgres"] },
+      ],
     },
   },
 };

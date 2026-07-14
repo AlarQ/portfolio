@@ -1,6 +1,6 @@
 import type { BadgeCategory } from "@/components/ui/badgeVariants";
 import type { StatusTone } from "@/components/ui/statusDotVariants";
-import type { Status, TechKey } from "@/data/projects";
+import type { RepoRole, Status, TechKey } from "@/data/projects";
 
 /**
  * Single seam resolving a Project's `Status` to its presentation triple —
@@ -72,4 +72,16 @@ const TECH_HUES: Record<TechKey, BadgeCategory> = {
 /** Resolve a Project `TechKey` to its Badge hue. */
 export function techPresentation(key: TechKey): BadgeCategory {
   return TECH_HUES[key];
+}
+
+/** Closed RepoRole → display label map — the role analogue of TECH_HUES.
+ *  Exhaustive: a RepoRole without a label here is a compile error. */
+const REPO_ROLE_LABELS: Record<RepoRole, string> = {
+  frontend: "Frontend",
+  backend: "Backend",
+};
+
+/** Resolve a ProjectRepo `RepoRole` to its display label. */
+export function repoRolePresentation(role: RepoRole): string {
+  return REPO_ROLE_LABELS[role];
 }

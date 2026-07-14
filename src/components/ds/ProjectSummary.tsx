@@ -3,7 +3,11 @@ import { Badge } from "@/components/ui/badge";
 import { Meter } from "@/components/ui/meter";
 import { StatusDot } from "@/components/ui/status-dot";
 import type { Project } from "@/data/projects";
-import { projectPresentation, techPresentation } from "@/utils/projectPresentation";
+import {
+  projectPresentation,
+  repoRolePresentation,
+  techPresentation,
+} from "@/utils/projectPresentation";
 
 export interface ProjectSummaryProps {
   readonly project: Project;
@@ -23,7 +27,7 @@ export interface ProjectSummaryProps {
  * field from seam output only: Status tone/label via `projectPresentation`,
  * tech-stack hues via `techPresentation` (mirrors how `SinglePost` consumes
  * `categoryPresentation` for Post categories) — never a raw literal switch
- * here.
+ * here. Tech is grouped per Repo via `repoRolePresentation` + `techPresentation`.
  */
 export function ProjectSummary({ project, briefHref }: ProjectSummaryProps) {
   const { tone, label } = projectPresentation(project.status, project.mvpProgress);
@@ -46,12 +50,26 @@ export function ProjectSummary({ project, briefHref }: ProjectSummaryProps) {
 
       <p className="text-foreground">{project.currentState}</p>
 
-      {project.techStack.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {project.techStack.map((techKey) => (
-            <Badge key={techKey} category={techPresentation(techKey)}>
-              {techKey}
-            </Badge>
+      {project.repos.length > 0 && (
+        <div className="flex flex-col gap-3">
+          {project.repos.map((repo) => (
+            <div
+              key={repo.role}
+              className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-4"
+            >
+              {project.repos.length > 1 && (
+                <span className="w-24 shrink-0 pt-0.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                  {repoRolePresentation(repo.role)}
+                </span>
+              )}
+              <div className="flex flex-wrap gap-2">
+                {repo.techKeys.map((techKey) => (
+                  <Badge key={techKey} category={techPresentation(techKey)}>
+                    {techKey}
+                  </Badge>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       )}

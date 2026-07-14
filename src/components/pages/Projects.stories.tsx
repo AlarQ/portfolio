@@ -10,7 +10,7 @@ const PROJECTS: readonly Project[] = [
     status: "in-progress",
     mvpProgress: 80,
     currentState: "Building the Projects tab.",
-    techStack: ["nextjs", "react", "typescript"],
+    repos: [{ role: "frontend", techKeys: ["nextjs", "react", "typescript"] }],
     relatedPosts: [],
   },
   {
@@ -20,7 +20,7 @@ const PROJECTS: readonly Project[] = [
     status: "exploring",
     mvpProgress: 15,
     currentState: "Sketching the idea.",
-    techStack: ["react"],
+    repos: [{ role: "frontend", techKeys: ["react"] }],
     relatedPosts: [],
   },
   {
@@ -30,7 +30,7 @@ const PROJECTS: readonly Project[] = [
     status: "shipped",
     mvpProgress: 100,
     currentState: "Live and maintained.",
-    techStack: ["node"],
+    repos: [{ role: "backend", techKeys: ["node"] }],
     relatedPosts: [],
   },
 ];

@@ -20,7 +20,7 @@ function project(overrides: Partial<Project>): Project {
     status: "in-progress",
     mvpProgress: 50,
     currentState: "Building the core loop.",
-    techStack: ["typescript"],
+    repos: [{ role: "backend", techKeys: ["typescript"] }],
     relatedPosts: [],
     ...overrides,
   };

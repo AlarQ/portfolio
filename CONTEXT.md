@@ -13,8 +13,12 @@ The owner-authored, on-site description page for a single **Project** — public
 _Avoid_: Article, post, readme, showcase, case study
 
 **Project summary**:
-The compact card view of a **Project** shown inline on the `/projects` index (tab-strip layout): title, tagline, **Status**, **MVP Progress**, current state, **Tech stack**, and related-**Post** links. Rendered from the typed fields in `src/data/projects.ts` — it carries no long-form prose and no MDX. Selecting a pill swaps the summary client-side; a "Read full brief" link navigates to the Project's **Project Brief** (`/projects/[slug]`). Not a synonym for Brief — the summary is the index card, the Brief is the page.
+The compact card view of a **Project** shown inline on the `/projects` index (tab-strip layout): title, tagline, **Status**, **MVP Progress**, current state, tech grouped per **Repo**, and related-**Post** links. Rendered from the typed fields in `src/data/projects.ts` — it carries no long-form prose and no MDX. Selecting a pill swaps the summary client-side; a "Read full brief" link navigates to the Project's **Project Brief** (`/projects/[slug]`). Not a synonym for Brief — the summary is the index card, the Brief is the page.
 _Avoid_: Brief, card, tile, preview
+
+**Repo**:
+A source repository comprising a **Project**, carrying a role (**Frontend**/**Backend**) and its own subset of the **Tech stack**. A Project has one or more Repos; single-Repo Projects render an unlabeled badge row, multi-Repo Projects show a role-labeled row per Repo. Structural grouping only — it does **not** introduce an external link (the "Projects link only to on-site content" rule still holds); the split is shown as grouped tech badges, never a GitHub URL. Not to be confused with the forbidden external repo link mentioned under **Project**.
+_Avoid_: Repository link, GitHub link, source link
 
 **MVP Progress**:
 A percentage expressing how close a **Project** is to its first usable release; a maturity indicator, not a binary shipped/unshipped flag.

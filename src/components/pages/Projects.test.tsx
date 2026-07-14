@@ -12,7 +12,7 @@ const PROJECTS: readonly Project[] = [
     status: "in-progress",
     mvpProgress: 50,
     currentState: "",
-    techStack: [],
+    repos: [],
     relatedPosts: [],
   },
   {
@@ -22,7 +22,7 @@ const PROJECTS: readonly Project[] = [
     status: "exploring",
     mvpProgress: 10,
     currentState: "",
-    techStack: [],
+    repos: [],
     relatedPosts: [],
   },
 ];

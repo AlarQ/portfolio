@@ -35,6 +35,16 @@ export interface RelatedPostRef {
   readonly slug: string;
 }
 
+/** A source repository comprising a Project, carrying a role and its own
+ *  subset of the Tech stack. The role's human label (Frontend/Backend) is
+ *  presentation and lives in `projectPresentation.tsx`, not here. */
+export type RepoRole = "frontend" | "backend";
+
+export interface ProjectRepo {
+  readonly role: RepoRole;
+  readonly techKeys: readonly TechKey[];
+}
+
 /**
  * A single Project record: the domain data behind a Project summary card and
  * its Brief detail page. Authored directly in `projects` below — no CMS, no
@@ -49,7 +59,7 @@ export interface Project {
   /** 0–100: closeness to first usable release, not a completion/abandonment flag. */
   readonly mvpProgress: number;
   readonly currentState: string;
-  readonly techStack: readonly TechKey[];
+  readonly repos: readonly ProjectRepo[];
   readonly relatedPosts: readonly RelatedPostRef[];
 }
 
@@ -70,7 +80,10 @@ export const projects: readonly Project[] = [
     mvpProgress: 70,
     currentState:
       "Rust/Axum backend paired with a Next.js frontend via OpenAPI-generated types; hardening the scraper, auth, and deploy pipeline.",
-    techStack: ["nextjs", "react", "typescript", "rust", "postgres", "playwright"],
+    repos: [
+      { role: "frontend", techKeys: ["nextjs", "react", "typescript", "playwright"] },
+      { role: "backend", techKeys: ["rust", "postgres"] },
+    ],
     relatedPosts: [],
   },
   {
@@ -82,7 +95,7 @@ export const projects: readonly Project[] = [
     mvpProgress: 85,
     currentState:
       "~320 commits, Docker deploy, JWT/Argon2 auth and OpenTelemetry tracing — the backbone behind Job Offer Box and the GTD app.",
-    techStack: ["rust", "axum", "postgres"],
+    repos: [{ role: "backend", techKeys: ["rust", "axum", "postgres"] }],
     relatedPosts: [],
   },
   {
@@ -94,7 +107,13 @@ export const projects: readonly Project[] = [
     mvpProgress: 60,
     currentState:
       "Next.js 16 PWA frontend over the Hyperion backend; refactoring hooks and collocating queries as the MVP fills in.",
-    techStack: ["nextjs", "react", "typescript", "tailwind", "shadcn", "rust"],
+    repos: [
+      {
+        role: "frontend",
+        techKeys: ["nextjs", "react", "typescript", "tailwind", "shadcn"],
+      },
+      { role: "backend", techKeys: ["rust"] },
+    ],
     relatedPosts: [],
   },
   {
@@ -106,7 +125,7 @@ export const projects: readonly Project[] = [
     mvpProgress: 30,
     currentState:
       "Building the enforcement spine (state store, workspace infra) with swappable LLM runtime adapters.",
-    techStack: ["rust"],
+    repos: [{ role: "backend", techKeys: ["rust"] }],
     relatedPosts: [],
   },
   {
@@ -118,7 +137,13 @@ export const projects: readonly Project[] = [
     mvpProgress: 20,
     currentState:
       "Early, process-heavy build: Drizzle schema, Better Auth + Google OAuth, Storybook-driven components, testcontainer integration tests.",
-    techStack: ["nextjs", "react", "typescript", "tailwind", "shadcn", "postgres"],
+    repos: [
+      {
+        role: "frontend",
+        techKeys: ["nextjs", "react", "typescript", "tailwind", "shadcn"],
+      },
+      { role: "backend", techKeys: ["postgres"] },
+    ],
     relatedPosts: [],
   },
 ];
