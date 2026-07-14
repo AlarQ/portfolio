@@ -1,7 +1,9 @@
+import { DomainAreaPanel } from "@/components/ds/DomainAreaPanel";
 import { Footer } from "@/components/ds/Footer";
 import { Header } from "@/components/ds/Header";
 import { IdentityRail } from "@/components/ds/IdentityRail";
 import { PostCard } from "@/components/ds/PostCard";
+import { domainAreas } from "@/data/domains";
 import type { NavItem } from "@/data/navItems";
 import type { Post } from "@/data/posts";
 import { ownerProfile } from "@/data/profile";
@@ -21,9 +23,11 @@ export interface AuthorProps {
 /**
  * `Pages/Author` screen: a split layout — sticky identity rail (portrait,
  * gallery thumbnails, name/title) beside a scrolling column of About, the
- * profile's `experienceAreas`, and the Posts list. Identity and all copy are
- * sourced from `src/data/profile.ts` — never hardcoded here (FR-6). Owns
- * layout/ordering only; each organism owns its own rendering.
+ * owner's Domain Areas (each a `DomainAreaPanel` — offering headline,
+ * Achievements, rated Skills), and the Posts list. Identity/bio come from
+ * `src/data/profile.ts`; the Domain Areas from `src/data/domains.ts` — never
+ * hardcoded here (FR-6). Owns layout/ordering only; each organism owns its own
+ * rendering.
  */
 export function Author({ posts, navItems, activeHref }: AuthorProps) {
   return (
@@ -42,21 +46,8 @@ export function Author({ posts, navItems, activeHref }: AuthorProps) {
             <h2 className="text-lg font-semibold text-foreground">About</h2>
             <p className="leading-relaxed text-muted-foreground">{ownerProfile.bio}</p>
           </section>
-          {ownerProfile.experienceAreas.map((area) => (
-            <section key={area.heading} className="flex flex-col gap-3 border-t border-border pt-8">
-              <h2 className="text-lg font-semibold text-foreground">{area.heading}</h2>
-              <p className="leading-relaxed text-muted-foreground">{area.body}</p>
-              <ul className="flex flex-wrap gap-2">
-                {area.highlights.map((highlight) => (
-                  <li
-                    key={highlight}
-                    className="rounded-pill border border-border bg-muted px-3 py-1 text-xs text-secondary-foreground"
-                  >
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
-            </section>
+          {domainAreas.map((area) => (
+            <DomainAreaPanel key={area.id} domain={area} />
           ))}
           <section className="flex flex-col gap-6 border-t border-border pt-8">
             <h2 className="text-lg font-semibold text-foreground">Posts</h2>

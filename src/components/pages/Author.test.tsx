@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { renderIntoDocument } from "@/components/ds/testUtils";
+import { domainAreas } from "@/data/domains";
 import { ownerProfile } from "@/data/profile";
 import { sampleNavItems } from "@/stories/fixtures/nav";
 import { samplePosts } from "@/stories/fixtures/posts";
@@ -20,16 +21,20 @@ describe("Author", () => {
     unmount();
   });
 
-  it("renders the About bio and every experience area from the profile module", () => {
+  it("renders the About bio and every Domain Area (name, headline, achievements, skills)", () => {
     const { container, unmount } = renderIntoDocument(
       <Author posts={samplePosts} navItems={sampleNavItems} />
     );
 
     expect(container.textContent).toContain(ownerProfile.bio);
-    for (const area of ownerProfile.experienceAreas) {
-      expect(container.textContent).toContain(area.heading);
-      for (const highlight of area.highlights) {
-        expect(container.textContent).toContain(highlight);
+    for (const area of domainAreas) {
+      expect(container.textContent).toContain(area.name);
+      expect(container.textContent).toContain(area.headline);
+      for (const achievement of area.achievements) {
+        expect(container.textContent).toContain(achievement.description);
+      }
+      for (const skill of area.skills) {
+        expect(container.textContent).toContain(skill.name);
       }
     }
 

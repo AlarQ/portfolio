@@ -59,7 +59,7 @@ Components bind **only** the semantic layer via Tailwind utilities (`bg-backgrou
 
 `tokens.css` is `@generated` by `npm run generate:tokens` — **never hand-edit it**; change `tokens.ts` and regenerate. A freshness test in `tokens.test.ts` fails pre-push if the committed CSS has drifted from the source maps.
 
-- **Presentation seams own all icon/color resolution.** E.g. `skillPresentation.tsx` maps an `IconKey` → a concrete icon via an exhaustive `Record<IconKey, ...>`. A missing entry is a **compile error**, not a runtime gap. Components ask the seam, never the icon registry directly.
+- **Presentation seams own all icon/color resolution.** E.g. `skillPresentation.tsx` maps a `SkillLevel` → its `{ label, category }` (Badge hue) via an exhaustive `Record<SkillLevel, ...>`, and `projectPresentation.tsx` maps a `Status`/`TechKey` → tone/hue the same way. A missing entry is a **compile error**, not a runtime gap. Components ask the seam, never resolve colors/icons themselves.
 - **`src/data/domains.ts` is the home of the Domain Area concept.** A Domain Area is evidenced by Achievements and rated by Skills (two views, one area — see `CONTEXT.md`). Adding/renaming an area is one edit here — no parallel arrays, no new props threaded through `page.tsx`. Avoid reintroducing parallel `leadershipX`/`technicalX` arrays at the call site.
 
 When adding a domain concept, follow this layering: type+data in `src/data/`, any icon/color/JSX resolution in a `*Presentation` seam, rendering in a component. Don't put hex or JSX in data modules; don't resolve icons inside components.
@@ -84,6 +84,6 @@ Rules that keep this honest:
 
 ## Notes
 
-- `src/components/AreaHeadlineCard.tsx` renders a **Domain Area**'s headline card (the bottom card stating the area's offering), driven by `DomainArea.headline`. The old `ServiceCard`/`serviceTitle` naming is gone — "Service" was never a domain concept.
+- `src/components/ds/AreaHeadlineCard.tsx` renders a **Domain Area**'s headline card (stating the area's offering), driven by `DomainArea.headline`; `src/components/ds/DomainAreaPanel.tsx` composes it with the area's Achievements and rated Skills on `/author`. The old `ServiceCard`/`serviceTitle` naming is gone — "Service" was never a domain concept.
 - `reports/` holds architecture-audit findings (some marked RESOLVED); `docs/testing.md` is the Playwright guide; `features/` holds PRDs for unbuilt work.
 - e2e webkit/mobile suites have known pre-existing failures (profile-card heading mismatch); chromium is the reliable signal.
