@@ -26,7 +26,9 @@ describe("Author", () => {
       <Author posts={samplePosts} navItems={sampleNavItems} />
     );
 
-    expect(container.textContent).toContain(ownerProfile.bio);
+    for (const paragraph of ownerProfile.bio) {
+      expect(container.textContent).toContain(paragraph);
+    }
     for (const area of domainAreas) {
       expect(container.textContent).toContain(area.name);
       expect(container.textContent).toContain(area.headline);

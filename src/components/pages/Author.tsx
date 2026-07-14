@@ -44,7 +44,11 @@ export function Author({ posts, navItems, activeHref }: AuthorProps) {
         <div className="flex min-w-0 flex-1 flex-col gap-10">
           <section className="flex flex-col gap-3">
             <h2 className="text-lg font-semibold text-foreground">About</h2>
-            <p className="leading-relaxed text-muted-foreground">{ownerProfile.bio}</p>
+            {ownerProfile.bio.map((paragraph) => (
+              <p key={paragraph} className="leading-relaxed text-muted-foreground">
+                {paragraph}
+              </p>
+            ))}
           </section>
           {domainAreas.map((area) => (
             <DomainAreaPanel key={area.id} domain={area} />
