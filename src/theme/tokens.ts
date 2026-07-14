@@ -143,6 +143,16 @@ export const primitives = {
   bodyDark: "#c0c5d0",
   accentBylineDark: "#6941c6",
   /**
+   * Dark surface + border hues (ADR-DS-5) — the elevated card/popover surface
+   * and divider on the dark frame `#090d1f`. Landing these lets `--card`,
+   * `--popover`, and `--border` re-point in `semanticDark` so `bg-card`/
+   * `border-border` stop falling through to their light `:root` values (a white
+   * card on the dark page). Untitled-UI-style dark neutrals; `cardDark` is a
+   * subtle elevation above `backgroundDark`.
+   */
+  cardDark: "#111633",
+  borderDark: "#242b47",
+  /**
    * shadcn-role primitives (Task 004, FR-4) — restyling the stock shadcn
    * primitive set (badge/button/input/card/avatar/navigation-menu/sheet) to
    * the Figma light look through the semantic layer. Untitled-UI-style
@@ -251,6 +261,11 @@ export const semanticDark = {
   "--foreground": "headingDark",
   "--muted-foreground": "bodyDark",
   "--accent": "accentBylineDark",
+  "--card": "cardDark",
+  "--card-foreground": "headingDark",
+  "--popover": "cardDark",
+  "--popover-foreground": "headingDark",
+  "--border": "borderDark",
 } as const satisfies Record<string, PrimitiveName>;
 
 /**

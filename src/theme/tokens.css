@@ -26,6 +26,8 @@
   --heading-dark: #ffffff;
   --body-dark: #c0c5d0;
   --accent-byline-dark: #6941c6;
+  --card-dark: #111633;
+  --border-dark: #242b47;
   --gray-50: #f9fafb;
   --gray-100: #f2f4f7;
   --gray-200: #eaecf0;
@@ -127,6 +129,11 @@
   --foreground: var(--heading-dark);
   --muted-foreground: var(--body-dark);
   --accent: var(--accent-byline-dark);
+  --card: var(--card-dark);
+  --card-foreground: var(--heading-dark);
+  --popover: var(--card-dark);
+  --popover-foreground: var(--heading-dark);
+  --border: var(--border-dark);
 }
 
 @theme inline {
