@@ -64,6 +64,9 @@ const TECH_HUES: Record<TechKey, BadgeCategory> = {
   rss: "orange",
   node: "green",
   claude: "violet",
+  rust: "orange",
+  axum: "rose",
+  postgres: "indigo",
 };
 
 /** Resolve a Project `TechKey` to its Badge hue. */

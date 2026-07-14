@@ -2,25 +2,15 @@ import { describe, expect, it } from "vitest";
 import { generateMetadata, generateStaticParams } from "./page";
 
 describe("generateMetadata", () => {
-  it("generate_metadata_sets_per_brief_title", async () => {
-    // Given a valid Project slug ("portfolio-site", the first entry in projects.ts)
-    const params = Promise.resolve({ slug: "portfolio-site" });
-
-    // When generateMetadata resolves the route's metadata
-    const metadata = await generateMetadata({ params });
-
-    // Then the <title> reflects the Project's title
-    expect(metadata).toEqual({ title: "Portfolio Site" });
-  });
-
-  it("returns an empty object for an unknown slug, mirroring the blog route", async () => {
-    // Given a slug with no matching Project
+  it("returns an empty object for a slug with no Brief-having Project", async () => {
+    // Given a slug that matches no Brief-having Project (no Project currently
+    // ships a content/projects/<slug>.mdx body, so the Brief-having set is empty)
     const params = Promise.resolve({ slug: "does-not-exist" });
 
     // When generateMetadata resolves the route's metadata
     const metadata = await generateMetadata({ params });
 
-    // Then no title is set
+    // Then no title is set, mirroring the blog route's unknown-slug behavior
     expect(metadata).toEqual({});
   });
 });
@@ -30,9 +20,10 @@ describe("generateStaticParams", () => {
     // When generateStaticParams enumerates routes
     const result = generateStaticParams();
 
-    // Then it returns exactly the validated projects.ts slug set (via
-    // buildProjectSet/projectLoader.ts) — not a filesystem glob over
-    // content/projects/, which currently holds only "portfolio-site.mdx".
-    expect(result).toEqual([{ slug: "portfolio-site" }]);
+    // Then it returns exactly the validated Brief-having projects.ts slug set
+    // (via buildProjectSet/filterProjectsWithBrief) — not a filesystem glob over
+    // content/projects/. No Project currently has a Brief body, so the set is
+    // empty and the /projects/[slug] route publishes zero pages.
+    expect(result).toEqual([]);
   });
 });

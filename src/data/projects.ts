@@ -24,7 +24,10 @@ export type TechKey =
   | "playwright"
   | "rss"
   | "node"
-  | "claude";
+  | "claude"
+  | "rust"
+  | "axum"
+  | "postgres";
 
 /** An on-site link from a Project to a related Post (Project → Post only). */
 export interface RelatedPostRef {
@@ -59,32 +62,63 @@ export interface Project {
  */
 export const projects: readonly Project[] = [
   {
-    title: "Portfolio Site",
-    slug: "portfolio-site",
-    tagline: "This site — a statically-generated portfolio and blog.",
+    title: "Job Offer Box",
+    slug: "job-offer-box",
+    tagline:
+      "Job-hunt assistant that parses postings with an LLM and drafts tailored resumes and cover letters.",
     status: "in-progress",
-    mvpProgress: 80,
-    currentState: "Building the Projects tab on top of the existing seam-pattern architecture.",
-    techStack: [
-      "nextjs",
-      "react",
-      "typescript",
-      "tailwind",
-      "shadcn",
-      "mdx",
-      "biome",
-      "playwright",
-    ],
+    mvpProgress: 70,
+    currentState:
+      "Rust/Axum backend paired with a Next.js frontend via OpenAPI-generated types; hardening the scraper, auth, and deploy pipeline.",
+    techStack: ["nextjs", "react", "typescript", "rust", "postgres", "playwright"],
     relatedPosts: [],
   },
   {
-    title: "CLI Habit Tracker",
-    slug: "cli-habit-tracker",
-    tagline: "A terminal-first habit tracker for daily streaks.",
+    title: "Hyperion",
+    slug: "hyperion",
+    tagline:
+      "A shared Rust/Axum backend monolith powering several product apps over one Postgres and OpenAPI contract.",
+    status: "in-progress",
+    mvpProgress: 85,
+    currentState:
+      "~320 commits, Docker deploy, JWT/Argon2 auth and OpenTelemetry tracing — the backbone behind Job Offer Box and the GTD app.",
+    techStack: ["rust", "axum", "postgres"],
+    relatedPosts: [],
+  },
+  {
+    title: "GTD App",
+    slug: "gtd-app",
+    tagline:
+      "A Getting-Things-Done PWA — quick capture, a 7-step processing wizard, and weekly review.",
+    status: "in-progress",
+    mvpProgress: 60,
+    currentState:
+      "Next.js 16 PWA frontend over the Hyperion backend; refactoring hooks and collocating queries as the MVP fills in.",
+    techStack: ["nextjs", "react", "typescript", "tailwind", "shadcn", "rust"],
+    relatedPosts: [],
+  },
+  {
+    title: "Bondsmith",
+    slug: "bondsmith",
+    tagline:
+      "A spec-driven development workflow engine in Rust — phase contracts enforced in typed code, not by an LLM.",
+    status: "in-progress",
+    mvpProgress: 30,
+    currentState:
+      "Building the enforcement spine (state store, workspace infra) with swappable LLM runtime adapters.",
+    techStack: ["rust"],
+    relatedPosts: [],
+  },
+  {
+    title: "Potrzebnik",
+    slug: "potrzebnik",
+    tagline:
+      "A Next.js platform organized around 'needs' — public listings plus an authenticated management dashboard.",
     status: "exploring",
-    mvpProgress: 10,
-    currentState: "Sketching the command surface and local storage format.",
-    techStack: ["node", "typescript"],
+    mvpProgress: 20,
+    currentState:
+      "Early, process-heavy build: Drizzle schema, Better Auth + Google OAuth, Storybook-driven components, testcontainer integration tests.",
+    techStack: ["nextjs", "react", "typescript", "tailwind", "shadcn", "postgres"],
     relatedPosts: [],
   },
 ];
