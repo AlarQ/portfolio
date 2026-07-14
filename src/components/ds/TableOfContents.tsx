@@ -1,8 +1,11 @@
 import type { TocEntry } from "@/data/postToc";
+import { cn } from "@/lib/utils";
 import { READING_NAV_FOCUS_RING } from "./readingNav";
 
 export interface TableOfContentsProps {
   readonly entries: readonly TocEntry[];
+  /** The scroll-spy-active heading id, owned by the client organism (`ArticleToc`). */
+  readonly activeId?: string | null;
 }
 
 /**
@@ -13,36 +16,59 @@ export interface TableOfContentsProps {
 export const TOC_ACCESSIBLE_NAME = "Table of contents";
 
 /**
- * Presentational Table of Contents for a Post (FR-3). Renders the build-time
- * heading tree (`TocEntry[]`) as a `<nav>` of in-page anchors, each linking to
- * the `#id` the single heading seam (rehype-slug, task 001) already rendered —
- * it adds no second heading render path (sec-toc-single-render-seam).
+ * Presentational Table of Contents for a Post (FR-1), rendered as a left
+ * dot-rail (blog-readability Decision 6, prototype variant C): each chapter's
+ * name stays hidden until its dot is hovered, keyboard-focused, or is the
+ * scroll-spy-active section (`activeId`). Renders the build-time heading tree
+ * (`TocEntry[]`) as a `<nav>` of in-page anchors, each linking to the `#id`
+ * the single heading seam (rehype-slug, task 001) already rendered — it adds
+ * no second heading render path (sec-toc-single-render-seam).
  *
  * The accessible name is exactly `Table of contents`, the contract
  * `e2e/blog-toc.spec.ts` asserts. Page-agnostic and token-bound: semantic
- * Tailwind utilities only, no router, and no scroll-spy/sticky here (the route
- * owns jump/scroll/sticky behavior — task 004).
+ * Tailwind utilities only, no router, and no scroll-spy/sticky here (the
+ * client organism, `ArticleToc`, owns scroll-spy/progress/sticky — this
+ * component only renders what it's told).
  */
-export function TableOfContents({ entries }: TableOfContentsProps) {
+export function TableOfContents({ entries, activeId = null }: TableOfContentsProps) {
   if (entries.length === 0) return null;
 
   return (
-    <nav aria-label={TOC_ACCESSIBLE_NAME} className="flex flex-col gap-3">
-      <p className="text-xs font-bold tracking-wider text-muted-foreground uppercase">
-        On this page
-      </p>
-      <ul className="flex flex-col gap-1">
-        {entries.map((entry) => (
-          <li key={entry.id} className={entry.depth === 3 ? "pl-4" : undefined}>
-            <a
-              href={`#${entry.id}`}
-              className={`flex min-h-11 items-center border-l-2 border-transparent pl-3 text-sm leading-snug text-muted-foreground no-underline transition-colors hover:text-primary focus-visible:border-ring focus-visible:text-primary ${READING_NAV_FOCUS_RING}`}
+    <nav aria-label={TOC_ACCESSIBLE_NAME} className="flex flex-col gap-1">
+      <p className="sr-only">On this page</p>
+      {entries.map((entry) => {
+        const isActive = activeId === entry.id;
+        return (
+          <a
+            key={entry.id}
+            href={`#${entry.id}`}
+            aria-current={isActive ? "location" : undefined}
+            className={cn(
+              "group flex items-center gap-2 py-1",
+              entry.depth === 3 ? "pl-4" : undefined,
+              READING_NAV_FOCUS_RING
+            )}
+          >
+            <span
+              className={cn(
+                "h-0.5 shrink-0 rounded-full transition-all",
+                isActive
+                  ? "w-6 bg-primary"
+                  : "w-3 bg-border group-hover:w-5 group-hover:bg-muted-foreground group-focus-visible:w-5 group-focus-visible:bg-muted-foreground"
+              )}
+            />
+            <span
+              className={cn(
+                "max-w-0 overflow-hidden text-xs whitespace-nowrap opacity-0 transition-all",
+                "group-hover:max-w-[12rem] group-hover:opacity-100 group-focus-visible:max-w-[12rem] group-focus-visible:opacity-100",
+                isActive && "max-w-[12rem] text-primary opacity-100"
+              )}
             >
               {entry.text}
-            </a>
-          </li>
-        ))}
-      </ul>
+            </span>
+          </a>
+        );
+      })}
     </nav>
   );
 }

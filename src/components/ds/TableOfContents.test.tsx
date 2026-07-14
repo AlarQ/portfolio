@@ -43,4 +43,22 @@ describe("TableOfContents", () => {
 
     unmount();
   });
+
+  it("marks only the activeId's link with aria-current=location", () => {
+    const activeEntry = sampleEntries[1];
+    const { container, unmount } = renderIntoDocument(
+      <TableOfContents entries={sampleEntries} activeId={activeEntry.id} />
+    );
+
+    for (const entry of sampleEntries) {
+      const link = container.querySelector(`a[href="#${entry.id}"]`);
+      if (entry.id === activeEntry.id) {
+        expect(link?.getAttribute("aria-current")).toBe("location");
+      } else {
+        expect(link?.getAttribute("aria-current")).toBeNull();
+      }
+    }
+
+    unmount();
+  });
 });

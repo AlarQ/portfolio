@@ -54,16 +54,30 @@ readability advantage for serif**, so typeface class is a weak lever).
    is scoped to **only** sanity-checking the muted `slate #64748b` where it carries
    readable text (≈3.5:1, under AA); nudge lighter if it fails, defer if it is
    syntax-comment-only.
-5. **Mobile ToC — fully hidden (desktop-only).** No collapsible/disclosure ToC. A
-   ~34-char mobile measure has no room; readers scroll linearly. Confirms the
-   existing `toc-hidden-mobile` scenario as a hard hide.
-6. **Desktop ToC layout — leftover-margin, not a column split.** The sticky ToC
-   occupies the gutter beside a **centered `64ch`** prose column
-   (`[gutter | 64ch prose | ToC]`); it must never shrink the reading column below
-   the measure.
+5. **Mobile ToC — no section nav; a thin, non-interactive top reading-progress
+   bar is the only mobile reading affordance.** No collapsible/disclosure ToC,
+   no link list. A ~34-char mobile measure has no room for a section nav; the
+   bar (`ScrollProgressBar`, driven by `useScrollProgress`) reflects whole-
+   document scroll % so a mobile reader still has a lightweight sense of
+   progress. Confirms `toc-hidden-mobile` as a hard hide of the nav, now paired
+   with `toc-progress-mobile`.
+6. **Desktop ToC layout — left sticky dot-rail in its own `md:flex-row`
+   column** (`max-w-content` split, `Author.tsx`/`IdentityRail.tsx` precedent —
+   not a leftover-margin gutter). Each chapter name stays hidden until its dot
+   is hovered, keyboard-focused, or is the scroll-spy-active section
+   (`aria-current="location"`). Prose stays `min-w-0 flex-1`, never below the
+   `64ch` measure; because the rail is now a real column rather than a margin
+   gutter, prose shifts right-of-center (accepted trade-off — the alternative,
+   a fixed/overlaying rail, collides with prose at md–xl widths). **No** desktop
+   progress bar — the bar is mobile-only.
 7. **ToC scroll-spy — yes, cheap.** Active-heading highlight via
-   `IntersectionObserver` (no scroll listener). Anchor jumps stay instant (no
-   smooth-scroll); honor `usePrefersReducedMotion`.
+   `IntersectionObserver` (no scroll listener), surfaced as `aria-current=
+   "location"` on the active link with its label reveal also triggered on
+   `focus-visible` (keyboard parity with hover). Anchor jumps stay instant (no
+   smooth-scroll); honor `usePrefersReducedMotion`. The mobile progress bar
+   reuses the same organism's `useScrollProgress` hook — one client organism
+   (`ArticleToc`) owns both behaviors so `reducedMotion` is read once, not
+   per-child.
 8. **Heading anchor (FR-2) — plain `<a href="#id">`.** No clipboard/toast; the URL
    updates on click and the reader copies from the address bar. Keeps the heading
    seam free of interaction JS.
@@ -80,12 +94,15 @@ readability advantage for serif**, so typeface class is a weak lever).
 ### FR-1: In-page Table of Contents
 A reader of a Post sees a Table of Contents auto-generated from that Post's `##`
 and `###` headings, each entry linking to the corresponding section. On desktop
-the ToC is a sticky sidebar beside the prose column; on mobile it collapses or is
-hidden so it never crowds the 64ch measure. The ToC reflects the exact heading
-tree of the rendered Post — no hand-maintained list.
+the ToC is a sticky left dot-rail beside the prose column, with section names
+revealed on hover/focus/active; on mobile the rail is not rendered at all and a
+thin, non-interactive top reading-progress bar is the only mobile reading
+affordance, so the prose column never crowds the 64ch measure. The ToC reflects
+the exact heading tree of the rendered Post — no hand-maintained list.
 
 **Data:** heading tree derived at build from the Post body
-**Scenarios:** toc-renders-from-headings, toc-sticky-desktop, toc-hidden-mobile
+**Scenarios:** toc-renders-from-headings, toc-sticky-desktop, toc-hidden-mobile,
+toc-scrollspy-active, toc-progress-mobile
 
 ### FR-2: Heading anchors and deep-linking
 Every `##`/`###` heading in a Post body carries a stable, slug-derived `id`, and
@@ -159,18 +176,37 @@ And the "Install" entry is visually nested under "Setup"
 
 ### toc-sticky-desktop
 ```gherkin
-Given a Post detail page rendered at a desktop breakpoint
+Given a Post detail page rendered at a desktop breakpoint (>=1280)
 When the reader scrolls the prose
-Then the Table of Contents remains visible (sticky) beside the prose column
-And the prose measure stays within 64ch
+Then the Table of Contents dot-rail remains visible (position: sticky) in its
+  own left column
+And the prose column stays within the 64ch measure
 ```
 
 ### toc-hidden-mobile
 ```gherkin
-Given a Post detail page rendered at a mobile breakpoint
+Given a Post detail page rendered at a mobile breakpoint (375)
 When the page loads
-Then the sticky ToC sidebar is not rendered/visible
-And the prose column occupies the full width without the aside crowding it
+Then the ToC nav (aria-label "Table of contents") is not rendered/visible
+And the top reading-progress bar is the only ToC-adjacent affordance present
+And the prose column occupies the full width without the rail crowding it
+```
+
+### toc-scrollspy-active
+```gherkin
+Given a Post detail page rendered at a desktop breakpoint
+When the reader scrolls a mid-article heading into view
+Then that heading's ToC link carries aria-current="location"
+And its label is revealed (no hover/focus required while active)
+```
+
+### toc-progress-mobile
+```gherkin
+Given a Post detail page rendered at a mobile breakpoint
+When the reader scrolls the article
+Then the top reading-progress bar (role="progressbar") reflects the
+  document's scroll percentage
+And the bar is hidden at desktop breakpoints
 ```
 
 ### anchor-deep-link-resolves

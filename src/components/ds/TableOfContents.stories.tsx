@@ -20,7 +20,9 @@ const meta: Meta<typeof TableOfContents> = {
   parameters: { layout: "centered" },
   decorators: [
     (Story) => (
-      <div style={{ width: 260 }}>
+      // Fixed height so the dot-rail's hover/active label reveal has room to
+      // render without being clipped by the centered-layout decorator.
+      <div style={{ width: 260, height: 320 }}>
         <Story />
       </div>
     ),
@@ -32,6 +34,10 @@ type Story = StoryObj<typeof TableOfContents>;
 
 export const Default: Story = {
   args: { entries: sampleEntries },
+};
+
+export const WithActiveSection: Story = {
+  args: { entries: sampleEntries, activeId: "composing-over-re-implementing" },
 };
 
 export const Empty: Story = {

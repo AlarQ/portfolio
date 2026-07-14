@@ -95,6 +95,7 @@ chunks_spawned: 4
 
 ### Post-implementation quality check (code-quality-pragmatist)
 - **cq-001 (medium, not blocking):** `e2e/blog-toc.spec.ts`'s rewrite dropped the desktop-sticky (`position: sticky`) and mobile-hidden ToC assertions from `specs/blog-readability/spec.md` (`toc-sticky-desktop`, `toc-hidden-mobile`) without relocating them — no other spec covers them now. Logged for `/validate` / a follow-up task to restore or explicitly re-home; not fixed inline since it's outside this chunk's declared behavior backlog and CSS/sticky-layout work is chunk-3/visual scope per the task's own chunking.
+  **RESOLVED (2026-07-14)** — desktop-sticky / mobile-hidden assertions restored in e2e/blog-toc.spec.ts and re-homed in specs/blog-readability spec.md Decisions 5–6 + scenarios.
 
 ### Known accepted casualty (out of scope)
 `e2e/blog.spec.ts` fails on 3 legacy MUI/framer-motion assertions (64ch `proseMeasure` token, `article[data-reduced-motion]` ×2) — not in this task's `estimated_files`, slated for removal under FR-9/FR-10 in a later task.
