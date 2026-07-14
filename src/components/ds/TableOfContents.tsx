@@ -29,25 +29,26 @@ export const TOC_ACCESSIBLE_NAME = "Table of contents";
  * Tailwind utilities only, no router, and no scroll-spy/sticky here (the
  * client organism, `ArticleToc`, owns scroll-spy/progress/sticky — this
  * component only renders what it's told).
+ *
+ * Rail shows top-level (`##`, depth 2) sections only — `###` subsections are
+ * dropped here, not in the data layer, so `postToc.ts` still carries the full
+ * tree for any future consumer that wants it.
  */
 export function TableOfContents({ entries, activeId = null }: TableOfContentsProps) {
-  if (entries.length === 0) return null;
+  const topLevelEntries = entries.filter((entry) => entry.depth === 2);
+  if (topLevelEntries.length === 0) return null;
 
   return (
     <nav aria-label={TOC_ACCESSIBLE_NAME} className="flex flex-col gap-1">
       <p className="sr-only">On this page</p>
-      {entries.map((entry) => {
+      {topLevelEntries.map((entry) => {
         const isActive = activeId === entry.id;
         return (
           <a
             key={entry.id}
             href={`#${entry.id}`}
             aria-current={isActive ? "location" : undefined}
-            className={cn(
-              "group flex items-center gap-2 py-1",
-              entry.depth === 3 ? "pl-4" : undefined,
-              READING_NAV_FOCUS_RING
-            )}
+            className={cn("group flex items-center gap-2 py-1", READING_NAV_FOCUS_RING)}
           >
             <span
               className={cn(

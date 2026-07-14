@@ -30,7 +30,10 @@ export interface ArticleTocProps {
  * too, which would silently kill the mobile progress bar.
  */
 export function ArticleToc({ entries }: ArticleTocProps) {
-  const ids = useMemo(() => entries.map((entry) => entry.id), [entries]);
+  const ids = useMemo(
+    () => entries.filter((entry) => entry.depth === 2).map((entry) => entry.id),
+    [entries]
+  );
   const activeId = useActiveHeading(ids);
   const progress = useScrollProgress();
   const reducedMotion = usePrefersReducedMotion();

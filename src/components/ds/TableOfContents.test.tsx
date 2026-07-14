@@ -22,16 +22,27 @@ describe("TableOfContents", () => {
     unmount();
   });
 
-  it("links every entry to its rehype-slug heading id in document order", () => {
+  it("links every top-level (depth 2) entry to its rehype-slug heading id in document order", () => {
     const { container, unmount } = renderIntoDocument(<TableOfContents entries={sampleEntries} />);
 
+    const topLevelEntries = sampleEntries.filter((entry) => entry.depth === 2);
     const hrefs = Array.from(container.querySelectorAll("a")).map((a) => a.getAttribute("href"));
-    expect(hrefs).toEqual(sampleEntries.map((entry) => `#${entry.id}`));
+    expect(hrefs).toEqual(topLevelEntries.map((entry) => `#${entry.id}`));
 
-    for (const entry of sampleEntries) {
+    for (const entry of topLevelEntries) {
       const link = container.querySelector(`a[href="#${entry.id}"]`);
       expect(link?.textContent).toBe(entry.text);
     }
+
+    unmount();
+  });
+
+  it("drops depth-3 subsection entries from the rail", () => {
+    const { container, unmount } = renderIntoDocument(<TableOfContents entries={sampleEntries} />);
+
+    const depth3Entry = sampleEntries.find((entry) => entry.depth === 3);
+    expect(depth3Entry).toBeDefined();
+    expect(container.querySelector(`a[href="#${depth3Entry?.id}"]`)).toBeNull();
 
     unmount();
   });
@@ -50,7 +61,7 @@ describe("TableOfContents", () => {
       <TableOfContents entries={sampleEntries} activeId={activeEntry.id} />
     );
 
-    for (const entry of sampleEntries) {
+    for (const entry of sampleEntries.filter((e) => e.depth === 2)) {
       const link = container.querySelector(`a[href="#${entry.id}"]`);
       if (entry.id === activeEntry.id) {
         expect(link?.getAttribute("aria-current")).toBe("location");

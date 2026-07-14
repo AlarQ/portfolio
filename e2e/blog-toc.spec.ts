@@ -28,9 +28,10 @@ test.describe("Blog in-page Table of Contents (route composition)", () => {
     const toc = page.getByRole("navigation", { name: TOC_ACCESSIBLE_NAME });
     await expect(toc).toBeVisible();
 
-    // The ids the heading seam rendered to the DOM, in document order.
+    // The top-level (##) heading ids the seam rendered to the DOM, in document
+    // order — the rail only shows depth-2 sections, not depth-3 subsections.
     const headingIds = await page
-      .locator("article :is(h2, h3)[id]")
+      .locator("article h2[id]")
       .evaluateAll((els) => els.map((el) => el.id));
     expect(headingIds.length).toBeGreaterThan(1);
 
@@ -89,7 +90,7 @@ test.describe("Blog in-page Table of Contents (route composition)", () => {
     await page.goto(POST_PATH);
 
     const toc = page.getByRole("navigation", { name: TOC_ACCESSIBLE_NAME });
-    const headings = page.locator("article :is(h2, h3)[id]");
+    const headings = page.locator("article h2[id]");
     const midIndex = Math.floor((await headings.count()) / 2);
     const midHeading = headings.nth(midIndex);
     const midId = await midHeading.getAttribute("id");
