@@ -23,11 +23,13 @@ export interface ArticleTocProps {
  *
  * `PostLayout` mounts this directly as a split-column flex child. This
  * component owns its own desktop rail styling (`hidden md:flex md:sticky
- * md:top-8 md:h-fit md:w-72 md:shrink-0`, mirroring `IdentityRail.tsx:71`)
- * rather than a wrapping `PostLayout` `<div>`, because the mobile
- * `ScrollProgressBar` is `fixed` and must NOT sit inside a `hidden`-below-`md`
- * ancestor — a `display: none` ancestor hides fixed-positioned descendants
- * too, which would silently kill the mobile progress bar.
+ * md:top-1/2 md:-translate-y-1/2 md:h-fit md:w-72 md:shrink-0` — sticky with a
+ * 50% top offset so the rail centers on the viewport height rather than
+ * pinning to the top, mirroring `IdentityRail.tsx:71` otherwise) rather than a
+ * wrapping `PostLayout` `<div>`, because the mobile `ScrollProgressBar` is
+ * `fixed` and must NOT sit inside a `hidden`-below-`md` ancestor — a
+ * `display: none` ancestor hides fixed-positioned descendants too, which
+ * would silently kill the mobile progress bar.
  */
 export function ArticleToc({ entries }: ArticleTocProps) {
   const ids = useMemo(
@@ -40,7 +42,7 @@ export function ArticleToc({ entries }: ArticleTocProps) {
 
   return (
     <>
-      <div className="hidden md:sticky md:top-8 md:flex md:h-fit md:w-72 md:shrink-0">
+      <div className="hidden md:sticky md:top-1/2 md:flex md:h-fit md:w-72 md:shrink-0 md:-translate-y-1/2">
         <TableOfContents entries={entries} activeId={activeId} />
       </div>
       <ScrollProgressBar progress={progress} reducedMotion={reducedMotion} />
