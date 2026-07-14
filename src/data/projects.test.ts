@@ -20,9 +20,13 @@ describe("projects — data contract", () => {
       expect(entry.mvpProgress).toBeLessThanOrEqual(100);
       expect(typeof entry.currentState).toBe("string");
       expect(Array.isArray(entry.repos)).toBe(true);
+      const seenRoles = new Set<string>();
       for (const repo of entry.repos) {
         expect(["frontend", "backend"]).toContain(repo.role);
         expect(Array.isArray(repo.techKeys)).toBe(true);
+        expect(repo.techKeys.length).toBeGreaterThan(0);
+        expect(seenRoles.has(repo.role)).toBe(false);
+        seenRoles.add(repo.role);
       }
       expect(Array.isArray(entry.relatedPosts)).toBe(true);
 

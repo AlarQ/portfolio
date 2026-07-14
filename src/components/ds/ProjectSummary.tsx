@@ -52,9 +52,9 @@ export function ProjectSummary({ project, briefHref }: ProjectSummaryProps) {
 
       {project.repos.length > 0 && (
         <div className="flex flex-col gap-3">
-          {project.repos.map((repo) => (
+          {project.repos.map((repo, index) => (
             <div
-              key={repo.role}
+              key={`${repo.role}-${index}`}
               className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-4"
             >
               {project.repos.length > 1 && (
