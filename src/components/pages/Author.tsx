@@ -22,7 +22,7 @@ export interface AuthorProps {
 
 /**
  * `Pages/Author` screen: a split layout — sticky identity rail (portrait,
- * gallery thumbnails, name/title) beside a scrolling column of About, the
+ * name/title) beside a scrolling column of About, the
  * owner's Domain Areas (each a `DomainAreaPanel` — offering headline,
  * Achievements, rated Skills), and the Posts list. Identity/bio come from
  * `src/data/profile.ts`; the Domain Areas from `src/data/domains.ts` — never
@@ -31,12 +31,11 @@ export interface AuthorProps {
  */
 export function Author({ posts, navItems, activeHref }: AuthorProps) {
   return (
-    <div className="flex min-h-dvh flex-col gap-10">
+    <div className="flex min-h-dvh flex-col gap-2 md:gap-10">
       <Header items={navItems} activeHref={activeHref} />
-      <div className="mx-auto flex w-full max-w-content flex-1 flex-col gap-10 px-6 py-12 md:flex-row">
+      <div className="mx-auto flex w-full max-w-content flex-1 flex-col gap-6 px-6 py-2 md:flex-row md:gap-10 md:py-12">
         <IdentityRail
           portrait={{ src: ownerProfile.imageSrc, alt: ownerProfile.imageAlt }}
-          galleryPhotos={ownerProfile.galleryPhotos}
           name={ownerProfile.name}
           title={ownerProfile.title}
           subtitle={ownerProfile.subtitle}

@@ -73,7 +73,7 @@ export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
         subtitle="slow thoughts on fast tech"
       />
 
-      <div className="mx-auto flex w-full max-w-content flex-1 flex-col gap-16 px-6">
+      <div className="mx-auto flex w-full max-w-content flex-1 flex-col gap-8 px-6 md:gap-16">
         {recent.length > 0 && (
           <section aria-labelledby="recent-heading" className="flex flex-col gap-8">
             <h2 id="recent-heading" className="sr-only">

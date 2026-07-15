@@ -30,6 +30,9 @@ body {
      scroll container — `overflow: hidden` on an ancestor breaks descendant
      `position: sticky` (the sticky ToC in the Post layout). */
   overflow-x: clip;
+  /* Mobile Chrome/Safari render a translucent blue box on `:active` taps
+     for anchors/buttons by default; suppress it site-wide. */
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {

@@ -1,13 +1,3 @@
-/**
- * A photo slot in the `/author` gallery. `src` is optional: a slot without a
- * file yet renders as a labeled placeholder tile until the image lands under
- * `public/images/`.
- */
-export interface GalleryPhoto {
-  src?: string;
-  alt: string;
-}
-
 export interface OwnerProfile {
   /**
    * The owner's display name — the single source of the human identity shown
@@ -24,8 +14,6 @@ export interface OwnerProfile {
    * list of paragraphs — each element renders as its own `<p>`.
    */
   bio: readonly string[];
-  /** Secondary photos (pets, outdoors) shown as thumbnails under the portrait. */
-  galleryPhotos: GalleryPhoto[];
 }
 
 export const ownerProfile: OwnerProfile = {
@@ -40,10 +28,5 @@ export const ownerProfile: OwnerProfile = {
     "Why am I writing this blog? I'm someone who thrives in constantly moving, changing environments. I like the speed :) But it comes at a cost: it's sometimes harder for me to gather my thoughts in a well-organised way. So the blog is my way of practising exactly that.",
     "I also want to see whether my ideas can land on fertile soil and help others on their journeys, mostly in the IT industry but not only.",
     "I hope you'll find something inspiring in this glimpse into my brain. Enjoy!",
-  ],
-  galleryPhotos: [
-    { alt: "My dog on a trail" },
-    { alt: "Second pet portrait" },
-    { alt: "Outdoors / hiking" },
   ],
 };

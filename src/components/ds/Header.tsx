@@ -32,7 +32,7 @@ export function Header({
   subtitle,
 }: HeaderProps) {
   return (
-    <header className="bg-background py-header-y text-foreground">
+    <header className="bg-background py-3 text-foreground md:py-header-y">
       <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-navbar-y">
         <Link href="/" className="flex items-center">
           <Image src="/images/brand-mark.png" alt={brandLabel} width={36} height={36} priority />
@@ -66,7 +66,7 @@ export function Header({
         // with the band rather than the viewport. Dense on purpose: the post
         // grid should lead, not a band-filling headline. Wraps via `flex-wrap`
         // for long titles instead of clipping (see the `LongTitle` story).
-        <div className="@container mx-auto mt-masthead-top w-full max-w-content border-b border-border px-6 pb-5">
+        <div className="@container mx-auto mt-6 w-full max-w-content border-b border-border px-6 pb-3 md:mt-masthead-top md:pb-5">
           <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
             <h1
               className="text-[clamp(2.25rem,6.5cqi,4rem)] font-bold leading-none text-foreground lowercase"
