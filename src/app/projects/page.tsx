@@ -33,9 +33,9 @@ export default function ProjectsPage() {
   );
 
   return (
-    <div className="flex min-h-dvh flex-col gap-10">
+    <div className="flex min-h-dvh flex-col gap-2 md:gap-10">
       <Header items={navItems} activeHref="/projects" />
-      <main className="flex-1 py-12">
+      <main className="flex-1 py-2 md:py-12">
         <Projects projects={projectSet} briefHrefBySlug={briefHrefBySlug} />
       </main>
       <Footer />

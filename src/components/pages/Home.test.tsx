@@ -48,8 +48,10 @@ describe("Home", () => {
     const withCoverAndCategories = samplePosts[0];
     expect(withCoverAndCategories.coverImage).toBeDefined();
     expect(withCoverAndCategories.categories?.length).toBeGreaterThan(0);
-    const images = Array.from(container.querySelectorAll("img"));
-    expect(images.some((img) => img.getAttribute("src")?.includes("profile"))).toBe(true);
+    // Scope to PostCard `article`s so the Header's own brand-mark image
+    // (unrelated to per-Post covers) isn't counted here.
+    const cardImages = Array.from(container.querySelectorAll("article img"));
+    expect(cardImages.some((img) => img.getAttribute("src")?.includes("profile"))).toBe(true);
     for (const category of withCoverAndCategories.categories ?? []) {
       expect(container.textContent).toContain(category);
     }
@@ -61,7 +63,7 @@ describe("Home", () => {
       expect(post.coverImage).toBeUndefined();
       expect(post.categories).toBeUndefined();
     }
-    expect(images).toHaveLength(1);
+    expect(cardImages).toHaveLength(1);
 
     unmount();
   });
