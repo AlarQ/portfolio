@@ -99,8 +99,8 @@ describe("ProjectTabStrip — ARIA tablist keyboard navigation (FR-5, FR-7)", ()
   });
 });
 
-describe("ProjectTabStrip — single-row scroll-snap rail with peek-fade (200% zoom)", () => {
-  it("keeps the tablist a single scroll-snapping row and renders a trailing peek-fade affordance", () => {
+describe("ProjectTabStrip — single-row scroll-snap rail with chevrons + dots", () => {
+  it("keeps the tablist a single scroll-snapping row and renders scroll chevrons + one dot per project", () => {
     const { container, unmount } = renderIntoDocument(
       <ProjectTabStrip projects={PROJECTS} selectedSlug="alpha" onSelectSlug={() => {}} />
     );
@@ -112,9 +112,11 @@ describe("ProjectTabStrip — single-row scroll-snap rail with peek-fade (200% z
     expect(tablist.className).toMatch(/snap-mandatory/);
     expect(tablist.className).toMatch(/overflow-x-auto/);
 
-    const fade = container.querySelector('[data-testid="project-tab-strip-fade"]');
-    expect(fade).toBeTruthy();
-    expect(fade?.className).toMatch(/pointer-events-none/);
+    expect(container.querySelector('[aria-label="Scroll left"]')).toBeTruthy();
+    expect(container.querySelector('[aria-label="Scroll right"]')).toBeTruthy();
+
+    const dots = container.querySelectorAll('[data-testid="project-tab-strip-dot"]');
+    expect(dots).toHaveLength(PROJECTS.length);
 
     unmount();
   });

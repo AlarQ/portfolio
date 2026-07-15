@@ -25,6 +25,11 @@ export interface ProjectTabStripProps {
  */
 export function ProjectTabStrip({ projects, selectedSlug, onSelectSlug }: ProjectTabStripProps) {
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const railRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollByAmount = (dir: 1 | -1) => {
+    railRef.current?.scrollBy({ left: dir * 160, behavior: "smooth" });
+  };
 
   const moveTo = (index: number) => {
     const target = projects[index];
@@ -61,46 +66,72 @@ export function ProjectTabStrip({ projects, selectedSlug, onSelectSlug }: Projec
 
   return (
     <div className="relative w-full">
-      <div
-        role="tablist"
-        aria-label="Projects"
-        className="flex w-full flex-nowrap gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory"
-      >
-        {projects.map((project, index) => {
-          const isSelected = project.slug === selectedSlug;
-          const { tone } = projectPresentation(project.status, project.mvpProgress);
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          aria-label="Scroll left"
+          onClick={() => scrollByAmount(-1)}
+          className="shrink-0 rounded-full border border-border bg-background p-2 text-foreground shadow-sm"
+        >
+          ‹
+        </button>
+        <div
+          ref={railRef}
+          role="tablist"
+          aria-label="Projects"
+          className="flex w-full flex-nowrap gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {projects.map((project, index) => {
+            const isSelected = project.slug === selectedSlug;
+            const { tone } = projectPresentation(project.status, project.mvpProgress);
 
-          return (
-            <button
-              key={project.slug}
-              type="button"
-              ref={(el) => {
-                tabRefs.current[index] = el;
-              }}
-              role="tab"
-              id={`project-tab-${project.slug}`}
-              aria-selected={isSelected}
-              aria-controls={`project-panel-${project.slug}`}
-              tabIndex={isSelected ? 0 : -1}
-              onClick={() => onSelectSlug(project.slug)}
-              onKeyDown={(event) => handleKeyDown(event, index)}
-              className="shrink-0 snap-start"
-            >
-              <TabPill selected={isSelected} className="gap-2">
-                <StatusDot tone={tone} />
-                {project.title}
-              </TabPill>
-            </button>
-          );
-        })}
+            return (
+              <button
+                key={project.slug}
+                type="button"
+                ref={(el) => {
+                  tabRefs.current[index] = el;
+                }}
+                role="tab"
+                id={`project-tab-${project.slug}`}
+                aria-selected={isSelected}
+                aria-controls={`project-panel-${project.slug}`}
+                tabIndex={isSelected ? 0 : -1}
+                onClick={() => onSelectSlug(project.slug)}
+                onKeyDown={(event) => handleKeyDown(event, index)}
+                className="shrink-0 snap-start"
+              >
+                <TabPill selected={isSelected} className="gap-2">
+                  <StatusDot tone={tone} />
+                  {project.title}
+                </TabPill>
+              </button>
+            );
+          })}
+        </div>
+        <button
+          type="button"
+          aria-label="Scroll right"
+          onClick={() => scrollByAmount(1)}
+          className="shrink-0 rounded-full border border-border bg-background p-2 text-foreground shadow-sm"
+        >
+          ›
+        </button>
       </div>
-      {/* Peek/fade affordance: hints there's more content past the trailing
-          edge instead of letting the row wrap at high browser zoom (FR-7). */}
-      <div
-        data-testid="project-tab-strip-fade"
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent"
-      />
+      <div className="mt-2 flex justify-center gap-1.5">
+        {projects.map((project) => (
+          <span
+            key={project.slug}
+            data-testid="project-tab-strip-dot"
+            aria-hidden="true"
+            className={
+              project.slug === selectedSlug
+                ? "h-1.5 w-4 rounded-pill bg-primary"
+                : "h-1.5 w-1.5 rounded-pill bg-secondary"
+            }
+          />
+        ))}
+      </div>
     </div>
   );
 }
