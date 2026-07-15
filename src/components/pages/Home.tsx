@@ -63,8 +63,13 @@ export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
   const totalPages = posts.length > 0 ? 1 : 0;
 
   return (
-    <div className="flex min-h-dvh flex-col gap-16 bg-background">
-      <Header items={navItems} activeHref={activeHref} title="THE BLOG" />
+    <div className="flex min-h-dvh flex-col gap-4 bg-background">
+      <Header
+        items={navItems}
+        activeHref={activeHref}
+        title="cold take"
+        subtitle="slow thoughts on fast tech"
+      />
 
       <div className="mx-auto flex w-full max-w-content flex-1 flex-col gap-16 px-6">
         {recent.length > 0 && (

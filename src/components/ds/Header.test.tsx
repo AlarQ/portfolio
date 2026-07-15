@@ -58,4 +58,36 @@ describe("Header", () => {
     expect(masthead?.textContent).toBe("THE BLOG");
     withTitle.unmount();
   });
+
+  it("renders the tagline and an aria-hidden slash separator when subtitle is passed", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Header items={sampleNavItems} title="cold take" subtitle="slow thoughts on fast tech" />
+    );
+
+    const heading = container.querySelector("header h1");
+    expect(heading?.textContent).toBe("cold take");
+    expect(container.textContent).toContain("slow thoughts on fast tech");
+    const slash = container.querySelector("header h1 + span[aria-hidden]");
+    expect(slash?.textContent).toBe("/");
+
+    // The tagline is a sibling <p>, not part of the h1 — associate it via
+    // aria-describedby so screen readers pair it with the title.
+    const taglineId = heading?.getAttribute("aria-describedby");
+    expect(taglineId).toBeTruthy();
+    expect(container.querySelector(`#${taglineId}`)?.textContent).toBe(
+      "slow thoughts on fast tech"
+    );
+
+    unmount();
+  });
+
+  it("omits aria-describedby on the masthead heading when no subtitle is passed", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Header items={sampleNavItems} title="THE BLOG" />
+    );
+
+    expect(container.querySelector("header h1")?.getAttribute("aria-describedby")).toBeNull();
+
+    unmount();
+  });
 });

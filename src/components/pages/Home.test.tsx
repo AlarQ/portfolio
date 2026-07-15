@@ -11,7 +11,8 @@ describe("Home", () => {
     );
 
     // Masthead is the `ds/Header` title band, not a hand-rolled <h1>.
-    expect(container.textContent).toContain("THE BLOG");
+    expect(container.textContent).toContain("cold take");
+    expect(container.textContent).toContain("slow thoughts on fast tech");
 
     // Every Post renders exactly once across the Recent + All sections.
     expect(container.querySelectorAll("article")).toHaveLength(samplePosts.length);

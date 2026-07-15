@@ -36,7 +36,7 @@ test.describe("/ renders the Blog index (FR-1)", () => {
     const response = await page.goto("/blog");
     expect(response?.ok()).toBe(true);
     await expect(page).toHaveURL(/\/$/);
-    await expect(page.locator("h1").first()).toHaveText(/blog/i);
+    await expect(page.locator("h1").first()).toHaveText(/cold take/i);
 
     expect(pageErrors).toEqual([]);
     expect(consoleErrors).toEqual([]);

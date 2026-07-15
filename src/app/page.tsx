@@ -9,6 +9,5 @@ import { getPosts } from "@/data/posts";
  */
 export default function IndexPage() {
   const posts = getPosts();
-
   return <Home posts={posts} navItems={navItems} activeHref="/" />;
 }
