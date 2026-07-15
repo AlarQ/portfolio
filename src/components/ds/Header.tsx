@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { NavItem } from "@/data/navItems";
 import { HeaderMobileMenu } from "./HeaderMobileMenu";
@@ -16,6 +17,7 @@ import { ThemePill } from "./ThemePill";
 export interface HeaderProps {
   items: readonly NavItem[];
   activeHref?: string;
+  /** Accessible label for the brand mark (rendered as `alt` text, not visible copy). */
   brandLabel?: string;
   title?: string;
   /** Optional tagline rendered beneath the masthead `title` (no-op without `title`). */
@@ -25,14 +27,16 @@ export interface HeaderProps {
 export function Header({
   items,
   activeHref,
-  brandLabel = "Your Name",
+  brandLabel = "Cold Take",
   title,
   subtitle,
 }: HeaderProps) {
   return (
     <header className="bg-background py-header-y text-foreground">
       <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-navbar-y">
-        <span className="text-xl font-semibold leading-6">{brandLabel}</span>
+        <Link href="/" className="flex items-center">
+          <Image src="/images/brand-mark.png" alt={brandLabel} width={36} height={36} priority />
+        </Link>
         <nav aria-label="Primary" className="hidden items-center gap-nav-gap md:flex">
           {items.map((item) => {
             const active = item.href === activeHref;

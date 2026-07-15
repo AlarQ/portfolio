@@ -5,12 +5,12 @@ import { Header } from "./Header";
 import { renderIntoDocument } from "./testUtils";
 
 describe("Header", () => {
-  it("renders the brand label and every nav item as an anchor", () => {
+  it("renders the brand mark and every nav item as an anchor", () => {
     const { container, unmount } = renderIntoDocument(
       <Header items={sampleNavItems} brandLabel="Jane Doe" />
     );
 
-    expect(container.textContent).toContain("Jane Doe");
+    expect(container.querySelector('header a[href="/"] img')?.getAttribute("alt")).toBe("Jane Doe");
     for (const item of sampleNavItems) {
       const anchor = container.querySelector(`a[href="${item.href}"]`);
       expect(anchor).not.toBeNull();
