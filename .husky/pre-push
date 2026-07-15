@@ -5,7 +5,10 @@ set -e
 # pass locally before a push leaves the machine.
 npm run lint
 npm run type-check
-npm run test:unit
+# Run the unit suite WITH coverage, then gate branch-new code at >=80% covered
+# (diff coverage vs the merge-base with origin/main). Both fail closed.
+npm run test:coverage
+npm run check:diff-coverage
 
 # Fail the push on any high+ severity advisory over the committed lockfile.
 npm audit --audit-level=high

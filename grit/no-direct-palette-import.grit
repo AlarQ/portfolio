@@ -1,32 +1,32 @@
 or {
   r`"(?:#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8})"` as $hex where {
     not $filename <: r".*/theme/(?:theme|tokens)\.ts$",
-    not $filename <: r".*/scripts/generate-tokens\.ts$",
+    not $filename <: r".*/scripts/(?:generate-tokens|prerender-mermaid)\.ts$",
     register_diagnostic(span=$hex, message="Raw hex literal not allowed in component source; reference a semantic token instead")
   },
   `import $imports from $src` as $imp where {
     $src <: r`"[^"]*theme/tokens"`,
     $imp <: r`.*[^a-zA-Z]primitives[^a-zA-Z].*`,
     not $filename <: r".*/theme/tokens\.ts$",
-    not $filename <: r".*/scripts/generate-tokens\.ts$",
+    not $filename <: r".*/scripts/(?:generate-tokens|prerender-mermaid)\.ts$",
     register_diagnostic(span=$imp, message="Primitive-layer import (primitives) not allowed in component source; use the semantic token layer")
   },
   `import * as $ns from $nsSrc` as $nsImp where {
     $nsSrc <: r`"[^"]*theme/tokens"`,
     not $filename <: r".*/theme/tokens\.ts$",
-    not $filename <: r".*/scripts/generate-tokens\.ts$",
+    not $filename <: r".*/scripts/(?:generate-tokens|prerender-mermaid)\.ts$",
     register_diagnostic(span=$nsImp, message="Namespace import of theme/tokens not allowed; import the semantic aliases (semanticLight/semanticDark) by name")
   },
   r`"[^"]*(?:rgb|rgba|hsl|hsla|oklch)\\([^"]*"` as $colorFn where {
     not $filename <: r".*/theme/(?:theme|tokens)\.ts$",
-    not $filename <: r".*/scripts/generate-tokens\.ts$",
+    not $filename <: r".*/scripts/(?:generate-tokens|prerender-mermaid)\.ts$",
     not $filename <: r".*\.test\.ts$",
     not $filename <: r".*/e2e/.*",
     register_diagnostic(span=$colorFn, message="Raw color-function literal not allowed in component source; reference a semantic token instead")
   },
   r`"[^"]*\\[(?:#|rgb|hsl|oklch|color:)[^"]*"` as $arbitraryColor where {
     not $filename <: r".*/theme/(?:theme|tokens)\.ts$",
-    not $filename <: r".*/scripts/generate-tokens\.ts$",
+    not $filename <: r".*/scripts/(?:generate-tokens|prerender-mermaid)\.ts$",
     not $filename <: r".*\.test\.ts$",
     not $filename <: r".*/e2e/.*",
     register_diagnostic(span=$arbitraryColor, message="Tailwind arbitrary-value color not allowed in component source; reference a semantic token utility instead")

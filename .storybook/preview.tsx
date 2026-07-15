@@ -1,7 +1,6 @@
 import type { Decorator, Preview } from "@storybook/nextjs";
 import { Inter } from "next/font/google";
 import { useEffect } from "react";
-import { brand } from "../src/theme/theme";
 import "../src/app/globals.css";
 
 /**
@@ -78,6 +77,10 @@ const preview: Preview = {
   },
   initialGlobals: {
     theme: "light",
+
+    backgrounds: {
+      value: "light",
+    },
   },
   decorators: [withTheme],
   parameters: {
@@ -96,7 +99,7 @@ const preview: Preview = {
      * regression coverage still lives in `e2e/pages-mobile-viewport.spec.ts`.
      */
     viewport: {
-      viewports: {
+      options: {
         iphone15: {
           name: "iPhone 15",
           styles: { width: "390px", height: "844px" },
@@ -114,8 +117,9 @@ const preview: Preview = {
      * definition (the real Figma dark frame in `tokens.ts`/`tokens.css`).
      */
     backgrounds: {
-      default: "light",
-      values: [{ name: "light", value: brand.white }],
+      options: {
+        light: { name: "light", value: "var(--background)" },
+      },
     },
     controls: {
       matchers: {

@@ -9,6 +9,13 @@ const meta: Meta<typeof ThemePill> = {
 export default meta;
 type Story = StoryObj<typeof ThemePill>;
 
-// Flip the Theme toolbar (Light/Dark) to verify the knob moves to the moon
-// (light) vs the sun (dark) and the pill/icon colors invert.
-export const Default: Story = {};
+/** Light-active: the moon sits in the filled knob, sun is bare. */
+export const Light: Story = {
+  globals: { theme: "light" },
+};
+
+/** Dark-active: per-story `theme` global drives the `withTheme` decorator
+ * (see `.storybook/preview.tsx`) — the sun sits in the filled knob, moon is bare. */
+export const Dark: Story = {
+  globals: { theme: "dark" },
+};

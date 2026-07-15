@@ -1,50 +1,70 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * Blog index + navigation E2E (chromium — the reliable signal; webkit/mobile
- * have known pre-existing failures per repo CLAUDE.md).
+ * Blog navigation + Post detail E2E (chromium — the reliable signal; webkit/
+ * mobile have known pre-existing failures per repo CLAUDE.md).
  *
- * The featured-first *ordering* invariant (FR-8, N>1) is covered as a unit in
- * `src/components/PostList.test.tsx` — the fs-bound loader yields a single
- * content Post, so e2e exercises the real N=1 render + the loader→page wiring +
- * the single-source nav.
+ * The blog index itself (index-lists-posts, index-item-shows-meta,
+ * featured-first-at-n1 — FR-1/FR-8) moved to `/` under ADR-RM-4 and is
+ * covered by `e2e/home.spec.ts` (real Post content, newest-first) and
+ * `src/components/pages/Home.test.tsx` (article-per-Post structural
+ * invariant). The legacy `data-testid="featured-post"` markup those
+ * scenarios used to assert against belonged to the retired MUI `PostList`/
+ * `PostCard` (deleted same-branch per ADR-RM-5) — this file no longer
+ * duplicates that coverage against the old `/blog` route.
  *
- * Scenarios: index-lists-posts, index-item-shows-meta, featured-first-at-n1,
- * nav-blog-present, nav-active-on-detail.
+ * Scenarios: nav-blog-present, nav-active-on-detail.
  */
 
-test.describe("Blog index", () => {
-  // index-lists-posts + index-item-shows-meta (FR-1): the published Post
-  // surfaces on /blog as a navigable card exposing title, dek, date, and
-  // reading time. (The bare "title link is visible" assertion is folded in
-  // here via getByRole("link") rather than kept as a separate test.)
-  test("lists the published Post with its title link, dek, date, and reading time", async ({
-    page,
-  }) => {
-    await page.goto("/blog");
+/**
+ * Salvaged route-regression block (task 010, ADR-RM-5). Relocated from
+ * `e2e/coexistence.spec.ts` (deleted same commit) — its MUI/Tailwind
+ * cascade-layer assertions are gone with MUI, but the no-console/page-error
+ * regression sweep across the live IA survives, restated for the post-
+ * migration routes (`/`, `/blog` redirect, `/blog/[slug]`, `/author`,
+ * `/projects` — now a live route, task 004). `/` and `/blog` redirect coverage already lives in
+ * `e2e/home.spec.ts` — not duplicated here.
+ */
+test.describe("existing routes render without regression (route-regression sweep)", () => {
+  function trackErrors(page: import("@playwright/test").Page) {
+    const consoleErrors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") consoleErrors.push(msg.text());
+    });
+    const pageErrors: string[] = [];
+    page.on("pageerror", (err) => pageErrors.push(err.message));
+    return () => {
+      expect(pageErrors).toEqual([]);
+      expect(consoleErrors).toEqual([]);
+    };
+  }
 
-    // The card is wrapped in a navigable link (an ancestor of the testid'd
-    // content), so assert the link at page scope and the metadata within the item.
-    await expect(page.getByRole("link", { name: /Bounded Chaos/ })).toBeVisible();
+  test("/projects renders as a live route without console/page errors", async ({ page }) => {
+    const assertNoErrors = trackErrors(page);
 
-    const item = page.getByTestId("featured-post");
-    await expect(item.getByText("Bounded Chaos")).toBeVisible();
-    await expect(item.getByText(/deterministic containment vessel/)).toBeVisible();
-    // Assert the machine-readable ISO date (locale-proof) plus a loose check
-    // that a human-formatted date renders — not the exact localized string.
-    const date = item.locator("time");
-    await expect(date).toHaveAttribute("datetime", "2026-06-15");
-    await expect(date).toHaveText(/\d{1,2} \w+ 20\d{2}/);
-    await expect(item.getByText(/min read/)).toBeVisible();
+    const response = await page.goto("/projects");
+    expect(response?.ok()).toBe(true);
+
+    assertNoErrors();
   });
 
-  // featured-first-at-n1 (FR-8): the lone Post fills the featured slot; the
-  // section is not empty/abandoned (no empty-state placeholder)
-  test("renders the lone Post as the featured item, not an empty section", async ({ page }) => {
-    await page.goto("/blog");
+  test("/blog/[slug] (real slug) renders without console/page errors", async ({ page }) => {
+    const assertNoErrors = trackErrors(page);
 
-    await expect(page.getByTestId("featured-post")).toBeVisible();
-    await expect(page.getByTestId("blog-empty")).toHaveCount(0);
+    const response = await page.goto("/blog/my-spec-driven-workflow");
+    expect(response?.ok()).toBe(true);
+    await expect(page.locator("h1").first()).toHaveText(/bounded chaos/i);
+
+    assertNoErrors();
+  });
+
+  test("/author renders without console/page errors", async ({ page }) => {
+    const assertNoErrors = trackErrors(page);
+
+    const response = await page.goto("/author");
+    expect(response?.ok()).toBe(true);
+
+    assertNoErrors();
   });
 });
 
@@ -65,7 +85,10 @@ test.describe("Blog navigation", () => {
     await page.click('button[aria-label="Open menu"]');
     await page.waitForTimeout(500);
 
-    await expect(page.locator('#mobile-menu a[href="/blog"]')).toBeVisible();
+    // Nav consolidation (task 005, e2e-test-1): the legacy MUI drawer
+    // (`#mobile-menu`) is retired — `ds/Header`'s `HeaderMobileMenu` is now the
+    // sole mobile drawer, with the real Blog destination `/` (ADR-RM-4).
+    await expect(page.locator('#mobile-menu a[href="/"]')).toBeVisible();
   });
 
   // nav-active-on-detail (FR-7): active on /blog and on /blog/[slug]
@@ -110,7 +133,7 @@ test.describe("Post detail readability & a11y", () => {
 
   // typography-measure-constrained (task 005): the prose column's declared CSS
   // measure is exactly the `proseMeasure` token (64ch), shared with the
-  // PostReadingLayout ToC grid — not a raw per-component literal.
+  // PostLayout ToC grid — not a raw per-component literal.
   test("prose column measure resolves to the 64ch theme token at desktop viewport", async ({
     page,
   }) => {

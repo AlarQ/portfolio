@@ -1,0 +1,56 @@
+gate: spec-consistency
+status: findings
+findings:
+  - id: spec-consistency-001
+    severity: medium
+    category: repo-misalignment
+    title: "Mirror/exemplar target `src/data/domains.ts` does not exist in the repo"
+    description: >
+      FR-1, the PRD Scope, and Task 001's Approach all instruct the implementer to model the new `src/data/projects.ts` on `src/data/domains.ts` ("mirroring `domains.ts`" / "mirrors `domains.ts`"). No such file exists. `git ls-files` and an on-disk `ls` both miss it, and `grep -rn "DomainArea" src/` returns nothing. The Domain Area concept actually lives in `src/data/categories.ts`. The stale reference is inherited from CLAUDE.md line 63, which itself still names `src/data/domains.ts`.
+
+    file: specs/projects-tab/spec.md
+    lines: "28-33"
+    code_snippet: |
+      `src/data/projects.ts` defines a typed, JSX-free `Project` record (title, slug, tagline,
+      `status`, `mvpProgress` 0–100, `currentState`, `techStack`, `relatedPosts`) and an
+      owner-curated, manually-ordered array. This array is the single source of truth for the
+      Project concept and the authoritative slug set consumed by every downstream layer —
+      mirroring `domains.ts`. No hex, no icons, no JSX in this module.
+    fix_proposal: >
+      Replace every "domains.ts" reference with the real exemplar. In spec.md FR-1 (line 33), PRD Scope (line 21), and tasks/001 Approach (line 54), change "mirroring `domains.ts`" / "mirrors `domains.ts`" to reference an existing JSX-free typed-data module such as `src/data/categories.ts` (or `src/data/posts.ts`). Do not edit any source file. (Separately, the repo owner may want to correct CLAUDE.md line 63, but that is outside this spec bundle.)
+
+    rationale: >
+      A named reuse/pattern exemplar that does not resolve against the real repo sends the implementer looking for a file that was renamed or never existed, and risks copying the wrong shape. The seam-pattern intent is sound; only the pointer is dead.
+
+    impact: >
+      Implementer wastes a discovery cycle locating the true exemplar; risk of divergent structure if they guess. Low functional risk (the pattern is abundant elsewhere in src/data), but guaranteed friction on the first task of the graph.
+
+    references: ["specs/projects-tab/prd.md:21", "specs/projects-tab/tasks/001-project-data-model-and-slug-gate.md:54", "src/data/categories.ts", "CLAUDE.md:63"]
+    confidence: high
+    review_status: accepted
+    source: llm
+  - id: spec-consistency-002
+    severity: low
+    category: repo-misalignment
+    title: "Task `implementer` id `engineering/frontend-developer` drifts from the agent id used in config.yml"
+    description: >
+      All five tasks set frontmatter `implementer: engineering/frontend-developer`, but config.yml lists the agent for every phase as `engineering-frontend-developer`, and the actual agent files are `~/.claude/agents/engineering-frontend-developer.md` and `~/.claude/agents/engineering/engineering-frontend-developer.md`. No file resolves exactly to the slug `engineering/frontend-developer`.
+
+    file: specs/projects-tab/tasks/001-project-data-model-and-slug-gate.md
+    lines: "28-28"
+    code_snippet: |
+      implementer: engineering/frontend-developer
+    fix_proposal: >
+      Normalize the `implementer:` value across tasks/001-005 to the exact agent id used in config.yml (`engineering-frontend-developer`), or to the namespaced path that matches a real file (`engineering/engineering-frontend-developer`).
+
+    rationale: >
+      The implementer id should resolve to a concrete agent definition and match the config.yml agent roster so orchestration binds the intended agent deterministically.
+
+    impact: >
+      Likely tolerated by fuzzy agent resolution, but a strict resolver could fail to bind the implementer or bind the wrong one; at minimum it is an inconsistency between config.yml and the task frontmatter.
+
+    references: ["specs/projects-tab/config.yml:12", "~/.claude/agents/engineering-frontend-developer.md"]
+    confidence: medium
+    review_status: accepted
+    source: llm
+summary: "projects-tab spec bundle is coherent on traceability (FR-1..11 all owned), task-graph (clean DAG over 001-005), and doc-doc consistency; one dead pattern-exemplar reference (`domains.ts` → real file is `categories.ts`) and a minor implementer-id drift are the only repo-alignment misses."

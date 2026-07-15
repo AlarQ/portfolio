@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { renderIntoDocument } from "@/components/ds/testUtils";
+import { domainAreas } from "@/data/domains";
+import { ownerProfile } from "@/data/profile";
 import { sampleNavItems } from "@/stories/fixtures/nav";
 import { samplePost, samplePosts } from "@/stories/fixtures/posts";
 import { Author } from "./Author";
@@ -45,10 +47,19 @@ describe("Pages components — compose organisms, never reimplement them", () =>
     unmount();
   });
 
-  it("Author renders AuthorInfo's own avatar structure plus PostCard's article structure", () => {
-    const { container, unmount } = renderIntoDocument(<Author posts={samplePosts} />);
+  it("Author composes the IdentityRail and DomainAreaPanel organisms plus PostCard's article structure", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Author posts={samplePosts} navItems={sampleNavItems} />
+    );
 
-    expect(container.querySelector('[data-slot="avatar"]')).not.toBeNull();
+    // Composition, not reimplementation: each organism's own `data-slot` marker
+    // proves the page mounts `ds/IdentityRail` / `ds/DomainAreaPanel` rather
+    // than hand-rolling their markup inline.
+    expect(container.querySelector('[data-slot="identity-rail"]')).not.toBeNull();
+    expect(container.querySelector(`img[alt="${ownerProfile.imageAlt}"]`)).not.toBeNull();
+    expect(container.querySelectorAll('[data-slot="domain-area-panel"]')).toHaveLength(
+      domainAreas.length
+    );
     expect(container.querySelectorAll("article")).toHaveLength(samplePosts.length);
     expect(container.querySelector("footer")).not.toBeNull();
 

@@ -58,7 +58,7 @@ export function HeaderMobileMenu({ items, activeHref }: HeaderMobileMenuProps) {
         aria-hidden
       />
       <div
-        id="header-mobile-menu"
+        id="mobile-menu"
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
@@ -107,7 +107,7 @@ export function HeaderMobileMenu({ items, activeHref }: HeaderMobileMenuProps) {
         onClick={() => setIsOpen((open) => !open)}
         aria-label={isOpen ? "Close menu" : "Open menu"}
         aria-expanded={isOpen}
-        aria-controls="header-mobile-menu"
+        aria-controls="mobile-menu"
         className="text-foreground"
       >
         {/* Always the hamburger: when open the panel covers this trigger, and

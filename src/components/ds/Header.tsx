@@ -18,9 +18,17 @@ export interface HeaderProps {
   activeHref?: string;
   brandLabel?: string;
   title?: string;
+  /** Optional tagline rendered beneath the masthead `title` (no-op without `title`). */
+  subtitle?: string;
 }
 
-export function Header({ items, activeHref, brandLabel = "Your Name", title }: HeaderProps) {
+export function Header({
+  items,
+  activeHref,
+  brandLabel = "Your Name",
+  title,
+  subtitle,
+}: HeaderProps) {
   return (
     <header className="bg-background py-header-y text-foreground">
       <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-navbar-y">
@@ -48,19 +56,34 @@ export function Header({ items, activeHref, brandLabel = "Your Name", title }: H
         </div>
       </div>
       {title ? (
-        // Masthead: `@container` makes the band a container-query context so the
-        // headline is sized in `cqi` (band inline-size), not `vw`. Because `cqi`
-        // tracks the band's *content* box, it accounts for `px-6` and fills the
-        // band at every width (320→1216) without clipping — the fit-to-band fix.
-        // The band is `max-w-content` (1216px), so `19cqi` tops out at ~222px on
-        // desktop; the `243.8px` clamp arg is therefore an inert safety ceiling
-        // that only bites if the band's max width is ever raised. `overflow-hidden`
-        // + `whitespace-nowrap` remain the guard that clips a genuinely over-long
-        // title (see the `LongTitle` story) instead of breaking page layout.
-        <div className="@container mx-auto mt-masthead-top w-full max-w-content overflow-hidden border-y border-border px-6">
-          <h1 className="whitespace-nowrap text-[clamp(3rem,19cqi,243.8px)] font-bold leading-none text-foreground">
-            {title}
-          </h1>
+        // Masthead: compact one-liner — title + tagline share one baseline row
+        // separated by a slash, under a single bottom rule. `@container` keeps
+        // the headline/tagline sized in `cqi` (band inline-size) so they scale
+        // with the band rather than the viewport. Dense on purpose: the post
+        // grid should lead, not a band-filling headline. Wraps via `flex-wrap`
+        // for long titles instead of clipping (see the `LongTitle` story).
+        <div className="@container mx-auto mt-masthead-top w-full max-w-content border-b border-border px-6 pb-5">
+          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <h1
+              className="text-[clamp(2.25rem,6.5cqi,4rem)] font-bold leading-none text-foreground lowercase"
+              aria-describedby={subtitle ? "masthead-tagline" : undefined}
+            >
+              {title}
+            </h1>
+            {subtitle ? (
+              <>
+                <span className="text-3xl font-light leading-none text-border" aria-hidden>
+                  /
+                </span>
+                <p
+                  id="masthead-tagline"
+                  className="text-[clamp(1.15rem,2.8cqi,1.625rem)] font-normal leading-none text-muted-foreground"
+                >
+                  {subtitle}
+                </p>
+              </>
+            ) : null}
+          </div>
         </div>
       ) : null}
     </header>

@@ -1,26 +1,13 @@
-import Box from "@mui/material/Box";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Orbitron } from "next/font/google";
-import { Navigation } from "@/components/navigation";
+import { Geist_Mono, Inter } from "next/font/google";
 import { getSiteUrl } from "@/data/siteConfig";
 import { ThemeProvider } from "@/theme/ThemeProvider";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 /**
@@ -47,22 +34,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${inter.variable}`}
-      >
-        {/* ADR-DS-2: `enableCssLayer` must be set here too — this registry's
-            `cache.insert` is what actually wraps every emitted Emotion rule
-            in `@layer mui {...}`. `StyledEngineProvider`'s own `enableCssLayer`
-            (ThemeProvider.tsx) only toggles a compat flag consumed by MUI's
-            style hooks; without also setting it here, only some MUI CSS is
-            layered, producing a real (not test-detectable) cascade gap. */}
-        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <ThemeProvider>
-            <Navigation />
-            <Box sx={{ pt: { xs: 11, sm: 13 } }}>{children}</Box>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistMono.variable} ${inter.variable}`}>
+        {/* No global nav mount here (task 005, e2e-test-1): each top-level
+            page (`pages/Home`, `ds/PostLayout`) renders its own `ds/Header` so
+            there is exactly one primary nav per page — mounting a second one
+            globally previously produced a strict-mode duplicate "Blog" link. */}
+        <ThemeProvider>{children}</ThemeProvider>
+        {/* Vercel Web Analytics: cookieless, edge-hashed unique visitors
+            (per-day, not lifetime — see the "monitoring" chat). Default
+            `mode="auto"` loads a console-only debug script in `npm run dev`
+            and only sends page views in production, so local visits never
+            pollute the dashboard. Prod script + view endpoint are first-party
+            (`/_vercel/insights/*`), so a future CSP (CLAUDE.md MDX trust
+            boundary) needs only `script-src 'self'` / `connect-src 'self'` —
+            no cross-origin allowlist, unlike Plausible/Fathom/Umami. Enable
+            per-project in the Vercel dashboard → Analytics, then redeploy. */}
+        <Analytics />
       </body>
     </html>
   );

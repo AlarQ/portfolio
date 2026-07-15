@@ -1,0 +1,16 @@
+tier: medium
+track: feature
+branch_strategy: per-task
+tags: [projects, ui, storybook, nextjs, mdx]
+gates:
+  - lint
+  - format-check
+  - type-check
+  - unit-test
+  - e2e-test
+agents:
+  explore: [engineering-frontend-developer]
+  propose: [engineering-frontend-developer]
+  implement: [engineering-frontend-developer, code-quality-pragmatist]
+  validate: [code-quality-pragmatist, claude-md-compliance-checker]
+  pr-review: [claude-md-compliance-checker]

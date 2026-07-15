@@ -1,0 +1,15 @@
+gate: code-quality
+task_id: 004-migrate-post-route-to-singlepost
+status: findings
+findings:
+  - id: cq-001
+    severity: low
+    category: dx-antipattern
+    title: "Stale doc comments reference deleted PostArticle/PostReadingLayout/PostNav components"
+    description: >
+      Task 004 deleted src/components/PostArticle.tsx, PostNav.tsx, PostReadingLayout.tsx, and PostToc.tsx, but comments in src/utils/mdxPresentationText.tsx, src/theme/theme.ts, e2e/blog-detail.spec.ts, and e2e/blog.spec.ts still name those removed components as the current owners of layout/measure behavior. A future reader following those comments will look for code that no longer exists.
+
+    file: src/theme/theme.ts
+    lines: "51"
+    source: llm
+    review_status: accepted

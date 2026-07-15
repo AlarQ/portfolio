@@ -1,0 +1,22 @@
+gate: code-quality
+task_id: "005"
+status: findings
+findings:
+  - id: code-quality-1
+    severity: low
+    category: dead-code
+    title: coexistence.spec.ts describe block name/comment lag behind actual behavior
+    description: >
+      The "existing routes render without regression (FR-1)" describe block and its helper now only exercises the /blog -> / redirect, with a TODO noting it "relocates once /blog is fully retired". The block's outer describe name and surrounding scaffolding (trackErrors helper) still frame this as a general regression suite even though it now covers a single redirect assertion.
+
+    file: e2e/coexistence.spec.ts
+    lines: "107-119"
+    fix_proposal: >
+      No action required now; the inline TODO(task 010) already documents the planned relocation. Consider moving the single redirect test into home.spec.ts or blog-redirect.spec.ts in that follow-up task rather than leaving it in a file named "coexistence".
+
+    rationale: Test file naming/organization should reflect current scope (testing/structure.md).
+    impact: Minor — a future reader may be confused why a "coexistence" file only asserts a redirect; already tracked via TODO.
+    references: ["general-knowledge-base/rules/testing/structure.md"]
+    confidence: medium
+    review_status: accepted
+    source: llm

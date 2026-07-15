@@ -31,7 +31,7 @@ const BANNER = [
 ].join("\n");
 
 /** camelCase / digit-suffixed key → kebab CSS-var suffix (`primary600` → `primary-600`). */
-function kebab(key: string): string {
+export function kebab(key: string): string {
   return key
     .replace(/([a-z])([A-Z])/g, "$1-$2")
     .replace(/([a-zA-Z])([0-9])/g, "$1-$2")

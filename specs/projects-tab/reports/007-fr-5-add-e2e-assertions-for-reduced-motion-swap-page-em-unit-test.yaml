@@ -1,0 +1,4 @@
+gate: unit-test
+task_id: 007-fr-5-add-e2e-assertions-for-reduced-motion-swap-page-em
+status: pass
+findings: []

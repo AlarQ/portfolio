@@ -23,6 +23,12 @@ export const Masthead: Story = {
   args: { title: "THE BLOG" },
 };
 
+// Masthead + tagline: the `subtitle` line beneath the display title, as used
+// by the blog index ("cold take" / "slow thoughts on fast tech").
+export const MastheadWithSubtitle: Story = {
+  args: { title: "cold take", subtitle: "slow thoughts on fast tech" },
+};
+
 // Mobile masthead: the whole point of the cqi fit-to-band sizing. At the
 // narrowest supported width (320px — where the old `vw` sizing clipped
 // "THE BLO…"), the container-query headline must scale down to fill the
@@ -30,6 +36,7 @@ export const Masthead: Story = {
 // tight case the shared iphone15 (390px) frame only nearly hit.
 export const MastheadMobile: Story = {
   args: { title: "THE BLOG" },
+
   parameters: {
     viewport: {
       viewports: {
@@ -39,13 +46,20 @@ export const MastheadMobile: Story = {
           type: "mobile",
         },
       },
-      defaultViewport: "narrow",
+    },
+  },
+
+  globals: {
+    viewport: {
+      value: "narrow",
+      isRotated: false,
     },
   },
 };
 
-// Long-content: whitespace-nowrap + clamp means an over-long title clips
-// within the bordered band (overflow-hidden) instead of breaking page layout.
+// Long-content: the compact one-liner band wraps via flex-wrap rather than
+// clipping, so an over-long title flows onto a second line without breaking
+// page layout.
 export const LongTitle: Story = {
   args: { title: "THE ENGINEERING BLOG" },
 };

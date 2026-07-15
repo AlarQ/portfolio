@@ -3,17 +3,27 @@ import { expect, test } from "@playwright/test";
 /**
  * Blog Post detail E2E Tests
  *
- * Tests the Post detail page at /blog/[slug]
+ * Tests the Post detail page at /blog/[slug], migrated onto `pages/SinglePost`
+ * (route-migration task 004) — asserts against the SinglePost render tree
+ * (`ArticleProse`'s `<h1>` + prose, `PageInfo`'s `<time>`), not the retired
+ * `PostArticle`/MUI carriers.
  *
- * Scenario: detail-renders-body (FR-2)
- * - Given an authored Post `my-spec-driven-workflow`
- * - When a reader visits /blog/my-spec-driven-workflow
- * - Then the MDX body renders as HTML in the statically generated page
+ * Scenario: post-page-renders (FR-2)
+ * - Given a Post with slug `s` exists
+ * - When a reader visits /blog/s
+ * - Then pages/SinglePost renders the Post's title, date, and MDX body,
+ *   statically generated via generateStaticParams
  */
 
 test.describe("Blog Post detail", () => {
-  test("renders the authored MDX body as HTML", async ({ page }) => {
+  test("renders the Post title, date, and MDX body via pages/SinglePost", async ({ page }) => {
     await page.goto("/blog/my-spec-driven-workflow");
+
+    // Title: SinglePost -> PostLayout -> ArticleProse's <h1>.
+    await expect(page.getByRole("heading", { level: 1, name: "Bounded Chaos" })).toBeVisible();
+
+    // Date: SinglePost -> PostLayout -> PageInfo's <time>, the Post's formatted date.
+    await expect(page.locator("time")).toBeVisible();
 
     // A distinctive sentence from the MDX body appears as rendered text.
     const bodyProse = page.getByText(
@@ -47,24 +57,40 @@ test.describe("Blog Post detail", () => {
    * REGRESSION GUARD: pre-rendered Mermaid diagrams ship as committed SVGs.
    * The Vercel browserless-build fix replaced in-build `rehype-mermaid` (which
    * launched headless Chromium during `next build`) with a pre-commit step that
-   * renders `content/diagrams/*.mmd` → `public/diagrams/*.svg`, referenced from
-   * the Post body via the `<Diagram>` component (src/components/Diagram.tsx).
-   * This pins the rendered contract: four `<img src="/diagrams/*.svg">` with
-   * non-empty alt text, and — crucially — each SVG actually resolves (200), so
-   * a missing/unbuilt diagram fails here instead of silently 404-ing in prod.
+   * renders `content/diagrams/*.mmd` → `public/diagrams/*-{light,dark}.svg`,
+   * referenced from the Post body via the `<Diagram>` component
+   * (src/components/Diagram.tsx). A diagram is a theme-tracking figure: a LIGHT
+   * SVG (visible in light mode, carries the accessible description) and a DARK
+   * SVG (aria-hidden twin, swapped in via the `.dark` class). This pins the
+   * rendered contract: for each of the four diagrams both SVGs render as
+   * `<img>` and — crucially — actually resolve (200), so a missing/unbuilt
+   * diagram fails here instead of silently 404-ing in prod.
    */
-  test("renders pre-rendered Mermaid diagrams as resolvable SVG images", async ({ page }) => {
+  test("renders pre-rendered Mermaid diagrams as resolvable light+dark SVG images", async ({
+    page,
+  }) => {
     await page.goto("/blog/my-spec-driven-workflow");
 
     const names = ["feature-flow", "task-states", "validate-panel", "learning-loop"];
     for (const name of names) {
-      const img = page.locator(`article img[src="/diagrams/${name}.svg"]`);
-      await expect(img).toHaveCount(1);
-      // Non-empty alt: the diagram carries an accessible description, not an empty box.
-      expect((await img.getAttribute("alt")) ?? "").not.toBe("");
-      // The committed SVG actually exists and serves (the whole point of the fix).
-      const res = await page.request.get(`/diagrams/${name}.svg`);
-      expect(res.status()).toBe(200);
+      // The light SVG is present but decorative; the accessible name lives on the
+      // figure (role="img" + non-empty aria-label), theme-independent.
+      const light = page.locator(`article img[src="/diagrams/${name}-light.svg"]`);
+      await expect(light).toHaveCount(1);
+      const figure = page.locator(`article figure:has(img[src="/diagrams/${name}-light.svg"])`);
+      await expect(figure).toHaveAttribute("role", "img");
+      expect((await figure.getAttribute("aria-label")) ?? "").not.toBe("");
+
+      // The dark twin is present but hidden from a11y (announced once, not twice).
+      const dark = page.locator(`article img[src="/diagrams/${name}-dark.svg"]`);
+      await expect(dark).toHaveCount(1);
+      await expect(dark).toHaveAttribute("aria-hidden", "true");
+
+      // Both committed SVGs actually exist and serve (the whole point of the fix).
+      for (const theme of ["light", "dark"]) {
+        const res = await page.request.get(`/diagrams/${name}-${theme}.svg`);
+        expect(res.status()).toBe(200);
+      }
     }
   });
 
@@ -82,5 +108,22 @@ test.describe("Blog Post detail", () => {
     const response = await page.goto("/blog/does-not-exist");
 
     expect(response?.status()).toBe(404);
+  });
+
+  /**
+   * Scenario: post-page-renders (FR-2, acceptance row 5, presence-only per
+   * Test Strategist scope narrowing — absent-state degradation is task 005's
+   * PostCard ownership).
+   * `content/posts/second-post.mdx` carries both `coverImage` and
+   * `categories: [Engineering, Workflow]` — a live fixture with both set.
+   */
+  test("renders the cover image and vocabulary-hued category badges when present", async ({
+    page,
+  }) => {
+    await page.goto("/blog/second-post");
+
+    await expect(page.locator("article img").first()).toBeVisible();
+    await expect(page.getByText("Engineering", { exact: true })).toBeVisible();
+    await expect(page.getByText("Workflow", { exact: true })).toBeVisible();
   });
 });

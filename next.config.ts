@@ -1,15 +1,25 @@
+import { fileURLToPath } from "node:url";
 import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
+
+// `@next/mdx`'s loader resolves rehype/remark plugin file paths with
+// `require.resolve(path, { paths: [projectRoot] })` — a request starting
+// with `./` is always resolved relative to the *loader's own* directory
+// (Node module-resolution rules), ignoring the `paths` option entirely. An
+// absolute path sidesteps that and resolves correctly regardless of caller.
+const rehypeNeutralizeActiveContentPath = fileURLToPath(
+  new URL("./src/utils/rehypeNeutralizeActiveContent.mjs", import.meta.url)
+);
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
-  // Blog-only surface: `/` redirects to the blog index, and the home layout
-  // (`src/app/page.tsx`) is shadowed by this rule (Next.js applies config
-  // redirects before filesystem routes). `temporary` (307) keeps the option to
-  // restore a real home page later open.
+  // Inverted IA (ADR-RM-4): the Blog index now lives at `/` (`src/app/page.tsx`),
+  // so `/blog` permanently 308-redirects there. `/blog/[slug]` and `/feed.xml`
+  // are untouched — Next.js redirects() only matches the exact `source`, never
+  // a prefix, so neither route is affected by this rule.
   async redirects() {
-    return [{ source: "/", destination: "/blog", permanent: false }];
+    return [{ source: "/blog", destination: "/", permanent: true }];
   },
 };
 
@@ -80,6 +90,10 @@ const withMDX = createMDX({
     rehypePlugins: [
       ["rehype-slug"],
       ["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }],
+      // comp-001: strips explicit-JSX `<script>`/`<iframe>` before the
+      // recma JSX-rewrite stage, since that stage never routes explicit JSX
+      // through `_components` (see rehypeNeutralizeActiveContent.ts).
+      [rehypeNeutralizeActiveContentPath],
     ],
   },
 });

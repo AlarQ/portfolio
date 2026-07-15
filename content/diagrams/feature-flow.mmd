@@ -16,16 +16,10 @@ flowchart TB
   end
   explore --> propose --> implement --> validate --> review --> learn --> audit
 
-  classDef planNode   fill:#0b2733,stroke:#0ea5e9,stroke-width:2px,color:#e2e8f0;
-  classDef buildNode  fill:#1a2b08,stroke:#84cc16,stroke-width:2px,color:#e2e8f0;
-  classDef verifyNode fill:#241033,stroke:#a855f7,stroke-width:2px,color:#e2e8f0;
-  classDef shipNode   fill:#33200a,stroke:#f97316,stroke-width:2px,color:#e2e8f0;
-  class explore,propose planNode;
-  class implement buildNode;
-  class validate,review,learn verifyNode;
-  class audit shipNode;
-
-  style s_plan   fill:#0a1118,stroke:#0ea5e9,stroke-width:1px,color:#e2e8f0;
-  style s_build  fill:#0a1118,stroke:#84cc16,stroke-width:1px,color:#e2e8f0;
-  style s_verify fill:#0a1118,stroke:#a855f7,stroke-width:1px,color:#e2e8f0;
-  style s_ship   fill:#0a1118,stroke:#f97316,stroke-width:1px,color:#e2e8f0;
+  %% Roles only. Colours are resolved per theme (light + dark) by
+  %% scripts/prerender-mermaid.ts — the diagram presentation seam. Do not add
+  %% classDef/style colour literals here; a role with no palette entry throws.
+  class explore,propose plan
+  class implement build
+  class validate,review,learn verify
+  class audit ship

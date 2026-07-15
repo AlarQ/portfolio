@@ -1,0 +1,12 @@
+status: findings
+findings:
+  - source: llm
+    review_status: accepted
+    severity: medium
+    category: coverage-audit
+    title: "Reduced-motion swap assertion is skipped, not verified"
+    file: e2e/projects-index.spec.ts
+    line: 95
+    description: >
+      The reduced-motion swap test (lines 92-106) is well-formed but gated by test.skip(projects.length < 2, ...); src/data/projects.ts has only one Project, so the test is skipped in every run, not passed. FR-5's reduced-motion behavior is therefore unverified in CI despite the task claiming the assertion gap was closed. Same pre-existing gap affects the original pill-swap test. Fix: add a second fixture Project so the test actually executes, or explicitly document the skip as a tracked follow-up rather than presenting it as closed coverage.
+

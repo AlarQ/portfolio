@@ -143,6 +143,16 @@ export const primitives = {
   bodyDark: "#c0c5d0",
   accentBylineDark: "#6941c6",
   /**
+   * Dark surface + border hues (ADR-DS-5) — the elevated card/popover surface
+   * and divider on the dark frame `#090d1f`. Landing these lets `--card`,
+   * `--popover`, and `--border` re-point in `semanticDark` so `bg-card`/
+   * `border-border` stop falling through to their light `:root` values (a white
+   * card on the dark page). Untitled-UI-style dark neutrals; `cardDark` is a
+   * subtle elevation above `backgroundDark`.
+   */
+  cardDark: "#111633",
+  borderDark: "#242b47",
+  /**
    * shadcn-role primitives (Task 004, FR-4) — restyling the stock shadcn
    * primitive set (badge/button/input/card/avatar/navigation-menu/sheet) to
    * the Figma light look through the semantic layer. Untitled-UI-style
@@ -176,6 +186,20 @@ export const primitives = {
   categoryOrangeFg: "#c4320a",
   categoryRoseBg: "#fef3f2",
   categoryRoseFg: "#b42318",
+  /**
+   * Shiki syntax-highlighting palette (FR-8, ADR-RM-3), re-homed from
+   * `theme/theme.ts` `brand`. Deliberately ungrouped and NOT routed through
+   * `semanticLight`/`semanticDark` — code blocks stay a single dark island in
+   * both themes (OQ-2), so there is no light variant to alias.
+   */
+  shikiBg: "#141b22",
+  shikiFg: "#e2e8f0",
+  shikiTokenComment: "#64748b",
+  shikiTokenKeyword: "#38bdf8",
+  shikiTokenString: "#84cc16",
+  shikiTokenConstant: "#f97316",
+  shikiTokenFunction: "#a855f7",
+  shikiTokenVariable: "#7dd3fc",
 } as const;
 
 type PrimitiveName = keyof typeof primitives;
@@ -237,6 +261,11 @@ export const semanticDark = {
   "--foreground": "headingDark",
   "--muted-foreground": "bodyDark",
   "--accent": "accentBylineDark",
+  "--card": "cardDark",
+  "--card-foreground": "headingDark",
+  "--popover": "cardDark",
+  "--popover-foreground": "headingDark",
+  "--border": "borderDark",
 } as const satisfies Record<string, PrimitiveName>;
 
 /**
@@ -254,6 +283,19 @@ export const dimensionPrimitives = {
   spaceNavGap: "14px",
   spaceNavActive: "5px",
   spaceMastheadTop: "50px",
+  /**
+   * Task 005 (typography-measure-constrained): the Post body prose column's
+   * measure, in `ch` (character-count-relative), not `px` — a reading-measure
+   * constraint scales with the resolved font rather than pinning an arbitrary
+   * pixel width. Applied directly to `ArticleProse`'s `<article>` so the
+   * rendered element's own `max-width` is the literal 64ch contract the e2e
+   * suite measures against, replacing the previous ad-hoc `max-w-3xl` (64rem)
+   * wrapper approximation.
+   */
+  proseMeasure: "64ch",
+  /** Meter atom (FR-6, D-8): track thickness and the gap between track and its legend. */
+  meterTrackHeight: "8px",
+  spaceMeterLegendGap: "6px",
 } as const;
 
 type DimensionPrimitiveName = keyof typeof dimensionPrimitives;
@@ -274,4 +316,7 @@ export const semanticDimensions = {
   "--spacing-nav-gap": "spaceNavGap",
   "--spacing-nav-active": "spaceNavActive",
   "--spacing-masthead-top": "spaceMastheadTop",
+  "--container-prose-measure": "proseMeasure",
+  "--spacing-meter-track": "meterTrackHeight",
+  "--spacing-meter-legend-gap": "spaceMeterLegendGap",
 } as const satisfies Record<string, DimensionPrimitiveName>;

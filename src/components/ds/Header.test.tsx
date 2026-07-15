@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { navItems } from "@/data/navItems";
 import { sampleNavItems } from "@/stories/fixtures/nav";
 import { Header } from "./Header";
 import { renderIntoDocument } from "./testUtils";
@@ -34,6 +35,19 @@ describe("Header", () => {
     unmount();
   });
 
+  it("exposes the real navItems Projects link and marks it active on /projects", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Header items={navItems} activeHref="/projects" />
+    );
+
+    const projectsLink = container.querySelector('a[href="/projects"]');
+    expect(projectsLink?.textContent).toBe("Projects");
+    expect(projectsLink?.getAttribute("aria-current")).toBe("page");
+    expect(projectsLink?.className).toContain("font-bold");
+
+    unmount();
+  });
+
   it("renders the masthead heading only when a title is passed", () => {
     const without = renderIntoDocument(<Header items={sampleNavItems} />);
     expect(without.container.querySelector("header h1")).toBeNull();
@@ -43,5 +57,37 @@ describe("Header", () => {
     const masthead = withTitle.container.querySelector("header h1");
     expect(masthead?.textContent).toBe("THE BLOG");
     withTitle.unmount();
+  });
+
+  it("renders the tagline and an aria-hidden slash separator when subtitle is passed", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Header items={sampleNavItems} title="cold take" subtitle="slow thoughts on fast tech" />
+    );
+
+    const heading = container.querySelector("header h1");
+    expect(heading?.textContent).toBe("cold take");
+    expect(container.textContent).toContain("slow thoughts on fast tech");
+    const slash = container.querySelector("header h1 + span[aria-hidden]");
+    expect(slash?.textContent).toBe("/");
+
+    // The tagline is a sibling <p>, not part of the h1 — associate it via
+    // aria-describedby so screen readers pair it with the title.
+    const taglineId = heading?.getAttribute("aria-describedby");
+    expect(taglineId).toBeTruthy();
+    expect(container.querySelector(`#${taglineId}`)?.textContent).toBe(
+      "slow thoughts on fast tech"
+    );
+
+    unmount();
+  });
+
+  it("omits aria-describedby on the masthead heading when no subtitle is passed", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Header items={sampleNavItems} title="THE BLOG" />
+    );
+
+    expect(container.querySelector("header h1")?.getAttribute("aria-describedby")).toBeNull();
+
+    unmount();
   });
 });

@@ -1,55 +1,43 @@
-import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
-import type { TypographyProps } from "@mui/material/Typography";
-import Typography from "@mui/material/Typography";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { brand, withAlpha } from "@/theme/theme";
 
-export const proseTextSx = {
-  color: brand.slateLight,
-  fontSize: "1.125rem",
-  lineHeight: 1.7,
-} as const;
-
-/** Shared focus-visible outline for interactive prose elements (links, heading anchors). */
-const focusVisibleOutlineSx = {
-  outline: `2px solid ${brand.skyLight}`,
-  outlineOffset: 2,
-} as const;
+/**
+ * The Post-body reading font size. `PostLayout`'s `ch`-based grid measure
+ * anchors its column font-size to this exact value so the prose column is 64
+ * characters of the actual body text; the paragraph seam below renders the same
+ * size via the `text-lg` utility.
+ */
+export const proseReadingFontSize = "1.125rem";
 
 const SAFE_HREF = /^(https?:\/\/|\/|#|mailto:)/i;
 
+/** Shared focus-visible outline for interactive prose elements (links, heading anchors). */
+const FOCUS_RING =
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+
 type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
-/** Heading element → MUI Typography variant. Body starts at h2 (h1 is the page title, FR-11). */
-export const HEADING_VARIANTS: Record<HeadingTag, TypographyProps["variant"]> = {
-  h1: "h3",
-  h2: "h4",
-  h3: "h5",
-  h4: "h6",
-  h5: "subtitle1",
-  h6: "subtitle2",
+/** Heading element → semantic size utility. Body starts at h2 (h1 is the page title, FR-11). */
+const HEADING_SIZES: Record<HeadingTag, string> = {
+  h1: "text-3xl",
+  h2: "text-2xl",
+  h3: "text-xl",
+  h4: "text-lg",
+  h5: "text-base",
+  h6: "text-sm",
 };
 
 export function heading(tag: HeadingTag) {
   function Heading({ children, ...props }: { id?: string; children?: ReactNode }) {
     const { id } = props;
+    const Tag = tag;
     return (
-      <Typography
-        component={tag}
-        variant={HEADING_VARIANTS[tag]}
-        sx={{
-          color: brand.slateLight,
-          fontWeight: 700,
-          mt: 5,
-          mb: 2,
-          "&:hover .mdx-heading-anchor": { opacity: 1 },
-        }}
+      <Tag
+        className={`group mt-10 mb-4 font-bold text-foreground ${HEADING_SIZES[tag]}`}
         {...props}
       >
         {children}
         {id ? <HeadingAnchor href={`#${id}`} aria-label="Link to this section" /> : null}
-      </Typography>
+      </Tag>
     );
   }
   Heading.displayName = `Mdx_${tag}`;
@@ -59,45 +47,27 @@ export function heading(tag: HeadingTag) {
 /**
  * Hover/focus deep-link affordance for a heading with a rehype-slug id. Plain
  * `<a href="#id">` — no clipboard-copy handler, no interaction JS (binding
- * decision, task 001 Approach). Reuses the Anchor focus-visible outline
- * pattern via brand tokens only.
+ * decision, task 001 Approach). The 44×44 touch target is padded then pulled
+ * back with negative margin so the inline heading line-height is preserved.
+ * Revealed on group hover/focus; kept visible on coarse pointers (no hover).
  */
 function HeadingAnchor({ href, "aria-label": ariaLabel }: { href: string; "aria-label": string }) {
   return (
-    <Link
+    <a
       href={href}
       aria-label={ariaLabel}
-      className="mdx-heading-anchor"
-      sx={{
-        // 44x44 MUST-minimum touch target without shifting the heading text:
-        // pad the hit box, then pull it back with negative margin so the inline
-        // line-height is preserved.
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minWidth: 44,
-        minHeight: 44,
-        mx: 0.5,
-        my: "-1rem",
-        verticalAlign: "middle",
-        color: brand.skyLight,
-        opacity: 0,
-        textDecoration: "none",
-        "&:focus-visible": { opacity: 1, ...focusVisibleOutlineSx },
-        // Coarse pointers can't hover, so keep the deep-link affordance visible.
-        "@media (pointer: coarse)": { opacity: 1 },
-      }}
+      className={`mx-1 -my-4 inline-flex min-h-11 min-w-11 items-center justify-center align-middle text-primary no-underline opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 [@media(pointer:coarse)]:opacity-100 ${FOCUS_RING}`}
     >
       #
-    </Link>
+    </a>
   );
 }
 
 export function Paragraph({ children, ...props }: { children?: ReactNode }) {
   return (
-    <Typography component="p" variant="body1" sx={{ ...proseTextSx, my: 2 }} {...props}>
+    <p className="my-4 text-lg leading-[1.7] text-muted-foreground" {...props}>
       {children}
-    </Typography>
+    </p>
   );
 }
 
@@ -113,18 +83,14 @@ export function Anchor({
   // externalProps is spread AFTER caller props so callers cannot clobber rel/target.
   const externalProps = isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
   return (
-    <Link
+    <a
       href={safeHref}
-      sx={{
-        color: brand.skyLight,
-        textDecorationColor: withAlpha(brand.sky, 0.4),
-        "&:focus-visible": focusVisibleOutlineSx,
-      }}
+      className={`text-primary underline decoration-primary/40 underline-offset-2 ${FOCUS_RING}`}
       {...props}
       {...externalProps}
     >
       {children}
-    </Link>
+    </a>
   );
 }
 
@@ -140,21 +106,12 @@ export function InlineCode({
     return <code {...props}>{children}</code>;
   }
   return (
-    <Box
-      component="code"
+    <code
       data-mdx-inline-code=""
-      sx={{
-        fontFamily: "var(--font-geist-mono), monospace",
-        fontSize: "0.875em",
-        color: brand.skyLighter,
-        backgroundColor: withAlpha(brand.sky, 0.1),
-        borderRadius: 1,
-        px: 0.75,
-        py: 0.25,
-      }}
+      className="rounded bg-muted px-1.5 py-0.5 font-mono text-[0.875em] text-primary"
       {...props}
     >
       {children}
-    </Box>
+    </code>
   );
 }

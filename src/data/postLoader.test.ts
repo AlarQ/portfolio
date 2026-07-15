@@ -362,3 +362,140 @@ describe("buildPostSet — formatted date derivation", () => {
     expect(post.formattedDate).toBe("9 June 2026");
   });
 });
+
+describe("buildPostSet — coverImage validation (sec)", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("drops an external-URL coverImage with a warning, still publishing the Post", () => {
+    // Given a frontmatter coverImage that is an external (scheme) URL
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const files: RawPostFile[] = [
+      rawFile(
+        "ext-cover.mdx",
+        { title: "T", dek: "d", date: "2026-01-01", coverImage: "https://evil.example.com/x.png" },
+        "b"
+      ),
+    ];
+
+    // When the loader validates frontmatter at the single gate
+    const posts = buildPostSet(files);
+
+    // Then the field is dropped with a build warning naming the file — no external fetch —
+    // and the Post still publishes
+    expect(posts).toHaveLength(1);
+    expect(posts[0].coverImage).toBeUndefined();
+    expect(posts[0].published).toBe(true);
+    expect(warn.mock.calls.some((c) => String(c[0]).includes("ext-cover.mdx"))).toBe(true);
+  });
+
+  it("drops a coverImage containing a '..' traversal segment with a warning", () => {
+    // Given a site-relative-looking coverImage that smuggles a traversal segment
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const files: RawPostFile[] = [
+      rawFile(
+        "traversal-cover.mdx",
+        { title: "T", dek: "d", date: "2026-01-01", coverImage: "/images/../../etc/passwd.png" },
+        "b"
+      ),
+    ];
+
+    // When the loader validates frontmatter
+    const posts = buildPostSet(files);
+
+    // Then the field is dropped with a warning — no path traversal into public/ siblings
+    expect(posts).toHaveLength(1);
+    expect(posts[0].coverImage).toBeUndefined();
+    expect(warn.mock.calls.some((c) => String(c[0]).includes("traversal-cover.mdx"))).toBe(true);
+  });
+
+  it("drops a protocol-relative coverImage (//host) with a warning", () => {
+    // Given a protocol-relative coverImage — it starts with "/" but resolves cross-origin
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const files: RawPostFile[] = [
+      rawFile(
+        "proto-rel-cover.mdx",
+        { title: "T", dek: "d", date: "2026-01-01", coverImage: "//evil.example.com/x.png" },
+        "b"
+      ),
+    ];
+
+    // When the loader validates frontmatter
+    const posts = buildPostSet(files);
+
+    // Then it is dropped with a warning — a leading-"/" check alone would wrongly admit it
+    expect(posts).toHaveLength(1);
+    expect(posts[0].coverImage).toBeUndefined();
+    expect(warn.mock.calls.some((c) => String(c[0]).includes("proto-rel-cover.mdx"))).toBe(true);
+  });
+});
+
+describe("buildPostSet — categories validation", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("omits an unknown category with a warning, keeping known ones and publishing the Post", () => {
+    // Given frontmatter listing one vocabulary category and one unknown entry
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const files: RawPostFile[] = [
+      rawFile(
+        "cats.mdx",
+        { title: "T", dek: "d", date: "2026-01-01", categories: "[Leadership, NotAThing]" },
+        "b"
+      ),
+    ];
+
+    // When the loader validates categories against the vocabulary
+    const posts = buildPostSet(files);
+
+    // Then the unknown entry is omitted (a warning names it), the known one is kept,
+    // and the Post still publishes
+    expect(posts).toHaveLength(1);
+    expect(posts[0].categories).toEqual(["Leadership"]);
+    expect(posts[0].published).toBe(true);
+    expect(warn.mock.calls.some((c) => String(c[0]).includes("NotAThing"))).toBe(true);
+  });
+
+  it("dedupes repeated categories so a Post never carries the same one twice", () => {
+    // Given frontmatter that repeats a valid vocabulary category
+    const files: RawPostFile[] = [
+      rawFile(
+        "dupes.mdx",
+        { title: "T", dek: "d", date: "2026-01-01", categories: "[AI, Leadership, AI]" },
+        "b"
+      ),
+    ];
+
+    // When the loader validates categories
+    const [post] = buildPostSet(files);
+
+    // Then the duplicate collapses, first-seen order preserved (no duplicate badge downstream)
+    expect(post.categories).toEqual(["AI", "Leadership"]);
+  });
+
+  it("carries a valid site-relative coverImage and known categories onto the Post model", () => {
+    // Given frontmatter with a valid `/…` coverImage and all-known categories
+    const files: RawPostFile[] = [
+      rawFile(
+        "full.mdx",
+        {
+          title: "T",
+          dek: "d",
+          date: "2026-01-01",
+          coverImage: "/images/profile.jpg",
+          categories: "[Leadership, AI]",
+        },
+        "b"
+      ),
+    ];
+
+    // When the pure core builds the set
+    const [post] = buildPostSet(files);
+
+    // Then both optional fields survive onto the typed Post, in authored order
+    expect(post.coverImage).toBe("/images/profile.jpg");
+    expect(post.categories).toEqual(["Leadership", "AI"]);
+  });
+});

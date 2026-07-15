@@ -1,0 +1,4 @@
+gate: format-check
+task_id: "002"
+status: pass
+findings: []

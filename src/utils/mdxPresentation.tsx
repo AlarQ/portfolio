@@ -1,21 +1,31 @@
 import type { MDXComponents } from "mdx/types";
 import { Callout } from "@/components/Callout";
 import { Diagram } from "@/components/Diagram";
-import { ListItem, MdxImage, OrderedList, Pre, UnorderedList } from "./mdxPresentationBlock";
+import {
+  Blockquote,
+  ListItem,
+  MdxImage,
+  OrderedList,
+  Pre,
+  UnorderedList,
+} from "./mdxPresentationBlock";
 import { Anchor, heading, InlineCode, Paragraph } from "./mdxPresentationText";
 
 /**
- * The single MDX → MUI presentation seam (FR-6). Every Post-body element is
- * re-rendered through an MUI component styled from `brand` tokens, so an `.mdx`
+ * The single MDX → presentation seam (FR-6). Every Post-body element is
+ * re-rendered through a component styled from semantic tokens, so an `.mdx`
  * file never carries a raw hue or styling literal — visual treatment lives only
  * here. Code-block surfaces inherit the build-time `--shiki-*` palette (also
- * brand-sourced, ADR-0001); this seam owns everything around them.
+ * token-sourced, ADR-0001); this seam owns everything around them.
  *
  * Security (FR-5, sec-external-link-rel): external anchors are hardened with
  * `rel="noopener noreferrer"` at the `a` mapping below. Active-content elements
- * a Post body must never embed — `<script>` and `<iframe>` — are mapped to
- * no-render neutralizers here, so the protection holds by leverage at the seam
- * rather than by author vigilance. MDX is trusted ONLY while 100% owner-authored
+ * a Post body must never embed — `<script>` and `<iframe>` — are neutralized in
+ * two complementary places: this component map catches them when they arrive as
+ * Markdown/hast elements, and the `rehypeNeutralizeActiveContent` AST plugin
+ * (wired in `next.config.ts`) strips them when authored as explicit JSX, which
+ * bypasses the component map. Together the protection holds by leverage rather
+ * than by author vigilance. MDX is trusted ONLY while 100% owner-authored
  * (CONTEXT.md, ADR-0001): admitting any external/PR-submitted MDX requires
  * `rehype-sanitize` + a CSP before merge.
  */
@@ -46,6 +56,7 @@ export const mdxComponents: MDXComponents = {
   ul: UnorderedList,
   ol: OrderedList,
   li: ListItem,
+  blockquote: Blockquote,
   // Post-body images render through the single image seam. Diagrams now arrive
   // as pre-rendered SVGs via `<Diagram>` (see below), not inline Markdown images.
   img: MdxImage,

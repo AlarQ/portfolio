@@ -1,0 +1,110 @@
+---
+title: "Pour It Once"
+dek: I kept rebuilding the same backend for every side project. Hyperion pours auth, sessions, config, mailing and migrations once into a shared, compiler-fenced base — so a new app is a fork that boots with the plumbing already running, and I only write the domain.
+date: 2026-07-14
+categories: [Engineering]
+---
+
+Every new side project started the same way. Wire up sessions, hash passwords,
+write a config loader, plumb a Postgres pool, mount CORS, add an email sender I'd
+only ever point at a mock. A week of plumbing before a single line that did the
+thing I actually set out to build. The fourth time I typed the same auth
+middleware from memory, I stopped and asked why I was pouring a new foundation
+under every app.
+
+So Hyperion makes a different bet: **pour the backend once, and make every new app
+a fork of the same base.** The foundation — auth, sessions, config, mailing,
+migrations, the HTTP error type — gets built one time and shared. Each app is a
+building raised on it, not a fresh excavation.
+
+The base is load-bearing, so most of the work is keeping it rigid: one place for
+each cross-cutting concern, boundaries the compiler won't let an app cross, and a
+bare template you fork instead of a foundation you re-pour. What follows is what
+sits on the base, how a new app gets raised on it, and the walls that stop the
+whole thing sagging as apps pile on.
+
+## One monolith, many apps
+
+Hyperion is a single Rust workspace, not a repo per app. Several binaries live in
+it — `budget-app`, `gtd-app`, `repeat-app`, `job-offer-app` — and none of them
+owns a backend of its own. They compose the same domain crates. It replaced an
+earlier microservices split. The win is narrow and practical: the plumbing has
+exactly one home.
+
+The base is a handful of crates every app pulls in:
+
+- **`shared`** — the platform floor: auth middleware, config, the Postgres pool,
+  telemetry, CORS, and the `ApiError` HTTP type. It defines traits and holds no
+  domain logic.
+- **`user`** — session-based auth (Argon2), registration, password reset, RBAC. It
+  implements `shared`'s `SessionValidator` trait.
+- **`mailing`** — email providers behind one interface: SMTP, SES, or a mock for
+  dev.
+- **`ai`** — the OpenRouter client, prompt templates, and an audit log, pulled in
+  only by the apps that need it.
+
+An app, then, is a thin composition: take those crates, add one domain crate of
+your own, wire the routes, and serve. The domain is the only part you write from
+scratch.
+
+<Diagram name="hyperion-foundation" alt="Four app binaries — budget-app, gtd-app, repeat-app, and job-offer-app — sit in a top row, each pointing down to a single shared base node. The base, poured once, holds the shared, user, mailing, and ai crates and provides auth, sessions, RBAC, config, the DB pool, email, and OpenAPI. A rule note attached to the base reads: apps depend on the base, never the reverse; domain crates meet only through shared traits; the compiler refuses to build a crossed edge." />
+
+## Raising a new app on it
+
+The base only pays off if starting a new app is cheap. That job belongs to
+`minimal-app`: the bare foundation with the domain left out. It boots a `/health`
+route that's public, an `/admin/health` route gated behind `require_role("Admin")`,
+the `user` crate's signup, login, and password-reset routes, and a Swagger UI. No
+transactions, no tasks, no offers — just a running server with auth and RBAC
+already wired.
+
+Forking it is mechanical, and it's written down. `FORK_PROMPT.md` walks the whole
+copy: `cp -R apps/minimal-app apps/<new-app>`, swap the `MIN__` env prefix for your
+own, pick a free HTTP and Postgres port, add the crate to the workspace, regenerate
+the offline SQLx cache. A dozen renames and you have an app that compiles, migrates,
+and answers on `/health` with sessions and roles working — before you've written a
+line of your own logic.
+
+Only then does the real step land, the last one in the prompt: add your domain
+crate under `crates/`, give it the standard layout, merge its routes into
+`AppState`, register its OpenAPI. Everything above it — the part that used to eat
+the first week — you inherited.
+
+<Callout title="The fork boots, but it isn't finished">
+`minimal-app` ships with honest gaps you fix per fork: the email provider is
+hard-wired to a mock even if you ask for SMTP, and a migration runner set to
+ignore-missing quietly masks schema drift. You inherit the plumbing and its TODOs,
+both written down in the fork prompt, so neither bites you in the dark.
+</Callout>
+
+## The load-bearing walls
+
+A shared base decays into a shared mess the moment apps start reaching into each
+other through it. So the boundaries aren't style advice; they're compiled in.
+
+- Apps depend on domain crates, never the reverse.
+- Domain crates don't depend on each other. When `transaction` and `budget` need to
+  talk, they go through the `events` bus, not a direct import.
+- `shared` carries cross-cutting concerns and no domain logic. It *defines* the
+  `SessionValidator` trait; `user` implements it; each app's `main.rs` wires the
+  implementation in.
+
+Get one of those wrong and the workspace won't build. The dependency graph is a
+property the compiler holds for you, not a rule you have to keep in your head.
+
+Inside a crate, the shape repeats. Every crate splits into the same three layers —
+`api` for Axum handlers and DTOs, `domain` for entities and business rules,
+`infrastructure` for the Postgres repositories — and the flow only runs one way.
+Handlers call domain free functions that take repository traits as parameters;
+they never touch infrastructure directly. Learn the shape once and every app in the
+workspace reads the same, whether it's tracking money or tasks.
+
+## What you inherit, what you build
+
+That's the whole trade. The base carries sessions, password hashing, RBAC, config
+loading, the connection pool, email, migrations, the error type, and the OpenAPI
+surface — poured once, hardened once, reused by every app. The app on top carries
+its domain and stops there.
+
+The next idea doesn't start with a week of plumbing anymore. It starts with a fork
+that's already running. Pour it once; build the rest.

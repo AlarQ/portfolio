@@ -1,28 +1,16 @@
 /*
- * ADR-DS-2: Tailwind v4's `theme`/`utilities` layers only — deliberately NOT
- * `@import "tailwindcss";` (which also pulls in `tailwindcss/preflight`).
- * Skipping the preflight import is how preflight is disabled at the source;
- * MUI's `CssBaseline` (see `src/theme/ThemeProvider.tsx`) remains the sole
- * base-element reset authority during coexistence.
+ * OQ-1 (task 010, final legacy sweep): MUI CssBaseline is gone, so Tailwind
+ * preflight is re-enabled via the umbrella import — the hand-rolled
+ * `@layer base` reset and the `@layer mui` cascade seam (ADR-DS-2) are no
+ * longer needed and are removed in the same commit.
  */
-/*
- * Explicit layer order (ADR-DS-2): declaring it up front fixes cascade
- * priority regardless of each layer's actual stylesheet position in `<head>`
- * — CSS resolves `@layer` priority by first-declared order, last wins ties.
- * `mui` (StyledEngineProvider `enableCssLayer` in ThemeProvider.tsx) is
- * declared last so Emotion/MUI styles win over Tailwind's `theme`/`utilities`
- * on any cascade tie.
- */
-@layer base, theme, utilities, mui;
-
 /*
  * ADR-DS-3: the @generated semantic token layer loads BEFORE Tailwind's
  * utility layer so any utility referencing a semantic var resolves it. Never
  * hand-edit tokens.css — change src/theme/tokens.ts and run `generate:tokens`.
  */
 @import "../theme/tokens.css";
-@import "tailwindcss/theme" layer(theme);
-@import "tailwindcss/utilities" layer(utilities);
+@import "tailwindcss";
 
 /*
  * Bind Tailwind's `dark:` variant to the `.dark` class the theme toggle drives
@@ -34,24 +22,6 @@
  * tokens.css; this covers positional `dark:` variants like ThemePill's knob.
  */
 @custom-variant dark (&:is(.dark *));
-
-:root {
-  /*
-   * Shiki code-block palette — the second surface of the brand seam (ADR-0001).
-   * MIRROR of `shikiVars` in `src/theme/theme.ts`; values come ONLY from `brand`
-   * tokens. Do not hand-edit a hue here without changing its `brand` source —
-   * `src/theme/shikiVars.test.ts` asserts this block equals the theme seam and
-   * fails the pre-push gate on drift. No new raw hue originates in this file.
-   */
-  --shiki-bg: #141b22;
-  --shiki-fg: #e2e8f0;
-  --shiki-token-comment: #64748b;
-  --shiki-token-keyword: #38bdf8;
-  --shiki-token-string: #84cc16;
-  --shiki-token-constant: #f97316;
-  --shiki-token-function: #a855f7;
-  --shiki-token-variable: #7dd3fc;
-}
 
 html,
 body {
@@ -77,84 +47,43 @@ body {
 }
 
 /*
- * The base reset lives in `@layer base` (declared FIRST, so lowest priority)
- * — NOT unlayered. Unlayered author rules outrank every `@layer`, so an
- * unlayered `* { padding: 0; margin: 0 }` silently defeated Tailwind's
- * `@layer utilities` padding/margin utilities (`px-2.5`, `py-0.5`, …) and
- * collapsed every shadcn primitive. Layered below `utilities`, the reset still
- * beats UA defaults but yields to Tailwind spacing utilities. MUI (unlayered /
- * `@layer mui`) still outranks `base`, so the live app is unaffected.
+ * Tailwind Preflight now handles box-sizing/margin/padding reset,
+ * border-width:0/style:solid, button appearance/background reset, and
+ * form-control font inheritance. The only piece Preflight doesn't set is the
+ * shadcn convention default border color, so that's all that remains here.
  */
 @layer base {
-  * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-  }
-
-  /*
-   * Form-control font inheritance. Native `button`/`input`/`select`/`textarea`
-   * do NOT inherit `font-family`/`font-size` from their ancestor by UA default;
-   * Tailwind Preflight normally restores this, but Preflight is deliberately
-   * disabled here (ADR-DS-2). Without this rule the shadcn `<button>`/`<input>`
-   * primitives render in the UA font instead of the page's Inter seam, while
-   * `<span>`-based primitives (Badge) inherit correctly — an inconsistency vs
-   * the Figma frames. In `@layer base` so the primitives' own size utilities
-   * (`text-base`, `text-sm`) still win.
-   */
-  button,
-  input,
-  optgroup,
-  select,
-  textarea {
-    font: inherit;
-    letter-spacing: inherit;
-    color: inherit;
-  }
-
-  /*
-   * Minimal Preflight-equivalent normalization the shadcn primitives assume.
-   * shadcn components are authored for a Tailwind Preflight baseline (Preflight
-   * is disabled here per ADR-DS-2 so MUI CssBaseline owns the reset). Without
-   * these, native control chrome bleeds through vs the Figma frames:
-   *   - `border-width: 0; border-style: solid` — Tailwind's `border` utilities
-   *     set width/color but assume Preflight already set style `solid`; without
-   *     it, `outline`/`border-input` variants render NO visible border, while
-   *     native `<button>` shows its UA `2px outset` bevel.
-   *   - `appearance: none` + transparent bg on buttons — strips the native
-   *     button background/bevel so `bg-primary` shows the flat Figma fill.
-   * All in `@layer base` (lowest priority): the primitives' own `border-*` and
-   * `bg-*` utilities (`@layer utilities`) win, and MUI (`@layer mui`/unlayered)
-   * is unaffected on the live app.
-   */
   *,
   ::before,
   ::after {
-    border-width: 0;
-    border-style: solid;
-    /*
-     * shadcn convention: the default border color is the `--border` token (its
-     * globals ship `@layer base { * { @apply border-border } }`), so `border`
-     * without an explicit color utility — the `outline`/`ghost` variants — reads
-     * the subtle Figma gray, not Tailwind's `currentColor` default.
-     */
     border-color: var(--border);
-  }
-
-  button,
-  [type="button"],
-  [type="reset"],
-  [type="submit"] {
-    appearance: none;
-    background-color: transparent;
-    background-image: none;
-    cursor: pointer;
   }
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/*
+ * Article entrance animation (task 010, framer-motion removal). Replaces the
+ * former motion.article initial/animate opacity+y transition with a plain CSS
+ * keyframe. `animate-none` (via `data-[reduced-motion=true]:animate-none` on
+ * the element) disables it under prefers-reduced-motion.
+ */
+@theme {
+  --animate-article-entrance: article-entrance 0.4s ease-out;
+}
+
+@keyframes article-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
