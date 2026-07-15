@@ -74,7 +74,7 @@ describe("Pages components — compose organisms, never reimplement them", () =>
     expect(container.querySelector('[data-slot="avatar"]')).not.toBeNull();
     // AdsSpace was removed (Figma parity); PostLayout no longer composes any Card.
     expect(container.querySelectorAll('[data-slot="card"]')).toHaveLength(0);
-    // Newsletter: the "Stories and interviews" signup form.
+    // Newsletter: the "Get new posts by email" signup form.
     expect(container.querySelector("form")).not.toBeNull();
     expect(container.querySelector("footer")).not.toBeNull();
 

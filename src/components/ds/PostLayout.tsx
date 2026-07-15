@@ -96,8 +96,8 @@ export function PostLayout({
             ctaHref="/blog"
           />
           <Newsletter
-            heading="Stories and interviews"
-            description="Subscribe to learn about new product features, the latest in technology, solutions, and updates."
+            heading="Get new posts by email"
+            description="Tired of hot takes? Stick around for more thoughtful posts on tech and beyond."
             hint="We care about your data in our"
             privacyHref="/privacy"
             action={NEWSLETTER_ACTION}

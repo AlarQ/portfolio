@@ -32,9 +32,9 @@ describe("PostLayout", () => {
     expect(container.textContent).toContain("Body content");
     // Conclusion: renders a closing heading.
     expect(container.querySelector("section h2")).not.toBeNull();
-    // Newsletter: renders the "Stories and interviews" signup form.
+    // Newsletter: renders the "Get new posts by email" signup form.
     expect(container.querySelector("form")).not.toBeNull();
-    expect(container.textContent).toContain("Stories and interviews");
+    expect(container.textContent).toContain("Get new posts by email");
     // Footer: renders the site footer landmark.
     expect(container.querySelector("footer")).not.toBeNull();
 

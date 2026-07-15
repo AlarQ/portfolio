@@ -12,9 +12,8 @@ type Story = StoryObj<typeof Newsletter>;
 
 export const Default: Story = {
   args: {
-    heading: "Stories and interviews",
-    description:
-      "Subscribe to learn about new product features, the latest in technology, solutions, and updates.",
+    heading: "Get new posts by email",
+    description: "Tired of hot takes? Stick around for more thoughtful posts on tech and beyond.",
     ctaLabel: "Subscribe",
   },
   render: (args) => (
@@ -26,9 +25,8 @@ export const Default: Story = {
 
 export const WithHint: Story = {
   args: {
-    heading: "Stories and interviews",
-    description:
-      "Subscribe to learn about new product features, the latest in technology, solutions, and updates.",
+    heading: "Get new posts by email",
+    description: "Tired of hot takes? Stick around for more thoughtful posts on tech and beyond.",
     ctaLabel: "Subscribe",
     hint: "We care about your data in our",
     privacyHref: "/privacy",
@@ -43,9 +41,8 @@ export const WithHint: Story = {
 /** Wired with a direct-POST `action` (local fixture URL) — page-agnostic. */
 export const Wired: Story = {
   args: {
-    heading: "Stories and interviews",
-    description:
-      "Subscribe to learn about new product features, the latest in technology, solutions, and updates.",
+    heading: "Get new posts by email",
+    description: "Tired of hot takes? Stick around for more thoughtful posts on tech and beyond.",
     ctaLabel: "Subscribe",
     hint: "We care about your data in our",
     privacyHref: "/privacy",
