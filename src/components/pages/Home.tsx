@@ -74,7 +74,7 @@ export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
       <div className="mx-auto flex w-full max-w-content flex-1 flex-col gap-16 px-6">
         {recent.length > 0 && (
           <section aria-labelledby="recent-heading" className="flex flex-col gap-8">
-            <h2 id="recent-heading" className="text-2xl font-semibold text-foreground">
+            <h2 id="recent-heading" className="sr-only">
               Recent blog posts
             </h2>
             {/* First post takes the full-height left column; the next two stack
