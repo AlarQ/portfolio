@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { PostCardCategory } from "@/components/ds/PostCard";
 import { Badge } from "@/components/ui/badge";
 import { navItems as defaultNavItems, type NavItem } from "@/data/navItems";
+import { NEWSLETTER_ACTION } from "@/data/newsletter";
 import type { PostAdjacency } from "@/data/postLoader";
 import type { Post } from "@/data/posts";
 import type { TocEntry } from "@/data/postToc";
@@ -99,6 +100,7 @@ export function PostLayout({
             description="Subscribe to learn about new product features, the latest in technology, solutions, and updates."
             hint="We care about your data in our"
             privacyHref="/privacy"
+            action={NEWSLETTER_ACTION}
           />
         </div>
       </div>

@@ -39,3 +39,21 @@ export const WithHint: Story = {
     </div>
   ),
 };
+
+/** Wired with a direct-POST `action` (local fixture URL) — page-agnostic. */
+export const Wired: Story = {
+  args: {
+    heading: "Stories and interviews",
+    description:
+      "Subscribe to learn about new product features, the latest in technology, solutions, and updates.",
+    ctaLabel: "Subscribe",
+    hint: "We care about your data in our",
+    privacyHref: "/privacy",
+    action: "https://example.com/embed-subscribe/fixture",
+  },
+  render: (args) => (
+    <div style={{ width: 560 }}>
+      <Newsletter {...args} />
+    </div>
+  ),
+};

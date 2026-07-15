@@ -16,4 +16,32 @@ describe("Newsletter", () => {
 
     unmount();
   });
+
+  it("wires action/method and email name/required when action is set", () => {
+    const { container, unmount } = renderIntoDocument(
+      <Newsletter heading="Subscribe" action="https://example.com/embed-subscribe/fixture" />
+    );
+
+    const form = container.querySelector("form");
+    expect(form?.getAttribute("action")).toBe("https://example.com/embed-subscribe/fixture");
+    expect(form?.getAttribute("method")).toBe("post");
+    const input = container.querySelector('[data-slot="input"]');
+    expect(input?.getAttribute("name")).toBe("email");
+    expect(input?.hasAttribute("required")).toBe(true);
+
+    unmount();
+  });
+
+  it("omits action/method and email name/required without action", () => {
+    const { container, unmount } = renderIntoDocument(<Newsletter heading="Subscribe" />);
+
+    const form = container.querySelector("form");
+    expect(form?.hasAttribute("action")).toBe(false);
+    expect(form?.hasAttribute("method")).toBe(false);
+    const input = container.querySelector('[data-slot="input"]');
+    expect(input?.hasAttribute("name")).toBe(false);
+    expect(input?.hasAttribute("required")).toBe(false);
+
+    unmount();
+  });
 });

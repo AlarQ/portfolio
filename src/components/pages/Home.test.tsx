@@ -5,7 +5,7 @@ import { samplePosts } from "@/stories/fixtures/posts";
 import { Home } from "./Home";
 
 describe("Home", () => {
-  it("renders the Figma blog index: masthead, one PostCard article per post, footer, no inline newsletter", () => {
+  it("renders the Figma blog index: masthead, one PostCard article per post, footer, inline newsletter", () => {
     const { container, unmount } = renderIntoDocument(
       <Home posts={samplePosts} navItems={sampleNavItems} />
     );
@@ -22,8 +22,8 @@ describe("Home", () => {
 
     expect(container.querySelector("footer")).not.toBeNull();
 
-    // The blog index frame has no inline Newsletter block (the only <form>).
-    expect(container.querySelector("form")).toBeNull();
+    // The blog index frame ends with an inline Newsletter block (the only <form>).
+    expect(container.querySelector("form")).not.toBeNull();
 
     unmount();
   });

@@ -1,8 +1,10 @@
 import { Footer } from "@/components/ds/Footer";
 import { Header } from "@/components/ds/Header";
+import { Newsletter } from "@/components/ds/Newsletter";
 import { Pagination } from "@/components/ds/Pagination";
 import { PostCard, type PostCardCategory } from "@/components/ds/PostCard";
 import type { NavItem } from "@/data/navItems";
+import { NEWSLETTER_ACTION } from "@/data/newsletter";
 import type { Post } from "@/data/posts";
 import { categoryPresentation } from "@/utils/categoryPresentation";
 
@@ -53,8 +55,8 @@ function partitionPosts(posts: readonly Post[]): PostPartition {
  * `Pages/Home` screen: the Figma-faithful blog index (node 614:383, the
  * blog-first front door). Composes the `ds/` organisms — `Header` masthead →
  * "Recent blog posts" featured cluster → "All blog posts" 3-column grid →
- * `Pagination` → `Footer`. Owns layout/ordering only; each organism owns its
- * own rendering. No inline Newsletter (the frame has none).
+ * `Pagination` → `Newsletter` → `Footer`. Owns layout/ordering only; each
+ * organism owns its own rendering.
  */
 export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
   const { recent, all } = partitionPosts(posts);
@@ -119,6 +121,14 @@ export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
         )}
 
         {totalPages > 1 && <Pagination currentPage={1} totalPages={totalPages} />}
+
+        <Newsletter
+          heading="Stories and interviews"
+          description="Subscribe to learn about new product features, the latest in technology, solutions, and updates."
+          hint="We care about your data in our"
+          privacyHref="/privacy"
+          action={NEWSLETTER_ACTION}
+        />
       </div>
 
       <Footer />
