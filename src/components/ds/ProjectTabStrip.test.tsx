@@ -1,5 +1,5 @@
 import { act } from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { Project } from "@/data/projects";
 import { ProjectTabStrip } from "./ProjectTabStrip";
 import { renderIntoDocument } from "./testUtils";
@@ -117,6 +117,31 @@ describe("ProjectTabStrip — single-row scroll-snap rail with chevrons + dots",
 
     const dots = container.querySelectorAll('[data-testid="project-tab-strip-dot"]');
     expect(dots).toHaveLength(PROJECTS.length);
+
+    unmount();
+  });
+
+  it("scroll chevrons call scrollBy on the rail without throwing", () => {
+    const { container, unmount } = renderIntoDocument(
+      <ProjectTabStrip projects={PROJECTS} selectedSlug="alpha" onSelectSlug={() => {}} />
+    );
+
+    const rail = container.querySelector('[role="tablist"]') as HTMLElement;
+    const scrollBy = vi.fn();
+    rail.scrollBy = scrollBy;
+
+    const left = container.querySelector('[aria-label="Scroll left"]') as HTMLElement;
+    const right = container.querySelector('[aria-label="Scroll right"]') as HTMLElement;
+
+    act(() => {
+      left.click();
+    });
+    expect(scrollBy).toHaveBeenCalledWith({ left: -160, behavior: "smooth" });
+
+    act(() => {
+      right.click();
+    });
+    expect(scrollBy).toHaveBeenCalledWith({ left: 160, behavior: "smooth" });
 
     unmount();
   });
