@@ -15,7 +15,11 @@ const PROJECT: Project = {
       techKeys: ["nextjs", "react", "typescript", "tailwind", "shadcn"],
     },
   ],
-  relatedPosts: [{ label: "Building the Projects tab", slug: "building-the-projects-tab" }],
+  relatedPosts: [
+    { label: "Building the Projects tab", slug: "building-the-projects-tab" },
+    { label: "Designing the seam pattern", slug: "designing-the-seam-pattern" },
+    { label: "Why Storybook-first", slug: "why-storybook-first" },
+  ],
 };
 
 const meta: Meta<typeof ProjectSummary> = {
@@ -43,16 +47,6 @@ export const LongContent: Story = {
         "A tagline long enough to wrap across several lines to verify the summary layout stays legible and doesn't clip or overflow its container.",
     },
   },
-};
-
-/** `briefHref` present — the "Read full brief" link renders. */
-export const WithBrief: Story = {
-  args: { project: PROJECT, briefHref: "/projects/portfolio-site" },
-};
-
-/** `briefHref` omitted (FR-9: no Brief body yet) — no "Read full brief" link. */
-export const WithoutBrief: Story = {
-  args: { project: PROJECT },
 };
 
 /** `status: "exploring"` — the seam resolves a muted tone (exploring-muted-tone). */

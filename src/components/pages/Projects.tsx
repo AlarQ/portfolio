@@ -7,16 +7,6 @@ import type { Project } from "@/data/projects";
 
 export interface ProjectsProps {
   readonly projects: readonly Project[];
-  /**
-   * Slug → Brief route href, present only for a Project with a matching
-   * `content/projects/[slug].mdx` body (FR-9). A plain serializable map, not
-   * a function: `app/projects/page.tsx` is a Server Component and this
-   * (`pages/Projects`) is a Client Component, so a function prop cannot cross
-   * that boundary (RSC serialization). The caller (`projectLoader.ts`'s
-   * `hasBrief`) is the only layer that knows about `content/projects/`
-   * existence — `pages/Projects`/`ProjectSummary` stay presentation-only.
-   */
-  readonly briefHrefBySlug?: Readonly<Record<string, string>>;
 }
 
 /**
@@ -30,7 +20,7 @@ export interface ProjectsProps {
  * `prefers-reduced-motion: reduce` the swap is instant, Tailwind applies no
  * JS media-query polyfill needed.
  */
-export function Projects({ projects, briefHrefBySlug }: ProjectsProps) {
+export function Projects({ projects }: ProjectsProps) {
   const [selectedSlug, setSelectedSlug] = useState(projects[0]?.slug ?? "");
   const selectedProject = projects.find((project) => project.slug === selectedSlug);
 
@@ -50,10 +40,7 @@ export function Projects({ projects, briefHrefBySlug }: ProjectsProps) {
           aria-labelledby={`project-tab-${selectedProject.slug}`}
           className="motion-safe:transition-opacity motion-safe:duration-200 motion-reduce:transition-none"
         >
-          <ProjectSummary
-            project={selectedProject}
-            briefHref={briefHrefBySlug?.[selectedProject.slug]}
-          />
+          <ProjectSummary project={selectedProject} />
         </div>
       )}
     </div>

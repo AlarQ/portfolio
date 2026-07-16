@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Meter } from "@/components/ui/meter";
 import { StatusDot } from "@/components/ui/status-dot";
 import type { Project } from "@/data/projects";
@@ -11,14 +12,6 @@ import {
 
 export interface ProjectSummaryProps {
   readonly project: Project;
-  /**
-   * Href for the "Read full brief" link. Deliberately NOT part of the
-   * `Project` domain type (FR-9): a Project with no `content/projects/
-   * [slug].mdx` body has no brief route, so the link is omitted entirely
-   * rather than pointing at a 404. Fixture-driven from the caller (`pages/
-   * Projects`, once FR-8 wires the Brief route) — presentation-only.
-   */
-  readonly briefHref?: string;
 }
 
 /**
@@ -29,7 +22,7 @@ export interface ProjectSummaryProps {
  * `categoryPresentation` for Post categories) — never a raw literal switch
  * here. Tech is grouped per Repo via `repoRolePresentation` + `techPresentation`.
  */
-export function ProjectSummary({ project, briefHref }: ProjectSummaryProps) {
+export function ProjectSummary({ project }: ProjectSummaryProps) {
   const { tone, label } = projectPresentation(project.status, project.mvpProgress);
 
   return (
@@ -75,21 +68,27 @@ export function ProjectSummary({ project, briefHref }: ProjectSummaryProps) {
       )}
 
       {project.relatedPosts.length > 0 && (
-        <ul className="flex flex-col gap-1">
-          {project.relatedPosts.map((relatedPost) => (
-            <li key={relatedPost.slug}>
-              <Link href={`/blog/${relatedPost.slug}`} className="text-primary underline">
-                {relatedPost.label}
+        <div className="flex flex-col gap-2">
+          <span className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+            From the blog
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {project.relatedPosts.map((relatedPost) => (
+              <Link
+                key={relatedPost.slug}
+                href={`/blog/${relatedPost.slug}`}
+                className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <Card className="min-w-40 max-w-56 gap-1 py-3 px-3 transition-colors hover:border-primary/50">
+                  <CardHeader className="gap-0.5 px-0">
+                    <CardDescription className="text-xs uppercase">Post</CardDescription>
+                    <CardTitle className="text-sm">{relatedPost.label}</CardTitle>
+                  </CardHeader>
+                </Card>
               </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {briefHref && (
-        <Link href={briefHref} className="font-medium text-primary underline">
-          Read full brief
-        </Link>
+            ))}
+          </div>
+        </div>
       )}
     </section>
   );

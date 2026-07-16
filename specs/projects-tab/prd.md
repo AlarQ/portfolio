@@ -48,6 +48,7 @@ Shortest path to value: a scannable index of Projects (currently homeless) at a 
 - **D-7** — All lifecycle stages shown, `Exploring`/low-MVP de-emphasised via a `muted` tone resolved in the presentation seam.
 - **D-8** — New DS primitive `ui/meter` (with two new semantic dimension tokens); MVP meter fill uses `bg-primary`, not a status hue, keeping MVP% and Status visually independent.
 - **D-9** — `CONTEXT.md` updated: "Project summary" (index card) and "Project Brief" (MDX page) are distinct terms.
+- **Superseded (post-v1)** — D-5's "Read full brief" link was replaced by a row of related-Post cards on the summary; see `CONTEXT.md`'s Project summary entry.
 
 ## Open Questions for /propose
 

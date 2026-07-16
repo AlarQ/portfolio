@@ -13,7 +13,7 @@ The owner-authored, on-site description page for a single **Project** — public
 _Avoid_: Article, post, readme, showcase, case study
 
 **Project summary**:
-The compact card view of a **Project** shown inline on the `/projects` index (tab-strip layout): title, tagline, **Status**, **MVP Progress**, current state, tech grouped per **Repo**, and related-**Post** links. Rendered from the typed fields in `src/data/projects.ts` — it carries no long-form prose and no MDX. Selecting a pill swaps the summary client-side; a "Read full brief" link navigates to the Project's **Project Brief** (`/projects/[slug]`). Not a synonym for Brief — the summary is the index card, the Brief is the page.
+The compact card view of a **Project** shown inline on the `/projects` index (tab-strip layout): title, tagline, **Status**, **MVP Progress**, current state, tech grouped per **Repo**, and a row of small `ui/card`-based cards linking to related **Post**s (rendered only when the Project has `relatedPosts`). Rendered from the typed fields in `src/data/projects.ts` — it carries no long-form prose and no MDX. Selecting a pill swaps the summary client-side. Not a synonym for Brief — the summary is the index card, the Brief is the page, and the summary no longer links to the Brief.
 _Avoid_: Brief, card, tile, preview
 
 **Repo**:

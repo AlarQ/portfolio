@@ -83,42 +83,27 @@ describe("ProjectSummary", () => {
     unmount();
   });
 
-  it("renders related-Post links to /blog/[slug]", () => {
+  it("renders related-Post cards linking to /blog/[slug]", () => {
     const { container, unmount } = renderIntoDocument(<ProjectSummary project={PROJECT} />);
 
-    const link = Array.from(container.querySelectorAll("a")).find(
-      (anchor) => anchor.textContent === "Building the tablist"
+    const link = Array.from(container.querySelectorAll("a")).find((anchor) =>
+      anchor.textContent?.includes("Building the tablist")
     );
 
     expect(link).not.toBeUndefined();
     expect(link?.getAttribute("href")).toBe("/blog/building-the-tablist");
+    expect(container.querySelectorAll('[data-slot="card"]')).toHaveLength(1);
 
     unmount();
   });
 
-  it('renders a "Read full brief" link when briefHref is passed', () => {
+  it("omits the related-Post card row when there are no related posts", () => {
+    const projectWithoutRelatedPosts: Project = { ...PROJECT, relatedPosts: [] };
     const { container, unmount } = renderIntoDocument(
-      <ProjectSummary project={PROJECT} briefHref="/projects/portfolio-site" />
+      <ProjectSummary project={projectWithoutRelatedPosts} />
     );
 
-    const link = Array.from(container.querySelectorAll("a")).find(
-      (anchor) => anchor.textContent === "Read full brief"
-    );
-
-    expect(link).not.toBeUndefined();
-    expect(link?.getAttribute("href")).toBe("/projects/portfolio-site");
-
-    unmount();
-  });
-
-  it('omits the "Read full brief" link when briefHref is not passed', () => {
-    const { container, unmount } = renderIntoDocument(<ProjectSummary project={PROJECT} />);
-
-    const link = Array.from(container.querySelectorAll("a")).find(
-      (anchor) => anchor.textContent === "Read full brief"
-    );
-
-    expect(link).toBeUndefined();
+    expect(container.querySelectorAll('[data-slot="card"]')).toHaveLength(0);
 
     unmount();
   });

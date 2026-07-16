@@ -96,7 +96,7 @@ export const projects: readonly Project[] = [
     currentState:
       "~320 commits, Docker deploy, JWT/Argon2 auth and OpenTelemetry tracing — the backbone behind Job Offer Box and the GTD app.",
     repos: [{ role: "backend", techKeys: ["rust", "axum", "postgres"] }],
-    relatedPosts: [],
+    relatedPosts: [{ label: "Pour It Once", slug: "pour-it-once" }],
   },
   {
     title: "GTD App",
