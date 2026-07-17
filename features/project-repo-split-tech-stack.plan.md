@@ -1,3 +1,4 @@
+whats up?
 # Implementation Plan — Repo-split tech stack on the Project summary
 
 **Status:** ready to implement · **Author of decision:** owner (2026-07-14) ·
