@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.24](https://github.com/AlarQ/portfolio/compare/v0.1.23...v0.1.24) (2026-07-19)
+
+
+### Features
+
+* draft posts ([3b12b00](https://github.com/AlarQ/portfolio/commit/3b12b0008f8e138f0aef2f0b4de4d49bd4ea2d30))
+
+
+### Bug Fixes
+
+* Bounded Chaos post ([1fab3a4](https://github.com/AlarQ/portfolio/commit/1fab3a4a1ca978f8f202ae4ab41d2f55249c7db6))
+* Bounded Chaos post ([fbde40a](https://github.com/AlarQ/portfolio/commit/fbde40a34147e7227705eaaae433fd30811bbf1e))
+
 ## [0.1.23](https://github.com/AlarQ/portfolio/compare/v0.1.22...v0.1.23) (2026-07-19)
 
 
