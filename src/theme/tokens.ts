@@ -153,6 +153,13 @@ export const primitives = {
   cardDark: "#111633",
   borderDark: "#242b47",
   /**
+   * Dark `--muted` (inline-code chip bg on the blog Post body). Without this,
+   * `--muted` fell through to the light `gray50` (near-white) on the dark
+   * page - washed-out, low-contrast. A step above `cardDark` keeps inline
+   * code visibly distinct from the surrounding surface.
+   */
+  mutedDark: "#1c2247",
+  /**
    * shadcn-role primitives (Task 004, FR-4) - restyling the stock shadcn
    * primitive set (badge/button/input/card/avatar/navigation-menu/sheet) to
    * the Figma light look through the semantic layer. Untitled-UI-style
@@ -260,6 +267,7 @@ export const semanticDark = {
   "--background": "backgroundDark",
   "--foreground": "headingDark",
   "--primary": "primaryStrong",
+  "--muted": "mutedDark",
   "--muted-foreground": "bodyDark",
   "--accent": "accentBylineDark",
   "--card": "cardDark",
