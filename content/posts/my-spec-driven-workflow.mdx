@@ -187,27 +187,24 @@ knowledge base, split by topic directory - `architecture/`, `testing/`,
 `security/`, `frontend/`, `languages/`, `style/`, and a few more. One store, so a
 rule has exactly one home and gets cited the same way everywhere.
 
-## The system watches itself
+## Nothing is invisible
 
 Every phase leaves a trail on disk, so the containment is inspectable after the
 fact.
 
-- `specs/<feature>/.monitor.jsonl` records what happens across a feature's
-  lifecycle: task transitions, TDD red and green, coverage-audit start and finish,
-  gate skips, the inferred tier, and PR lifecycle (`pr_opened_draft`, `pr_ready`).
-- `specs/<feature>/reports/<task-id>-<gate-name>.yaml` holds the per-task gate
-  findings. Each finding carries a `severity`, a `category`, a `source` of `tool`
-  or `llm`, a `confidence`, and a `review_status` of `pending`, `accepted`,
-  `rejected`, or `noted`.
-- `reports/spec-audit-<timestamp>.md` records the spec-completion audit with a
-  `verdict` of `complete` or `reopen`.
+- A running log tracks each feature's lifecycle: task transitions, tests going
+  red then green, when coverage checks start and finish, gates skipped, the
+  tier the feature was assigned, and the PR's journey from draft to ready.
+- Every task keeps a record of its gate findings - what was flagged, how
+  severe, whether a tool or an agent raised it, how confident it was, and
+  whether I accepted, rejected, or noted it.
+- Once a feature is fully built, an audit report says whether it's genuinely
+  complete or needs another pass.
 
-On top of that sits a learning loop. `learn-from-reports` mines those reports
-across runs for recurring categories, reasoned rejections, and accepted fixes
-general enough to reuse, then promotes them into the knowledge base under
-`general-knowledge-base/<category>/` (updating the `_index.md`). The
-next run starts with the rule already in place, so the same mistake gets caught
-one phase earlier.
+On top of that sits a learning loop: recurring findings and reasoned rejections
+across past runs get mined for patterns general enough to reuse, and those
+patterns turn into knowledge-base rules. The next run starts with the rule
+already in place, so the same mistake gets caught one phase earlier.
 
 <Diagram name="learning-loop" alt="The learning loop: LLM actions are recorded to .monitor.jsonl and reports/*.yaml; those feed review-and-ship (accept or reject); review-and-ship feeds learn-from-reports; that promotes KB rules; and the KB rules feed back into LLM actions so the same mistake is caught earlier next run." />
 
