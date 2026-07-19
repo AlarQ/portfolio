@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.22](https://github.com/AlarQ/portfolio/compare/v0.1.21...v0.1.22) (2026-07-19)
+
+
+### Features
+
+* **008:** light + dark theming on the semantic layer ([#56](https://github.com/AlarQ/portfolio/issues/56)) ([16ddc5f](https://github.com/AlarQ/portfolio/commit/16ddc5fd2e0c6ecd7f92d783bb0a5b8777bcbf6e))
+* **ds:** add dimension token layer and extend palette lint to colors ([#64](https://github.com/AlarQ/portfolio/issues/64)) ([51bf602](https://github.com/AlarQ/portfolio/commit/51bf602e934205c9f77415f3323057f1f7e24504))
+* **ds:** add Header organism with masthead and theme pill ([#60](https://github.com/AlarQ/portfolio/issues/60)) ([8871934](https://github.com/AlarQ/portfolio/commit/8871934c222990f391fece2a71a1b10e374f2535))
+* **ds:** add knob to ThemePill and consolidate into one storied component ([#61](https://github.com/AlarQ/portfolio/issues/61)) ([e03eadf](https://github.com/AlarQ/portfolio/commit/e03eadff8831d0ed46150d6d03155d889b64e9c8))
+* **ds:** align SinglePost Storybook tree with Figma detail-blog frame ([#67](https://github.com/AlarQ/portfolio/issues/67)) ([6de4d59](https://github.com/AlarQ/portfolio/commit/6de4d59270fa9e8be01c604ec10be5005d394aff))
+* **ds:** merge blog pages into one Figma-faithful Home, add Pagination ([#62](https://github.com/AlarQ/portfolio/issues/62)) ([f21dd8e](https://github.com/AlarQ/portfolio/commit/f21dd8ec6818433479c3e303d67669725901545e))
+* **ds:** rebuild Footer with icon link menu (Storybook-only) ([#65](https://github.com/AlarQ/portfolio/issues/65)) ([12d1342](https://github.com/AlarQ/portfolio/commit/12d1342ecce9d4b184fc49c963ddfdf4bb8712e1))
+* favicon ([b7bfbe8](https://github.com/AlarQ/portfolio/commit/b7bfbe861dd132078bc9ee579174b5268b080d70))
+* fold Variant B (rail + chevrons) into ProjectTabStrip ([3bcf05f](https://github.com/AlarQ/portfolio/commit/3bcf05fef03f20ad90fe33536b4da1e40b18acb0))
+* fold Variant B (related-post cards) into ProjectSummary ([3aabc82](https://github.com/AlarQ/portfolio/commit/3aabc82fc66932da9014a5fa6a4ea99acafcb513))
+* global release — author, projects, blog, analytics, newsletter ([#87](https://github.com/AlarQ/portfolio/issues/87)) ([ca74061](https://github.com/AlarQ/portfolio/commit/ca740613c1184d543b8a578b83e599bc26dc1be7)), closes [#78](https://github.com/AlarQ/portfolio/issues/78) [#68](https://github.com/AlarQ/portfolio/issues/68)
+* HN ([14611a3](https://github.com/AlarQ/portfolio/commit/14611a31709c096eb5573d299494788e8c419ac8))
+* shadcn/Figma design system re-platform (packs 003-007) ([#55](https://github.com/AlarQ/portfolio/issues/55)) ([f11eecc](https://github.com/AlarQ/portfolio/commit/f11eeccf658536f690699beff41e29bfaa30cbb9)), closes [#47](https://github.com/AlarQ/portfolio/issues/47)
+* **storybook): add theme toggle; chore(008:** mark task done ([cc46152](https://github.com/AlarQ/portfolio/commit/cc461529ec8137ddb73a45e2d591e3abc2a1c1c5))
+
+
+### Bug Fixes
+
+* dekstop projects slider ([1e07583](https://github.com/AlarQ/portfolio/commit/1e07583cb16801327782bd8300ff8cb08d23e444))
+* drop sample post ([43c11b9](https://github.com/AlarQ/portfolio/commit/43c11b9807bb789c2b5b982a7e069e2bb8e17dc2))
+* **ds:** bridge dimension tokens to primitives to stop self-reference ([#66](https://github.com/AlarQ/portfolio/issues/66)) ([b081282](https://github.com/AlarQ/portfolio/commit/b081282ebcce4b7dba8a6708636cb1017e4c8d8a))
+* **ds:** size Header masthead in container units to stop mobile clip ([#63](https://github.com/AlarQ/portfolio/issues/63)) ([c7882b5](https://github.com/AlarQ/portfolio/commit/c7882b5a4f598eaba80c4fdcc06a7ba1469294ea))
+* inline code ([67b268b](https://github.com/AlarQ/portfolio/commit/67b268bc782d3587ac231043ea0cd64b9d645e08))
+* mobile tap-highlight box, navbar/photo gap, drop author gallery ([8ce1b48](https://github.com/AlarQ/portfolio/commit/8ce1b482839157377c1e10393505aa2221041f19))
+* newsletter text ([1bf723a](https://github.com/AlarQ/portfolio/commit/1bf723abaf9520cb1cbb1acc5a30e7406bf26f65))
+* space on the top ([c4bb7e4](https://github.com/AlarQ/portfolio/commit/c4bb7e47f129346da3d76edaf029bc968d29d400))
+* **storybook:** decouple theme decorator from layout so parameters.layout works ([#58](https://github.com/AlarQ/portfolio/issues/58)) ([24f958b](https://github.com/AlarQ/portfolio/commit/24f958b04f921732460ed32baa0f7f986338398f)), closes [#090d1](https://github.com/AlarQ/portfolio/issues/090d1)
+* **storybook:** repaint canvas bg/fg on dark-mode toggle ([#57](https://github.com/AlarQ/portfolio/issues/57)) ([a8cc121](https://github.com/AlarQ/portfolio/commit/a8cc1212c35b2560d08b3a838ad784b6a5e21437))
+* theme pill size ([b282a88](https://github.com/AlarQ/portfolio/commit/b282a889b7a509ade71bcb615847faf3e38d37d5))
+* tighten mobile navbar-to-content gap on /projects ([321705b](https://github.com/AlarQ/portfolio/commit/321705b91e9b93f4affd6c49a3ecce3b9496ba75))
+
 ## [0.1.21](https://github.com/AlarQ/portfolio/compare/v0.1.20...v0.1.21) (2026-07-03)
 
 
