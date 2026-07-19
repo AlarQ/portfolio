@@ -431,6 +431,72 @@ describe("buildPostSet - coverImage validation (sec)", () => {
   });
 });
 
+describe("buildPostSet - hnUrl validation (sec)", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("keeps a valid Hacker News URL", () => {
+    // Given frontmatter with a real news.ycombinator.com URL
+    const files: RawPostFile[] = [
+      rawFile(
+        "hn-valid.mdx",
+        {
+          title: "T",
+          dek: "d",
+          date: "2026-01-01",
+          hnUrl: "https://news.ycombinator.com/item?id=1",
+        },
+        "b"
+      ),
+    ];
+
+    // When the loader validates frontmatter at the single gate
+    const posts = buildPostSet(files);
+
+    // Then the URL passes through unchanged
+    expect(posts).toHaveLength(1);
+    expect(posts[0].hnUrl).toBe("https://news.ycombinator.com/item?id=1");
+  });
+
+  it("drops a non-HN hnUrl with a warning, still publishing the Post", () => {
+    // Given a frontmatter hnUrl pointing at a different domain
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const files: RawPostFile[] = [
+      rawFile(
+        "hn-invalid.mdx",
+        { title: "T", dek: "d", date: "2026-01-01", hnUrl: "https://evil.example.com/x" },
+        "b"
+      ),
+    ];
+
+    // When the loader validates frontmatter
+    const posts = buildPostSet(files);
+
+    // Then the field is dropped with a build warning naming the file, and the Post still publishes
+    expect(posts).toHaveLength(1);
+    expect(posts[0].hnUrl).toBeUndefined();
+    expect(posts[0].published).toBe(true);
+    expect(warn.mock.calls.some((c) => String(c[0]).includes("hn-invalid.mdx"))).toBe(true);
+  });
+
+  it("leaves hnUrl absent (undefined, no warning) when frontmatter omits it", () => {
+    // Given frontmatter with no hnUrl field at all
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const files: RawPostFile[] = [
+      rawFile("no-hn.mdx", { title: "T", dek: "d", date: "2026-01-01" }, "b"),
+    ];
+
+    // When the loader validates frontmatter
+    const posts = buildPostSet(files);
+
+    // Then hnUrl stays undefined and no warning fires
+    expect(posts).toHaveLength(1);
+    expect(posts[0].hnUrl).toBeUndefined();
+    expect(warn).not.toHaveBeenCalled();
+  });
+});
+
 describe("buildPostSet - categories validation", () => {
   afterEach(() => {
     vi.restoreAllMocks();

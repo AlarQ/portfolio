@@ -17,6 +17,7 @@ export const samplePost: Post = {
   published: true,
   coverImage: "/images/profile.jpg",
   categories: ["Leadership", "Management"],
+  hnUrl: "https://news.ycombinator.com/item?id=1",
 };
 
 export const samplePostCoverImageUrl = "/images/profile.jpg";

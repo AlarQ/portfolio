@@ -8,11 +8,10 @@ import type { Post } from "@/data/posts";
 import type { TocEntry } from "@/data/postToc";
 import { ArticleProse } from "./ArticleProse";
 import { ArticleToc } from "./ArticleToc";
-import { Conclusion } from "./Conclusion";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
-import { Newsletter } from "./Newsletter";
 import { PageInfo } from "./PageInfo";
+import { PostEndCard } from "./PostEndCard";
 import { PrevNextNav } from "./PrevNextNav";
 
 export interface PostLayoutProps {
@@ -34,8 +33,8 @@ export interface PostLayoutProps {
 /**
  * Bespoke `Bespoke -> Bespoke` organism composing the pack's molecules
  * (Task 005) - `Header`, `PageInfo`, `ArticleProse` (with hero),
- * `TableOfContents`, category `Badge` row, `PrevNextNav`, `Conclusion`,
- * `Newsletter` - plus `Footer` around a Post's body content, aligned to the
+ * `TableOfContents`, category `Badge` row, `PrevNextNav`, `PostEndCard`
+ * - plus `Footer` around a Post's body content, aligned to the
  * Figma "Blog – Detail Blog" frame. Owns layout/ordering only; each molecule
  * owns its own rendering.
  *
@@ -87,18 +86,11 @@ export function PostLayout({
             </div>
           ) : null}
           <PrevNextNav prev={adjacency?.prev} next={adjacency?.next} />
-          <Conclusion
-            heading="Thanks for reading"
-            body="If this was useful, more like it are on the way."
-            ctaLabel="Back to the blog"
-            ctaHref="/blog"
-          />
-          <Newsletter
-            heading="Get new posts by email"
-            description="Tired of hot takes? Stick around for more thoughtful posts on tech and beyond."
-            hint="We care about your data in our"
-            privacyHref="/privacy"
-            action={NEWSLETTER_ACTION}
+          <PostEndCard
+            blogHref="/blog"
+            hnUrl={post.hnUrl}
+            newsletterHeading="Get new posts by email"
+            newsletterAction={NEWSLETTER_ACTION}
           />
         </div>
       </div>

@@ -22,6 +22,8 @@ export interface Post {
   readonly coverImage?: string;
   /** Optional vocabulary categories, validated against `categories.ts` in the loader. */
   readonly categories?: readonly CategoryName[];
+  /** Optional Hacker News discuss/share URL, validated in the loader. */
+  readonly hnUrl?: string;
 }
 
 const POSTS_DIR = join(process.cwd(), "content", "posts");

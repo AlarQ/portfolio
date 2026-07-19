@@ -92,7 +92,33 @@ function toPost(file: RawPostFile): Post {
     published: true,
     coverImage: validateCoverImage(file, data.coverImage),
     categories: validateCategories(file, data.categories),
+    hnUrl: validateHnUrl(file, data.hnUrl),
   };
+}
+
+/**
+ * Validate an optional `hnUrl` at the single loader gate - inverted allow-list
+ * vs. `validateCoverImage`: only accept values that resolve (via the platform
+ * `URL` parser) to origin `https://news.ycombinator.com`. Absent is legal (no
+ * warning); anything else (other domains, relative paths, `http`, malformed)
+ * is warned + dropped, Post still publishes.
+ */
+function validateHnUrl(file: RawPostFile, value: unknown): string | undefined {
+  if (value === undefined) return undefined;
+  if (typeof value === "string") {
+    try {
+      const resolved = new URL(value);
+      if (resolved.origin === "https://news.ycombinator.com") {
+        return value;
+      }
+    } catch {
+      // fall through to warn+drop
+    }
+  }
+  console.warn(
+    `[posts] "${file.filename}": dropping hnUrl "${String(value)}" - must be a https://news.ycombinator.com URL`
+  );
+  return undefined;
 }
 
 /**
