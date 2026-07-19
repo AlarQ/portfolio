@@ -60,7 +60,7 @@ Props: `name` (string, must match `^[a-z0-9-]+$`), `alt` (string). The `alt` is 
 
 1. Author the source at `content/diagrams/<name>.mmd` in Mermaid syntax.
 2. Assign **roles, not colours** - the theme palette is injected per-theme by `scripts/prerender-mermaid.ts` (the diagram presentation seam). Use `class <nodes> plan | build | verify` role classes as the existing `.mmd` files do; never hardcode hex.
-3. Run `npm run prerender:mermaid` to generate `public/diagrams/<name>-light.svg` and `-dark.svg`. A `<Diagram>` whose SVGs are missing throws at build.
+3. Run `pnpm prerender:mermaid` to generate `public/diagrams/<name>-light.svg` and `-dark.svg`. A `<Diagram>` whose SVGs are missing throws at build.
 
 ## Trust boundary (do not cross)
 
@@ -69,5 +69,5 @@ Post bodies are rendered as **trusted content** - this holds ONLY because every 
 ## Pre-ship check
 
 - Slug matches `^[a-z0-9-]+$`; `title` / `dek` / `date` present and `date` is ISO.
-- Any `<Diagram name>` has both prerendered SVGs (`npm run prerender:mermaid` ran).
-- `npm run build` renders the Post with no `[posts]` frontmatter warning in the log.
+- Any `<Diagram name>` has both prerendered SVGs (`pnpm prerender:mermaid` ran).
+- `pnpm build` renders the Post with no `[posts]` frontmatter warning in the log.

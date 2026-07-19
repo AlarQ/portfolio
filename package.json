@@ -2,8 +2,10 @@
   "name": "portfolio",
   "version": "0.1.21",
   "private": true,
+  "packageManager": "pnpm@11.15.0",
   "engines": {
-    "node": ">=22.18.0"
+    "node": ">=22.18.0",
+    "pnpm": ">=11"
   },
   "scripts": {
     "dev": "next dev",
@@ -53,7 +55,8 @@
     "rehype-slug": "6.0.0",
     "remark-frontmatter": "^5.0.0",
     "shiki": "^4.2.0",
-    "tailwind-merge": "3.6.0"
+    "tailwind-merge": "3.6.0",
+    "unist-util-visit": "5.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.14",
@@ -65,6 +68,7 @@
     "@storybook/nextjs": "10.4.6",
     "@tailwindcss/postcss": "4.3.2",
     "@types/js-yaml": "^4.0.9",
+    "@types/mdx": "2.0.14",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -73,14 +77,18 @@
     "babel-plugin-react-compiler": "1.0.0",
     "commit-and-tag-version": "^12.6.1",
     "dotenv": "^17.2.3",
+    "hast-util-to-html": "9.0.5",
     "husky": "^9",
     "jsdom": "^29.1.1",
     "mermaid-isomorphic": "^3.1.0",
     "playwright": "^1.60.0",
     "postcss": "8.5.16",
+    "remark-parse": "11.0.0",
+    "remark-rehype": "11.1.2",
     "storybook": "10.4.6",
     "tailwindcss": "4.3.2",
     "typescript": "^5",
+    "unified": "11.0.5",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.8"
   }

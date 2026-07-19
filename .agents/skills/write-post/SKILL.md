@@ -61,7 +61,7 @@ Place and validate per [mdx-reference.md](mdx-reference.md):
 
 - File at `content/posts/<slug>.mdx`; the slug is the filename minus `.mdx` and **must** match `^[a-z0-9-]+$` (the loader silently skips anything else).
 - `title`, `dek`, and `date` (ISO `YYYY-MM-DD`) are present - the loader fails the build without them.
-- If the post uses `<Diagram>`, author each `content/diagrams/<name>.mmd` and run `npm run prerender:mermaid` so the SVGs exist.
-- Run `npm run build` (or at least the dev server) to confirm the Post renders and no frontmatter warning fired.
+- If the post uses `<Diagram>`, author each `content/diagrams/<name>.mmd` and run `pnpm prerender:mermaid` so the SVGs exist.
+- Run `pnpm build` (or at least the dev server) to confirm the Post renders and no frontmatter warning fired.
 
 **Done when** the file is in place, the slug and frontmatter validate, any diagrams are prerendered, and the build renders the Post clean.

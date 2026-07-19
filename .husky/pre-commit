@@ -3,7 +3,7 @@
 # (via mermaid-isomorphic) and is idempotent - unchanged diagrams are skipped
 # fast. Keeps Mermaid rendering OUT of `next build` so Vercel's browserless
 # build image stays green.
-npm run prerender:mermaid && git add public/diagrams
+pnpm prerender:mermaid && git add public/diagrams
 
 # Secret scan (sec-secret-scan-blocks-build): block a commit that stages a
 # detectable secret before it ever lands in history. Runs gitleaks over the
@@ -16,8 +16,8 @@ else
   exit 1
 fi
 
-npm run lint
+pnpm lint
 
 # Storybook-first gate: every component in the storied tiers (ui/, ds/,
 # pages/, storybook-fixtures/) must have a sibling *.stories.tsx.
-npm run lint:stories
+pnpm lint:stories

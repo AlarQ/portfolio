@@ -176,7 +176,7 @@ function failBrowser(error: unknown): void {
   const message = describe(error);
   console.error(`[prerender-mermaid] browser render failed: ${message}`);
   if (/launch|executable|browser/i.test(message)) {
-    console.error("[prerender-mermaid] install the browser: npx playwright install chromium");
+    console.error("[prerender-mermaid] install the browser: pnpm exec playwright install chromium");
   }
   process.exitCode = 1;
 }

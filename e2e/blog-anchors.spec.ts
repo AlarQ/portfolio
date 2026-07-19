@@ -4,16 +4,16 @@ import { expect, test } from "@playwright/test";
  * Heading id + hover/focus anchor E2E tests (FR-2).
  *
  * Post: my-spec-driven-workflow. Its first `##` heading is
- * "The boundary I keep pushing out", which rehype-slug (github-slugger
+ * "The Feature flow", which rehype-slug (github-slugger
  * lowercasing/hyphenation) turns into the deterministic id
- * "the-boundary-i-keep-pushing-out".
+ * "the-feature-flow".
  *
  * Scenarios: anchor-deep-link-resolves, heading-id-stable.
  */
 
 const POST_PATH = "/blog/my-spec-driven-workflow";
-const HEADING_ID = "the-boundary-i-keep-pushing-out";
-const HEADING_TEXT = "The boundary I keep pushing out";
+const HEADING_ID = "the-feature-flow";
+const HEADING_TEXT = "The Feature flow";
 
 test.describe("Blog heading ids and anchors", () => {
   test("h2 carries a slug id and a hash URL resolves to and scrolls the heading into view", async ({

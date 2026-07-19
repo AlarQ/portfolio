@@ -160,7 +160,7 @@ panel.
 
 ### Workstream E - Ship
 - [ ] Deploy to Vercel; point the **custom domain** at it (see Dependencies).
-- [ ] Verify build (`npm run build`, `type-check`, `lint`) and chromium e2e are green.
+- [ ] Verify build (`pnpm build`, `type-check`, `lint`) and chromium e2e are green.
       Watch for e2e specs asserting the old `/` → `/blog` redirect or a Blog-only nav.
 
 ### Critical path & sequencing

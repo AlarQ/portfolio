@@ -31,8 +31,8 @@ describe("design-system pack's own new deps are pinned exact (sec-deps-pinned-an
     expect(version).not.toMatch(/^[\^~]/);
   });
 
-  it("package-lock.json is committed to the repo (tracked by git, not just present on disk)", () => {
-    const result = spawnSync("git", ["ls-files", "--error-unmatch", "package-lock.json"], {
+  it("pnpm-lock.yaml is committed to the repo (tracked by git, not just present on disk)", () => {
+    const result = spawnSync("git", ["ls-files", "--error-unmatch", "pnpm-lock.yaml"], {
       encoding: "utf-8",
     });
     expect(result.status).toBe(0);

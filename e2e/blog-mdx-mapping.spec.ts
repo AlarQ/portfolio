@@ -32,7 +32,7 @@ test.describe("Blog MDX → presentation seam mapping", () => {
     // (Font size is a dimension, not a color token - no token-resolution helper needed.)
     const paragraph = page
       .locator("article p", {
-        hasText: "The job is never finished, because the boundary keeps moving.",
+        hasText: "non-deterministic by construction",
       })
       .first();
     await expect(paragraph).toBeVisible();

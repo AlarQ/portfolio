@@ -26,12 +26,9 @@ test.describe("Blog Post detail", () => {
     await expect(page.locator("time")).toBeVisible();
 
     // A distinctive sentence from the MDX body appears as rendered text.
-    const bodyProse = page.getByText(
-      "The job is never finished, because the boundary keeps moving.",
-      {
-        exact: false,
-      }
-    );
+    const bodyProse = page.getByText("non-deterministic by construction", {
+      exact: false,
+    });
     await expect(bodyProse).toBeVisible();
   });
 
@@ -114,16 +111,15 @@ test.describe("Blog Post detail", () => {
    * Scenario: post-page-renders (FR-2, acceptance row 5, presence-only per
    * Test Strategist scope narrowing - absent-state degradation is task 005's
    * PostCard ownership).
-   * `content/posts/second-post.mdx` carries both `coverImage` and
-   * `categories: [Engineering, Workflow]` - a live fixture with both set.
+   * `content/posts/my-spec-driven-workflow.mdx` carries `categories: [AI, Workflow]`
+   * - a live fixture exercising the vocabulary-hued category badge row. No
+   * published Post currently sets `coverImage`; that render path is covered at
+   * the component level (`ArticleProse`/`PostLayout`/`SinglePost` tests).
    */
-  test("renders the cover image and vocabulary-hued category badges when present", async ({
-    page,
-  }) => {
-    await page.goto("/blog/second-post");
+  test("renders vocabulary-hued category badges when present", async ({ page }) => {
+    await page.goto("/blog/my-spec-driven-workflow");
 
-    await expect(page.locator("article img").first()).toBeVisible();
-    await expect(page.getByText("Engineering", { exact: true })).toBeVisible();
+    await expect(page.getByText("AI", { exact: true })).toBeVisible();
     await expect(page.getByText("Workflow", { exact: true })).toBeVisible();
   });
 });
