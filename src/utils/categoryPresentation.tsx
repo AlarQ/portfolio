@@ -22,6 +22,8 @@ const CATEGORY_HUES: Record<CategoryName, BadgeCategory> = {
   Engineering: "indigo",
   AI: "sky",
   Workflow: "green",
+  Rust: "orange",
+  Monorepo: "rose",
 };
 
 /** Resolve a vocabulary category name to its Badge hue. */
