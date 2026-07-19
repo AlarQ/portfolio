@@ -38,6 +38,20 @@ export const WithHint: Story = {
   ),
 };
 
+/** No eyebrow label - the state `PostEndCard` uses for the end-of-post form. */
+export const NoEyebrow: Story = {
+  args: {
+    eyebrow: "",
+    heading: "Get new posts by email",
+    ctaLabel: "Subscribe",
+  },
+  render: (args) => (
+    <div style={{ width: 560 }}>
+      <Newsletter {...args} />
+    </div>
+  ),
+};
+
 /** Wired with a direct-POST `action` (local fixture URL) - page-agnostic. */
 export const Wired: Story = {
   args: {

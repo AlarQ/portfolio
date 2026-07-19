@@ -36,7 +36,7 @@ export function PostEndCard({
   newsletterAction,
 }: PostEndCardProps) {
   return (
-    <section className="flex flex-col gap-5 rounded-xl border border-border p-8">
+    <section className="flex flex-col gap-3 rounded-xl border border-border p-5">
       <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-2xl font-semibold text-foreground">{heading}</h2>
@@ -61,8 +61,9 @@ export function PostEndCard({
           ) : null}
         </div>
       </div>
-      <div className="border-t border-border pt-5">
+      <div className="border-t border-border pt-3">
         <Newsletter
+          eyebrow=""
           heading={newsletterHeading}
           ctaLabel={newsletterCtaLabel}
           action={newsletterAction}

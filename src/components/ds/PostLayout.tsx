@@ -66,9 +66,9 @@ export function PostLayout({
   return (
     <div className="flex min-h-dvh flex-col gap-10">
       <Header items={navItems} activeHref="/" />
-      <div className="mx-auto flex w-full max-w-content flex-1 flex-col px-6 py-12 md:flex-row">
+      <div className="mx-auto flex w-full max-w-content flex-1 flex-col px-6 py-8 md:flex-row">
         {toc && toc.length > 0 ? <ArticleToc entries={toc} /> : null}
-        <div className="flex min-w-0 flex-1 flex-col gap-8 [&_:is(h2,h3)]:scroll-mt-24">
+        <div className="flex min-w-0 flex-1 flex-col gap-4 [&_:is(h2,h3)]:scroll-mt-24">
           <PageInfo
             formattedDate={post.formattedDate}
             readingTimeMinutes={post.readingTimeMinutes}

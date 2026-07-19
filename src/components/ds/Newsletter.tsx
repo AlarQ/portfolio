@@ -34,11 +34,11 @@ export function Newsletter({
 }: NewsletterProps) {
   return (
     <form
-      className="flex flex-col items-center gap-4 text-center"
+      className="flex flex-col items-center gap-3 text-center"
       action={action}
       method={action ? "post" : undefined}
     >
-      <p className="text-sm font-semibold text-primary">{eyebrow}</p>
+      {eyebrow ? <p className="text-sm font-semibold text-primary">{eyebrow}</p> : null}
       <h3 className="text-3xl font-semibold text-foreground sm:text-4xl">{heading}</h3>
       {description ? <p className="text-lg text-muted-foreground">{description}</p> : null}
       <div className="mt-2 flex w-full max-w-md flex-col gap-2 sm:flex-row">

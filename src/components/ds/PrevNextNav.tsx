@@ -27,10 +27,10 @@ export function PrevNextNav({ prev, next }: PrevNextNavProps) {
   return (
     <nav
       aria-label="Post navigation"
-      className="mt-12 grid grid-cols-1 gap-4 border-t border-border pt-8 sm:grid-cols-2"
+      className="grid grid-cols-1 gap-2 border-t border-border pt-4 sm:grid-cols-2"
     >
-      {prev ? <NavLink post={prev} direction="newer" /> : <span />}
-      {next ? <NavLink post={next} direction="older" /> : <span />}
+      {prev ? <NavLink post={prev} direction="newer" /> : null}
+      {next ? <NavLink post={next} direction="older" /> : null}
     </nav>
   );
 }
@@ -47,7 +47,7 @@ function NavLink({ post, direction }: NavLinkProps) {
     <Link
       href={`/blog/${post.slug}`}
       className={cn(
-        "group flex flex-col gap-1 rounded-md p-4 no-underline transition-colors hover:bg-muted",
+        "group flex flex-col gap-1 rounded-md p-3 no-underline transition-colors hover:bg-muted",
         READING_NAV_FOCUS_RING,
         isNewer ? "sm:col-start-1" : "sm:col-start-2 sm:text-right"
       )}
