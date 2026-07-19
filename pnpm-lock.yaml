@@ -99,6 +99,9 @@ importers:
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
+      '@types/mdx':
+        specifier: 2.0.14
+        version: 2.0.14
       '@types/node':
         specifier: ^20
         version: 20.19.30
@@ -123,6 +126,9 @@ importers:
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
+      hast-util-to-html:
+        specifier: 9.0.5
+        version: 9.0.5
       husky:
         specifier: ^9
         version: 9.1.7
@@ -138,6 +144,12 @@ importers:
       postcss:
         specifier: 8.5.16
         version: 8.5.16
+      remark-parse:
+        specifier: 11.0.0
+        version: 11.0.0(supports-color@8.1.1)
+      remark-rehype:
+        specifier: 11.1.2
+        version: 11.1.2
       storybook:
         specifier: 10.4.6
         version: 10.4.6(@testing-library/dom@10.4.1)(@types/react@19.2.10)(react@19.2.3)
@@ -147,6 +159,9 @@ importers:
       typescript:
         specifier: ^5
         version: 5.9.3
+      unified:
+        specifier: 11.0.5
+        version: 11.0.5
       vite-tsconfig-paths:
         specifier: ^6.1.1
         version: 6.1.1(supports-color@8.1.1)(typescript@5.9.3)(vite@8.0.16(@types/node@20.19.30)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0))
