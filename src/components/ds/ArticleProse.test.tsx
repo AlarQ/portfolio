@@ -21,8 +21,8 @@ describe("ArticleProse", () => {
 
   it("preserves the hardened MDX seam output for Post body content it renders (FR-11)", () => {
     // Body content is built exactly as the App Router's `useMDXComponents`
-    // hook would produce it — via the real, already-hardened `mdxComponents`
-    // map from `mdxPresentation.tsx` — never re-implemented by ArticleProse.
+    // hook would produce it - via the real, already-hardened `mdxComponents`
+    // map from `mdxPresentation.tsx` - never re-implemented by ArticleProse.
     const AnchorComponent = mdxComponents.a as React.ElementType;
     const ScriptComponent = mdxComponents.script as React.ElementType;
     const body = (

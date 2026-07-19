@@ -63,7 +63,7 @@ All notable changes to this project will be documented in this file.
 ### Features
 
 * **blog, nav:** dev workflow blog post, show Home and Projects tabs in dev only ([#36](https://github.com/AlarQ/portfolio/issues/36)) ([f0af544](https://github.com/AlarQ/portfolio/commit/f0af544dfc629bd27dc205afa7007a18ec7cf663))
-* **blog:** MDX blog — /blog index + /blog/[slug], build-time highlighting, a11y, security ([#34](https://github.com/AlarQ/portfolio/issues/34)) ([c42353c](https://github.com/AlarQ/portfolio/commit/c42353cf6e1dd35e204c56d418e4277661d98ada))
+* **blog:** MDX blog - /blog index + /blog/[slug], build-time highlighting, a11y, security ([#34](https://github.com/AlarQ/portfolio/issues/34)) ([c42353c](https://github.com/AlarQ/portfolio/commit/c42353cf6e1dd35e204c56d418e4277661d98ada))
 * **data:** extract Topic concept into src/data/topic.ts ([#25](https://github.com/AlarQ/portfolio/issues/25)) ([f579896](https://github.com/AlarQ/portfolio/commit/f5798967f0808152a81f523bcd7c71774aa11d1a))
 * something ([c149d5c](https://github.com/AlarQ/portfolio/commit/c149d5c6987c068ba83821146c1d5b84fea7d8ac))
 

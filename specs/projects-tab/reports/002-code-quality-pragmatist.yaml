@@ -7,7 +7,7 @@ findings:
     category: dry-violation
     title: status-dot skips the badgeVariants typetest-fixture precedent
     description: >
-      `badgeCategoryVariants` has a companion `badgeVariants.typetest.ts` + `badgeVariants.typetest.test.ts` pair that proves the closed category union is a compile-time contract via a `@ts-expect-error` fixture checked through `tsc --noEmit`. `statusDotVariants.ts`'s own doc comment explicitly claims to "mirror the BadgeCategory/ badgeCategoryVariants precedent" for the closed-union guarantee, but only ships the runtime regex test (`statusDotVariants.test.ts`) — the type-level compile-error fixture is not carried over for `StatusTone`.
+      `badgeCategoryVariants` has a companion `badgeVariants.typetest.ts` + `badgeVariants.typetest.test.ts` pair that proves the closed category union is a compile-time contract via a `@ts-expect-error` fixture checked through `tsc --noEmit`. `statusDotVariants.ts`'s own doc comment explicitly claims to "mirror the BadgeCategory/ badgeCategoryVariants precedent" for the closed-union guarantee, but only ships the runtime regex test (`statusDotVariants.test.ts`) - the type-level compile-error fixture is not carried over for `StatusTone`.
 
     file: src/components/ui/statusDotVariants.ts
     lines: "1-28"
@@ -15,7 +15,7 @@ findings:
       type-safety.md favors compiler-enforced invariants over runtime re-checks; the codebase's own established pattern (badgeVariants) pairs a runtime test with a type-level fixture specifically to catch an invalid tone at `tsc --noEmit` time, before any test even runs. The doc comment sets an expectation of parity with that precedent that the code doesn't fully deliver.
 
     impact: >
-      A future invalid `StatusTone` literal used inline (bypassing the exported union) would only be caught by TS's normal type-checking of the `tone` prop, not by an explicit compile-time proof file — a minor inconsistency with the codebase's stated pattern, not a functional gap today since `StatusTone` is already a closed union enforced elsewhere.
+      A future invalid `StatusTone` literal used inline (bypassing the exported union) would only be caught by TS's normal type-checking of the `tone` prop, not by an explicit compile-time proof file - a minor inconsistency with the codebase's stated pattern, not a functional gap today since `StatusTone` is already a closed union enforced elsewhere.
 
     confidence: medium
     review_status: accepted

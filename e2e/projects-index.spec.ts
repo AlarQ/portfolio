@@ -4,17 +4,17 @@ import { projects } from "@/data/projects";
 /**
  * `/projects` index E2E (projects-tab FR-4, FR-11). Chunk-1 behaviors:
  *
- *  1. projects_link_lands_on_route_active_state_highlights — the site nav's
+ *  1. projects_link_lands_on_route_active_state_highlights - the site nav's
  *     Projects link routes to `/projects` (previously a 404) and the Header
  *     marks it active there.
- *  2. sticky_strip_above_summary_first_pill_selected_projects_order — the
+ *  2. sticky_strip_above_summary_first_pill_selected_projects_order - the
  *     sticky `ProjectTabStrip` renders above a full-width `ProjectSummary`,
  *     pills follow `src/data/projects.ts` array order, and `projects[0]` is
  *     selected on load with no interaction.
- *  3. pill_click_swaps_summary_client_side_no_navigation — clicking a
+ *  3. pill_click_swaps_summary_client_side_no_navigation - clicking a
  *     non-active pill swaps the summary entirely client-side (URL unchanged).
  *
- * Scoped to chromium — the webkit/mobile suites have known pre-existing
+ * Scoped to chromium - the webkit/mobile suites have known pre-existing
  * failures (profile-card heading mismatch); chromium is the reliable signal.
  * `getByRole("link", { name: "Projects", exact: true })` disambiguates the
  * desktop nav link from the brand logo and the hidden mobile <nav>.
@@ -84,7 +84,7 @@ test.describe("Projects index", () => {
     let navigated = false;
     page.on("framenavigated", (frame) => {
       // A same-URL `framenavigated` (e.g. a trailing dev-server chunk event)
-      // is not a real navigation for this test's purposes — only a URL
+      // is not a real navigation for this test's purposes - only a URL
       // change counts.
       if (frame === page.mainFrame() && frame.url() !== urlBeforeClick) navigated = true;
     });

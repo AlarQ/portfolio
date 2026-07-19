@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
  * Blog Post detail E2E Tests
  *
  * Tests the Post detail page at /blog/[slug], migrated onto `pages/SinglePost`
- * (route-migration task 004) — asserts against the SinglePost render tree
+ * (route-migration task 004) - asserts against the SinglePost render tree
  * (`ArticleProse`'s `<h1>` + prose, `PageInfo`'s `<time>`), not the retired
  * `PostArticle`/MUI carriers.
  *
@@ -40,7 +40,7 @@ test.describe("Blog Post detail", () => {
    * Without `remark-frontmatter` in the MDX pipeline (next.config.ts), the
    * leading `---...---` block renders as a thematic break (<hr>) plus raw
    * `title:/dek:/date:` text atop every Post. This pins the body to start at the
-   * authored prose — the unit suite can't cover it (Next compiles the body, not
+   * authored prose - the unit suite can't cover it (Next compiles the body, not
    * the loader). See reports/architecture-data.md finding 1.
    */
   test("does not leak raw frontmatter into the rendered body", async ({ page }) => {
@@ -63,7 +63,7 @@ test.describe("Blog Post detail", () => {
    * SVG (visible in light mode, carries the accessible description) and a DARK
    * SVG (aria-hidden twin, swapped in via the `.dark` class). This pins the
    * rendered contract: for each of the four diagrams both SVGs render as
-   * `<img>` and — crucially — actually resolve (200), so a missing/unbuilt
+   * `<img>` and - crucially - actually resolve (200), so a missing/unbuilt
    * diagram fails here instead of silently 404-ing in prod.
    */
   test("renders pre-rendered Mermaid diagrams as resolvable light+dark SVG images", async ({
@@ -112,10 +112,10 @@ test.describe("Blog Post detail", () => {
 
   /**
    * Scenario: post-page-renders (FR-2, acceptance row 5, presence-only per
-   * Test Strategist scope narrowing — absent-state degradation is task 005's
+   * Test Strategist scope narrowing - absent-state degradation is task 005's
    * PostCard ownership).
    * `content/posts/second-post.mdx` carries both `coverImage` and
-   * `categories: [Engineering, Workflow]` — a live fixture with both set.
+   * `categories: [Engineering, Workflow]` - a live fixture with both set.
    */
   test("renders the cover image and vocabulary-hued category badges when present", async ({
     page,

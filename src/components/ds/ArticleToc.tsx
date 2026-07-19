@@ -15,7 +15,7 @@ export interface ArticleTocProps {
 /**
  * `"use client"` organism owning a Post's ToC *behavior* (blog-readability
  * Decisions 5-7): scroll-spy (`useActiveHeading`), mobile scroll progress
- * (`useScrollProgress`), and reduced-motion (`usePrefersReducedMotion`) — one
+ * (`useScrollProgress`), and reduced-motion (`usePrefersReducedMotion`) - one
  * `reducedMotion` boolean threaded once, not re-read per child. Renders the
  * presentational `TableOfContents` dot-rail (desktop, `md:flex`) and the
  * presentational `ScrollProgressBar` (mobile, `md:hidden`); the two are
@@ -23,11 +23,11 @@ export interface ArticleTocProps {
  *
  * `PostLayout` mounts this directly as a split-column flex child. This
  * component owns its own desktop rail styling (`hidden md:flex md:sticky
- * md:top-1/2 md:-translate-y-1/2 md:h-fit md:w-72 md:shrink-0` — sticky with a
+ * md:top-1/2 md:-translate-y-1/2 md:h-fit md:w-72 md:shrink-0` - sticky with a
  * 50% top offset so the rail centers on the viewport height rather than
  * pinning to the top, mirroring `IdentityRail.tsx:71` otherwise) rather than a
  * wrapping `PostLayout` `<div>`, because the mobile `ScrollProgressBar` is
- * `fixed` and must NOT sit inside a `hidden`-below-`md` ancestor — a
+ * `fixed` and must NOT sit inside a `hidden`-below-`md` ancestor - a
  * `display: none` ancestor hides fixed-positioned descendants too, which
  * would silently kill the mobile progress bar.
  */

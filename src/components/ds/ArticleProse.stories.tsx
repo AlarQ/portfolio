@@ -15,8 +15,8 @@ type Story = StoryObj<typeof ArticleProse>;
 
 /**
  * A body fixture exercising the whole rewritten MDX seam so the story shows every
- * element — paragraphs, a heading, a list, a blockquote, a Callout, and an
- * external link — resolving its colors/spacing from semantic tokens in both
+ * element - paragraphs, a heading, a list, a blockquote, a Callout, and an
+ * external link - resolving its colors/spacing from semantic tokens in both
  * themes. The list/link/Callout render through the real seam components (as the
  * App Router `useMDXComponents` hook maps them); it stays router-free so 004's
  * SinglePost story can reuse it.
@@ -38,7 +38,7 @@ const sampleBody = (
       <p>Constraints are the point: a smaller palette is a more trustworthy one.</p>
     </blockquote>
     <Callout title="Human gate">
-      Prefer a semantic alias over a primitive — see the{" "}
+      Prefer a semantic alias over a primitive - see the{" "}
       <Anchor href="https://example.com/token-guide">token guide</Anchor> for the rationale.
     </Callout>
     <figure>

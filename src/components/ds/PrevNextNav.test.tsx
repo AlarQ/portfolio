@@ -15,7 +15,7 @@ import { renderIntoDocument } from "./testUtils";
 
 const [newer, older] = samplePosts;
 
-describe("PrevNextNav — middle Post (both neighbours)", () => {
+describe("PrevNextNav - middle Post (both neighbours)", () => {
   it("renders both a Newer and an Older link resolving to each neighbour's slug", () => {
     const { container, unmount } = renderIntoDocument(<PrevNextNav prev={newer} next={older} />);
 
@@ -34,7 +34,7 @@ describe("PrevNextNav — middle Post (both neighbours)", () => {
   });
 });
 
-describe("PrevNextNav — collection edges (one-sided)", () => {
+describe("PrevNextNav - collection edges (one-sided)", () => {
   it("renders only the Older link at the newest edge (no newer neighbour)", () => {
     const { container, unmount } = renderIntoDocument(<PrevNextNav next={older} />);
 

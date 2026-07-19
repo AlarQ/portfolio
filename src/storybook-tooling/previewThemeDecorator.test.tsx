@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 // `.storybook/preview.tsx` calls `Inter()` from `next/font/google` at module
 // load (mirroring `layout.tsx` to stamp `--font-inter`). next/font is a build-
 // time loader with no runtime under vitest, so stub it to return the shape the
-// preview consumes (`.variable`) — otherwise the import throws "Inter is not a
+// preview consumes (`.variable`) - otherwise the import throws "Inter is not a
 // function" before any test runs.
 vi.mock("next/font/google", () => ({
   Inter: () => ({ variable: "--font-inter", className: "font-inter" }),
@@ -69,7 +69,7 @@ afterEach(() => {
 
 /**
  * Behavior 8 (revised for Task 004+): the shadcn primitives are the Figma
- * *light* look and render on the raw light tokens from `globals.css` — they
+ * *light* look and render on the raw light tokens from `globals.css` - they
  * MUST NOT be wrapped in the legacy MUI dark `ThemeProvider`, whose
  * `CssBaseline` paints a dark `body` and inverts every story vs Figma (see the
  * rationale in `.storybook/preview.tsx`). So the decorator's contract is now:
@@ -107,7 +107,7 @@ describe("storybook preview decorator renders stories on the raw light tokens (b
 /**
  * Task 008 (FR-9 acceptance #1, Storybook demo half): a `globalTypes` toolbar
  * item lets a reviewer flip themes in Storybook's UI, and the decorator toggles
- * the `dark` class on the document root (`<html>`) — no next-themes/
+ * the `dark` class on the document root (`<html>`) - no next-themes/
  * ThemeProvider needed here, since `tokens.css`'s `.dark {}` block is a plain
  * class selector that cascades to any element (not just `:root`) carrying the
  * class. The class lives on the document root (not the story wrapper) so the

@@ -3,7 +3,7 @@ import { ownerProfile } from "@/data/profile";
 
 /**
  * FR-6 (scenario author-page-renders): `/author` renders `pages/Author` with
- * the owner's identity sourced from `src/data/profile.ts` — not a hardcode.
+ * the owner's identity sourced from `src/data/profile.ts` - not a hardcode.
  * The name/title are read from the profile module here so this contract keeps
  * proving "data-driven" even if the owner's identity is edited. Header/Footer
  * chrome is Task 006's contract and is not re-asserted here.

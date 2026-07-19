@@ -121,7 +121,7 @@ describe("no-direct-palette-import lint gate (FR-3)", () => {
 
   it("rgba_color_function_literal_in_template_literal_is_a_known_residual_gap", () => {
     // GritQL string-literal matching does not currently reach the string parts
-    // of a template literal — pin the actual (limited) behavior rather than
+    // of a template literal - pin the actual (limited) behavior rather than
     // assume coverage. Residual gap: rgba()/hsl() inside a `${...}` template
     // literal is NOT caught by this rule.
     const fixture = "src/theme/BadRgbaTemplate.tsx";

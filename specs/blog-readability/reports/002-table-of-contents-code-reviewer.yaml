@@ -5,9 +5,9 @@ findings:
   - id: code-reviewer-1
     severity: medium
     category: correctness
-    title: extractPostToc has no fenced-code-block tracking — a `##` line inside a ``` fence is matched as a real heading
+    title: extractPostToc has no fenced-code-block tracking - a `##` line inside a ``` fence is matched as a real heading
     description: >
-      src/data/postToc.ts splits raw Markdown on newlines and regex-matches each line in isolation with no fence-state tracking. A `## Setup` / `### install` line inside a ```/~~~ code fence is matched as a heading, but rehype-slug does not slug headings inside code blocks — so the ToC gains a phantom entry whose `#id` anchor points at no DOM heading (dead link + silent id-parity break). No current post triggers it (corpus scanned clean) so impact is latent; the single-post e2e does not guard it. Odium's coverage audit independently flagged the same edge case.
+      src/data/postToc.ts splits raw Markdown on newlines and regex-matches each line in isolation with no fence-state tracking. A `## Setup` / `### install` line inside a ```/~~~ code fence is matched as a heading, but rehype-slug does not slug headings inside code blocks - so the ToC gains a phantom entry whose `#id` anchor points at no DOM heading (dead link + silent id-parity break). No current post triggers it (corpus scanned clean) so impact is latent; the single-post e2e does not guard it. Odium's coverage audit independently flagged the same edge case.
 
     suggestion: >
       Track fence state while iterating (toggle on /^(```|~~~)/, skip heading matching while open), or derive the heading tree from the same remark/mdast the render pipeline parses. Add a unit case with a `##` line inside a fenced block asserting it is excluded.
@@ -19,7 +19,7 @@ findings:
   - id: code-reviewer-2
     severity: medium
     category: accessibility
-    title: ToC link tap target ~28px tall — below the 44×44 CSS px floor (a11y MUST)
+    title: ToC link tap target ~28px tall - below the 44×44 CSS px floor (a11y MUST)
     description: >
       src/components/PostToc.tsx ToC links use py:0.5 (8px) with fontSize 0.875rem / lineHeight 1.4 → ~28px clickable height, under the 44×44 the KB grades a MUST. Scoped impact is lower than a primary control (desktop-only aside, hidden below md, full-width horizontal hit area), but the vertical target is still under the floor.
 
@@ -49,7 +49,7 @@ findings:
     category: maintainability
     title: header-offset magic numbers duplicated across sticky top and scroll-spy rootMargin
     description: >
-      Sticky offsets are hardcoded raw px — top:112, maxHeight:"calc(100vh - 136px)", and rootMargin "-96px 0px -70% 0px" in useActiveHeading. Header-height-derived magic numbers duplicated across two spots with no shared token; a header height change silently desyncs the sticky offset and the scroll-spy margin.
+      Sticky offsets are hardcoded raw px - top:112, maxHeight:"calc(100vh - 136px)", and rootMargin "-96px 0px -70% 0px" in useActiveHeading. Header-height-derived magic numbers duplicated across two spots with no shared token; a header height change silently desyncs the sticky offset and the scroll-spy margin.
 
     suggestion: >
       Hoist the header offset to a single named constant/theme token and derive both the sticky top and the observer rootMargin from it.
@@ -61,7 +61,7 @@ findings:
   - id: code-reviewer-5
     severity: low
     category: correctness
-    title: headingText regex re-implements inline-Markdown stripping — can diverge from rehype-slug on `_emphasis_`, setext, autolinks
+    title: headingText regex re-implements inline-Markdown stripping - can diverge from rehype-slug on `_emphasis_`, setext, autolinks
     description: >
       src/data/postToc.ts headingText re-implements inline-Markdown stripping to feed the slugger. It handles */**/~~/code/links but not `_`-style emphasis (`_word_` renders as <em>word</em>, dropping underscores, so the two slugs diverge), nor setext headings, autolinks, or images-in-headings. Mitigated by the single-post e2e id-parity check; any heading form outside that post is unguarded.
 

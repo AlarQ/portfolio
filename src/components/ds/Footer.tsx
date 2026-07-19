@@ -5,15 +5,15 @@ import { footerIcon } from "@/utils/footerPresentation";
  * Bespoke organism for the site-wide footer (Figma 614:668 light / 614:2227
  * dark): a copyright line plus a link menu with icons. Presentational server
  * component; binds solely to semantic Tailwind classes so it inverts light↔dark
- * for free — no raw hex/palette lookups (`no-direct-palette-import`).
+ * for free - no raw hex/palette lookups (`no-direct-palette-import`).
  *
  * Responsive via container queries (`@container` + `@md:`), matching Header's
  * masthead approach: stacked-centered when narrow (dark node), a single left
  * row when wide (light node). Copyright is `order-last @md:order-first` so it
  * sits below the menu when stacked and first-in-row when wide.
  *
- * Every target is either an external site, a `mailto:`, or a static feed route —
- * never an in-app page — so the menu renders plain `<a>` elements rather than
+ * Every target is either an external site, a `mailto:`, or a static feed route -
+ * never an in-app page - so the menu renders plain `<a>` elements rather than
  * `next/link` (which would fire useless route prefetches, including 404s against
  * the feed handler). External `http(s)` links are hardened automatically by
  * protocol sniff, so a raw external URL can never slip through unhardened.

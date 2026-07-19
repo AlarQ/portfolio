@@ -1,7 +1,7 @@
-# Design — `design-system`
+# Design - `design-system`
 
 > Architecture, decisions, and trade-offs for the first pack of the MUI 7 →
-> shadcn/ui re-platform. This document owns the **WHY** — rationale, ADRs,
+> shadcn/ui re-platform. This document owns the **WHY** - rationale, ADRs,
 > module boundaries. The **WHAT** (functional requirements, scenarios, security
 > scenarios) lives in [`spec.md`](./spec.md) and is referenced here by id
 > (FR-N / scenario name); it is never restated. Repo-level, cross-spec decisions
@@ -49,7 +49,7 @@ graph TB
     Atoms["Atoms/ (exhaustive matrices)"] --> Primitives
     Molecules["Molecules/"] --> Bespoke
     Organisms["Organisms/"] --> Bespoke
-    Pages["Pages/ (Home, Single Post, Author — Home+Blog Listing merged, FR-8)"] --> Organisms
+    Pages["Pages/ (Home, Single Post, Author - Home+Blog Listing merged, FR-8)"] --> Organisms
     Pages --> PostType
   end
 
@@ -58,7 +58,7 @@ graph TB
     Routes["/, /projects, /blog, /blog/[slug]"] --> Coexist
   end
 
-  subgraph MDXSeam["MDX Trust Seam (unchanged — ADR-0001, D-7, FR-11)"]
+  subgraph MDXSeam["MDX Trust Seam (unchanged - ADR-0001, D-7, FR-11)"]
     PostLoader["postLoader.ts buildPostSet (imports Post)"]
     MdxPresentation["mdxPresentation.tsx hardening"]
   end
@@ -76,27 +76,27 @@ graph TB
 Dependency direction is strictly downward: `tokens.ts` (primitive → semantic) is
 the sole source; `generate:tokens` is a build-step edge (dashed) into the
 generated CSS, never hand-authored in reverse. Presentation resolution happens
-once, at the semantic boundary — primitives and bespoke compositions both depend
+once, at the semantic boundary - primitives and bespoke compositions both depend
 on that boundary, never on primitives or raw hex directly (FR-3). Bespoke
 compositions depend on primitives, never the reverse, keeping the atomic-design
 layering (`Atoms → Molecules → Organisms → Pages`) a one-way composition chain
 mirrored 1:1 by Storybook's sidebar. The `MUIApp` subgraph and the
 `TokenSeam`/`Primitives`/`Bespoke`/`Storybook` subgraphs are **disjoint at
-runtime** this pack — the only edge between them is the shared coexistence
+runtime** this pack - the only edge between them is the shared coexistence
 tooling (`Coexist`) and, in a later pack, route migration. The `MDXSeam`
 subgraph has no inbound edges from this pack's new code except a read-only,
-one-directional consumption arrow from `Article` — it is depended upon, never
+one-directional consumption arrow from `Article` - it is depended upon, never
 modified (FR-11, D-7, ADR-0001).
 
 ## Architecture Decision Records
 
-### ADR-DS-1: Storybook ↔ Next 16 adapter — `@storybook/nextjs` primary, `@storybook/react-vite` fallback
+### ADR-DS-1: Storybook ↔ Next 16 adapter - `@storybook/nextjs` primary, `@storybook/react-vite` fallback
 
 **Status:** Accepted
 
 **Context:** FR-7 requires Storybook 9 to boot against Next 16 with no adapter
 errors (`storybook-boots`). This is a toolchain-gating spike (prd.md Open
-Questions #1) — if the official Next adapter doesn't support Next 16 yet, the
+Questions #1) - if the official Next adapter doesn't support Next 16 yet, the
 whole pack's tool choice changes.
 
 **Decision:** Open the design phase by spiking `@storybook/nextjs` against the
@@ -109,7 +109,7 @@ and accept the consequence below.
 
 **Consequences:** Choosing `@storybook/nextjs` keeps `next/image` and `next/font`
 mocked, so Pages stories (FR-8) visually match production image/font behavior.
-Falling back to `react-vite` loses both mocks — Pages stories would need
+Falling back to `react-vite` loses both mocks - Pages stories would need
 hand-rolled `next/image`/`next/font` shims or accept visual drift versus the real
 app, which weakens the FR-8 "cheap insurance against pack-2 rework" guarantee
 (components accept the real `Post` type but would render through an unfaithful
@@ -118,17 +118,17 @@ Flags) because it is discovered, not decided, and can force re-scoping FR-7/FR-8
 mid-build.
 
 **Alternatives considered:** Skip Storybook and review components ad hoc in a
-throwaway Next route — rejected, it defeats FR-7's atomic-design workshop
+throwaway Next route - rejected, it defeats FR-7's atomic-design workshop
 requirement and the "prove the system before touching live routes" value
 proposition (spec.md Overview).
 
 **Serves:** FR-7, FR-8. **KB rule:** `architecture/general.md` Scope Discipline
-(verify before committing scope) — the spike is sequenced first specifically so a
+(verify before committing scope) - the spike is sequenced first specifically so a
 toolchain failure is cheap, not discovered after primitives are restyled.
 
 ---
 
-### ADR-DS-2: MUI/Tailwind coexistence ordering — `injectFirst` + disabled preflight, one-pass mixed-route migration
+### ADR-DS-2: MUI/Tailwind coexistence ordering - `injectFirst` + disabled preflight, one-pass mixed-route migration
 
 **Status:** Accepted
 
@@ -140,25 +140,25 @@ Two CSS runtimes now share every page's cascade.
 base-element authority; `StyledEngineProvider injectFirst` pins Emotion's
 `<style>` tags first in `<head>`, so Emotion wins cascade ties against Tailwind
 utility classes during coexistence. When a later pack migrates a route off MUI,
-that route is migrated **fully in one pass** — no route is left "mixed"
+that route is migrated **fully in one pass** - no route is left "mixed"
 (partially MUI, partially shadcn) as a resting state.
 
 **Consequences:** The live app renders byte-for-byte unchanged this pack (FR-1's
 acceptance bar). The cost lands in pack 2+: any route that is mid-migration pays
 both runtimes simultaneously (Emotion + Tailwind bundle weight, duplicate cascade
-reasoning) — acceptable only as a transient state, not a resting one, because a
+reasoning) - acceptable only as a transient state, not a resting one, because a
 resting mixed route is where cascade-tie bugs actually surface in production per
 prior migration experience. The one-pass rule is a scope-discipline device: it
 prevents "discovering" `injectFirst` edge cases live on a partially migrated
 production route.
 
 **Alternatives considered:** Enable Tailwind preflight and re-theme MUI's
-`CssBaseline` to match — rejected, doubles the reset surface to maintain during
+`CssBaseline` to match - rejected, doubles the reset surface to maintain during
 coexistence and risks silent baseline drift the byte-for-byte scenario is
-designed to catch. Migrate routes incrementally section-by-section — rejected per
+designed to catch. Migrate routes incrementally section-by-section - rejected per
 the one-pass rule; a partially migrated route is the worst-cost resting state
 (double runtime, unclear cascade owner). No `injectFirst` (default Tailwind-wins
-ordering) — rejected, Tailwind's utility classes would non-deterministically
+ordering) - rejected, Tailwind's utility classes would non-deterministically
 override Emotion component internals, breaking `preflight-disabled-baseline-intact`.
 
 **Serves:** FR-1. **KB rule:** `architecture/general.md` Boundaries and Coupling
@@ -167,7 +167,7 @@ made an explicit, testable interface rather than an implicit load-order accident
 
 ---
 
-### ADR-DS-3: Two-layer token codegen — `tokens.ts` (primitive → semantic) generates `@generated tokens.css`
+### ADR-DS-3: Two-layer token codegen - `tokens.ts` (primitive → semantic) generates `@generated tokens.css`
 
 **Status:** Accepted
 
@@ -180,7 +180,7 @@ distinction and making `no-direct-palette-import`-style purity unenforceable
 (nothing to distinguish "primitive" from "semantic" once both are opaque CSS
 custom properties).
 
-**Decision:** `src/theme/tokens.ts` is authored as two distinct exported maps — a
+**Decision:** `src/theme/tokens.ts` is authored as two distinct exported maps - a
 primitive palette and a semantic alias map that resolves every semantic name to a
 primitive, never to an inline hex (mirrors the existing `brand` seam pattern in
 `src/theme/theme.ts`). A `generate:tokens` script mechanically emits `@generated
@@ -190,31 +190,31 @@ Tailwind v4's `@theme inline` to bridge the generated semantic custom properties
 into Tailwind's token space, with `@import` ordering such that `tokens.css` loads
 before any Tailwind utility layer that references those variables. Regeneration
 from unchanged `tokens.ts` input is required to be byte-identical
-(`tokens-codegen-deterministic`) — the script must not embed timestamps, random
+(`tokens-codegen-deterministic`) - the script must not embed timestamps, random
 ordering, or environment-derived output.
 
 **Consequences:** TypeScript authorship preserves compile-time exhaustiveness (a
 semantic alias with no primitive backing is a type error, not a silent CSS gap)
 and keeps the two-layer distinction durable against any future `shadcn` re-init.
 The cost is an extra build step and a script that must be kept in the dependency
-graph of every design change — a token edit that skips `generate:tokens` produces
+graph of every design change - a token edit that skips `generate:tokens` produces
 a stale `tokens.css` with no compile-time signal (mitigated by wiring codegen
-into the build/precommit path, not asserted by this ADR alone — flagged in Risk
+into the build/precommit path, not asserted by this ADR alone - flagged in Risk
 Flags). Because `tokens.css` is a generated artifact, hand-editing it is a **MUST
-NOT** per `architecture/general.md` "Generated Artifacts" — a project-specific
+NOT** per `architecture/general.md` "Generated Artifacts" - a project-specific
 instance of that KB rule, not a new invention.
 
 **Alternatives considered:** Accept `shadcn init`'s default flat CSS-only tokens
-(no TS layer) — rejected per D-6/`repeat-app` precedent above: loses the
+(no TS layer) - rejected per D-6/`repeat-app` precedent above: loses the
 primitive/semantic distinction and the lint-enforceability it enables (ADR-DS-6).
-Author both layers directly in CSS with `@layer` for separation — rejected, CSS
+Author both layers directly in CSS with `@layer` for separation - rejected, CSS
 has no type system to make a missing semantic-to-primitive mapping a compile
 error; TS does.
 
 **Serves:** FR-2, FR-3. **KB rule:** `architecture/general.md` Generated
 Artifacts (never hand-edit generated output; change the input, re-run the
 generator); `style/general.md` Abstraction (concrete-first: the two layers exist
-because a real prior failure — `repeat-app`'s flattening — was observed, not
+because a real prior failure - `repeat-app`'s flattening - was observed, not
 because of speculative future-proofing).
 
 ---
@@ -224,7 +224,7 @@ because of speculative future-proofing).
 **Status:** Accepted (accepted-risk)
 
 **Context:** D-4 pins the Figma primary `#7F56D9` exactly. Measured against white
-it is ≈4.96:1, which **passes** WCAG AA for normal text (AA requires 4.5:1) — no
+it is ≈4.96:1, which **passes** WCAG AA for normal text (AA requires 4.5:1) - no
 light-mode trade-off exists for this hue, unlike the old `#4B6BFB` primary.
 Measured against the Figma dark-frame background `#090d1f` it is ≈3.89:1, which
 **fails** AA for normal text but passes AA for large text/UI components (3:1).
@@ -250,9 +250,9 @@ re-point specifically because of the semantic-only consumption rule
 (FR-3/ADR-DS-3): no component needs to change.
 
 **Alternatives considered:** Darken/lighten `#7F56D9` globally to pass AA in both
-themes — rejected, breaks D-4's pixel-fidelity requirement and defeats the goal
+themes - rejected, breaks D-4's pixel-fidelity requirement and defeats the goal
 of proving the exact Figma visual language. Use `#7F56D9` only as a non-text
-color in dark mode — rejected as unnecessarily conservative given large
+color in dark mode - rejected as unnecessarily conservative given large
 semibold text already reads as acceptably legible per Figma; reserved for the
 true small-text case via `--primary-strong` instead.
 
@@ -272,7 +272,7 @@ with the "document decisions, not just designs" principle.
 Unlike the old "MetaBlog" source, "The Blog" Figma file **does** have a real
 dark-mode frame (node `614:679`) with its own observed values: background
 `#090d1f`, headings white, body text `#c0c5d0`, byline accent `#6941c6`. Dark is
-therefore not a derivation problem — it is a second pixel-match target, same as
+therefore not a derivation problem - it is a second pixel-match target, same as
 light.
 
 **Decision:** Dark theme is **pixel-matched from the Figma dark frame**, not
@@ -284,24 +284,24 @@ semantic alias names the light (Figma) theme populates (`--primary`,
 block (FR-9, `dark-is-single-token-block`). No new dark-specific component logic
 is introduced; `next-themes`' `class` strategy toggles which token block is
 active. The existing portfolio `theme.ts` brand (`sky`/`lime`/`orange`) is not
-consulted for this pack's dark tokens — it remains the MUI-side dark palette
+consulted for this pack's dark tokens - it remains the MUI-side dark palette
 until later packs retire MUI entirely.
 
 **Consequences:** Light and dark are both first-class Figma pixel-matches,
-consistent with D-4's fidelity requirement — there is no "the dark theme isn't
+consistent with D-4's fidelity requirement - there is no "the dark theme isn't
 really from Figma" caveat to carry forward. The trade-off: the portfolio's
 established "cyber" dark brand identity is **not** carried into the new design
 system; a future observer comparing the old MUI dark look to the new shadcn dark
 look will see two different dark aesthetics. That is an intentional, recorded
-decision (this ADR), not an oversight — it falls out of D-2's "adopt the Figma
+decision (this ADR), not an oversight - it falls out of D-2's "adopt the Figma
 template look" applying to both themes, not just light.
 
 **Alternatives considered:** Derive dark from `theme.ts`'s existing
-`sky`/`lime`/`orange` brand (the original approach) — rejected now that a real
+`sky`/`lime`/`orange` brand (the original approach) - rejected now that a real
 Figma dark source exists; using it would mean shipping an *un*-pixel-matched
 dark theme purely to preserve old brand continuity, contradicting D-4. Invert/
 derive dark algorithmically from the Figma light palette (e.g. HSL lightness
-flip) — rejected, produces an unvetted dark palette with no design review when
+flip) - rejected, produces an unvetted dark palette with no design review when
 an actual designed dark frame is sitting right there in the source file.
 
 **Serves:** FR-9. **KB rule:** `architecture/general.md` Scope Discipline (ship
@@ -318,7 +318,7 @@ convenient existing artifact).
 enforced, not just documented (`raw-hex-in-component-fails-lint`). The sibling
 repos' precedent rule is `no-direct-palette-import`, implemented as GritQL. prd.md
 Open Questions notes GritQL `language css` plugins are broken at Biome 2.4.15, and
-Biome does not sort Tailwind classes (a separate, accepted gap — not this pack's
+Biome does not sort Tailwind classes (a separate, accepted gap - not this pack's
 scope).
 
 **Decision:** Adopt `no-direct-palette-import` as a **JS/TSX-language-only**
@@ -332,7 +332,7 @@ that was never written, because CI stays green while FR-3 quietly regresses).
 
 **Consequences:** The purity rule catches raw hex literals and
 `--brand-*`/`palette.*` imports inside `.tsx`/`.ts` component files at `npm run
-lint` time — the mechanical gate FR-3 requires. It does **not** catch a raw hex
+lint` time - the mechanical gate FR-3 requires. It does **not** catch a raw hex
 accidentally introduced directly in a `.css` file (out of scope given the broken
 CSS-plugin path); that residual gap is a Medium risk (see Risk Flags), not a
 Critical one, because FR-3's stated surface is component source, and `tokens.css`
@@ -342,13 +342,13 @@ control: routine `npm update` must not silently move Biome past the version the
 GritQL plugin was verified against.
 
 **Alternatives considered:** Wait for Biome to fix the CSS-plugin and enforce
-both JS and CSS surfaces — rejected, blocks FR-3's compile/lint-gate requirement
+both JS and CSS surfaces - rejected, blocks FR-3's compile/lint-gate requirement
 on an upstream fix with no committed timeline. Write a custom regex-based
-pre-commit hook instead of GritQL — rejected, less precise than an AST-aware
+pre-commit hook instead of GritQL - rejected, less precise than an AST-aware
 GritQL rule and adds a second lint mechanism to maintain alongside Biome.
 
 **Serves:** FR-3. **KB rule:** `style/general.md` Suppressions ("a directive
-referencing a non-existent rule group is dead documentation") — the inverse
+referencing a non-existent rule group is dead documentation") - the inverse
 failure mode here (a *rule* that silently stops running because of a toolchain
 version) is the same category of risk, addressed by pinning rather than by hoping
 the plugin stays fixed.
@@ -365,7 +365,7 @@ precedent shipped hex + codegen successfully, though its OKLCH-avoidance was
 originally driven by a React Native constraint that does not apply to this
 Next.js/web-only pack. Unlike badge/gray/background hexes (each directly
 observed on a Figma node), the primary color has only a single observed sample
-(`#7F56D9`, "Primary/600" on the Subscribe button) — no published 50–900 shade
+(`#7F56D9`, "Primary/600" on the Subscribe button) - no published 50–900 shade
 ramp exists in the file (confirmed via `get_libraries` + `search_design_system`),
 yet hover/active states need shade headroom the single sample doesn't provide.
 
@@ -374,12 +374,12 @@ primary 50–900 ramp is **synthetically generated** via HSL lightness
 interpolation from the single observed `#7F56D9` sample, since no wider ramp
 exists to hand-pin. Every other primitive hex (badge bg/text pairs, light/dark
 grays, light/dark backgrounds, heading colors) is **hand-pinned** directly from
-its observed Figma node — no generation, because a real sample exists for each.
+its observed Figma node - no generation, because a real sample exists for each.
 
 **Consequences:** Hex keeps every hand-pinned primitive a direct, auditable 1:1
 mirror of its Figma source value (no perceptual-space conversion to verify),
 which matters for D-4's "pixel-match exactly" requirement. The generated primary
-ramp is the one exception to pure pixel-fidelity — its 50/100/200/…/900 steps
+ramp is the one exception to pure pixel-fidelity - its 50/100/200/…/900 steps
 other than the observed 600 are approximations, not observed Figma values, so a
 future Figma update to the ramp (if one is ever published) should re-derive from
 the new sample rather than hand-tuning the generated steps. The cost of staying
@@ -388,21 +388,21 @@ in hex generally is walking away from OKLCH's perceptual-uniformity benefits
 this pack needs that (Scope Discipline).
 
 **Alternatives considered:** Hand-pin only the single observed `#7F56D9` sample
-with no ramp at all — rejected, leaves no distinct hover/active/focus shades,
+with no ramp at all - rejected, leaves no distinct hover/active/focus shades,
 forcing components to fake state changes with opacity instead of a real shade
 step. Convert Figma hex to OKLCH at author time for consistency with sibling
-repos — rejected, adds a lossy-perception conversion step with no current caller
+repos - rejected, adds a lossy-perception conversion step with no current caller
 purely for cross-repo consistency, a weaker justification than direct Figma
 fidelity.
 
 **Serves:** FR-2, FR-4 (D-4 fidelity). **KB rule:** `architecture/general.md`
-Scope Discipline (ship code only with a current caller — OKLCH's perceptual-math
+Scope Discipline (ship code only with a current caller - OKLCH's perceptual-math
 benefits have no caller in this pack; the generated ramp exists only because
 hover/active states are a real, current need).
 
 ---
 
-> **D-7 (MDX trust boundary unchanged) is intentionally not re-litigated here** —
+> **D-7 (MDX trust boundary unchanged) is intentionally not re-litigated here** -
 > see [ADR-0001](../../docs/adr/0001-mdx-for-blog-posts.md) and spec.md FR-11 /
 > `sec-mdx-seam-untouched` / `sec-no-second-mdx-render-path`. This pack's only
 > obligation is negative: no component in the bespoke set (particularly
@@ -417,7 +417,7 @@ hover/active states are a real, current need).
     - name: "@storybook/nextjs"
       description: Official adapter with next/image and next/font mocks
       pros: [faithful Pages-story rendering, matches production image/font behavior, no shim code]
-      cons: [may lag Next 16 support at implementation time — unverified until the spike runs]
+      cons: [may lag Next 16 support at implementation time - unverified until the spike runs]
     - name: "@storybook/react-vite"
       description: Generic Vite-based adapter, framework-agnostic
       pros: [stable, unaffected by Next-version lag]
@@ -430,7 +430,7 @@ hover/active states are a real, current need).
     - name: "injectFirst + preflight disabled"
       description: Emotion styles win cascade ties; Tailwind reset off
       pros: [byte-for-byte existing-app preservation, single reset authority (MUI CssBaseline)]
-      cons: [Tailwind utilities can't override MUI internals without override escapes on components sharing a page with MUI — not expected this pack since routes stay disjoint]
+      cons: [Tailwind utilities can't override MUI internals without override escapes on components sharing a page with MUI - not expected this pack since routes stay disjoint]
     - name: "Tailwind preflight enabled, MUI CssBaseline retuned to match"
       description: Both resets active, manually reconciled
       pros: [single unified reset philosophy going forward]
@@ -475,7 +475,7 @@ hover/active states are a real, current need).
       pros: [better interpolation/shade generation, cross-repo consistency]
       cons: [lossy conversion step from the actual Figma hex source, no current caller/feature needs it]
   chosen: hex
-  rationale: D-4 fidelity plus Scope Discipline — no color-ramp-generation feature exists yet to justify OKLCH's benefit.
+  rationale: D-4 fidelity plus Scope Discipline - no color-ramp-generation feature exists yet to justify OKLCH's benefit.
 ```
 
 ## Risk Flags
@@ -489,7 +489,7 @@ hover/active states are a real, current need).
 - severity: High
   description: "Mixed-route coexistence cost (ADR-DS-2): once pack 2+ starts migrating routes, any route left in a partially-migrated resting state pays both Emotion and Tailwind runtimes simultaneously, with cascade-tie behavior that's easy to get subtly wrong."
   impact: "Bundle bloat and hard-to-reproduce cascade bugs on production routes if the one-pass migration rule is skipped under time pressure in a later pack."
-  mitigation: "This pack keeps routes fully disjoint (MUI untouched) so the risk is dormant now — record the one-pass rule in ADR-DS-2 as a binding constraint for pack 2, not just a suggestion."
+  mitigation: "This pack keeps routes fully disjoint (MUI untouched) so the risk is dormant now - record the one-pass rule in ADR-DS-2 as a binding constraint for pack 2, not just a suggestion."
 
 - severity: Medium
   description: "Supply-chain: new dev-dependencies (Tailwind v4, @tailwindcss/postcss, Storybook 9 + addons, Radix primitives, next-themes, class-variance-authority, and shadcn-generated first-party source) enter the tree in one pack."
@@ -499,7 +499,7 @@ hover/active states are a real, current need).
 - severity: Medium
   description: "Token-purity lint gap (ADR-DS-6): no-direct-palette-import is JS-language-only; a raw hex or primitive reference introduced directly inside authored CSS (outside tokens.css) is not caught."
   impact: "A future contributor could add a one-off raw color in a .css file and pass npm run lint clean, silently reintroducing the exact drift the semantic-only rule (FR-3) exists to prevent."
-  mitigation: "Scope this pack's CSS authorship to tokens.css (generated) only — no hand-authored component .css files should exist yet under shadcn+Tailwind's utility-class model. Revisit if that assumption changes."
+  mitigation: "Scope this pack's CSS authorship to tokens.css (generated) only - no hand-authored component .css files should exist yet under shadcn+Tailwind's utility-class model. Revisit if that assumption changes."
 
 - severity: Medium
   description: "Codegen staleness (ADR-DS-3): editing tokens.ts without running generate:tokens produces a stale tokens.css with no compile-time signal that the two are now out of sync."
@@ -515,6 +515,6 @@ hover/active states are a real, current need).
 ## State Diagrams
 
 Not warranted. This is a styling/tooling pack with no new entity carrying a
-≥3-state lifecycle — the only stateful concept introduced is the light/dark theme
+≥3-state lifecycle - the only stateful concept introduced is the light/dark theme
 toggle (FR-9), a two-state switch (`next-themes` `class` strategy), not a state
 machine with transitions/guards worth a `stateDiagram-v2`.

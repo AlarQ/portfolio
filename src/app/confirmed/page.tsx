@@ -17,7 +17,7 @@ export default function ConfirmedPage() {
           You&apos;re subscribed
         </h1>
         <p className="text-lg text-muted-foreground">
-          Your subscription is confirmed — new posts will land straight in your inbox.
+          Your subscription is confirmed - new posts will land straight in your inbox.
         </p>
       </main>
       <Footer />

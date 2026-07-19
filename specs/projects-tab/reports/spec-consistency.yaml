@@ -14,7 +14,7 @@ findings:
       `src/data/projects.ts` defines a typed, JSX-free `Project` record (title, slug, tagline,
       `status`, `mvpProgress` 0–100, `currentState`, `techStack`, `relatedPosts`) and an
       owner-curated, manually-ordered array. This array is the single source of truth for the
-      Project concept and the authoritative slug set consumed by every downstream layer —
+      Project concept and the authoritative slug set consumed by every downstream layer -
       mirroring `domains.ts`. No hex, no icons, no JSX in this module.
     fix_proposal: >
       Replace every "domains.ts" reference with the real exemplar. In spec.md FR-1 (line 33), PRD Scope (line 21), and tasks/001 Approach (line 54), change "mirroring `domains.ts`" / "mirrors `domains.ts`" to reference an existing JSX-free typed-data module such as `src/data/categories.ts` (or `src/data/posts.ts`). Do not edit any source file. (Separately, the repo owner may want to correct CLAUDE.md line 63, but that is outside this spec bundle.)

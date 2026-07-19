@@ -8,7 +8,7 @@ import { heading, InlineCode, Paragraph } from "./mdxPresentationText";
 
 /**
  * Runs rehype-slug standalone to assert the library's id-slugging is deterministic.
- * This does NOT exercise next.config.ts's wiring — that is covered by
+ * This does NOT exercise next.config.ts's wiring - that is covered by
  * e2e/blog-anchors.spec.ts (which drives the real build pipeline).
  */
 function slugifyHeading(markdown: string): string {
@@ -78,16 +78,16 @@ describe("prose rhythm and scale (route migration)", () => {
     expect(className).toContain("leading-[1.7]");
     expect(className).toContain("text-muted-foreground");
 
-    // And no MUI sx object — styling now flows through the token layer, not sx.
+    // And no MUI sx object - styling now flows through the token layer, not sx.
     expect(element.props.sx).toBeUndefined();
   });
 
   it("InlineCode scales relative to the surrounding prose (em-based), not a fixed px value", () => {
-    // Given an inline code element (not a highlighted block — no data-language)
+    // Given an inline code element (not a highlighted block - no data-language)
     const element = InlineCode({ children: "const x" });
 
     // Then its font-size utility is em-based, keeping code-in-text scale
-    // consistent with whatever prose size it sits inside — never a raw px literal.
+    // consistent with whatever prose size it sits inside - never a raw px literal.
     const className = element.props.className as string;
     expect(className).toMatch(/text-\[[\d.]+em\]/);
   });

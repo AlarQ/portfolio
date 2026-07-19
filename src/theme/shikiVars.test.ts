@@ -7,7 +7,7 @@ import { primitives } from "./tokens";
 /**
  * Enforcement test for the shiki palette's re-homed source of truth (FR-8,
  * ADR-RM-3). `--shiki-*` is emitted by `tokens.css` from ungrouped
- * `tokens.ts` primitives — never from `theme.ts` `brand`/`shikiVars`, which is
+ * `tokens.ts` primitives - never from `theme.ts` `brand`/`shikiVars`, which is
  * now deleted (task 010, shiki-gate-green: Given theme.ts is DELETED).
  */
 
@@ -44,7 +44,7 @@ describe("shikivars_gate_green_with_theme_ts_absent", () => {
     }
   });
 
-  it("each --shiki-* var emitted by tokens.css equals its tokens.ts primitive source — not brand", () => {
+  it("each --shiki-* var emitted by tokens.css equals its tokens.ts primitive source - not brand", () => {
     const cssVars = readShikiVarsFromTokensCss();
     for (const name of SHIKI_PRIMITIVE_NAMES) {
       const cssVarName = `--${kebab(name)}`;

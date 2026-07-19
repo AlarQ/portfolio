@@ -1,13 +1,13 @@
 /*
  * OQ-1 (task 010, final legacy sweep): MUI CssBaseline is gone, so Tailwind
- * preflight is re-enabled via the umbrella import — the hand-rolled
+ * preflight is re-enabled via the umbrella import - the hand-rolled
  * `@layer base` reset and the `@layer mui` cascade seam (ADR-DS-2) are no
  * longer needed and are removed in the same commit.
  */
 /*
  * ADR-DS-3: the @generated semantic token layer loads BEFORE Tailwind's
  * utility layer so any utility referencing a semantic var resolves it. Never
- * hand-edit tokens.css — change src/theme/tokens.ts and run `generate:tokens`.
+ * hand-edit tokens.css - change src/theme/tokens.ts and run `generate:tokens`.
  */
 @import "../theme/tokens.css";
 @import "tailwindcss";
@@ -16,7 +16,7 @@
  * Bind Tailwind's `dark:` variant to the `.dark` class the theme toggle drives
  * (Storybook decorator + app both toggle `.dark` on the root), NOT the default
  * `prefers-color-scheme` media query which follows the OS. Required so
- * class-based `dark:` utilities track the site theme — see design-system PRD
+ * class-based `dark:` utilities track the site theme - see design-system PRD
  * ("the v4 `@custom-variant dark (&:is(.dark *))` requirement"). Semantic-token
  * utilities (`bg-foreground` etc.) already invert via the `.dark {}` block in
  * tokens.css; this covers positional `dark:` variants like ThemePill's knob.
@@ -27,7 +27,7 @@ html,
 body {
   max-width: 100vw;
   /* `clip` (not `hidden`) prevents horizontal scroll WITHOUT establishing a
-     scroll container — `overflow: hidden` on an ancestor breaks descendant
+     scroll container - `overflow: hidden` on an ancestor breaks descendant
      `position: sticky` (the sticky ToC in the Post layout). */
   overflow-x: clip;
   /* Mobile Chrome/Safari render a translucent blue box on `:active` taps
@@ -63,9 +63,11 @@ body {
   }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 /*

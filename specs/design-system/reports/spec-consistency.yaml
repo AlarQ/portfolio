@@ -3,7 +3,7 @@ verdict: resolved
 resolved_on: "2026-07-04"
 resolution_log: >
   All 1 blocking + 4 warnings + actionable notes addressed after the audit:
-  (blocking) task 009 + FR-10 reworked to the repo's real gate model —
+  (blocking) task 009 + FR-10 reworked to the repo's real gate model -
   `.husky/pre-push` + `src/security/storybook-prod-exclusion.test.ts` (mirrors
   ci-supply-chain.test.ts); `.github/workflows/ci.yml` dropped from
   estimated_files; spec.md/test-strategy.md wording updated; 009 blocked_by now

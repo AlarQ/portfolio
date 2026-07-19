@@ -21,7 +21,7 @@ describe("generateStaticParams", () => {
     const result = generateStaticParams();
 
     // Then it returns exactly the validated Brief-having projects.ts slug set
-    // (via buildProjectSet/filterProjectsWithBrief) — not a filesystem glob over
+    // (via buildProjectSet/filterProjectsWithBrief) - not a filesystem glob over
     // content/projects/. No Project currently has a Brief body, so the set is
     // empty and the /projects/[slug] route publishes zero pages.
     expect(result).toEqual([]);

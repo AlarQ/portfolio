@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 /**
  * FR-7 acceptance #1: no route mounts `MuiThemeProvider`, `CssBaseline`, or
- * `AppRouterCacheProvider` — the MUI/Emotion half of the coexistence pattern
+ * `AppRouterCacheProvider` - the MUI/Emotion half of the coexistence pattern
  * is fully unmounted from the root layout (the only place it was wired).
  * Source-level check mirrors the project's existing gate style
  * (`coexistence.test.ts`, `lintGate.test.ts`) rather than mounting the full

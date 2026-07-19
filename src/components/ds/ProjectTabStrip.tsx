@@ -19,7 +19,7 @@ export interface ProjectTabStripProps {
  * tab is `-1`), Arrow Left/Right + Home/End keyboard navigation per the ARIA
  * APG tablist pattern, and `aria-selected` tracking. Composed from the
  * `TabPill` atom (visual selected state) and `status-dot` (per-Project
- * Status tone) — both resolved via the `projectPresentation` seam, never
+ * Status tone) - both resolved via the `projectPresentation` seam, never
  * inline here. Presentational: selection is fully controlled by the caller
  * via `selectedSlug`/`onSelectSlug` (mirrors `Pagination`'s controlled shape).
  */

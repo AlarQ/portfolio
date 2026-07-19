@@ -1,4 +1,4 @@
-# specs/blog-readability/config.yml — per-spec config.
+# specs/blog-readability/config.yml - per-spec config.
 # Repo mode (specs/ storage). Gate ids validated against ./.workflow.yml gate_pool.
 
 tier: medium
@@ -7,7 +7,7 @@ branch_strategy: per-task
 
 tags: [blog, readability, mdx]
 
-# Gate ceiling — full pool; /validate runs the intersection with each task's
+# Gate ceiling - full pool; /validate runs the intersection with each task's
 # eligible ground_rules set (ADR-003).
 gates:
   - lint

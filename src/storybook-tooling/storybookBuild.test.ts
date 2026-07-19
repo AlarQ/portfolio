@@ -6,7 +6,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 /**
  * ADR-DS-1 spike verification. `npm run storybook`/`storybook build` is the
- * real adapter boot path — this test runs the actual static build (the
+ * real adapter boot path - this test runs the actual static build (the
  * fastest deterministic proxy for "boots with no adapter errors") against the
  * installed Next 16 version and asserts on its combined stdout/stderr, so a
  * regression in the `@storybook/nextjs` adapter fails CI instead of only

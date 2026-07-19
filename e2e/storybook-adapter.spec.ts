@@ -6,7 +6,7 @@ import {
 
 /**
  * ADR-DS-1 spike, priority behavior: proves `@storybook/nextjs` mocks both
- * `next/image` and `next/font` at runtime (not just at build time — the
+ * `next/image` and `next/font` at runtime (not just at build time - the
  * scenario explicitly watches for the raw-`<img>`/font-loader console
  * warnings that only surface once the story actually renders in a browser).
  * Runs independently of the shared `webServer` (which serves the live Next

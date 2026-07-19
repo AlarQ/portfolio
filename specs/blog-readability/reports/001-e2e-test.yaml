@@ -10,7 +10,7 @@ notes: >-
       installed on this machine ("Executable doesn't exist ... run
       `npx playwright install`"). Pure environment gap, not a code defect.
     - 3 failures = pre-existing Mobile Chrome nav-active / aria-current mismatches
-      (e2e/blog.spec.ts:70, :79; e2e/navigation.spec.ts:185) — the repo's known
+      (e2e/blog.spec.ts:70, :79; e2e/navigation.spec.ts:185) - the repo's known
       webkit/mobile pre-existing failures, unrelated to heading anchors.
   The task's own new spec `e2e/blog-anchors.spec.ts` (2 tests: h2 slug id +
   hash-scroll; hover/focus anchor reveal + focus ring + hash update) PASSES on

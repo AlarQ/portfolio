@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
  * FR-1 (`home-index-renders`). `/` now serves the Blog index (ADR-RM-4:
  * inverted IA) fed by the real Post loader over `content/posts/`
  * (`my-spec-driven-workflow.mdx`, `second-post.mdx`). Asserts real content +
- * newest-first ordering only — theme/light-default is asserted by a later
+ * newest-first ordering only - theme/light-default is asserted by a later
  * task (006), badge-hue correctness by an earlier one.
  */
 test.describe("/ renders the Blog index (FR-1)", () => {
@@ -16,7 +16,7 @@ test.describe("/ renders the Blog index (FR-1)", () => {
     await expect(articles).toHaveCount(2);
 
     // `content/posts/my-spec-driven-workflow.mdx` is dated after
-    // `second-post.mdx` — newest-first means it renders first.
+    // `second-post.mdx` - newest-first means it renders first.
     const firstArticleText = await articles.nth(0).innerText();
     const secondArticleText = await articles.nth(1).innerText();
 

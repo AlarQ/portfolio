@@ -3,8 +3,8 @@ import { expect, test } from "@playwright/test";
 /**
  * Prev/next Post navigation E2E (FR-3).
  *
- * `content/posts/` now holds two real Posts — `my-spec-driven-workflow.mdx`
- * (2026-06-15, newest) and `second-post.mdx` (2026-05-20, oldest) — so this spec
+ * `content/posts/` now holds two real Posts - `my-spec-driven-workflow.mdx`
+ * (2026-06-15, newest) and `second-post.mdx` (2026-05-20, oldest) - so this spec
  * exercises the multi-Post *boundary* scenario against real content: the newest
  * Post links only to its older neighbour, the oldest only to its newer
  * neighbour, and neither shows a link on its outer edge. (The middle-Post

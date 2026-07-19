@@ -54,7 +54,7 @@ describe("SinglePost", () => {
     expect(container.querySelector("img")).not.toBeNull();
 
     // Category flows through as a rendered Badge, hue resolved by the seam
-    // inside the page composition — not by the caller.
+    // inside the page composition - not by the caller.
     expect(container.textContent).toContain("Leadership");
 
     unmount();

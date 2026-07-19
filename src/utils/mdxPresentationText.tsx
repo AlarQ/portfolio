@@ -14,6 +14,9 @@ const SAFE_HREF = /^(https?:\/\/|\/|#|mailto:)/i;
 const FOCUS_RING =
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
+/** Shared visual style for inline prose text links (MDX body, privacy-policy hint, …). */
+export const PROSE_LINK_CLASS = `text-primary underline decoration-primary/40 underline-offset-2 ${FOCUS_RING}`;
+
 type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 /** Heading element → semantic size utility. Body starts at h2 (h1 is the page title, FR-11). */
@@ -31,10 +34,7 @@ export function heading(tag: HeadingTag) {
     const { id } = props;
     const Tag = tag;
     return (
-      <Tag
-        className={`group mt-10 mb-4 font-bold text-foreground ${HEADING_SIZES[tag]}`}
-        {...props}
-      >
+      <Tag className={`group font-bold text-foreground ${HEADING_SIZES[tag]}`} {...props}>
         {children}
         {id ? <HeadingAnchor href={`#${id}`} aria-label="Link to this section" /> : null}
       </Tag>
@@ -46,7 +46,7 @@ export function heading(tag: HeadingTag) {
 
 /**
  * Hover/focus deep-link affordance for a heading with a rehype-slug id. Plain
- * `<a href="#id">` — no clipboard-copy handler, no interaction JS (binding
+ * `<a href="#id">` - no clipboard-copy handler, no interaction JS (binding
  * decision, task 001 Approach). The 44×44 touch target is padded then pulled
  * back with negative margin so the inline heading line-height is preserved.
  * Revealed on group hover/focus; kept visible on coarse pointers (no hover).
@@ -65,7 +65,7 @@ function HeadingAnchor({ href, "aria-label": ariaLabel }: { href: string; "aria-
 
 export function Paragraph({ children, ...props }: { children?: ReactNode }) {
   return (
-    <p className="my-4 text-lg leading-[1.7] text-muted-foreground" {...props}>
+    <p className="text-lg leading-[1.7] text-muted-foreground" {...props}>
       {children}
     </p>
   );
@@ -83,12 +83,7 @@ export function Anchor({
   // externalProps is spread AFTER caller props so callers cannot clobber rel/target.
   const externalProps = isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
   return (
-    <a
-      href={safeHref}
-      className={`text-primary underline decoration-primary/40 underline-offset-2 ${FOCUS_RING}`}
-      {...props}
-      {...externalProps}
-    >
+    <a href={safeHref} className={PROSE_LINK_CLASS} {...props} {...externalProps}>
       {children}
     </a>
   );
@@ -100,7 +95,7 @@ export function InlineCode({
   ...props
 }: ComponentPropsWithoutRef<"code">) {
   // Block code (inside <pre>) is highlighted by rehype-pretty-code and carries
-  // a `data-language` attribute — pass it through untouched so the --shiki-*
+  // a `data-language` attribute - pass it through untouched so the --shiki-*
   // palette is preserved. Only inline code is restyled here.
   if ("data-language" in props) {
     return <code {...props}>{children}</code>;

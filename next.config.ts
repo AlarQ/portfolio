@@ -3,7 +3,7 @@ import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
 // `@next/mdx`'s loader resolves rehype/remark plugin file paths with
-// `require.resolve(path, { paths: [projectRoot] })` — a request starting
+// `require.resolve(path, { paths: [projectRoot] })` - a request starting
 // with `./` is always resolved relative to the *loader's own* directory
 // (Node module-resolution rules), ignoring the `paths` option entirely. An
 // absolute path sidesteps that and resolves correctly regardless of caller.
@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   // Inverted IA (ADR-RM-4): the Blog index now lives at `/` (`src/app/page.tsx`),
   // so `/blog` permanently 308-redirects there. `/blog/[slug]` and `/feed.xml`
-  // are untouched — Next.js redirects() only matches the exact `source`, never
+  // are untouched - Next.js redirects() only matches the exact `source`, never
   // a prefix, so neither route is affected by this rule.
   async redirects() {
     return [{ source: "/blog", destination: "/", permanent: true }];
@@ -26,7 +26,7 @@ const nextConfig: NextConfig = {
 /**
  * Shiki v4 removed the packaged `css-variables` theme string (it now throws), so
  * the supported replacement is a JSON theme object whose every foreground is a
- * `var(--shiki-*)` reference — keeping all real hues in globals.css brand tokens.
+ * `var(--shiki-*)` reference - keeping all real hues in globals.css brand tokens.
  */
 const shikiCssVarTheme = {
   name: "brand-css-vars",
@@ -71,13 +71,13 @@ const shikiCssVarTheme = {
 // node so MDX excludes it from the rendered body. Without it the block renders
 // as a thematic break + raw `title:/dek:/date:` text atop every Post. The
 // loader (`postLoader.ts`) reads that same frontmatter independently via
-// gray-matter for Post metadata — two reads of one file, each now frontmatter-aware.
+// gray-matter for Post metadata - two reads of one file, each now frontmatter-aware.
 //
 // Mermaid is NOT rendered here. `rehype-mermaid` launched a headless Chromium
 // during `next build`, which broke Vercel's browserless build image. Diagrams
 // are now pre-rendered to committed SVGs by a pre-commit step
 // (`scripts/prerender-mermaid.mjs`) and referenced from Post bodies via the
-// `<Diagram>` component — so `next build` runs no browser. The only MDX plugin
+// `<Diagram>` component - so `next build` runs no browser. The only MDX plugin
 // left that touches code is `rehype-pretty-code`, which highlights js/ts/bash/
 // etc. fences with Shiki. Its options object is plain JSON, so it survives the
 // Turbopack serializable-tuple boundary (see note above).
@@ -86,7 +86,7 @@ const withMDX = createMDX({
     remarkPlugins: [["remark-frontmatter"]],
     // `rehype-slug` assigns a stable, deterministic `id` to every heading
     // (github-slugger algorithm) which flows through the existing `heading()`
-    // seam (`src/utils/mdxPresentationText.tsx`) — no second render path.
+    // seam (`src/utils/mdxPresentationText.tsx`) - no second render path.
     rehypePlugins: [
       ["rehype-slug"],
       ["rehype-pretty-code", { theme: shikiCssVarTheme, keepBackground: true }],

@@ -1,18 +1,18 @@
 # Pre-render Mermaid diagrams to committed SVGs and stage them, so a `.mmd`
 # edit and its rendered `.svg` land in the same commit. Runs a local Chromium
-# (via mermaid-isomorphic) and is idempotent — unchanged diagrams are skipped
+# (via mermaid-isomorphic) and is idempotent - unchanged diagrams are skipped
 # fast. Keeps Mermaid rendering OUT of `next build` so Vercel's browserless
 # build image stays green.
 npm run prerender:mermaid && git add public/diagrams
 
 # Secret scan (sec-secret-scan-blocks-build): block a commit that stages a
 # detectable secret before it ever lands in history. Runs gitleaks over the
-# STAGED diff; a non-zero exit aborts the commit. FAILS CLOSED — if gitleaks is
+# STAGED diff; a non-zero exit aborts the commit. FAILS CLOSED - if gitleaks is
 # not installed the commit aborts with an install instruction.
 if command -v gitleaks >/dev/null 2>&1; then
   gitleaks git --staged --redact --no-banner
 else
-  echo "[pre-commit] gitleaks not installed — local secret scan cannot run. Install it: brew install gitleaks"
+  echo "[pre-commit] gitleaks not installed - local secret scan cannot run. Install it: brew install gitleaks"
   exit 1
 fi
 

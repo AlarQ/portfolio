@@ -5,15 +5,15 @@ import { describe, expect, it } from "vitest";
 
 /**
  * FR-4 (shadcn primitives restyled to the Figma semantic layer, Task 004).
- * Exercises the actual files on disk under `src/components/ui/` — not a
- * simulation — since these ARE the shadcn-generated primitives this task
+ * Exercises the actual files on disk under `src/components/ui/` - not a
+ * simulation - since these ARE the shadcn-generated primitives this task
  * installs and restyles.
  */
 const uiDir = join(process.cwd(), "src/components/ui");
 const PRIMITIVES = ["badge", "button", "input", "card", "avatar", "navigation-menu", "sheet"];
 
 // Tailwind's stock color-scale utilities (e.g. `bg-gray-100`, `text-blue-500`)
-// resolve to Tailwind's own default palette, not our semantic bridge — a
+// resolve to Tailwind's own default palette, not our semantic bridge - a
 // primitive lands here only if it never references one.
 const STOCK_SCALE =
   /-(slate|zinc|neutral|stone|amber|lime|emerald|teal|cyan|blue|indigo|violet|purple|fuchsia|pink|rose|red|orange|yellow|green|sky|gray)-[0-9]{2,3}\b/;

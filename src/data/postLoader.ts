@@ -5,7 +5,7 @@ import type { Post } from "./posts";
 import { SLUG_PATTERN } from "./slug";
 
 // Parse frontmatter under YAML's JSON schema so every value stays a primitive
-// string — in particular, an unquoted `date: 2026-02-30` is NOT auto-cast to a
+// string - in particular, an unquoted `date: 2026-02-30` is NOT auto-cast to a
 // JS Date (the default schema rolls it silently to March 2 before the loader
 // can reject it). Keeping it a string makes `requireDate` the single authority.
 const FRONTMATTER_OPTIONS = {
@@ -47,9 +47,9 @@ export function buildPostSet(rawFiles: readonly RawPostFile[]): Post[] {
  *
  * `prev` is the newer neighbor (immediately before `slug` in the newest-first
  * array); `next` is the older neighbor (immediately after). Either side is
- * absent at a boundary (newest/oldest) or in a single-Post set — never an
+ * absent at a boundary (newest/oldest) or in a single-Post set - never an
  * error. Operates purely over an already-built, already-validated Post[] (no
- * filesystem, no re-validation) — the single slug-validation gate stays in
+ * filesystem, no re-validation) - the single slug-validation gate stays in
  * `buildPostSet`.
  */
 export interface PostAdjacency {
@@ -108,7 +108,7 @@ function validateCategories(
 ): readonly CategoryName[] | undefined {
   if (value === undefined) return undefined;
   if (!Array.isArray(value)) {
-    console.warn(`[posts] "${file.filename}": dropping categories — expected a list`);
+    console.warn(`[posts] "${file.filename}": dropping categories - expected a list`);
     return undefined;
   }
   const known = value.filter((entry): entry is CategoryName => {
@@ -123,7 +123,7 @@ function validateCategories(
 }
 
 /**
- * Validate an optional `coverImage` at the single loader gate — same warn+drop
+ * Validate an optional `coverImage` at the single loader gate - same warn+drop
  * posture as the slug gate. Absent is legal (returns undefined, no warning). A
  * present value must be a site-relative path (`/…` under `public/`): an external
  * URL, protocol-relative URL, or a value containing a `..` traversal segment is
@@ -133,7 +133,7 @@ function validateCategories(
  * parser against a fixed sentinel base rather than string prefix checks, since
  * platform normalization (e.g. a leading `/\`) can fold into a cross-origin
  * authority that a naive `startsWith`/`split` check misses. No filesystem
- * existence check (accepted gap R-3) — the pure core stays fs-free.
+ * existence check (accepted gap R-3) - the pure core stays fs-free.
  */
 function validateCoverImage(file: RawPostFile, value: unknown): string | undefined {
   if (value === undefined) return undefined;
@@ -151,7 +151,7 @@ function validateCoverImage(file: RawPostFile, value: unknown): string | undefin
     }
   }
   console.warn(
-    `[posts] "${file.filename}": dropping coverImage "${String(value)}" — must be a site-relative path (/…)`
+    `[posts] "${file.filename}": dropping coverImage "${String(value)}" - must be a site-relative path (/…)`
   );
   return undefined;
 }
@@ -159,7 +159,7 @@ function validateCoverImage(file: RawPostFile, value: unknown): string | undefin
 /**
  * Fail fast on a missing/empty frontmatter string. Posts are 100%
  * owner-authored at build time (CLAUDE.md, ADR-0001), so a blank field is an
- * authoring bug to surface loudly — not a runtime condition to absorb with a
+ * authoring bug to surface loudly - not a runtime condition to absorb with a
  * silent `?? ""`. The thrown message names the offending file for `npm run build`.
  */
 function requireField(file: RawPostFile, key: string, value: unknown): string {
@@ -168,12 +168,12 @@ function requireField(file: RawPostFile, key: string, value: unknown): string {
 }
 
 /**
- * Fail fast on a missing, non-ISO, or impossible date — same authoring-bug
+ * Fail fast on a missing, non-ISO, or impossible date - same authoring-bug
  * rationale. The shape regex alone is not enough: JS rolls `2026-02-30` over to
  * March 2 instead of rejecting it, so a real calendar date must round-trip back
  * to the same string (that round-trip also rejects `2026-13-45`, whose Date is
- * NaN). The value is always a string here — FRONTMATTER_OPTIONS keeps YAML dates
- * unparsed — so this check is the single authority on date validity.
+ * NaN). The value is always a string here - FRONTMATTER_OPTIONS keeps YAML dates
+ * unparsed - so this check is the single authority on date validity.
  */
 function requireDate(file: RawPostFile, value: unknown): string {
   if (typeof value === "string" && ISO_DATE_PATTERN.test(value)) {

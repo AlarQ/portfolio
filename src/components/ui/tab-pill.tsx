@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Dumb, presentational pill (FR-6, FR-10). No `role="tablist"`/`role="tab"`,
- * no roving-tabIndex keyboard navigation — that ARIA composite logic belongs
+ * no roving-tabIndex keyboard navigation - that ARIA composite logic belongs
  * to the future `ProjectTabStrip` organism (Task 003), not this atom. This
  * atom only reflects `selected` visually via semantic tokens.
  */

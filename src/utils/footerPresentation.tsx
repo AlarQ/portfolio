@@ -4,7 +4,7 @@ import type { FooterIconKey } from "@/data/footerLinks";
 
 /**
  * LinkedIn brand glyph. lucide-react 1.23.0 no longer ships brand marks, so the
- * logo is inlined as an SVG that paints with `currentColor` — it inherits the
+ * logo is inlined as an SVG that paints with `currentColor` - it inherits the
  * link's text color and therefore inverts light↔dark for free, with no hex
  * literal (passes `no-direct-palette-import`).
  */

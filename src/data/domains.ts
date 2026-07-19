@@ -1,5 +1,5 @@
 /**
- * A Skill's proficiency within a Domain Area — an ordinal, closed vocabulary.
+ * A Skill's proficiency within a Domain Area - an ordinal, closed vocabulary.
  * The level → visual resolution (label + Badge hue) lives in the sibling
  * `src/utils/skillPresentation.tsx` seam via an exhaustive
  * `Record<SkillLevel, …>`; this module stays JSX/color/icon-free (seam
@@ -10,7 +10,7 @@ export type SkillLevel = "expert" | "proficient";
 
 /**
  * A concrete, outcome-oriented thing the owner delivered within a Domain Area
- * — past tense, evidence. The Achievement view of an area (what was done),
+ * - past tense, evidence. The Achievement view of an area (what was done),
  * paired with the Skill view (what the owner can do).
  */
 export interface Achievement {
@@ -19,7 +19,7 @@ export interface Achievement {
 }
 
 /**
- * A durable capability the owner holds within a Domain Area — present tense,
+ * A durable capability the owner holds within a Domain Area - present tense,
  * rated. Carries a `level` and optional `years` of experience.
  */
 export interface Skill {
@@ -30,7 +30,7 @@ export interface Skill {
 
 /**
  * A field of expertise the owner works in. Evidenced by `achievements` and
- * rated by `skills` — two views of one area. `headline` is the area's offering
+ * rated by `skills` - two views of one area. `headline` is the area's offering
  * (rendered by `AreaHeadlineCard`).
  */
 export interface DomainArea {

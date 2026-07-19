@@ -5,7 +5,7 @@ findings:
   - id: e2e-test-1
     severity: high
     category: testing
-    title: "/projects remains an intentional 404 — expected 404, received 200 (chromium)"
+    title: "/projects remains an intentional 404 - expected 404, received 200 (chromium)"
     description: >
       e2e/blog.spec.ts:42:7, test "existing routes render without regression (route-regression sweep) > /projects remains an intentional 404, no regression to a live route" failed on project chromium. page.goto("/projects") returned response.status() 200, expected 404.
 
@@ -21,7 +21,7 @@ findings:
   - id: e2e-test-2
     severity: high
     category: testing
-    title: "/projects remains an intentional 404 — expected 404, received 200 (firefox)"
+    title: "/projects remains an intentional 404 - expected 404, received 200 (firefox)"
     description: >
       e2e/blog.spec.ts:42:7, test "existing routes render without regression (route-regression sweep) > /projects remains an intentional 404, no regression to a live route" failed on project firefox. page.goto("/projects") returned response.status() 200, expected 404.
 
@@ -37,7 +37,7 @@ findings:
   - id: e2e-test-3
     severity: high
     category: testing
-    title: "/projects remains an intentional 404 — expected 404, received 200 (Mobile Chrome)"
+    title: "/projects remains an intentional 404 - expected 404, received 200 (Mobile Chrome)"
     description: >
       e2e/blog.spec.ts:42:7, test "existing routes render without regression (route-regression sweep) > /projects remains an intentional 404, no regression to a live route" failed on project "Mobile Chrome". page.goto("/projects") returned response.status() 200, expected 404.
 

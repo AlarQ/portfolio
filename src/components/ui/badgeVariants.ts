@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 
 /**
- * The Badge category taxonomy (FR-6) — the shadcn analogue of
+ * The Badge category taxonomy (FR-6) - the shadcn analogue of
  * `skillPresentation`'s exhaustive `Record<IconKey, …>`. Each hue is decorative
  * (none tied to a category *name*); `BADGE_CATEGORIES` is the single source the
  * closed union type is derived from, so a category referenced here without a

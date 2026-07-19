@@ -9,7 +9,7 @@ export interface PageInfoProps {
 /**
  * Bespoke molecule composing the shadcn `Badge` primitive to present a
  * page/post's metadata row (published date, reading time, optional category).
- * Binds only to semantic Tailwind classes — no raw hex/palette lookups
+ * Binds only to semantic Tailwind classes - no raw hex/palette lookups
  * (`no-direct-palette-import`).
  */
 export function PageInfo({ formattedDate, readingTimeMinutes, category }: PageInfoProps) {

@@ -1,8 +1,8 @@
 whats up?
-# Implementation Plan — Repo-split tech stack on the Project summary
+# Implementation Plan - Repo-split tech stack on the Project summary
 
 **Status:** ready to implement · **Author of decision:** owner (2026-07-14) ·
-**Runs standalone in a fresh session — this file is the complete brief.**
+**Runs standalone in a fresh session - this file is the complete brief.**
 
 ---
 
@@ -13,14 +13,14 @@ technology in a Project. A Project can span several repos (e.g. a Next.js
 frontend + a Rust backend), and that structure is invisible.
 
 A throwaway UI prototype (`src/app/projects/tech-split-prototype/`, dev-only
-route) offered three layouts. The owner picked **Variant A — "Stacked labeled
-rows"**: each repo is one row — a role label (`Frontend` / `Backend`) in a
+route) offered three layouts. The owner picked **Variant A - "Stacked labeled
+rows"**: each repo is one row - a role label (`Frontend` / `Backend`) in a
 fixed left gutter, its tech badges to the right. See that folder's `NOTES.md`
 and `variants.tsx` (`VariantA`) for the exact visual.
 
 **This plan folds Variant A into production code and deletes the prototype.**
 It rewrites `Project` code that was written under prototype constraints (no
-tests, no seam discipline) into real, rule-compliant code — do **not** copy the
+tests, no seam discipline) into real, rule-compliant code - do **not** copy the
 prototype files into `src/`.
 
 ### Baked-in design decisions (flagged so a reviewer can flip them)
@@ -28,19 +28,19 @@ prototype files into `src/`.
 1. **Replace `techStack`, don't add alongside.** `Project.techStack:
    readonly TechKey[]` is **replaced** by `Project.repos: readonly
    ProjectRepo[]`. Keeping both would be two sources of truth for one tech list
-   — a DRY/parallel-array violation the repo explicitly forbids. The flat list
+   - a DRY/parallel-array violation the repo explicitly forbids. The flat list
    is derivable from `repos` and is needed nowhere else (only `ProjectSummary`
-   ever read it — verified by grep).
+   ever read it - verified by grep).
 2. **Role label shows only when `repos.length > 1`.** Single-repo Projects
-   (Hyperion, Bondsmith) render a plain badge row exactly like today — the
+   (Hyperion, Bondsmith) render a plain badge row exactly like today - the
    split only appears where it adds meaning. This is a **presentation** rule
    and lives in the component, not the data.
-3. **No fabricated repo names.** The prototype showed `/web`, `/api` etc. —
+3. **No fabricated repo names.** The prototype showed `/web`, `/api` etc. -
    those were placeholders. The validated thing is the *split*, not the names.
    `ProjectRepo` has **no `name` field** (YAGNI; a pragmatist would flag a
    speculative unused field). Add it later if the owner wants real repo names.
 4. **Role vocabulary is a closed union `"frontend" | "backend"`.** No
-   `"fullstack"` — every current repo is one or the other. The human labels
+   `"fullstack"` - every current repo is one or the other. The human labels
    `Frontend`/`Backend` are **presentation**, resolved in the seam via an
    exhaustive `Record<RepoRole, string>` (missing entry = compile error),
    never stored in `src/data/`.
@@ -51,7 +51,7 @@ prototype files into `src/`.
 
 Pulled from `CLAUDE.md` + `CONTEXT.md`. The reviewing agents (§6) check against these.
 
-- **Seam pattern.** `src/data/*` carries types + data only — **no JSX, no
+- **Seam pattern.** `src/data/*` carries types + data only - **no JSX, no
   color literals, no icons, no human-facing labels that are presentation.**
   Any `RepoRole → label` resolution lives in `src/utils/projectPresentation.tsx`
   (the presentation seam). Components consume seam output; they never resolve
@@ -78,14 +78,14 @@ Pulled from `CLAUDE.md` + `CONTEXT.md`. The reviewing agents (§6) check against
 
 ---
 
-## 2. Files to change (complete list — grep-verified)
+## 2. Files to change (complete list - grep-verified)
 
 Core:
-- `src/data/projects.ts` — type + all 5 data entries.
-- `src/utils/projectPresentation.tsx` — add role→label seam.
-- `src/components/ds/ProjectSummary.tsx` — render grouped rows.
-- `src/components/ds/ProjectSummary.stories.tsx` — new states.
-- `CONTEXT.md` — glossary.
+- `src/data/projects.ts` - type + all 5 data entries.
+- `src/utils/projectPresentation.tsx` - add role→label seam.
+- `src/components/ds/ProjectSummary.tsx` - render grouped rows.
+- `src/components/ds/ProjectSummary.stories.tsx` - new states.
+- `CONTEXT.md` - glossary.
 
 Tests / fixtures referencing `techStack` (each becomes `repos`):
 - `src/components/ds/ProjectSummary.test.tsx`
@@ -98,7 +98,7 @@ Tests / fixtures referencing `techStack` (each becomes `repos`):
 - `src/data/projectLoader.test.ts`
 
 Docs / cleanup:
-- `docs/adr/0002-mdx-project-briefs.md` — prose mentions `techStack`; update to `repos`.
+- `docs/adr/0002-mdx-project-briefs.md` - prose mentions `techStack`; update to `repos`.
 - **Delete** `src/app/projects/tech-split-prototype/` (whole folder).
 
 Type-tests to sanity-check (no `techStack` refs, but confirm still green):
@@ -108,10 +108,10 @@ Type-tests to sanity-check (no `techStack` refs, but confirm still green):
 
 ## 3. Step-by-step
 
-Do these in order — data → seam → component → story → tests → data migration →
+Do these in order - data → seam → component → story → tests → data migration →
 docs → prototype deletion. Verify after each cluster.
 
-### 3.1 Domain type — `src/data/projects.ts`
+### 3.1 Domain type - `src/data/projects.ts`
 
 Add above `interface Project` (keep `TechKey` union unchanged):
 
@@ -136,12 +136,12 @@ with:
   readonly repos: readonly ProjectRepo[];
 ```
 
-### 3.2 Presentation seam — `src/utils/projectPresentation.tsx`
+### 3.2 Presentation seam - `src/utils/projectPresentation.tsx`
 
 Add (import `RepoRole` alongside the existing `Status, TechKey` import):
 
 ```ts
-/** Closed RepoRole → display label map — the role analogue of TECH_HUES.
+/** Closed RepoRole → display label map - the role analogue of TECH_HUES.
  *  Exhaustive: a RepoRole without a label here is a compile error. */
 const REPO_ROLE_LABELS: Record<RepoRole, string> = {
   frontend: "Frontend",
@@ -158,7 +158,7 @@ Optionally extend `projectPresentation.typetest.ts` with a
 `// @ts-expect-error` line proving `repoRolePresentation("mobile")` is rejected
 (mirrors the existing `techPresentation("vue")` guard).
 
-### 3.3 Component — `src/components/ds/ProjectSummary.tsx`
+### 3.3 Component - `src/components/ds/ProjectSummary.tsx`
 
 Import `repoRolePresentation` from the seam. Replace the current tech block
 (the `project.techStack.length > 0 && (...)` JSX) with grouped rows. Behavior:
@@ -192,10 +192,10 @@ plain row (decision #2). Badge hues still via `techPresentation`.
 ```
 
 Update the component's JSDoc to say tech is grouped per Repo via
-`repoRolePresentation` + `techPresentation`. (`key={repo.role}` is safe — roles
+`repoRolePresentation` + `techPresentation`. (`key={repo.role}` is safe - roles
 are unique per Project in the data; if that ever changes, key on index.)
 
-### 3.4 Story — `src/components/ds/ProjectSummary.stories.tsx`
+### 3.4 Story - `src/components/ds/ProjectSummary.stories.tsx`
 
 Update the fixture(s) from `techStack: [...]` to `repos: [...]`. Cover these
 stories (both themes via the toolbar): **Multi-repo** (frontend + backend, the
@@ -218,7 +218,7 @@ For every file in §2's test list, replace `techStack: [...]` with an equivalent
 - `ProjectSummary.test.tsx`: add/adjust a case asserting the role label
   **renders** for a 2-repo Project and is **absent** for a 1-repo Project.
 
-### 3.6 Data migration — the 5 real Projects
+### 3.6 Data migration - the 5 real Projects
 
 Rewrite each `techStack` in `projects` (owner-validated partition from the
 prototype; membership is preserved 1:1 with today's flat lists):
@@ -239,11 +239,11 @@ repos: [
 ],
 ```
 
-### 3.7 Glossary — `CONTEXT.md`
+### 3.7 Glossary - `CONTEXT.md`
 
 - Add a **Repo** term (place near Project summary): _"A source repository
   comprising a **Project**, carrying a role (**Frontend**/**Backend**) and its
-  own subset of the **Tech stack**. Structural grouping only — it does **not**
+  own subset of the **Tech stack**. Structural grouping only - it does **not**
   introduce an external link (the 'Projects link only to on-site content' rule
   still holds); the split is shown as grouped tech badges, not a GitHub URL. A
   Project has one or more Repos; single-Repo Projects render an unlabeled
@@ -254,10 +254,10 @@ repos: [
 - If the invariants list (near line 53) enumerates Project relations, add
   "A **Project** has one or more **Repos**."
 
-### 3.8 ADR prose — `docs/adr/0002-mdx-project-briefs.md`
+### 3.8 ADR prose - `docs/adr/0002-mdx-project-briefs.md`
 
 Change the `techStack` mention in the rejected-option prose to `repos` so the
-example field list matches the type. (No new ADR needed — this is a field
+example field list matches the type. (No new ADR needed - this is a field
 reshape within the existing seam decision, not a new architectural direction.
 If the reviewer disagrees, a short ADR-0003 "Project repos" is acceptable.)
 
@@ -273,14 +273,14 @@ Confirm nothing else imports it: `grep -rn "tech-split-prototype" src` → empty
 ## 4. Validation gates (all must pass)
 
 ```bash
-npm run type-check      # tsc --noEmit — Biome does NOT type-check
+npm run type-check      # tsc --noEmit - Biome does NOT type-check
 npm run lint            # biome + grit palette guard
 npm run lint:stories    # every storied component has its story
 npm run test:unit       # vitest run
 npx playwright test --project=chromium   # chromium is the reliable signal
 npm run storybook       # manual: multi/single/empty stories, light + dark, a11y panel
 ```
-(webkit/mobile e2e have known pre-existing failures — chromium is the gate.)
+(webkit/mobile e2e have known pre-existing failures - chromium is the gate.)
 
 Fix everything red before §5. Re-run the full block after any fix.
 
@@ -305,18 +305,18 @@ If on `main`, branch first. Do **not** push unless the owner asks.
 ## 6. Agent review phase (required)
 
 After §4 is green and changes are committed (or staged), run **three review
-agents in parallel** — send all three `Agent` tool calls in a single message so
+agents in parallel** - send all three `Agent` tool calls in a single message so
 they run concurrently. Give each the branch diff (`git diff main...HEAD` or the
 staged diff) plus this plan for spec-alignment.
 
-1. **Code Reviewer** (`subagent_type: "Code Reviewer"`) — correctness,
+1. **Code Reviewer** (`subagent_type: "Code Reviewer"`) - correctness,
    maintainability, security, perf on the diff. Watch for: seam leaks (labels
    in data), token violations, missing story states, key/render bugs.
-2. **odium** (`subagent_type: "odium"`) — claim-vs-reality audit: does the
+2. **odium** (`subagent_type: "odium"`) - claim-vs-reality audit: does the
    implementation actually match THIS plan? Every `techStack` reference
    migrated? Prototype fully deleted? Glossary + ADR updated? No half-done
    step marked done. No scope creep beyond the plan.
-3. **code-quality-pragmatist** (`subagent_type: "code-quality-pragmatist"`) —
+3. **code-quality-pragmatist** (`subagent_type: "code-quality-pragmatist"`) -
    over-engineering / unnecessary complexity. Sanity-check decisions #1–#4
    (esp. that no speculative `name`/`fullstack`/derived-flat-list machinery
    crept in).
@@ -340,4 +340,4 @@ return clean (or only knowingly-dismissed notes remain) and §4 is green.
   migration outside source files, no external state.
 - If the owner later wants concrete repo names shown (the prototype's `/web`,
   `/api`): add optional `name?: string` to `ProjectRepo` and render it after
-  the role label in `ProjectSummary` — deferred here on purpose (decision #3).
+  the role label in `ProjectSummary` - deferred here on purpose (decision #3).

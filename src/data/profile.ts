@@ -1,6 +1,6 @@
 export interface OwnerProfile {
   /**
-   * The owner's display name — the single source of the human identity shown
+   * The owner's display name - the single source of the human identity shown
    * on `/author` (FR-6). Kept distinct from `imageAlt`: identity must not leak
    * through an alt-text field, so consumers read `name`, never `imageAlt`.
    */
@@ -11,7 +11,7 @@ export interface OwnerProfile {
   subtitle: string;
   /**
    * First-person introduction for the `/author` About section, as an ordered
-   * list of paragraphs — each element renders as its own `<p>`.
+   * list of paragraphs - each element renders as its own `<p>`.
    */
   bio: readonly string[];
 }

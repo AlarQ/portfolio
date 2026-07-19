@@ -8,14 +8,14 @@ export interface DomainAreaPanelProps {
 }
 
 /**
- * `Organisms/DomainAreaPanel`: one Domain Area on `/author` — its offering
+ * `Organisms/DomainAreaPanel`: one Domain Area on `/author` - its offering
  * (`AreaHeadlineCard`), the Achievements that evidence it, and the Skills that
  * rate it. Props-injected (never reads `src/data/domains.ts`) so its
  * empty-Achievements / empty-Skills / long-content states are exercisable in
  * isolation in Storybook, mirroring the `IdentityRail` contract.
  *
  * Each Skill's level → Badge hue + label is resolved through the
- * `skillPresentation` seam only — never a raw level→hue switch here. Empty
+ * `skillPresentation` seam only - never a raw level→hue switch here. Empty
  * Achievement/Skill groups are omitted, not rendered blank.
  */
 export function DomainAreaPanel({ domain }: DomainAreaPanelProps) {

@@ -49,7 +49,7 @@ findings:
     title: hasBrief existence check duplicates the "exists" half of buildPostSet's file-read pattern without reuse
     description: >
       hasBrief(slug) in projectLoader.ts is a small, project-specific existsSync
-      check and is reasonably scoped — but it is called independently from three
+      check and is reasonably scoped - but it is called independently from three
       places (src/app/projects/page.tsx, and indirectly via
       filterProjectsWithBrief in the [slug] route) that each re-derive the
       "does this slug have a Brief" answer rather than sharing one computed
@@ -57,7 +57,7 @@ findings:
     file: src/data/projectLoader.ts
     lines: "32-41"
     rationale: >
-      Not a functional bug — existsSync is cheap — but it's a symptom of the
+      Not a functional bug - existsSync is cheap - but it's a symptom of the
       missing projects.ts data-layer helper (cq-001) rather than a separate
       problem; flagging for awareness only, no separate fix needed beyond cq-001.
     impact: Minor; folds into the cq-001 fix.

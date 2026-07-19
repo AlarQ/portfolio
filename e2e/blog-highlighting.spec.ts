@@ -9,13 +9,13 @@ import { expectComputedStyleMatchesToken } from "./support/tokenResolution";
  *   runtime highlighting JavaScript.
  * - code-color-from-brand: a code token's color resolves from the
  *   `--shiki-token-comment` CSS var (sourced, since FR-8, from a `tokens.ts`
- *   primitive — not `brand`).
+ *   primitive - not `brand`).
  * - code-block-highlighted (bg, both themes): the block's background resolves
  *   from `--shiki-bg` regardless of `.dark`, since the shiki set is a single
  *   dark island not routed through semantic light/dark aliasing (OQ-2, ADR-RM-3).
  *
  * Route-migration task 004 (behavior 2): restated as token-resolution checks
- * per OQ-5 — computed style compared against the resolved `--shiki-*` var via
+ * per OQ-5 - computed style compared against the resolved `--shiki-*` var via
  * `e2e/support/tokenResolution.ts`, zero rgb literals in this spec.
  *
  * The authored Post `my-spec-driven-workflow` contains a fenced ```yaml block.
@@ -74,7 +74,7 @@ test.describe("Blog build-time syntax highlighting", () => {
 
     await expectComputedStyleMatchesToken(pre, "background-color", "--shiki-bg");
 
-    // Shiki is a single dark-island set (OQ-2, ADR-RM-3) — not routed through
+    // Shiki is a single dark-island set (OQ-2, ADR-RM-3) - not routed through
     // semanticDark, so toggling `.dark` on the root must not change the value.
     await page.evaluate(() => document.documentElement.classList.add("dark"));
     await expectComputedStyleMatchesToken(pre, "background-color", "--shiki-bg");

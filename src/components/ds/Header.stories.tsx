@@ -30,7 +30,7 @@ export const MastheadWithSubtitle: Story = {
 };
 
 // Mobile masthead: the whole point of the cqi fit-to-band sizing. At the
-// narrowest supported width (320px — where the old `vw` sizing clipped
+// narrowest supported width (320px - where the old `vw` sizing clipped
 // "THE BLO…"), the container-query headline must scale down to fill the
 // padded band without clipping. A story-local 320px viewport exercises the
 // tight case the shared iphone15 (390px) frame only nearly hit.

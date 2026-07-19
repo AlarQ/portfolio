@@ -8,7 +8,7 @@ export interface SkillLevelPresentation {
 
 /**
  * Single seam resolving a `SkillLevel` to its presentation pair (label + Badge
- * hue) — the author-model analogue of `projectPresentation`'s
+ * hue) - the author-model analogue of `projectPresentation`'s
  * `STATUS_PRESENTATION` / `TECH_HUES`. `src/data/domains.ts` stays JSX/color
  * free; components ask this seam for a Skill's label/hue and never encode a
  * level→hue switch themselves.

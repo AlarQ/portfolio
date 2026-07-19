@@ -7,9 +7,9 @@ findings:
   - id: coverage-1
     severity: medium
     category: coverage
-    title: "Acceptance point 1 partial — a11y-panel-in-both-themes verification not evidenced"
+    title: "Acceptance point 1 partial - a11y-panel-in-both-themes verification not evidenced"
     description: >
-      status-dot's "semantic-tokens-only" clause is covered and enforced by statusDotVariants.test.ts (asserts no hex, no arbitrary-value color). The second clause of acceptance point 1 — "passes the a11y panel in light and dark" — has no corresponding evidence: the implementation log records unit/type/lint/lint:stories green but never mentions the manual Storybook a11y-addon + theme-toggle check, and no @storybook/test-runner / addon-a11y CI step exists in the diff to substitute for it.
+      status-dot's "semantic-tokens-only" clause is covered and enforced by statusDotVariants.test.ts (asserts no hex, no arbitrary-value color). The second clause of acceptance point 1 - "passes the a11y panel in light and dark" - has no corresponding evidence: the implementation log records unit/type/lint/lint:stories green but never mentions the manual Storybook a11y-addon + theme-toggle check, and no @storybook/test-runner / addon-a11y CI step exists in the diff to substitute for it.
 
     file: src/components/ui/status-dot.stories.tsx
     lines: "1-1"
@@ -17,7 +17,7 @@ findings:
       The task's Storybook-first workflow (CLAUDE.md) makes the a11y-panel check in both themes a defined acceptance step. It is a distinct clause from token-binding and is neither manually recorded nor automated.
 
     impact: >
-      A tone could regress a11y contrast in one theme without any gate catching it; the task cannot be certified fully complete-as-written until the check is recorded or automated. Non-functional today — the atoms bind existing, already-a11y-validated semantic tokens.
+      A tone could regress a11y contrast in one theme without any gate catching it; the task cannot be certified fully complete-as-written until the check is recorded or automated. Non-functional today - the atoms bind existing, already-a11y-validated semantic tokens.
 
     references:
       - CLAUDE.md (Storybook-first workflow, a11y addon panel)

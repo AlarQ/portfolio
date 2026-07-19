@@ -34,7 +34,7 @@ function pressKey(el: HTMLElement, key: string) {
   });
 }
 
-describe("ProjectTabStrip — ARIA tablist keyboard navigation (FR-5, FR-7)", () => {
+describe("ProjectTabStrip - ARIA tablist keyboard navigation (FR-5, FR-7)", () => {
   it("marks the selected tab aria-selected=true and gives it the only tabIndex=0 (roving tabindex)", () => {
     const { container, unmount } = renderIntoDocument(
       <ProjectTabStrip projects={PROJECTS} selectedSlug="beta" onSelectSlug={() => {}} />
@@ -99,7 +99,7 @@ describe("ProjectTabStrip — ARIA tablist keyboard navigation (FR-5, FR-7)", ()
   });
 });
 
-describe("ProjectTabStrip — single-row scroll-snap rail with chevrons + dots", () => {
+describe("ProjectTabStrip - single-row scroll-snap rail with chevrons + dots", () => {
   it("keeps the tablist a single scroll-snapping row and renders scroll chevrons + one dot per project", () => {
     const { container, unmount } = renderIntoDocument(
       <ProjectTabStrip projects={PROJECTS} selectedSlug="alpha" onSelectSlug={() => {}} />

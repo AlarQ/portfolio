@@ -4,14 +4,14 @@ import { TOC_ACCESSIBLE_NAME } from "@/components/ds/TableOfContents";
 /**
  * In-page Table of Contents route-level composition E2E (FR-1, task 004).
  *
- * Post: my-spec-driven-workflow — a long post with many ##/### sections.
+ * Post: my-spec-driven-workflow - a long post with many ##/### sections.
  * This is route-level composition verification: it confirms the ToC that
  * `pages/SinglePost` composes into the live route resolves to the accessible
  * name 003 already locked at the component level (`TableOfContents.test.tsx`,
  * imported here rather than restated, so the two levels can't drift) and that
  * its links reuse the exact heading ids the single heading seam (task 001,
  * rehype-slug) renders to the DOM, in document order. It does not re-derive
- * or re-assert the accessible-name string itself — that's 003's job.
+ * or re-assert the accessible-name string itself - that's 003's job.
  *
  * Sticky/desktop-aside layout and mobile-hidden behavior are chunk 3
  * (visual/CSS) scope, not this chunk's.
@@ -29,7 +29,7 @@ test.describe("Blog in-page Table of Contents (route composition)", () => {
     await expect(toc).toBeVisible();
 
     // The top-level (##) heading ids the seam rendered to the DOM, in document
-    // order — the rail only shows depth-2 sections, not depth-3 subsections.
+    // order - the rail only shows depth-2 sections, not depth-3 subsections.
     const headingIds = await page
       .locator("article h2[id]")
       .evaluateAll((els) => els.map((el) => el.id));
@@ -97,7 +97,7 @@ test.describe("Blog in-page Table of Contents (route composition)", () => {
 
     // Scroll the heading to just below the IntersectionObserver's reading-zone
     // top edge (rootMargin "-96px 0px -70% 0px" in useActiveHeading), not just
-    // "into view" — scrollIntoViewIfNeeded can align it flush to the viewport
+    // "into view" - scrollIntoViewIfNeeded can align it flush to the viewport
     // top, outside the observed zone, and never fire an intersection.
     await midHeading.evaluate((el) => {
       const top = el.getBoundingClientRect().top + window.scrollY;

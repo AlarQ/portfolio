@@ -9,7 +9,7 @@ import { mdxComponents } from "./mdxPresentation";
  * Token-discipline guard for the MDX presentation seams (route migration FR-3).
  * These modules render Post body prose and MUST bind their colors/spacing to the
  * semantic Tailwind token layer (`src/theme/tokens.ts` → `bg-*`, `text-*`,
- * `border-*`) — never a raw hex/`rgb()` literal, never an MUI `sx=` prop, never
+ * `border-*`) - never a raw hex/`rgb()` literal, never an MUI `sx=` prop, never
  * an `@mui/*` import, and never the legacy `brand` color seam. That keeps a
  * color change a one-place edit in the token source (CLAUDE.md design-token
  * rules) rather than scattered across MUI `sx` objects. `Callout.tsx` lives at
@@ -25,19 +25,19 @@ const SEAM_FILES = [
 /** A raw hex color literal, e.g. `#0ea5e9` or `#fff`. */
 const HEX_LITERAL = /#(?:[0-9a-fA-F]{3}){1,2}\b/g;
 
-/** A hand-typed rgb()/rgba() call — colors must resolve through semantic tokens. */
+/** A hand-typed rgb()/rgba() call - colors must resolve through semantic tokens. */
 const RGB_LITERAL = /\brgba?\(\s*\d/g;
 
-/** An MUI `sx=` styling prop — replaced by token-bound Tailwind `className`. */
+/** An MUI `sx=` styling prop - replaced by token-bound Tailwind `className`. */
 const SX_PROP = /\bsx=/;
 
-/** Any `@mui/*` import — the seam is plain Tailwind-styled elements now. */
+/** Any `@mui/*` import - the seam is plain Tailwind-styled elements now. */
 const MUI_IMPORT = /@mui\//;
 
-/** The legacy `brand` color seam — the semantic token layer replaces it here. */
+/** The legacy `brand` color seam - the semantic token layer replaces it here. */
 const BRAND_TOKEN = /\bbrand\b/;
 
-describe("mdx presentation seams — token-bound Tailwind only, no MUI styling", () => {
+describe("mdx presentation seams - token-bound Tailwind only, no MUI styling", () => {
   for (const file of SEAM_FILES) {
     it(`${file} carries no raw color literal, sx= prop, @mui import, or brand token`, () => {
       const source = readFileSync(join(process.cwd(), "src", file), "utf-8");
@@ -45,13 +45,13 @@ describe("mdx presentation seams — token-bound Tailwind only, no MUI styling",
       expect(source.match(HEX_LITERAL), `${file} must not contain a raw hex literal`).toBeNull();
       expect(
         source.match(RGB_LITERAL),
-        `${file} must not contain a hand-typed rgb()/rgba() literal — use semantic tokens`
+        `${file} must not contain a hand-typed rgb()/rgba() literal - use semantic tokens`
       ).toBeNull();
       expect(SX_PROP.test(source), `${file} must not carry an MUI sx= prop`).toBe(false);
       expect(MUI_IMPORT.test(source), `${file} must not import from @mui/*`).toBe(false);
       expect(
         BRAND_TOKEN.test(source),
-        `${file} must not import the legacy brand color seam — bind semantic tokens`
+        `${file} must not import the legacy brand color seam - bind semantic tokens`
       ).toBe(false);
     });
   }
@@ -60,7 +60,7 @@ describe("mdx presentation seams — token-bound Tailwind only, no MUI styling",
 /**
  * Trust-boundary locks (ADR-0001 / ADR-RM-1, spec scenarios sec-script-neutralized,
  * sec-iframe-neutralized, sec-external-link-rel). These assert the seam registry
- * (`mdxComponents`) directly — the neutralizers and external-link hardening are
+ * (`mdxComponents`) directly - the neutralizers and external-link hardening are
  * load-bearing and MUST survive any restyle/rewrite of the seam verbatim, never
  * softened to a class/style check nor delegated to the route.
  */

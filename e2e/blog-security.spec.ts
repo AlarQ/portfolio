@@ -7,10 +7,10 @@ import { expect, test } from "@playwright/test";
  * authoring-safety properties are asserted here against the real rendered page:
  *
  * 1. Every external link in a Post body carries `rel="noopener noreferrer"`
- *    (and opens in a new tab) — reverse-tabnabbing protection applied at the
+ *    (and opens in a new tab) - reverse-tabnabbing protection applied at the
  *    single seam, not per-author.
  * 2. The MDX body never injects a live third-party `<script>` or iframe into
- *    the document — the seam neither maps nor passes those through.
+ *    the document - the seam neither maps nor passes those through.
  */
 
 test.describe("Blog MDX body security", () => {
@@ -46,7 +46,7 @@ test.describe("Blog MDX body security", () => {
     // No iframe is injected into the rendered Post body. The seam additionally
     // maps `script`/`iframe` to no-render neutralizers (mdxPresentation.tsx), so
     // even an authored active-content element would be dropped rather than
-    // embedded — the protection holds by leverage at the seam, not by absence.
+    // embedded - the protection holds by leverage at the seam, not by absence.
     await expect(page.locator("article iframe")).toHaveCount(0);
   });
 });

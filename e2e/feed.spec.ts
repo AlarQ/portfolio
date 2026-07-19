@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * RSS feed E2E (chromium — the reliable signal; see repo CLAUDE.md).
+ * RSS feed E2E (chromium - the reliable signal; see repo CLAUDE.md).
  *
  * Scenarios: feed-valid-xml, feed-entry-per-post, feed-absolute-urls (FR-5/6,
  * EP-FEED-GET). Exercises the real `/feed.xml` route wired to the real
- * `getPosts()` + `SITE_URL` config — the fixture-based unit coverage lives in
+ * `getPosts()` + `SITE_URL` config - the fixture-based unit coverage lives in
  * `src/data/rssFeed.test.ts`.
  */
 test.describe("RSS feed", () => {

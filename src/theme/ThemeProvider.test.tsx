@@ -101,7 +101,7 @@ describe("ThemeProvider mounts next-themes on the html class (FR-9)", () => {
 
   /**
    * FR-7 acceptance #3: a first-time visitor with no stored preference (no
-   * `theme` key in localStorage) sees light — `defaultTheme="light"` plus
+   * `theme` key in localStorage) sees light - `defaultTheme="light"` plus
    * `enableSystem={false}` so an OS dark-mode preference never overrides it.
    */
   it("first_visit_renders_light", () => {

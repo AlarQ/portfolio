@@ -43,7 +43,7 @@ describe("Home", () => {
       <Home posts={samplePosts} navItems={sampleNavItems} />
     );
 
-    // samplePosts[0] carries a real coverImage + categories — its cover image
+    // samplePosts[0] carries a real coverImage + categories - its cover image
     // and vocabulary badges must render.
     const withCoverAndCategories = samplePosts[0];
     expect(withCoverAndCategories.coverImage).toBeDefined();
@@ -56,7 +56,7 @@ describe("Home", () => {
       expect(container.textContent).toContain(category);
     }
 
-    // Every other sample Post has no coverImage/categories — no card should
+    // Every other sample Post has no coverImage/categories - no card should
     // render more cover images or badges than the one Post that has them.
     const withoutCoverOrCategories = samplePosts.slice(1);
     for (const post of withoutCoverOrCategories) {

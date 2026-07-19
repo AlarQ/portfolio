@@ -1,7 +1,7 @@
 /**
  * Site-domain config. The absolute-URL base used by server-only build
  * artifacts (currently the RSS feed, `src/app/feed.xml/route.ts`) and by
- * `metadataBase` in the root layout — a single seam for "what domain is this
+ * `metadataBase` in the root layout - a single seam for "what domain is this
  * site deployed at."
  *
  * Read from the build-time `SITE_URL` env var. Deliberately NOT

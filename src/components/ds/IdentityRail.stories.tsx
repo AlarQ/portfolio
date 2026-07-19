@@ -22,7 +22,7 @@ type Story = StoryObj<typeof IdentityRail>;
 
 export const Default: Story = {};
 
-/** Long name/title — checks the identity text wraps without clipping. */
+/** Long name/title - checks the identity text wraps without clipping. */
 export const LongName: Story = {
   args: {
     name: "Ernest Aleksander Bednarczyk-Kowalski",
@@ -31,7 +31,7 @@ export const LongName: Story = {
   },
 };
 
-/** Figma "iPhone 15" mobile frame (390x844) — the rail before it goes sticky. */
+/** Figma "iPhone 15" mobile frame (390x844) - the rail before it goes sticky. */
 export const Mobile: Story = {
   parameters: mobileViewportParameters,
 };

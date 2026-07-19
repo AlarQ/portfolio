@@ -1,4 +1,4 @@
-# PRD — Blog Readability Pass (Docusaurus-inspired)
+# PRD - Blog Readability Pass (Docusaurus-inspired)
 
 **Feature:** `blog-readability`
 **Status:** Requirements (explore phase)
@@ -7,7 +7,7 @@
 ## Summary
 
 Improve readability and reader retention of the **Blog** (`/blog`, `/blog/[slug]`)
-by borrowing proven patterns from [Docusaurus](https://docusaurus.io/) — **without
+by borrowing proven patterns from [Docusaurus](https://docusaurus.io/) - **without
 migrating frameworks**. The site stays Next.js 16 (App Router, SSG) + React 19 +
 MUI 7, MDX-rendered **Posts**, and the existing data → presentation → component
 seam architecture.
@@ -15,12 +15,12 @@ seam architecture.
 Docusaurus is a doc-first React static-site generator; a migration would discard
 the MUI seam architecture and the hidden Projects/domains/skills portfolio
 (retained per CLAUDE.md for later un-hiding). Its readability wins are **features**,
-not framework magic — so we add the features to the existing Blog.
+not framework magic - so we add the features to the existing Blog.
 
 ## User perspective
 
 - **Who benefits:** readers of long-form **Posts** (currently a single Post,
-  `my-spec-driven-workflow.mdx` — "Bounded Chaos") — and the owner, via better
+  `my-spec-driven-workflow.mdx` - "Bounded Chaos") - and the owner, via better
   retention/shareability.
 - **Problem solved:** long Posts have no in-page navigation, no way to deep-link a
   section, no path to the next Post, and no subscription channel. Typography is
@@ -55,12 +55,12 @@ not framework magic — so we add the features to the existing Blog.
 
 ### Out of scope (explicitly rejected)
 
-- **Reactions / thumbs up-down / comments** — every option needs a backend or a
+- **Reactions / thumbs up-down / comments** - every option needs a backend or a
   third-party service, breaking two documented architecture rules ("SSG, no CMS,
   no database" and the MDX "no external active content" trust model). If ever
   wanted, it is its own feature requiring an ADR that reverses those decisions.
-- **Full Docusaurus migration** — discards MUI seam + hidden portfolio.
-- **Search** (Algolia — external), **tags/authors pages**, **reading-time display**
+- **Full Docusaurus migration** - discards MUI seam + hidden portfolio.
+- **Search** (Algolia - external), **tags/authors pages**, **reading-time display**
   (note: `Post.readingTimeMinutes` is *already computed* by the loader; surfacing
   it is a trivial future add, not in this slice).
 
@@ -85,7 +85,7 @@ Follows the seam pattern: types+data in `src/data/`, icon/color/JSX in a
 - **MDX trust boundary unchanged.** `rehype-slug` + heading extraction add `id`s to
   owner-authored headings; they do not admit external/PR-submitted MDX. Per
   CLAUDE.md and ADR-0001, `rehype-sanitize` + CSP are required **only** if the
-  "owner-authored only" rule is relaxed — this slice does **not** relax it.
+  "owner-authored only" rule is relaxed - this slice does **not** relax it.
 - STRIDE surface: negligible. No auth, no data handling, no user input.
 
 ## Testing expectations
@@ -93,14 +93,14 @@ Follows the seam pattern: types+data in `src/data/`, icon/color/JSX in a
 - **e2e (Playwright, chromium reliable signal):** TOC renders and heading anchors
   resolve; prev/next links point to correct adjacent Posts; `/feed.xml` returns
   valid XML with expected Post entries.
-- webkit/mobile suites have known pre-existing failures (profile-card h1 mismatch) —
+- webkit/mobile suites have known pre-existing failures (profile-card h1 mismatch) -
   chromium is the trusted gate.
 - Unit: adjacency derivation (first Post has no prev, last has no next); RSS entry
   mapping from `getPosts()`.
 
 ## Performance / scalability constraints
 
-- SSG — all generation at build time; zero client cost beyond a small TOC component.
+- SSG - all generation at build time; zero client cost beyond a small TOC component.
 - TOC scroll-spy (if added) must respect `prefers-reduced-motion` (existing
   `usePrefersReducedMotion` hook) and stay cheap.
 
@@ -123,6 +123,6 @@ Follows the seam pattern: types+data in `src/data/`, icon/color/JSX in a
 
 ## Agent Insights (Explore Phase)
 
-_Lightweight explore run — specialist agents not spawned; the above scope was
+_Lightweight explore run - specialist agents not spawned; the above scope was
 established via direct research (Docusaurus docs + web) and code inspection. Threat
 surface, UX, and architecture trade-offs to be expanded in /propose._

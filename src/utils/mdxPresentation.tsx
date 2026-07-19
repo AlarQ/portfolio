@@ -14,13 +14,13 @@ import { Anchor, heading, InlineCode, Paragraph } from "./mdxPresentationText";
 /**
  * The single MDX → presentation seam (FR-6). Every Post-body element is
  * re-rendered through a component styled from semantic tokens, so an `.mdx`
- * file never carries a raw hue or styling literal — visual treatment lives only
+ * file never carries a raw hue or styling literal - visual treatment lives only
  * here. Code-block surfaces inherit the build-time `--shiki-*` palette (also
  * token-sourced, ADR-0001); this seam owns everything around them.
  *
  * Security (FR-5, sec-external-link-rel): external anchors are hardened with
  * `rel="noopener noreferrer"` at the `a` mapping below. Active-content elements
- * a Post body must never embed — `<script>` and `<iframe>` — are neutralized in
+ * a Post body must never embed - `<script>` and `<iframe>` - are neutralized in
  * two complementary places: this component map catches them when they arrive as
  * Markdown/hast elements, and the `rehypeNeutralizeActiveContent` AST plugin
  * (wired in `next.config.ts`) strips them when authored as explicit JSX, which
@@ -64,9 +64,9 @@ export const mdxComponents: MDXComponents = {
   // or third-party frames (sec-external-link-rel).
   script: NoScript,
   iframe: NoIframe,
-  // Owner-authored emphasized callout (trust boundary unchanged — owner-only).
+  // Owner-authored emphasized callout (trust boundary unchanged - owner-only).
   Callout,
   // Owner-authored pre-rendered Mermaid diagram (build-time SVG, no browser in
-  // CI). Trust boundary unchanged — the SVG source is owner-authored .mmd.
+  // CI). Trust boundary unchanged - the SVG source is owner-authored .mmd.
   Diagram,
 };

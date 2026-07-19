@@ -38,7 +38,7 @@ export const WithHint: Story = {
   ),
 };
 
-/** Wired with a direct-POST `action` (local fixture URL) — page-agnostic. */
+/** Wired with a direct-POST `action` (local fixture URL) - page-agnostic. */
 export const Wired: Story = {
   args: {
     heading: "Get new posts by email",

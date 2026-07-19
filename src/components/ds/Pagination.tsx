@@ -7,7 +7,7 @@ export type PageItem = number | "ellipsis";
  * Pure helper: build the ordered list of page tokens shown in the control.
  * The first and last `boundaryCount` pages always show, plus a window of
  * `siblingCount` pages around the current page; any run of hidden pages
- * collapses to a single `"ellipsis"` token. Presentational only — no routing.
+ * collapses to a single `"ellipsis"` token. Presentational only - no routing.
  * At `currentPage=1, totalPages=10` this yields `1 2 3 … 8 9 10`, matching
  * Figma 614:383.
  */
@@ -50,9 +50,9 @@ export interface PaginationProps {
 /**
  * Bespoke molecule for the blog index pagination row (Previous · numbered
  * pages with `…` truncation · Next), matching Figma 614:383. Presentational
- * only — no routing wiring (same precedent as `ThemePill`/`Newsletter`); the
+ * only - no routing wiring (same precedent as `ThemePill`/`Newsletter`); the
  * page buttons are inert placeholders until a route owns navigation. Binds
- * only to semantic Tailwind classes — no raw hex/palette lookups
+ * only to semantic Tailwind classes - no raw hex/palette lookups
  * (`no-direct-palette-import`).
  */
 export function Pagination({ currentPage, totalPages }: PaginationProps) {

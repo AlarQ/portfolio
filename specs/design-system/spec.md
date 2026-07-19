@@ -1,11 +1,11 @@
-# Spec — `design-system`
+# Spec - `design-system`
 
 ## Overview
 
 First pack of a phased **MUI 7 → shadcn/ui** re-platform for the portfolio
 (Next.js 16 App Router, SSG; React 19). This pack stands up a **shadcn/ui +
 Storybook component workshop** that adopts the Figma "The Blog" blog-template
-visual language (light; primary `#7F56D9`; Inter), **built in isolation** —
+visual language (light; primary `#7F56D9`; Inter), **built in isolation** -
 the live app routes (`/`, `/projects`, `/blog`, `/blog/[slug]`) stay on MUI this
 pack and migrate route-by-route in later packs.
 
@@ -13,7 +13,7 @@ The value: a token-driven, framework-agnostic component library documented in a
 **Storybook** visual-review surface, de-risking the full migration by proving
 the design system before it touches any live route. The organizing invariant is
 a **two-layer token seam** (`src/theme/tokens.ts` → `@generated tokens.css`) that
-components reference only through semantic aliases — the shadcn analogue of the
+components reference only through semantic aliases - the shadcn analogue of the
 existing `brand` color seam.
 
 This is a **styling/tooling** slice: it introduces **no runtime request
@@ -24,7 +24,7 @@ out of the shipped SSG output.
 
 Decisions D-1…D-7 from `prd.md` are the authoritative scope record; ADR
 candidates flagged there are resolved in `design.md`. This spec has **no API
-Contracts and no Data Model** sections — the pack changes no endpoints and no
+Contracts and no Data Model** sections - the pack changes no endpoints and no
 persistent schema (the token "model" is a build-time TS artifact, covered by
 FR-2, not a database table).
 
@@ -55,7 +55,7 @@ generated-css-not-hand-edited
 
 ### FR-3: Components reference only the semantic token layer
 
-Every component — restyled shadcn primitive or bespoke composition — resolves
+Every component - restyled shadcn primitive or bespoke composition - resolves
 color/spacing through the **semantic** layer only. No component contains a raw
 hex literal, a `--brand-*` primitive reference, or a `palette.*` lookup. This
 purity rule is enforced mechanically by a lint rule (`no-direct-palette-import`,
@@ -67,7 +67,7 @@ JS-language GritQL/lint plugin), so a violation fails `npm run lint`.
 
 The shadcn primitives `badge`, `button`, `input`, `navigation-menu` (+ `sheet`),
 `card`, and `avatar` are installed via `shadcn init`/`add` and restyled to the
-Figma template's light visual language through the semantic token layer — not
+Figma template's light visual language through the semantic token layer - not
 re-implemented from scratch and not left at stock shadcn defaults.
 
 **Scenarios:** shadcn-primitives-installed, primitives-restyled-to-figma
@@ -84,9 +84,9 @@ primitives and binds only to the semantic token layer.
 ### FR-6: Badge categories as an exhaustive CVA variant map
 
 Badge category styling is a closed taxonomy expressed as a `class-variance-
-authority` variant map — the shadcn analogue of the exhaustive
+authority` variant map - the shadcn analogue of the exhaustive
 `Record<IconKey, …>` in `skillPresentation`. All 8 decorative hues (violet,
-blue/indigo, pink/magenta, sky, green, gray-blue, orange, rose/red — none tied
+blue/indigo, pink/magenta, sky, green, gray-blue, orange, rose/red - none tied
 to category name) are defined. Adding a category the map does not cover is a
 **compile error**, never a silent runtime fallback.
 
@@ -98,14 +98,14 @@ Storybook 9 runs as the visual-review surface with an atomic-design sidebar
 (`Atoms/`, `Molecules/`, `Organisms/`, `Pages/`). Atoms get exhaustive
 variant/state matrices plus a Playground; molecules and organisms get
 representative-content stories. Storybook boots against Next 16 (adapter
-verified — see design.md spike).
+verified - see design.md spike).
 
 **Scenarios:** storybook-boots, atoms-have-exhaustive-matrices,
 sidebar-atomic-design-order
 
 ### FR-8: Composed Pages stories bound to the real `Post` type
 
-The `Pages/` stories — Home, Single Post, Author — are composed
+The `Pages/` stories - Home, Single Post, Author - are composed
 from real organisms and use the **actual `Post` type from `src/data/posts.ts`**
 (the module `postLoader.ts` itself imports it from) as
 fixtures, not invented props. Each page-composing component accepts the real
@@ -115,7 +115,7 @@ cheap-insurance guardrail against pack-2 rework).
 > **Merge note (blog-first IA):** this task originally shipped **four** Pages
 > stories, splitting the blog listing into a separate `Home` and `BlogListing`.
 > Under the blog-first IA (`ROADMAP.md`, DECIDED 2026-06-20) the blog index *is*
-> the front door — one screen, not two — so `Home` and `BlogListing` were merged
+> the front door - one screen, not two - so `Home` and `BlogListing` were merged
 > into a single Figma-faithful `Home` (node `614:383`: `ds/Header` masthead →
 > "Recent blog posts" featured cluster → "All blog posts" 3-col grid →
 > `ds/Pagination` → `ds/Footer`, no inline Newsletter). The pack now has **three**
@@ -127,10 +127,10 @@ invented-post-prop-rejected
 ### FR-9: Light + dark theming on the semantic layer
 
 Both `light` and `dark` themes ship now. Light = Figma light-frame tokens; dark
-= the real Figma dark-mode frame (node `614:679` — bg `#090d1f`, headings
+= the real Figma dark-mode frame (node `614:679` - bg `#090d1f`, headings
 white, body `#c0c5d0`) mapped onto the **same** semantic aliases. Because
 components bind only to semantic tokens, adding dark is a single `.dark {}`
-token block — no per-component change. `next-themes` `class` strategy toggles
+token block - no per-component change. `next-themes` `class` strategy toggles
 the active theme.
 
 **Scenarios:** theme-toggles-light-dark, dark-is-single-token-block
@@ -148,7 +148,7 @@ contains no Storybook runtime, no `*.stories.*` modules, and no
 
 This styling migration does **not** touch the MDX trust seam. The single
 slug-validation gate (`buildPostSet`, `^[a-z0-9-]+$`) and the MDX hardening seam
-(`mdxPresentation.tsx` — external-link `rel`, `<script>`/`<iframe>`
+(`mdxPresentation.tsx` - external-link `rel`, `<script>`/`<iframe>`
 neutralizers) are byte-unchanged. The "owner-authored MDX only" rule is not
 relaxed; no `rehype-sanitize`/CSP obligation is triggered because no untrusted
 MDX path is introduced.
@@ -287,7 +287,7 @@ Then they group under Atoms/, Molecules/, Organisms/, Pages/ by atomic-design ti
 
 ### pages-stories-render
 ```
-Given the Pages stories (Home, Single Post, Author — Home and Blog Listing merged, see FR-8)
+Given the Pages stories (Home, Single Post, Author - Home and Blog Listing merged, see FR-8)
 When Storybook renders them
 Then each composes real organisms into a full screen
 ```
@@ -361,20 +361,20 @@ Then the owner-authored-only rule still holds and no rehype-sanitize/CSP obligat
 ## Security Scenarios
 
 STRIDE surface is narrow: this pack adds **no runtime input, no auth, no
-persistence** — Spoofing, Repudiation, and runtime DoS are N/A. The live threats
+persistence** - Spoofing, Repudiation, and runtime DoS are N/A. The live threats
 are **Information Disclosure** (Storybook leaking into prod), **Elevation of
 Privilege** (silent MDX-trust downgrade), and **Tampering** (supply-chain via
 new dev-deps + codegen path safety).
 
-### sec-storybook-excluded-from-prod (Information Disclosure — High)
+### sec-storybook-excluded-from-prod (Information Disclosure - High)
 ```
 Given Storybook 9 is installed with a dev-server config
 When the production `npm run build` output is generated
 Then no Storybook output (storybook-static/ or story chunks) is present in the deployed SSG artifact
-And the authoritative pre-push gate (`.husky/pre-push` — GitHub Actions is deploy-only, runs no checks) fails the push if any Storybook output is found in the build tree, asserted by a `src/security/` vitest test in the repo's supply-chain-gate pattern
+And the authoritative pre-push gate (`.husky/pre-push` - GitHub Actions is deploy-only, runs no checks) fails the push if any Storybook output is found in the build tree, asserted by a `src/security/` vitest test in the repo's supply-chain-gate pattern
 ```
 
-### sec-mdx-seam-untouched (Elevation of Privilege — Critical if triggered)
+### sec-mdx-seam-untouched (Elevation of Privilege - Critical if triggered)
 ```
 Given src/utils/mdxPresentation.tsx and src/data/postLoader.ts are the sole MDX hardening + slug-validation seam
 When any component in this pack is added or restyled
@@ -390,7 +390,7 @@ Then it does not introduce a second rendering path that bypasses the script/ifra
 And no rehype-sanitize/CSP obligation is triggered because no untrusted-MDX path is added
 ```
 
-### sec-deps-pinned-and-locked (Tampering / supply-chain — Medium)
+### sec-deps-pinned-and-locked (Tampering / supply-chain - Medium)
 ```
 Given new dependencies enter the tree (Tailwind v4, @tailwindcss/postcss, Storybook 9 + addons, Radix, next-themes, class-variance-authority, shadcn-generated source)
 When they are introduced
@@ -398,15 +398,15 @@ Then package-lock.json is committed, new versions are pinned (not loose caret ra
 And shadcn-generated component source is reviewed as first-party code in the PR diff
 ```
 
-### sec-codegen-path-safety (Tampering — Low, standing invariant)
+### sec-codegen-path-safety (Tampering - Low, standing invariant)
 ```
 Given the generate:tokens script writes tokens.css from tokens.ts
 When the script runs
-Then its output path is a hardcoded literal — never derived from env vars, CLI args, or external input
+Then its output path is a hardcoded literal - never derived from env vars, CLI args, or external input
 And the script fails fast if the resolved path is outside src/theme/
 ```
 
-### sec-no-secrets-in-tokens-or-fixtures (Information Disclosure — Low)
+### sec-no-secrets-in-tokens-or-fixtures (Information Disclosure - Low)
 ```
 Given tokens.ts, Storybook fixtures, and .storybook/ config are authored
 When they are committed
@@ -437,5 +437,5 @@ sequenceDiagram
     Storybook->>Post: type Pages fixtures as real Post
     Storybook-->>Owner: render Atoms→Organisms + 4 Pages screens
     Owner->>Storybook: toggle light/dark, review variant matrices
-    Storybook-->>Owner: visual approval — design system proven before route migration
+    Storybook-->>Owner: visual approval - design system proven before route migration
 ```

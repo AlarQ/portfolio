@@ -5,14 +5,14 @@ findings:
   - id: coverage-1
     severity: medium
     category: acceptance-coverage
-    title: "Acceptance row 3 partial — blockquote not token-styled by the rewritten seam"
+    title: "Acceptance row 3 partial - blockquote not token-styled by the rewritten seam"
     description: >
       Acceptance row 3 requires that a body containing paragraphs, lists, blockquotes and a Callout render through the rewritten seam with every element's colors/spacing resolved from semantic-token utilities. Paragraphs, lists and Callout are covered, but `<blockquote>` is not: `mdxComponents` (src/utils/mdxPresentation.tsx) has no `blockquote` mapping, and ArticleProse.tsx's wrapper arbitrary-variant selectors (`[&>h2]`, `[&_figcaption]`, `[&_img]`) include no `[&_blockquote]` rule. A real Post's blockquote therefore renders with default unstyled browser markup rather than token-resolved styling. The ArticleProse story includes a blockquote fixture (ArticleProse.stories.tsx ~line 37-39) but no unit/structure test asserts any token class on it.
 
     file: src/utils/mdxPresentation.tsx
     lines: "1-1"
     fix_proposal: >
-      Add a token-styled `blockquote` mapping to mdxPresentationBlock.tsx / mdxComponents (consistent with the Pre/Callout treatment), OR add a `[&_blockquote]:…` rule to ArticleProse.tsx's wrapper — plus a regression assertion (unit or structure test) that the rendered blockquote picks up token classes.
+      Add a token-styled `blockquote` mapping to mdxPresentationBlock.tsx / mdxComponents (consistent with the Pre/Callout treatment), OR add a `[&_blockquote]:…` rule to ArticleProse.tsx's wrapper - plus a regression assertion (unit or structure test) that the rendered blockquote picks up token classes.
 
     rationale: >
       Acceptance row 3 explicitly names blockquotes among the elements that must resolve styling from semantic tokens; the rewrite left this element type unmapped and unguarded.

@@ -6,12 +6,12 @@ import { describe, expect, it } from "vitest";
  * Regression tests for acceptance criterion #3 of task 006-security-hardening:
  * "gitleaks blocks a commit/push containing a detectable secret." The scan is
  * wired into both the pre-commit hook (staged diff) and the pre-push hook
- * (full gate) — GitHub Actions runs no checks.
+ * (full gate) - GitHub Actions runs no checks.
  */
 
 const ROOT = resolve(__dirname, "../..");
 
-describe("secret-scan — pre-commit hook", () => {
+describe("secret-scan - pre-commit hook", () => {
   it("invokes gitleaks over the staged diff", () => {
     // Given the pre-commit hook file on disk
     const hook = readFileSync(resolve(ROOT, ".husky/pre-commit"), "utf-8");
@@ -22,7 +22,7 @@ describe("secret-scan — pre-commit hook", () => {
   });
 });
 
-describe("secret-scan — pre-push hook", () => {
+describe("secret-scan - pre-push hook", () => {
   it("invokes gitleaks as part of the push gate", () => {
     // Given the pre-push hook file on disk
     const hook = readFileSync(resolve(ROOT, ".husky/pre-push"), "utf-8");

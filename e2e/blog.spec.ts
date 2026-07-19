@@ -1,16 +1,16 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * Blog navigation + Post detail E2E (chromium — the reliable signal; webkit/
+ * Blog navigation + Post detail E2E (chromium - the reliable signal; webkit/
  * mobile have known pre-existing failures per repo CLAUDE.md).
  *
  * The blog index itself (index-lists-posts, index-item-shows-meta,
- * featured-first-at-n1 — FR-1/FR-8) moved to `/` under ADR-RM-4 and is
+ * featured-first-at-n1 - FR-1/FR-8) moved to `/` under ADR-RM-4 and is
  * covered by `e2e/home.spec.ts` (real Post content, newest-first) and
  * `src/components/pages/Home.test.tsx` (article-per-Post structural
  * invariant). The legacy `data-testid="featured-post"` markup those
  * scenarios used to assert against belonged to the retired MUI `PostList`/
- * `PostCard` (deleted same-branch per ADR-RM-5) — this file no longer
+ * `PostCard` (deleted same-branch per ADR-RM-5) - this file no longer
  * duplicates that coverage against the old `/blog` route.
  *
  * Scenarios: nav-blog-present, nav-active-on-detail.
@@ -18,12 +18,12 @@ import { expect, test } from "@playwright/test";
 
 /**
  * Salvaged route-regression block (task 010, ADR-RM-5). Relocated from
- * `e2e/coexistence.spec.ts` (deleted same commit) — its MUI/Tailwind
+ * `e2e/coexistence.spec.ts` (deleted same commit) - its MUI/Tailwind
  * cascade-layer assertions are gone with MUI, but the no-console/page-error
  * regression sweep across the live IA survives, restated for the post-
  * migration routes (`/`, `/blog` redirect, `/blog/[slug]`, `/author`,
- * `/projects` — now a live route, task 004). `/` and `/blog` redirect coverage already lives in
- * `e2e/home.spec.ts` — not duplicated here.
+ * `/projects` - now a live route, task 004). `/` and `/blog` redirect coverage already lives in
+ * `e2e/home.spec.ts` - not duplicated here.
  */
 test.describe("existing routes render without regression (route-regression sweep)", () => {
   function trackErrors(page: import("@playwright/test").Page) {
@@ -86,7 +86,7 @@ test.describe("Blog navigation", () => {
     await page.waitForTimeout(500);
 
     // Nav consolidation (task 005, e2e-test-1): the legacy MUI drawer
-    // (`#mobile-menu`) is retired — `ds/Header`'s `HeaderMobileMenu` is now the
+    // (`#mobile-menu`) is retired - `ds/Header`'s `HeaderMobileMenu` is now the
     // sole mobile drawer, with the real Blog destination `/` (ADR-RM-4).
     await expect(page.locator('#mobile-menu a[href="/"]')).toBeVisible();
   });
@@ -133,7 +133,7 @@ test.describe("Post detail readability & a11y", () => {
 
   // typography-measure-constrained (task 005): the prose column's declared CSS
   // measure is exactly the `proseMeasure` token (64ch), shared with the
-  // PostLayout ToC grid — not a raw per-component literal.
+  // PostLayout ToC grid - not a raw per-component literal.
   test("prose column measure resolves to the 64ch theme token at desktop viewport", async ({
     page,
   }) => {
@@ -201,8 +201,8 @@ test.describe("Post detail readability & a11y", () => {
   // code-contrast-aa (FR-11): highlighted code foreground vs background meets
   // WCAG-AA (>= 4.5:1).
   //
-  // Sample the ACTUALLY-RENDERED colors — the resolved computed `color` of the
-  // rendered code text and the resolved `background-color` of its `<pre>` — not
+  // Sample the ACTUALLY-RENDERED colors - the resolved computed `color` of the
+  // rendered code text and the resolved `background-color` of its `<pre>` - not
   // the raw `--shiki-*` root vars. The old root-var read passed as long as the
   // variables held their values even if the rendered code had stopped resolving
   // them (e.g. a seam override, a dropped var, a changed background). This reads
@@ -247,7 +247,7 @@ test.describe("Post detail readability & a11y", () => {
     const link = page.getByRole("link", { name: /"grill" interview/i });
     await link.scrollIntoViewIfNeeded();
 
-    // Drive focus directly — reliable on chromium, webkit, and Mobile Safari.
+    // Drive focus directly - reliable on chromium, webkit, and Mobile Safari.
     await link.focus();
     await expect(link).toBeFocused();
 
@@ -268,7 +268,7 @@ test.describe("Post detail readability & a11y", () => {
   // NOTE: a settled computed opacity/transform is deliberately NOT asserted.
   // usePrefersReducedMotion starts `false` on SSR/first paint (hydration-safe)
   // then flips on mount, so the entrance animation briefly runs even under
-  // reduce — a computed-style sample is racy (observed opacity ~0.08 mid-ramp).
+  // reduce - a computed-style sample is racy (observed opacity ~0.08 mid-ramp).
   // The attribute is the deterministic contract; the paired test below guards
   // it against being hardcoded.
   test("respects prefers-reduced-motion by flagging entrance motion suppressed", async ({

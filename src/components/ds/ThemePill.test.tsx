@@ -77,7 +77,7 @@ describe("ThemePill toggles theme via next-themes (FR-7)", () => {
     });
     expect(document.documentElement.classList.contains("dark")).toBe(true);
     // next-themes persists the choice to localStorage under its default key
-    // ("theme") — this is the mechanism that survives a real page reload.
+    // ("theme") - this is the mechanism that survives a real page reload.
     expect(window.localStorage.getItem("theme")).toBe("dark");
 
     await act(async () => {

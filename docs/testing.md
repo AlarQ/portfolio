@@ -2,7 +2,7 @@
 
 This document explains how to run and write end-to-end tests using Playwright for the portfolio website.
 
-> **Note — blog-only surface.** The live routes are `/blog`, `/blog/[slug]`, plus `/` (which 307-redirects to `/blog`); `/projects` returns 404. Code snippets below that `goto("/")` or reference a projects page are **illustrative Playwright patterns**, not claims about current routes — see the `e2e/*.spec.ts` files for the real, current assertions.
+> **Note - blog-only surface.** The live routes are `/blog`, `/blog/[slug]`, plus `/` (which 307-redirects to `/blog`); `/projects` returns 404. Code snippets below that `goto("/")` or reference a projects page are **illustrative Playwright patterns**, not claims about current routes - see the `e2e/*.spec.ts` files for the real, current assertions.
 
 ## Table of Contents
 

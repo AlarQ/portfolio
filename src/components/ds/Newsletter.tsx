@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PROSE_LINK_CLASS } from "@/utils/mdxPresentationText";
 
 export interface NewsletterProps {
   readonly eyebrow?: string;
@@ -19,8 +20,8 @@ export interface NewsletterProps {
  * supporting text, inline email + primary Subscribe, and an optional privacy
  * hint with an underlined link. Presentational by default; passing `action`
  * wires the form as a direct same-tab HTML POST to an ESP embed endpoint
- * (e.g. Buttondown) — no backend, no client JS. Binds only to semantic
- * Tailwind classes — no raw hex/palette lookups (`no-direct-palette-import`).
+ * (e.g. Buttondown) - no backend, no client JS. Binds only to semantic
+ * Tailwind classes - no raw hex/palette lookups (`no-direct-palette-import`).
  */
 export function Newsletter({
   eyebrow = "Newsletter",
@@ -56,7 +57,7 @@ export function Newsletter({
           {privacyHref ? (
             <>
               {" "}
-              <Link href={privacyHref} className="underline">
+              <Link href={privacyHref} className={PROSE_LINK_CLASS}>
                 privacy policy
               </Link>
               .

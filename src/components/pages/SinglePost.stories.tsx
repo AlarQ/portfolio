@@ -62,7 +62,7 @@ export const Default: Story = {
   args: baseArgs,
 };
 
-/** Desktop, dark — per-story `theme` global drives the `withTheme` decorator. */
+/** Desktop, dark - per-story `theme` global drives the `withTheme` decorator. */
 export const Dark: Story = {
   args: baseArgs,
   globals: { theme: "dark" },

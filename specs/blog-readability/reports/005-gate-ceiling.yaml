@@ -13,7 +13,7 @@ findings:
       testing/test-quality.md) contain no languages/<lang>.md entry, so no
       language tag was extracted. All five gates in the repo's .workflow.yml
       gate_pool (lint, format-check, type-check, unit-test, e2e-test) declare
-      applies_to: [typescript, nextjs] — with no language tag on the task,
+      applies_to: [typescript, nextjs] - with no language tag on the task,
       none match, so the intersection is empty. Tasks 001-004 all included a
       languages/*.md ground rule and did not hit this.
     file: specs/blog-readability/tasks/005-typography-pass.md
@@ -23,7 +23,7 @@ findings:
       then re-run /validate. Task's `empty_intersection_ok` is not set (defaults
       false), so this is fail-closed per ADR-003 rather than silently skipped.
     rationale: >
-      ADR-003 fail-closed policy — an empty effective gate set on a code-bearing
+      ADR-003 fail-closed policy - an empty effective gate set on a code-bearing
       task must block `done`, not silently pass, since it would ship code with
       zero deterministic verification.
     review_status: accepted

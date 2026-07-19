@@ -12,7 +12,7 @@ const sampleEntries: readonly TocEntry[] = [
 
 /**
  * Mounts real DOM headings matching `sampleEntries`' ids so `ArticleToc`'s
- * `useActiveHeading` IntersectionObserver has real targets to scroll-spy —
+ * `useActiveHeading` IntersectionObserver has real targets to scroll-spy -
  * mirroring a Post's rendered heading tree without depending on the MDX
  * pipeline or route.
  */

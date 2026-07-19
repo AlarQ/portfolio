@@ -8,7 +8,7 @@ findings:
     description: >
       design.md refers to the redirect config file as `next.config.js` in the architecture
       diagram, the IA-inversion trade-off, and throughout ADR-RM-4 (title, decision,
-      consequence). The repository has only `next.config.ts` — `ls next.config.js` misses —
+      consequence). The repository has only `next.config.ts` - `ls next.config.js` misses -
       and the implementing task (005) correctly lists `next.config.ts` in estimated_files.
       The authoritative design/ADR names a file that does not exist.
     file: specs/route-migration/design.md
@@ -60,7 +60,7 @@ findings:
       without amending the frontmatter.
     impact: >
       At implement time each task trips its own file budget on the first pass, forcing an
-      unplanned cap bump or task split — avoidable rework flagged pre-implementation.
+      unplanned cap bump or task split - avoidable rework flagged pre-implementation.
     references: ["specs/route-migration/tasks/002-extend-post-frontmatter-and-category-vocabulary.md", "specs/route-migration/tasks/004-migrate-post-route-to-singlepost.md"]
     confidence: medium
     review_status: resolved

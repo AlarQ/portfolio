@@ -48,7 +48,7 @@ export const Default: Story = {
   },
 };
 
-/** No cover image and no categories — exercises the gated null branches. */
+/** No cover image and no categories - exercises the gated null branches. */
 export const WithoutHeroOrCategories: Story = {
   args: {
     post: samplePost,
@@ -56,7 +56,7 @@ export const WithoutHeroOrCategories: Story = {
   },
 };
 
-/** With a table of contents and prev/next adjacency — exercises both gated branches. */
+/** With a table of contents and prev/next adjacency - exercises both gated branches. */
 export const WithToCAndAdjacency: Story = {
   args: {
     post: samplePost,

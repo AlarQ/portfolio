@@ -26,7 +26,7 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     // Give the server a production-representative absolute origin so build
     // artifacts that must emit absolute URLs (RSS feed, metadataBase) are
-    // exercised as they ship — not with the localhost value in `.env.local`.
+    // exercised as they ship - not with the localhost value in `.env.local`.
     // Real `process.env` takes precedence over `.env.local` in Next, so this
     // wins for a Playwright-started server. Falls back to any SITE_URL already
     // set in the shell (e.g. CI).

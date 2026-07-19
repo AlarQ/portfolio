@@ -4,14 +4,14 @@ import { buildRssItems, serializeRssFeed } from "@/data/rssFeed";
 import { getSiteUrl } from "@/data/siteConfig";
 
 /**
- * Static RSS feed route (no request input — `GET /feed.xml`). Wires the pure
+ * Static RSS feed route (no request input - `GET /feed.xml`). Wires the pure
  * `rssFeed` builder/serializer to the real `getPosts()` source and the
  * validated `SITE_URL` domain.
  *
  * The only failure expected here is `SITE_URL` misconfiguration, surfaced by
  * `getSiteUrl()` as an `Error` whose message is prefixed `[siteConfig]` (see
  * `resolveSiteUrl` in `src/data/siteConfig.ts`). That specific case is caught
- * and turned into a generic 500 — logged server-side only via
+ * and turned into a generic 500 - logged server-side only via
  * `console.error`, never interpolated into the response body, so no stack
  * trace or filesystem path reaches the client. Any other error is a
  * programmer bug or unexpected build-time failure and is re-thrown so it

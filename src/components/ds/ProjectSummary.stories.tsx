@@ -37,7 +37,7 @@ export const Default: Story = {
   args: { project: PROJECT },
 };
 
-/** Long title/tagline content — checks the summary doesn't clip or overflow. */
+/** Long title/tagline content - checks the summary doesn't clip or overflow. */
 export const LongContent: Story = {
   args: {
     project: {
@@ -49,7 +49,7 @@ export const LongContent: Story = {
   },
 };
 
-/** `status: "exploring"` — the seam resolves a muted tone (exploring-muted-tone). */
+/** `status: "exploring"` - the seam resolves a muted tone (exploring-muted-tone). */
 export const Exploring: Story = {
   args: {
     project: {
@@ -62,7 +62,7 @@ export const Exploring: Story = {
 };
 
 /**
- * Non-exploring status with low `mvpProgress` — the seam still resolves a
+ * Non-exploring status with low `mvpProgress` - the seam still resolves a
  * muted tone (FR-3: de-emphasis isn't limited to `status: "exploring"`).
  */
 export const LowMvpProgress: Story = {
@@ -71,12 +71,12 @@ export const LowMvpProgress: Story = {
       ...PROJECT,
       status: "in-progress",
       mvpProgress: 5,
-      currentState: "Just started — too early to carry the in-progress tone.",
+      currentState: "Just started - too early to carry the in-progress tone.",
     },
   },
 };
 
-/** Empty repos and no related posts — sections are omitted, not rendered blank. */
+/** Empty repos and no related posts - sections are omitted, not rendered blank. */
 export const Minimal: Story = {
   args: {
     project: {
@@ -87,7 +87,7 @@ export const Minimal: Story = {
   },
 };
 
-/** Multi-repo Project — the role-label gutter (Frontend/Backend) renders. */
+/** Multi-repo Project - the role-label gutter (Frontend/Backend) renders. */
 export const MultiRepo: Story = {
   args: {
     project: {
@@ -103,7 +103,7 @@ export const MultiRepo: Story = {
   },
 };
 
-/** Single-repo Project — no role-label gutter, plain badge row. */
+/** Single-repo Project - no role-label gutter, plain badge row. */
 export const SingleRepo: Story = {
   args: {
     project: {
@@ -113,7 +113,7 @@ export const SingleRepo: Story = {
   },
 };
 
-/** A repo with a long tech list — checks the badge row wraps instead of overflowing. */
+/** A repo with a long tech list - checks the badge row wraps instead of overflowing. */
 export const LongStack: Story = {
   args: {
     project: {

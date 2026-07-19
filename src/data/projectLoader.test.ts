@@ -7,7 +7,7 @@ import type { Project } from "./projects";
  *
  * `projects.ts`'s owner-curated array is authored directly in code (no MDX
  * frontmatter, no filesystem read) so the "raw input" here is simply a
- * candidate `Project[]` — the pure core's job is to validate every slug
+ * candidate `Project[]` - the pure core's job is to validate every slug
  * against the blog-identical `^[a-z0-9-]+$` gate before the set is trusted
  * downstream (FR-2, mirrors `buildPostSet`).
  */
@@ -30,7 +30,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe("buildProjectSet — valid slug", () => {
+describe("buildProjectSet - valid slug", () => {
   it("keeps a Project whose slug matches ^[a-z0-9-]+$", () => {
     // Given a single candidate with a valid slug
     const candidates: Project[] = [project({ slug: "portfolio-site" })];
@@ -44,7 +44,7 @@ describe("buildProjectSet — valid slug", () => {
   });
 });
 
-describe("buildProjectSet — invalid slug", () => {
+describe("buildProjectSet - invalid slug", () => {
   it("skips a Project whose slug violates the pattern and warns naming it", () => {
     // Given a candidate slug containing characters outside [a-z0-9-]
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
@@ -60,7 +60,7 @@ describe("buildProjectSet — invalid slug", () => {
   });
 });
 
-describe("buildProjectSet — iteration order", () => {
+describe("buildProjectSet - iteration order", () => {
   it("preserves input (declaration) order, never sorting or reordering", () => {
     // Given candidates in a deliberately non-alphabetical declaration order
     const candidates: Project[] = [
@@ -72,13 +72,13 @@ describe("buildProjectSet — iteration order", () => {
     // When the pure core validates the set
     const result = buildProjectSet(candidates);
 
-    // Then order equals declaration order — the first entry stays the
+    // Then order equals declaration order - the first entry stays the
     // default-selected Project, not a sorted-first one
     expect(result.map((p) => p.slug)).toEqual(["zebra-project", "alpha-project", "middle-project"]);
   });
 });
 
-describe("buildProjectSet — path traversal slug", () => {
+describe("buildProjectSet - path traversal slug", () => {
   it("skips a traversal slug via the regex gate alone, never touching the filesystem", () => {
     // Given a candidate slug carrying a traversal segment
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
@@ -87,7 +87,7 @@ describe("buildProjectSet — path traversal slug", () => {
     // When the pure core validates the set
     const result = buildProjectSet(candidates);
 
-    // Then it is rejected by the same regex gate as any other invalid slug —
+    // Then it is rejected by the same regex gate as any other invalid slug -
     // the pure core has no fs import, so it cannot have joined this to a path
     expect(result).toHaveLength(0);
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("../../etc/passwd"));
@@ -95,7 +95,7 @@ describe("buildProjectSet — path traversal slug", () => {
 });
 
 /**
- * `filterProjectsWithBrief` — the missing-brief-warning gate (FR-9). Takes an
+ * `filterProjectsWithBrief` - the missing-brief-warning gate (FR-9). Takes an
  * injected `briefExists` predicate so it's testable without touching the real
  * `content/projects/` filesystem (the real check, `hasBrief`, is a thin
  * `existsSync` wrapper exercised end-to-end by the Brief route's e2e suite).

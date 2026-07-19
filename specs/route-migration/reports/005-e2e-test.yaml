@@ -51,7 +51,7 @@ findings:
     category: testing
     title: "Navigation: 'should navigate from drawer' lands on / instead of /blog"
     description: >
-      expect(page).toHaveURL(/\/blog$/) failed — received "http://localhost:3000/" (and once "http://localhost:3000/blog/my-spec-driven-workflow") instead of /blog, at e2e/navigation.spec.ts:72 "should navigate from drawer", across chromium/firefox/Mobile Chrome. Consistent with the IA inversion moving the blog index to "/" and /blog now redirecting.
+      expect(page).toHaveURL(/\/blog$/) failed - received "http://localhost:3000/" (and once "http://localhost:3000/blog/my-spec-driven-workflow") instead of /blog, at e2e/navigation.spec.ts:72 "should navigate from drawer", across chromium/firefox/Mobile Chrome. Consistent with the IA inversion moving the blog index to "/" and /blog now redirecting.
 
     file: e2e/navigation.spec.ts
     lines: "72-86"

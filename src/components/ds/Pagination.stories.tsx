@@ -19,17 +19,17 @@ const meta: Meta<typeof Pagination> = {
 export default meta;
 type Story = StoryObj<typeof Pagination>;
 
-/** First page — Previous is disabled; trailing `…` collapses the middle. */
+/** First page - Previous is disabled; trailing `…` collapses the middle. */
 export const FirstPage: Story = {
   args: { currentPage: 1 },
 };
 
-/** Middle page — `…` truncation on the leading side, window around current. */
+/** Middle page - `…` truncation on the leading side, window around current. */
 export const MiddlePage: Story = {
   args: { currentPage: 5 },
 };
 
-/** Last page — Next is disabled; leading `…` collapses the middle. */
+/** Last page - Next is disabled; leading `…` collapses the middle. */
 export const LastPage: Story = {
   args: { currentPage: 10 },
 };

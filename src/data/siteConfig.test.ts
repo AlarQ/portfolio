@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { resolveSiteUrl } from "./siteConfig";
 
-describe("resolveSiteUrl — fail-fast on missing/invalid SITE_URL", () => {
+describe("resolveSiteUrl - fail-fast on missing/invalid SITE_URL", () => {
   it("throws a clear, developer-facing error when SITE_URL is undefined", () => {
     expect(() => resolveSiteUrl(undefined)).toThrow(/SITE_URL/);
   });

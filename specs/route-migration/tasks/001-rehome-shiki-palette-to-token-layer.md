@@ -30,15 +30,15 @@ Move the `--shiki-*` palette from `theme/theme.ts` `brand` (and its hand-edited 
 | Kind      | Ref                                      |
 |-----------|------------------------------------------|
 | FR        | FR-8                                     |
-| Contract  | —                                        |
-| Data      | —                                        |
+| Contract  | -                                        |
+| Data      | -                                        |
 | Scenarios | code-block-highlighted |
 
 ## Acceptance
 | # | Given | When | Then |
 |---|-------|------|------|
 | 1 | shiki colors added as ungrouped primitives in `tokens.ts` (ADR-RM-3, with the no-light-variant comment) | `npm run generate:tokens` runs | `tokens.css` emits the full `--shiki-*` set; no hand-authored shiki block remains in `globals.css` |
-| 2 | `theme/theme.ts` still exists (overlap window) | the repointed `shikiVars.test.ts` runs pre-push | it asserts the emitted vars equal the `tokens.ts` primitive source — not `brand` — and passes |
+| 2 | `theme/theme.ts` still exists (overlap window) | the repointed `shikiVars.test.ts` runs pre-push | it asserts the emitted vars equal the `tokens.ts` primitive source - not `brand` - and passes |
 | 3 | a Post body with a fenced code block | the site builds | shiki emits static highlighted HTML whose colors resolve from token-layer `--shiki-*` vars, rendered as a dark island in both themes (OQ-2) |
 | 4 | the `tokens.css` freshness guard | `tokens.test.ts` runs | committed CSS matches the regenerated source (never-hand-edit invariant holds) |
 
@@ -53,18 +53,18 @@ Move the `--shiki-*` palette from `theme/theme.ts` `brand` (and its hand-edited 
   `shikiFg`, `shikiToken{Comment,Keyword,String,Constant,Function,Variable}`),
   with a source comment per ADR-RM-3 explaining why they're deliberately not
   routed through `semanticLight`/`semanticDark`. Regenerated `tokens.css` via
-  `npm run generate:tokens` — no hand-edits.
+  `npm run generate:tokens` - no hand-edits.
 - Deleted the hand-authored `--shiki-*` `:root` block from `globals.css`; the
   generated `tokens.css` is now the single emission point.
 - Removed the now-dead `shikiVars` export (and its `brand`-sourced mapping)
-  from `theme/theme.ts`. `brand` itself is untouched — every other `brand` key
+  from `theme/theme.ts`. `brand` itself is untouched - every other `brand` key
   the shiki set drew from (`slate`, `skyLight`, `lime`, `orange`, `violet`,
   `slateLight`, `skyLighter`, `backgroundPaper`) still has live non-shiki
   consumers, so only the shiki-specific bridge object was removed.
 - Repointed `shikiVars.test.ts` (not deleted, per D-9): it now imports
   `primitives` from `tokens.ts`, asserts `theme.ts` still exists (overlap
   window), and diffs the generated `tokens.css` `--shiki-*` declarations
-  against the `tokens.ts` primitive source — never `brand`.
+  against the `tokens.ts` primitive source - never `brand`.
 - Extended `e2e/blog-highlighting.spec.ts` with a third scenario
   (`built_post_code_block_background_resolves_from_shiki_vars_both_themes`):
   asserts the code block's computed background equals `--shiki-bg` both

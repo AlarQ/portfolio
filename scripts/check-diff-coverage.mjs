@@ -1,6 +1,6 @@
 // Diff-coverage gate (see .husky/pre-push): the lines this branch adds/changes
 // under src/ must be >= COVERAGE_MIN% covered by the Vitest unit suite. Legacy
-// untested code is ignored — only branch-new coverable lines count. Reads the
+// untested code is ignored - only branch-new coverable lines count. Reads the
 // lcov report produced by `npm run test:coverage` and the git diff against the
 // merge-base with origin/main. Non-zero exit aborts the push.
 
@@ -104,13 +104,13 @@ const main = () => {
 
   const added = addedLinesByFile(base);
   if (added.size === 0) {
-    console.log(`check:diff-coverage — no new src/ lines vs ${base}; nothing to gate.`);
+    console.log(`check:diff-coverage - no new src/ lines vs ${base}; nothing to gate.`);
     return;
   }
 
   if (!existsSync(LCOV_PATH)) {
     console.error(
-      `[check-diff-coverage] ${LCOV_PATH} missing — run \`npm run test:coverage\` first.`
+      `[check-diff-coverage] ${LCOV_PATH} missing - run \`npm run test:coverage\` first.`
     );
     process.exit(1);
   }
@@ -140,7 +140,7 @@ const main = () => {
   }
 
   if (total === 0) {
-    console.log(`check:diff-coverage — no new coverable lines vs ${base}; pass.`);
+    console.log(`check:diff-coverage - no new coverable lines vs ${base}; pass.`);
     return;
   }
 
@@ -150,7 +150,7 @@ const main = () => {
   // Per-file breakdown (least-covered first), always printed so the headline
   // percentage is auditable. Uncovered line numbers are listed inline.
   const out = pct < COVERAGE_MIN ? console.error : console.log;
-  out(`check:diff-coverage — new code vs ${base}:`);
+  out(`check:diff-coverage - new code vs ${base}:`);
   const rows = [...stats.entries()].sort(
     (a, b) => a[1].covered / a[1].total - b[1].covered / b[1].total
   );
@@ -166,12 +166,12 @@ const main = () => {
   }
 
   if (pct < COVERAGE_MIN) {
-    console.error(`\n${red(`check:diff-coverage — FAIL: ${summary}`)}`);
+    console.error(`\n${red(`check:diff-coverage - FAIL: ${summary}`)}`);
     console.error("Add unit tests exercising the new code, or reduce untested surface.");
     process.exit(1);
   }
 
-  console.log(`\n${green(`check:diff-coverage — pass: ${summary}`)}`);
+  console.log(`\n${green(`check:diff-coverage - pass: ${summary}`)}`);
 };
 
 main();

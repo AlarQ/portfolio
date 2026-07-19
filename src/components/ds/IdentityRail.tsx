@@ -8,13 +8,13 @@ export interface IdentityRailProps {
 }
 
 /**
- * `Organisms/IdentityRail`: the sticky identity column on `/author` — portrait
+ * `Organisms/IdentityRail`: the sticky identity column on `/author` - portrait
  * and name/title. All data is **injected via props** (never reads
  * `src/data/profile.ts`), mirroring the page-nav-injection contract. Owns its
  * own rendering; binds only semantic tokens.
  *
  * Intentionally NOT `ds/AuthorInfo` (the inline byline molecule: shadcn
- * `Avatar` + name/title, used by `PostLayout`/`SinglePost`) — different job. A
+ * `Avatar` + name/title, used by `PostLayout`/`SinglePost`) - different job. A
  * byline needs a small circular avatar with an initials fallback; this rail
  * wants a full-bleed portrait and no fallback. Two distinct molecules, not an
  * accidental duplicate.
@@ -23,7 +23,7 @@ export interface IdentityRailProps {
  * page's top heading. That holds on `/author` because its `Header` is passed no
  * `title` (so `Header` emits no masthead `<h1>`), making this the sole `<h1>`.
  * A future page that composes both this rail AND a titled `Header` would get
- * two `<h1>`s — lift the heading level to a prop then.
+ * two `<h1>`s - lift the heading level to a prop then.
  */
 export function IdentityRail({ portrait, name, title, subtitle }: IdentityRailProps) {
   return (

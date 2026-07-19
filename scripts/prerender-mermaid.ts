@@ -1,4 +1,4 @@
-// Pre-render Mermaid diagrams to committed SVGs — one LIGHT + one DARK per
+// Pre-render Mermaid diagrams to committed SVGs - one LIGHT + one DARK per
 // source, so a Post diagram tracks the page theme like a first-class figure.
 //
 // Why this exists: the MDX pipeline used to run `rehype-mermaid` (img-svg),
@@ -13,17 +13,17 @@
 // This file is the DIAGRAM PRESENTATION SEAM (CLAUDE.md seam pattern applied to
 // diagrams): each `.mmd` declares STRUCTURE + a semantic ROLE per node (`class
 // x plan`), never a colour. The palettes below resolve role → colour for the
-// light and dark frames by PRIMITIVE NAME — never inline hex — so, like
+// light and dark frames by PRIMITIVE NAME - never inline hex - so, like
 // `scripts/generate-tokens.ts`, this script's only colour source is
 // `src/theme/tokens.ts` (runs under Node's native TS strip, no `tsx`). The
 // light tints are the category Badge hues; the dark strokes are the Shiki
 // code-block palette, so a diagram and a code block are the same dark island.
-// A role used in a `.mmd` with no palette entry THROWS — a missing entry is a
+// A role used in a `.mmd` with no palette entry THROWS - a missing entry is a
 // fail-fast error, and a bad primitive name is a compile error (`PName`).
 //
 // Idempotent: a diagram is re-rendered only when a source `.mmd`, this script,
 // OR the palette source `src/theme/tokens.ts` (where the primitive hexes live)
-// is newer than the committed `.svg` — editing a primitive there invalidates
+// is newer than the committed `.svg` - editing a primitive there invalidates
 // every output even if no `.mmd` or this script changed.
 
 import { existsSync } from "node:fs";
@@ -162,7 +162,7 @@ function normalizeSvgSize(svg: string): string {
 
 // An SVG is stale when missing, or older than its .mmd source or the palette
 // (the newer of this script and `src/theme/tokens.ts`, where the primitive
-// hexes live) — so a palette edit in tokens.ts must re-render everything.
+// hexes live) - so a palette edit in tokens.ts must re-render everything.
 async function isStale(srcPath: string, outPath: string, paletteMtime: number): Promise<boolean> {
   if (!existsSync(outPath)) return true;
   const [src, out] = await Promise.all([stat(srcPath), stat(outPath)]);
@@ -170,7 +170,7 @@ async function isStale(srcPath: string, outPath: string, paletteMtime: number): 
 }
 
 // `mermaid-isomorphic` needs a local Playwright Chromium. If it is missing the
-// launch throws — surface the exact install command and fail non-zero so a
+// launch throws - surface the exact install command and fail non-zero so a
 // commit can't silently ship stale diagrams.
 function failBrowser(error: unknown): void {
   const message = describe(error);
@@ -187,13 +187,13 @@ function describe(reason: unknown): string {
 
 async function main(): Promise<void> {
   if (!existsSync(SRC_DIR)) {
-    console.log(`[prerender-mermaid] no ${SRC_DIR} — nothing to render`);
+    console.log(`[prerender-mermaid] no ${SRC_DIR} - nothing to render`);
     return;
   }
 
   const sources = (await readdir(SRC_DIR)).filter((n) => n.endsWith(".mmd")).sort();
   if (sources.length === 0) {
-    console.log("[prerender-mermaid] no .mmd files — nothing to render");
+    console.log("[prerender-mermaid] no .mmd files - nothing to render");
     return;
   }
 
@@ -216,7 +216,7 @@ async function main(): Promise<void> {
   }
 
   if (stale.length === 0) {
-    console.log(`[prerender-mermaid] ${sources.length} diagram(s) up to date — skipping`);
+    console.log(`[prerender-mermaid] ${sources.length} diagram(s) up to date - skipping`);
     return;
   }
 

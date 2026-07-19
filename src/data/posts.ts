@@ -7,7 +7,7 @@ import { buildPostSet, type RawPostFile } from "./postLoader";
  * A published blog Post's metadata.
  *
  * Authored fields (`title`, `dek`, `date`) come from MDX frontmatter; the rest
- * are derived by the loader. Carries NO JSX, color, or icons — presentation is
+ * are derived by the loader. Carries NO JSX, color, or icons - presentation is
  * resolved at a separate seam (ADR-0001).
  */
 export interface Post {

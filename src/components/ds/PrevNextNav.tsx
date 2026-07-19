@@ -12,12 +12,12 @@ export interface PrevNextNavProps {
 /**
  * Footer navigation between chronologically adjacent Posts (FR-3). The `Post`
  * type carries no neighbour field, so the two neighbours arrive as explicit
- * optional props — the route resolves adjacency and hands down plain,
+ * optional props - the route resolves adjacency and hands down plain,
  * already-slug-validated `Post` data (single slug gate, CLAUDE.md).
  *
  * "Newer/Older" labelling (not "Previous/Next") is a presentation-only choice:
  * `prev` is the newer neighbour, `next` the older one. The `<nav>` accessible
- * name is exactly "Post navigation" — the contract `e2e/blog-nav.spec.ts`
+ * name is exactly "Post navigation" - the contract `e2e/blog-nav.spec.ts`
  * asserts. Presentational and token-bound: semantic Tailwind utilities only,
  * no router hooks, matching the sibling `TableOfContents`.
  */

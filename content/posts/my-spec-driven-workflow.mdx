@@ -1,50 +1,33 @@
 ---
 title: "Bounded Chaos"
-dek: Shipping real features with a model you can't trust. You can't make an LLM deterministic, so stop trying — build a deterministic containment vessel around the model (spec, gates, a dependency graph it can't talk past) and keep pushing that boundary outward.
+dek: Shipping real features with a model you can't trust. You can't make an LLM deterministic, so stop trying - build a deterministic containment vessel around the model (spec, gates, a dependency graph it can't talk past) and keep pushing that boundary outward.
 date: 2026-06-15
+categories: ["AI", "Workflow"]
 ---
 
 Most "AI writes your code" demos stop at the part that's hard: the second hour.
-A model can draft a feature in one shot, but left alone it drifts. It forgets the
-spec, skips the tests, and quietly ships the thing you didn't ask for. You can't
+When a new model comes in, it can draft a feature in one shot. Fable 5 for instance in capable to build 
+whole games from one prompt! You can open it and play right away. Do you want special assets? Music? Just name it!
+It's really impressive, but the thing is it doesn't show real application in software development.
+
+Without control, boundaries, numerous validations a model tends to ignore
+spec, skip the tests, and quietly ship the thing you didn't ask for. You can't
 fix that by trusting the model more. The trouble is structural: an LLM is
 non-deterministic by construction, and no amount of prompting makes it otherwise.
 
-So my workflow makes a different bet: **contain, don't trust.** The spec, the
+My workflow makes a different bet: **contain, don't trust.** The spec, the
 gates, and the dependency graph are a containment vessel. The model does real work
 inside it and can't talk its way past the walls. Every rule I can make
 deterministic is one less thing riding on the model behaving.
-
 The strategic move is to keep pushing that deterministic boundary outward. Every
-gate, every spec, every promoted rule is territory reclaimed from chance. You're
-bounding the blast radius of a non-deterministic component, like any risk you
-can't eliminate.
+gate, every spec, every promoted rule is territory reclaimed from chance.
 
 This post walks the one flow I run for real feature work, end to end. It's a set
-of slash commands and review agents that turn a loose intent into a reviewed,
+of skills and review agents that turn a loose intent into a reviewed,
 shipped pull request. The phase tour is the evidence: each phase is another wall
-of the vessel. I'll go deep on what each phase is *for*, the state machine the
+of the vessel. I'll go deep on what each phase is for, the state machine the
 work moves through, and how a spec gets decomposed into tasks that build in the
 right order.
-
-## The boundary I keep pushing out
-
-The LLM is the only non-deterministic component in the whole pipeline. Everything
-else exists to shrink what it can break. Test-first ordering, hard-blocking gates,
-enforced task state transitions — a task can only move `implemented → done` by
-clearing its gates, it can't skip the state machine — each is a wall the model
-works behind, and none of them depend on the model cooperating.
-
-Drawn this way, the workflow is a perimeter. The model proposes; the deterministic
-parts dispose. When a gate fails, the flow stops, whatever the model claims about
-its own work. When a task is blocked, it can't start, whatever order the model
-would prefer to work in.
-
-The job is never finished, because the boundary keeps moving. Each recurring
-mistake the system catches becomes a rule, and each rule turns a class of judgment
-calls into something checked automatically. The phase tour below is the current
-state of that perimeter: every phase is one more piece of wall I've gotten to
-stay put.
 
 ## The Feature flow
 
@@ -62,79 +45,79 @@ phase is bounded and resumable.
 
 Each command owns one phase of the flow. Here's what every phase is *for*:
 
-### `explore` — capture requirements, size the work
+### `\explore` - capture requirements, size the work
 
 - Runs a relentless ["grill" interview](https://github.com/mattpocock/skills/tree/main/skills/engineering/grill-with-docs) to pin down intent
-- Grounds it in the domain: updates `CONTEXT.md` — the project's living domain glossary, the canonical vocabulary and relationships the model has to speak — and writes ADRs for hard-to-reverse, surprising calls
+- Grounds it in the domain: updates `CONTEXT.md` - the project's living domain glossary, the canonical vocabulary and relationships the model has to speak - and writes ADRs for hard-to-reverse, surprising calls
 - Infers the **tier** and feature config once, up front (the tier dials are spelled out in *The spec config* below)
-- Pulls the specialist lenses the feature's context and track call for, curated in `config.yml` right here: a frontend feature pulls a **Frontend Developer**, a backend feature pulls a **Backend Architect** and runs no frontend lens — alongside the usual **Security Engineer** and **Software Architect**
+- Pulls the specialist lenses the feature's context and track call for, curated in `config.yml` right here: a frontend feature pulls a **Frontend Developer**, a backend feature pulls a **Backend Architect** and runs no frontend lens - alongside the usual **Security Engineer** and **Software Architect**
 - Writes the PRD. No code, no tasks yet
 
-### `propose` — turn intent into a contract
+### `propose` - turn intent into a contract
 
 - A **Security Engineer** writes a threat model *before* any spec
 - `spec.md` carries functional requirements, API contracts, a data model, BDD scenarios
 - A **Senior Project Manager** decomposes the spec into the vertical-slice dependency graph
 - A **Test Strategist** designs the cross-task **test strategy** (`test-strategy.md`, large tier): which test proves which scenario, and at which level
-- A **Spec Reviewer** audits the spec set for **internal coherence** — that `spec.md`, `design.md`, and the task files agree with each other and with the real repo — and **hard-stops** on an incoherent spec before `implement`
+- A **Spec Reviewer** audits the spec set for **internal coherence** - that `spec.md`, `design.md`, and the task files agree with each other and with the real repo - and **hard-stops** on an incoherent spec before `implement`
 - Produces `spec.md` (required), `design.md` and `test-strategy.md` (large tier), the numbered task files, and `config.yml`
 
 <Callout title="[Human gate] Spec & tasks review">
 Before a line of code gets written, I read the spec, the design, and the task
 breakdown end to end. This is where I catch a wrong contract or a bad slice while
-it's still cheap — a misread requirement here costs minutes; the same mistake
+it's still cheap - a misread requirement here costs minutes; the same mistake
 caught after `implement` costs a rebuild.
 </Callout>
 
-### `implement` — build one task, test-first
+### `implement` - build one task, test-first
 
 - Builds exactly one eligible task, on its own branch
-- Red-green-refactor loop; the next eligible task is picked off the **dependency graph** — the build order already set in `propose`
+- Red-green-refactor loop; the next eligible task is picked off the **dependency graph** - the build order already set in `propose`
 - Runs inline or routes to the implementer agent named in the task
 - Drives the task `todo → in-progress → implemented`, opens a draft PR
 
 <Callout title="[Human gate] Draft-PR review">
 This is the first place I stop and read code. I open the draft PR, pull the diff
-into context, and make sure I understand what the model actually built — not what
+into context, and make sure I understand what the model actually built - not what
 the task said it should build. That's how I'm ready to rule on the validation
 findings later instead of trusting them blind.
 </Callout>
 
-### `validate` — stop trusting one perspective
+### `validate` - stop trusting one perspective
 
 - Runs the deterministic gates
-- Fans out a parallel panel of advisory agents — **Security Engineer**, **Code-Quality Pragmatist**, **Software Architect**
+- Fans out a parallel panel of advisory agents - **Security Engineer**, **Code-Quality Pragmatist**, **Software Architect**
 - Coverage audit: does the diff actually cover the task's acceptance criteria?
 - The triple-gate rule: every gate has to end `pass` before a task is `done`. A
   gate that errors gets re-run; a gate that raises findings sends the task to
   `review`; only when all three phases come back clean does the task go straight to
-  `done` — and on that clean path the task ships inline, no separate step
+  `done` - and on that clean path the task ships inline, no separate step
 
-### `review-and-ship` — rule on the findings, then ship
+### `review-and-ship` - rule on the findings, then ship
 
 - The **AUTO bucket** clears itself first: mechanical findings (formatting, unused
-  import) and coverage gaps are fixed — or the missing test generated and
-  green-checked — by background agents *before* I'm asked. The backstop is the draft
+  import) and coverage gaps are fixed - or the missing test generated and
+  green-checked - by background agents *before* I'm asked. The backstop is the draft
   PR diff, so nothing slips by unseen
 - Everything else is grouped by code region and presented for accept or reject, one
   region at a time
 - A reasoned rejection can be promoted into a reusable knowledge-base (KB) rule on
   the spot
 - Then it ships inline: one commit covering the applied fixes, a push, and the draft
-  PR flipped to ready — into the feature integration branch, so the feature accrues
+  PR flipped to ready - into the feature integration branch, so the feature accrues
   as a reviewable whole before it reaches `main`. Shipping is the tail of this phase
   now, not a command of its own; the task lands `review → done` and shipped in one move
 
-### `learn-from-reports` — never the same mistake twice
+### `learn-from-reports` - never the same mistake twice
 
 - Mines validation output for recurring findings and repeated rejections
 - Promotes the patterns into KB rules, so the same mistake gets caught earlier next time
 
-### `validate-impl` — final spec-completion audit
+### `validate-impl` - final spec-completion audit
 
 - Runs once *every* task is `done`
-- An **Odium** agent — an auditor that checks what was actually built against what
-  the spec claimed, flagging gaps and over-engineering — reads the cumulative diff
+- An **Odium** agent - an auditor that checks what was actually built against what
+  the spec claimed, flagging gaps and over-engineering - reads the cumulative diff
   against the spec's full FR list
 - Asks the end-question: did we build the spec, with no orphan code, no over-engineering, nothing missing?
 - Clean verdict → ship; a reopen loops the gaps back as follow-up tasks until the verdict is `complete`
@@ -157,42 +140,15 @@ The state machine isn't decoration. A task can't go `in-progress` while its
 dependencies are unfinished, and finishing a task drops every task that was
 `blocked` on it down to `todo`. The order is enforced, not suggested.
 
-## How a spec becomes tasks
-
-The decomposition happens in `propose`, and it's where most of the leverage is.
-A **Senior Project Manager** agent reads the spec and carves it into **vertical
-slices** — each task is a tracer bullet that cuts through every layer it touches
-(data, presentation, route, test) and is independently demoable. The rule the PM
-works under is strict: a task has to justify *why it isn't merged with its
-neighbor*. Slices get split only when one grows too large or could genuinely
-deploy on its own — never just because two concerns feel conceptually separate.
-
-Each task lands on disk as a numbered file (`001`, `002`, …) with
-machine-readable frontmatter that makes it a contract, not a note:
-
-- **`status`** — its place in the state machine above.
-- **`blocked_by`** — the IDs of tasks that must finish first.
-- **`implements`** — which functional requirements (`FR-3`, `FR-5`, …) and BDD
-  scenarios from the spec this task is responsible for satisfying.
-- **`implementer`** — which agent runs the task.
-- **`estimated_files`** and **`test_cases`** — the file budget and the acceptance
-  cases it has to turn green.
-
-The `blocked_by` edges form a **dependency graph** — a buildable order with no
-cycles. A task with no blockers starts first; every other task waits until the
-tasks it's `blocked_by` are `done`, and two tasks that don't depend on each other
-can run back to back without an artificial ordering. The dependency graph *is* the
-build plan, and the system holds the work to that order for me.
-
 ## The spec config
 
 Every feature carries a `config.yml`, inferred once in `explore` and editable by
-hand. It's a small set of dials, and the same machinery runs at every setting —
+hand. It's a small set of dials, and the same machinery runs at every setting -
 the config only decides how much ceremony and which checks the feature earns. This
 post's own slice used this one:
 
 ```yaml
-tier: medium            # small | medium | large  — how much ceremony the feature earns
+tier: medium            # small | medium | large  - how much ceremony the feature earns
 track: feature          # feature | technical
 branch_strategy: per-task
 tags: [blog, mdx, ssg, nextjs, content]
@@ -214,13 +170,13 @@ The dials:
 - **`tier`** \{`small` | `medium` | `large`\} sets how much ceremony the feature
   earns. `small` produces task files only; `medium` adds a full `spec.md`; `large`
   adds a `design.md` and a dedicated `test-strategy.md` on top. `small` also skips
-  the advisory review panel and the final spec audit — a one-file change shouldn't
+  the advisory review panel and the final spec audit - a one-file change shouldn't
   pay for a threat model.
 - **`track`** \{`feature` | `technical`\} picks the shape of the work. `feature` runs
   the full business-spec flow above. `technical` is for refactors and debt, where
-  the intent is already clear and there's nothing to discover — so it skips the spec
+  the intent is already clear and there's nothing to discover - so it skips the spec
   and design artifacts and grounds itself in ADRs and `CONTEXT.md` instead.
-- **`gates`** is the gate ceiling for the feature — the deterministic checks any
+- **`gates`** is the gate ceiling for the feature - the deterministic checks any
   task is allowed to run. The set that actually runs on a given task is this ceiling
   intersected with that task's languages, so a Rust task never runs the TypeScript
   linter.
@@ -229,7 +185,7 @@ The dials:
   into a single PR, shipped at the tail of `review-and-ship`.
 - **`validate_scope`** \{`per-task` | `per-spec` | `both`\} decides when the gates
   run: after each task, once over the finished feature, or both.
-- **`agents`** binds an agent to each phase — which lenses run in `explore`, who
+- **`agents`** binds an agent to each phase - which lenses run in `explore`, who
   decomposes in `propose`, who reviews in `validate`. A `tier_ceiling` can override
   the default task and file budgets when a feature genuinely needs more room.
 
@@ -252,53 +208,14 @@ disagreements instead of grading my own homework.
 ## The knowledge base
 
 The rules the workflow enforces don't live in the prompts. They live in one
-knowledge base, split by topic directory — `architecture/`, `testing/`,
+knowledge base, split by topic directory - `architecture/`, `testing/`,
 `security/`, `frontend/`, `languages/`, `style/`, and a few more. One store, so a
 rule has exactly one home and gets cited the same way everywhere.
-
-```
-general-knowledge-base/
-├── _index.md                  # master routing table ("apply when…" per leaf)
-├── rules/                      # always-loaded prelude (non-negotiables)
-│   ├── code-quality.md
-│   └── security-patterns.md
-├── architecture/               # + api-design/ subtree (rest, graphql, …)
-├── testing/                    # testability, structure, coverage, test-quality
-├── security/                   # representative leaf set:
-│   ├── _index.md
-│   ├── input-validation.md
-│   ├── authz.md
-│   ├── secrets.md
-│   ├── deps-and-config.md
-│   └── logging.md
-├── frontend/                   # styling, components, accessibility, animation, …
-├── languages/                  # typescript/ rust/ nextjs/ scala/ shell/
-├── style/
-└── documentation/
-```
-
-Two tiers decide what the model actually sees. A small **prelude** under `rules/`
-is always loaded — the non-negotiables on code quality and security that should
-apply to every task. Everything else is a leaf file that loads only on demand. The
-index (`_index.md`) lists each leaf with a one-line "apply when…" description, and
-that description is its trigger scope: it's what decides whether a given task pulls
-the file in.
-
-The pull happens through **`ground_rules:`** — a list of bare paths in each task's
-frontmatter (`security/authz.md`, `testing/test-quality.md`). It's the single
-source of truth for which rules apply while that task runs, so `/implement` and
-`/validate` load exactly those files and nothing else. A task gets the security
-rules it needs without dragging in the entire library.
-
-The base isn't static, either. Two commands write back into it: `/capture-rule`,
-when I reject a finding for a reason worth keeping, promotes that reasoning into a
-rule on the spot; and `/learn-from-reports` mines accumulated validation output for
-patterns general enough to reuse. That feeds straight into the loop below.
 
 ## The system watches itself
 
 Every phase leaves a trail on disk, so the containment is inspectable after the
-fact. This part is built and running today.
+fact.
 
 - `specs/<feature>/.monitor.jsonl` records what happens across a feature's
   lifecycle: task transitions, TDD red and green, coverage-audit start and finish,
@@ -328,7 +245,7 @@ made once turn into rules the system enforces without me.
 
 Four rules are enforced by the workflow itself, not left to per-run discretion:
 
-- **Test-first is non-negotiable.** Red before green — a failing test has to exist
+- **Test-first is non-negotiable.** Red before green - a failing test has to exist
   before the implementing code. LLMs are poor at adding coverage after the code
   exists: they tend to write tests that merely pass and chase a coverage number,
   with behavioral quality all over the map. Test-first forces the behavior to be
@@ -353,8 +270,8 @@ wired to one AI runtime. It works, and it has three problems I can't ignore.
 - **No control over the system prompts.** The tool injects its own heavy prompts on
   every call. I can't see them, can't trim them, and I pay for the tokens.
 
-**Bondsmith** is the answer I'm building. It's a provider-neutral core — a Rust
-binary, `flowctl`, plus a set of target-neutral `.flow` contracts — that drives
+**Bondsmith** is the answer I'm building. It's a provider-neutral core - a Rust
+binary, `flowctl`, plus a set of target-neutral `.flow` contracts - that drives
 this same workflow across swappable runtime adapters. Two adapters are planned:
 *migrate* the Claude Code flow I run today into the first, and *build* a second from
 scratch for [Pi](https://pi.dev), a minimal agent harness. The point is that the

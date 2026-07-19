@@ -15,7 +15,7 @@ findings:
       No action required now; the inline TODO(task 010) already documents the planned relocation. Consider moving the single redirect test into home.spec.ts or blog-redirect.spec.ts in that follow-up task rather than leaving it in a file named "coexistence".
 
     rationale: Test file naming/organization should reflect current scope (testing/structure.md).
-    impact: Minor — a future reader may be confused why a "coexistence" file only asserts a redirect; already tracked via TODO.
+    impact: Minor - a future reader may be confused why a "coexistence" file only asserts a redirect; already tracked via TODO.
     references: ["general-knowledge-base/rules/testing/structure.md"]
     confidence: medium
     review_status: accepted

@@ -5,14 +5,14 @@ import { visit } from "unist-util-visit";
  *
  * `mdxPresentation.tsx` maps `script`/`iframe` to no-render components, but
  * that mapping is skipped by `@mdx-js/mdx` for tags **explicitly** authored as
- * JSX in a Post/Brief body (`<script src="..." />`) — the compiler only
+ * JSX in a Post/Brief body (`<script src="..." />`) - the compiler only
  * routes markdown-generated elements (e.g. `# heading` -> `h1`) through
  * `_components`; explicit JSX keeps its literal DOM tag name
  * (`node.data._mdxExplicitJsx`, see `@mdx-js/mdx`'s `recma-jsx-rewrite`).
  * Since `<script>`/`<iframe>` have no non-JSX Markdown syntax, an
  * owner-authored explicit tag would otherwise reach the DOM unneutralized.
  *
- * This rehype plugin (plain `.mjs`, not `.ts` — `@next/mdx`'s loader
+ * This rehype plugin (plain `.mjs`, not `.ts` - `@next/mdx`'s loader
  * `require.resolve()`s plugin file paths directly and cannot load an
  * unregistered `.ts` specifier) strips those elements at the hast/mdx-JSX
  * node level, before the JSX-rewrite stage runs, so the tag never survives

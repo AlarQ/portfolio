@@ -11,7 +11,7 @@ import { categoryPresentation } from "@/utils/categoryPresentation";
 export interface HomeProps {
   readonly posts: readonly Post[];
   /**
-   * Injected nav for the `Header` — supplied by the caller (stories pass the
+   * Injected nav for the `Header` - supplied by the caller (stories pass the
    * Figma fixture, a future route passes the real `navItems`) so this page
    * never depends on `src/stories/` and stays route-wireable.
    */
@@ -24,7 +24,7 @@ const RECENT_COUNT = 4;
 
 /**
  * Resolve a Post's vocabulary `categories` (`src/data/categories.ts`) into the
- * `PostCard` badge props via the `categoryPresentation` seam — the label is
+ * `PostCard` badge props via the `categoryPresentation` seam - the label is
  * the vocabulary name itself, the hue comes from the seam's exhaustive map.
  * Absent/empty `categories` yields `undefined` so `PostCard` no-renders the
  * badge row, per Acceptance #5.
@@ -44,7 +44,7 @@ interface PostPartition {
 /**
  * Split the newest-first Post set disjointly into the "Recent blog posts"
  * featured cluster (first {@link RECENT_COUNT}) and the "All blog posts" grid
- * (the remainder), so every Post renders in exactly one section — keeping the
+ * (the remainder), so every Post renders in exactly one section - keeping the
  * structural invariant `article count === posts.length`.
  */
 function partitionPosts(posts: readonly Post[]): PostPartition {
@@ -53,14 +53,14 @@ function partitionPosts(posts: readonly Post[]): PostPartition {
 
 /**
  * `Pages/Home` screen: the Figma-faithful blog index (node 614:383, the
- * blog-first front door). Composes the `ds/` organisms — `Header` masthead →
+ * blog-first front door). Composes the `ds/` organisms - `Header` masthead →
  * "Recent blog posts" featured cluster → "All blog posts" 3-column grid →
  * `Pagination` → `Newsletter` → `Footer`. Owns layout/ordering only; each
  * organism owns its own rendering.
  */
 export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
   const { recent, all } = partitionPosts(posts);
-  // No `?page=` routing this pack (OQ-6) — every Post renders on one page, so
+  // No `?page=` routing this pack (OQ-6) - every Post renders on one page, so
   // there is exactly one page of results until a route owns real paging.
   const totalPages = posts.length > 0 ? 1 : 0;
 
@@ -82,7 +82,7 @@ export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
             {/* First post takes the full-height left column; the next two stack
                 in the right column; a fourth spans the full width beneath.
                 (PostCard's cover is a fixed height, so the tall track holds the
-                card rather than stretching the cover — a known fidelity gap.) */}
+                card rather than stretching the cover - a known fidelity gap.) */}
             <div className="grid gap-6 md:grid-cols-2">
               {recent.map((post, index) => (
                 <div

@@ -19,9 +19,9 @@ export interface PostCardProps {
 /**
  * Bespoke molecule presenting a blog Post's cover image, headline, dek, and
  * category badges to match the Figma "Blog post card" spec. Binds only to
- * semantic Tailwind classes — no raw hex/palette lookups
+ * semantic Tailwind classes - no raw hex/palette lookups
  * (`no-direct-palette-import`). `coverImageUrl`/`categories` are optional
- * presentation-only props layered on top of `Post` — the Post data model
+ * presentation-only props layered on top of `Post` - the Post data model
  * itself carries neither field.
  */
 export function PostCard({ post, coverImageUrl, categories }: PostCardProps) {

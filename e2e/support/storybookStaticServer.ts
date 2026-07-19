@@ -23,9 +23,9 @@ export interface StorybookStaticServer {
  * Builds a static Storybook output into a temp dir and serves it from an
  * ephemeral local server, independent of the shared Playwright `webServer`
  * (which serves the live Next app). Shared by e2e specs that need to render
- * a real Storybook story in a browser — currently
+ * a real Storybook story in a browser - currently
  * `storybook-adapter.spec.ts` (ADR-DS-1) and `cascade-tie.spec.ts`
- * (ADR-DS-2) — extracted here once a second call site proved this wasn't
+ * (ADR-DS-2) - extracted here once a second call site proved this wasn't
  * one-off.
  */
 export async function startStorybookStaticServer(

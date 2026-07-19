@@ -31,7 +31,7 @@ describe("token codegen (FR-2, ADR-DS-3)", () => {
 
   it("tokens_ts_has_distinct_primitive_and_semantic_maps", () => {
     // Two-layer shape: the primitive palette and the semantic alias map are
-    // distinct, populated exports — not one flattened block (ADR-DS-3).
+    // distinct, populated exports - not one flattened block (ADR-DS-3).
     expect(primitives).not.toBe(semanticLight);
     expect(Object.keys(primitives).length).toBeGreaterThan(0);
     expect(Object.keys(semanticLight).length).toBeGreaterThan(0);
@@ -136,7 +136,7 @@ describe("token codegen (FR-2, ADR-DS-3)", () => {
 
   it("emitter_is_dark_aware_light_to_root_dark_to_dark_block", () => {
     const css = emitTokensCss();
-    // Light tokens live under :root; dark under a .dark block — emitted from the
+    // Light tokens live under :root; dark under a .dark block - emitted from the
     // start even while the dark values are empty until Task 008 fills them.
     expect(css).toMatch(/:root\s*\{/);
     expect(css).toMatch(/\.dark\s*\{/);
@@ -193,7 +193,7 @@ describe("token codegen (FR-2, ADR-DS-3)", () => {
   });
 
   it("committed_tokens_css_is_fresh", () => {
-    // The committed artifact must equal what the generator emits right now —
+    // The committed artifact must equal what the generator emits right now -
     // otherwise `tokens.css` has drifted from `tokens.ts` (run `npm run
     // generate:tokens` and commit the result).
     const committed = readFileSync(join(repoRoot, "src/theme/tokens.css"), "utf-8");

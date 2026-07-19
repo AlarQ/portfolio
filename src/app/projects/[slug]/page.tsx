@@ -7,7 +7,7 @@ import { getProject, getProjects } from "@/data/projects";
 
 /**
  * `generateStaticParams` enumerates ONLY the already-validated, Brief-having
- * Project set from `getProjects()` — it never reads `content/projects/`
+ * Project set from `getProjects()` - it never reads `content/projects/`
  * directory contents itself (enumerate-not-glob, FR-8/FR-9).
  * `getProjects()`/`getProject()` compute `buildProjectSet` +
  * `filterProjectsWithBrief` once at module load (`src/data/projects.ts`), so
@@ -44,11 +44,11 @@ export default async function ProjectBriefPage({ params }: ProjectBriefPageProps
 
   // Dynamic import over content/projects; slug is a member of the loader's
   // already-validated set, so only whitelisted paths can reach this call
-  // (single slug-validation gate — no second gate here).
+  // (single slug-validation gate - no second gate here).
   const { default: BriefBody } = await import(`../../../../content/projects/${slug}.mdx`);
 
   // The Brief body renders through the existing MDX→presentation seam
-  // (`mdx-components.tsx` → `mdxPresentation.tsx`, shared with the Blog) —
+  // (`mdx-components.tsx` → `mdxPresentation.tsx`, shared with the Blog) -
   // no second render path or component map is introduced here (ADR-0002).
   return (
     <div className="flex min-h-dvh flex-col gap-10">
