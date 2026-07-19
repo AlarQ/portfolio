@@ -33,7 +33,7 @@ export function Author({ posts, navItems, activeHref }: AuthorProps) {
   return (
     <div className="flex min-h-dvh flex-col gap-2 md:gap-10">
       <Header items={navItems} activeHref={activeHref} />
-      <div className="mx-auto flex w-full max-w-content flex-1 flex-col gap-6 px-6 py-2 md:flex-row md:gap-10 md:py-12">
+      <div className="mx-auto flex w-full max-w-content flex-1 flex-col gap-6 px-6 pb-2 md:flex-row md:gap-10 md:pb-12">
         <IdentityRail
           portrait={{ src: ownerProfile.imageSrc, alt: ownerProfile.imageAlt }}
           name={ownerProfile.name}
