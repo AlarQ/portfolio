@@ -458,6 +458,27 @@ describe("buildPostSet - categories validation", () => {
     expect(warn.mock.calls.some((c) => String(c[0]).includes("NotAThing"))).toBe(true);
   });
 
+  it("drops categories entirely with a warning when the frontmatter value isn't a list", () => {
+    // Given frontmatter where `categories` is a scalar instead of a list
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const files: RawPostFile[] = [
+      rawFile(
+        "cats.mdx",
+        { title: "T", dek: "d", date: "2026-01-01", categories: "Leadership" },
+        "b"
+      ),
+    ];
+
+    // When the loader validates categories against the vocabulary
+    const posts = buildPostSet(files);
+
+    // Then categories is dropped (undefined), a warning names the file, and the Post still publishes
+    expect(posts).toHaveLength(1);
+    expect(posts[0].categories).toBeUndefined();
+    expect(posts[0].published).toBe(true);
+    expect(warn.mock.calls.some((c) => String(c[0]).includes("dropping categories"))).toBe(true);
+  });
+
   it("dedupes repeated categories so a Post never carries the same one twice", () => {
     // Given frontmatter that repeats a valid vocabulary category
     const files: RawPostFile[] = [
