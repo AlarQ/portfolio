@@ -95,24 +95,6 @@ export const projects: readonly Project[] = [
     repos: [{ role: "backend", techKeys: ["rust"] }],
     relatedPosts: [],
   },
-  {
-    title: "Potrzebnik",
-    slug: "potrzebnik",
-    tagline:
-      "A Next.js platform organized around 'needs' - public listings plus an authenticated management dashboard.",
-    status: "exploring",
-    mvpProgress: 20,
-    currentState:
-      "Early, process-heavy build: Drizzle schema, Better Auth + Google OAuth, Storybook-driven components, testcontainer integration tests.",
-    repos: [
-      {
-        role: "frontend",
-        techKeys: ["nextjs", "react", "typescript", "tailwind", "shadcn"],
-      },
-      { role: "backend", techKeys: ["postgres"] },
-    ],
-    relatedPosts: [],
-  },
 ];
 
 /**
