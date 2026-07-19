@@ -72,21 +72,6 @@ export interface Project {
  */
 export const projects: readonly Project[] = [
   {
-    title: "Job Offer Box",
-    slug: "job-offer-box",
-    tagline:
-      "Job-hunt assistant that parses postings with an LLM and drafts tailored resumes and cover letters.",
-    status: "in-progress",
-    mvpProgress: 70,
-    currentState:
-      "Rust/Axum backend paired with a Next.js frontend via OpenAPI-generated types; hardening the scraper, auth, and deploy pipeline.",
-    repos: [
-      { role: "frontend", techKeys: ["nextjs", "react", "typescript", "playwright"] },
-      { role: "backend", techKeys: ["rust", "postgres"] },
-    ],
-    relatedPosts: [],
-  },
-  {
     title: "Hyperion",
     slug: "hyperion",
     tagline:
@@ -97,24 +82,6 @@ export const projects: readonly Project[] = [
       "~320 commits, Docker deploy, JWT/Argon2 auth and OpenTelemetry tracing - the backbone behind Job Offer Box and the GTD app.",
     repos: [{ role: "backend", techKeys: ["rust", "axum", "postgres"] }],
     relatedPosts: [{ label: "Pour It Once", slug: "pour-it-once" }],
-  },
-  {
-    title: "GTD App",
-    slug: "gtd-app",
-    tagline:
-      "A Getting-Things-Done PWA - quick capture, a 7-step processing wizard, and weekly review.",
-    status: "in-progress",
-    mvpProgress: 60,
-    currentState:
-      "Next.js 16 PWA frontend over the Hyperion backend; refactoring hooks and collocating queries as the MVP fills in.",
-    repos: [
-      {
-        role: "frontend",
-        techKeys: ["nextjs", "react", "typescript", "tailwind", "shadcn"],
-      },
-      { role: "backend", techKeys: ["rust"] },
-    ],
-    relatedPosts: [],
   },
   {
     title: "Bondsmith",
