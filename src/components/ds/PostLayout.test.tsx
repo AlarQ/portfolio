@@ -23,8 +23,6 @@ describe("PostLayout", () => {
       </PostLayout>
     );
 
-    // AuthorInfo: renders the avatar fallback text.
-    expect(container.textContent).toContain("EB");
     // PageInfo: renders the Post's formatted date and reading time.
     expect(container.textContent).toContain(samplePost.formattedDate);
     expect(container.textContent).toContain(`${samplePost.readingTimeMinutes} min read`);

@@ -17,14 +17,14 @@ import { SinglePost } from "./SinglePost";
  * from `@/components/ds/` (import-statement check) and that the rendered
  * DOM contains the organism's own structural markers (the `<article>`
  * wrapper `PostCard` owns, plus shadcn `data-slot` attributes owned by
- * `AuthorInfo`) — not a scan for the organism's copy strings, which
+ * `IdentityRail`) - not a scan for the organism's copy strings, which
  * would pass for an unrelated reimplementation with different text and
  * fail on any unrelated copy edit.
  */
 
 const PAGES_DIR = import.meta.dirname;
 
-describe("Pages components — import organisms (structural)", () => {
+describe("Pages components - import organisms (structural)", () => {
   it.each([
     ["Home.tsx"],
     ["SinglePost.tsx"],
@@ -35,7 +35,7 @@ describe("Pages components — import organisms (structural)", () => {
   });
 });
 
-describe("Pages components — compose organisms, never reimplement them", () => {
+describe("Pages components - compose organisms, never reimplement them", () => {
   it("Home renders PostCard's own `article` structure per post, not hand-rolled markup", () => {
     const { container, unmount } = renderIntoDocument(
       <Home posts={samplePosts} navItems={sampleNavItems} />
@@ -66,12 +66,11 @@ describe("Pages components — compose organisms, never reimplement them", () =>
     unmount();
   });
 
-  it("SinglePost renders PostLayout's own AuthorInfo avatar and Newsletter form structure", () => {
+  it("SinglePost renders PostLayout's own Newsletter form structure", () => {
     const { container, unmount } = renderIntoDocument(
       <SinglePost post={samplePost}>Body content</SinglePost>
     );
 
-    expect(container.querySelector('[data-slot="avatar"]')).not.toBeNull();
     // AdsSpace was removed (Figma parity); PostLayout no longer composes any Card.
     expect(container.querySelectorAll('[data-slot="card"]')).toHaveLength(0);
     // Newsletter: the "Get new posts by email" signup form.

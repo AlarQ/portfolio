@@ -6,7 +6,7 @@ const PROJECTS: readonly Project[] = [
   {
     title: "Portfolio Site",
     slug: "portfolio-site",
-    tagline: "This site — a statically-generated portfolio and blog.",
+    tagline: "This site - a statically-generated portfolio and blog.",
     status: "in-progress",
     mvpProgress: 80,
     currentState: "Building the Projects tab.",

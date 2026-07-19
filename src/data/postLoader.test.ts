@@ -6,7 +6,7 @@ import type { Post } from "./posts";
  * Unit tests for the pure core `buildPostSet(rawFiles): Post[]`.
  *
  * These feed RAW-FILE FIXTURES (filename + raw file content) to the pure core
- * — no filesystem — and assert the WHOLE returned Post set in one place:
+ * - no filesystem - and assert the WHOLE returned Post set in one place:
  * frontmatter parsing, derivations (slug, reading time, formatted date,
  * published), newest-first ordering, and slug-gate exclusions.
  */
@@ -18,7 +18,7 @@ function rawFile(filename: string, frontmatter: Record<string, string>, body: st
   return { filename, content: `---\n${fm}\n---\n\n${body}\n` };
 }
 
-describe("buildPostSet — frontmatter parsing", () => {
+describe("buildPostSet - frontmatter parsing", () => {
   it("returns Posts whose authored fields equal the frontmatter values", () => {
     // Given a raw MDX file carrying { title, dek, date } frontmatter
     const files: RawPostFile[] = [
@@ -46,7 +46,7 @@ describe("buildPostSet — frontmatter parsing", () => {
   });
 });
 
-describe("buildPostSet — reading time derivation", () => {
+describe("buildPostSet - reading time derivation", () => {
   it("derives readingTimeMinutes = ceil(wordCount / 200) from the body", () => {
     // Given a body of a known word count (250 words) at a 200 wpm rate
     const body = Array.from({ length: 250 }, () => "word").join(" ");
@@ -62,7 +62,7 @@ describe("buildPostSet — reading time derivation", () => {
   });
 });
 
-describe("buildPostSet — ordering", () => {
+describe("buildPostSet - ordering", () => {
   it("returns the set descending by date, with ties broken by slug ascending", () => {
     // Given files with differing dates and a same-date tie (zebra/alpha)
     const files: RawPostFile[] = [
@@ -79,7 +79,7 @@ describe("buildPostSet — ordering", () => {
   });
 });
 
-describe("buildPostSet — published by presence", () => {
+describe("buildPostSet - published by presence", () => {
   it("includes a slug-valid file and marks it published (no separate draft flag)", () => {
     // Given a single slug-valid file present in the set
     const files: RawPostFile[] = [
@@ -95,7 +95,7 @@ describe("buildPostSet — published by presence", () => {
   });
 });
 
-describe("buildPostSet — slug gate", () => {
+describe("buildPostSet - slug gate", () => {
   it("excludes files whose slug fails ^[a-z0-9-]+$, keeping only slug-valid Posts", () => {
     // Given a mix of slug-valid and slug-invalid files (uppercase, traversal, spaces)
     const files: RawPostFile[] = [
@@ -108,12 +108,12 @@ describe("buildPostSet — slug gate", () => {
     // When the single slug gate runs
     const posts = buildPostSet(files);
 
-    // Then only the slug-valid file survives — invalid slugs are unrepresentable
+    // Then only the slug-valid file survives - invalid slugs are unrepresentable
     expect(posts.map((p) => p.slug)).toEqual(["valid-slug"]);
   });
 });
 
-describe("buildPostSet — slug-pattern rejection (sec)", () => {
+describe("buildPostSet - slug-pattern rejection (sec)", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -135,7 +135,7 @@ describe("buildPostSet — slug-pattern rejection (sec)", () => {
   });
 });
 
-describe("generateStaticParams — allowlist-only (maps loader output verbatim)", () => {
+describe("generateStaticParams - allowlist-only (maps loader output verbatim)", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.resetModules();
@@ -156,7 +156,7 @@ describe("generateStaticParams — allowlist-only (maps loader output verbatim)"
   });
 });
 
-describe("buildPostSet — traversal rejection (sec)", () => {
+describe("buildPostSet - traversal rejection (sec)", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -177,7 +177,7 @@ describe("buildPostSet — traversal rejection (sec)", () => {
   });
 });
 
-describe("buildPostSet — fail fast on malformed frontmatter (authoring bugs)", () => {
+describe("buildPostSet - fail fast on malformed frontmatter (authoring bugs)", () => {
   it("throws when a slug-valid Post has an empty/missing title", () => {
     // Given a slug-valid file whose title is empty (a frontmatter typo)
     const files: RawPostFile[] = [
@@ -202,7 +202,7 @@ describe("buildPostSet — fail fast on malformed frontmatter (authoring bugs)",
   });
 
   it("throws on an impossible calendar date that JS would silently roll over", () => {
-    // Given a shape-valid but impossible date (Feb 30 — JS rolls it to March 2)
+    // Given a shape-valid but impossible date (Feb 30 - JS rolls it to March 2)
     const files: RawPostFile[] = [
       rawFile("rollover.mdx", { title: "T", dek: "d", date: "2026-02-30" }, "body"),
     ];
@@ -212,7 +212,7 @@ describe("buildPostSet — fail fast on malformed frontmatter (authoring bugs)",
   });
 
   it("keeps an unquoted YAML date as a literal ISO string (no Date auto-cast)", () => {
-    // Given an unquoted YAML date — the default YAML schema would cast it to a
+    // Given an unquoted YAML date - the default YAML schema would cast it to a
     // JS Date (and roll impossible days over); the loader's JSON-schema engine
     // keeps it a string so requireDate stays authoritative
     const files: RawPostFile[] = [
@@ -259,7 +259,7 @@ function fixturePost(slug: string): Post {
   };
 }
 
-describe("getAdjacentPosts — middle Post", () => {
+describe("getAdjacentPosts - middle Post", () => {
   it("returns the newer neighbor as prev and the older neighbor as next", () => {
     // Given a newest-first ordered set [A, B, C]
     const [a, b, c] = ["a", "b", "c"].map(fixturePost);
@@ -274,7 +274,7 @@ describe("getAdjacentPosts — middle Post", () => {
   });
 });
 
-describe("getAdjacentPosts — boundary Posts", () => {
+describe("getAdjacentPosts - boundary Posts", () => {
   it("has no prev (newer) side for the newest Post", () => {
     const [a, b, c] = ["a", "b", "c"].map(fixturePost);
     const posts = [a, b, c];
@@ -296,7 +296,7 @@ describe("getAdjacentPosts — boundary Posts", () => {
   });
 });
 
-describe("getAdjacentPosts — single-Post set", () => {
+describe("getAdjacentPosts - single-Post set", () => {
   it("returns neither prev nor next, with no error", () => {
     // Given a single-Post set
     const only = fixturePost("only");
@@ -311,7 +311,7 @@ describe("getAdjacentPosts — single-Post set", () => {
   });
 });
 
-describe("getAdjacentPosts — unknown slug", () => {
+describe("getAdjacentPosts - unknown slug", () => {
   it("returns neither prev nor next, with no error", () => {
     // Given a multi-Post set that does not contain the requested slug
     const [a, b, c] = ["a", "b", "c"].map(fixturePost);
@@ -326,7 +326,7 @@ describe("getAdjacentPosts — unknown slug", () => {
   });
 });
 
-describe("getAdjacentPosts — consistent with buildPostSet ordering", () => {
+describe("getAdjacentPosts - consistent with buildPostSet ordering", () => {
   it("walks the same newest-first array buildPostSet produces, not a separate ordering", () => {
     // Given raw files whose newest-first order is [zebra, older] per byNewestThenSlug
     const files: RawPostFile[] = [
@@ -340,7 +340,7 @@ describe("getAdjacentPosts — consistent with buildPostSet ordering", () => {
     const zebraAdjacency = getAdjacentPosts(posts, "zebra");
     const olderAdjacency = getAdjacentPosts(posts, "older");
 
-    // Then prev/next mirror the array's newest-first order — no separate ordering logic
+    // Then prev/next mirror the array's newest-first order - no separate ordering logic
     expect(zebraAdjacency.prev).toBeUndefined();
     expect(zebraAdjacency.next).toEqual(posts[1]);
     expect(olderAdjacency.prev).toEqual(posts[0]);
@@ -348,7 +348,7 @@ describe("getAdjacentPosts — consistent with buildPostSet ordering", () => {
   });
 });
 
-describe("buildPostSet — formatted date derivation", () => {
+describe("buildPostSet - formatted date derivation", () => {
   it("derives a human display date from the ISO date, deterministically", () => {
     // Given a file with an ISO YYYY-MM-DD date
     const files: RawPostFile[] = [
@@ -363,7 +363,7 @@ describe("buildPostSet — formatted date derivation", () => {
   });
 });
 
-describe("buildPostSet — coverImage validation (sec)", () => {
+describe("buildPostSet - coverImage validation (sec)", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -382,7 +382,7 @@ describe("buildPostSet — coverImage validation (sec)", () => {
     // When the loader validates frontmatter at the single gate
     const posts = buildPostSet(files);
 
-    // Then the field is dropped with a build warning naming the file — no external fetch —
+    // Then the field is dropped with a build warning naming the file - no external fetch -
     // and the Post still publishes
     expect(posts).toHaveLength(1);
     expect(posts[0].coverImage).toBeUndefined();
@@ -404,14 +404,14 @@ describe("buildPostSet — coverImage validation (sec)", () => {
     // When the loader validates frontmatter
     const posts = buildPostSet(files);
 
-    // Then the field is dropped with a warning — no path traversal into public/ siblings
+    // Then the field is dropped with a warning - no path traversal into public/ siblings
     expect(posts).toHaveLength(1);
     expect(posts[0].coverImage).toBeUndefined();
     expect(warn.mock.calls.some((c) => String(c[0]).includes("traversal-cover.mdx"))).toBe(true);
   });
 
   it("drops a protocol-relative coverImage (//host) with a warning", () => {
-    // Given a protocol-relative coverImage — it starts with "/" but resolves cross-origin
+    // Given a protocol-relative coverImage - it starts with "/" but resolves cross-origin
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     const files: RawPostFile[] = [
       rawFile(
@@ -424,14 +424,14 @@ describe("buildPostSet — coverImage validation (sec)", () => {
     // When the loader validates frontmatter
     const posts = buildPostSet(files);
 
-    // Then it is dropped with a warning — a leading-"/" check alone would wrongly admit it
+    // Then it is dropped with a warning - a leading-"/" check alone would wrongly admit it
     expect(posts).toHaveLength(1);
     expect(posts[0].coverImage).toBeUndefined();
     expect(warn.mock.calls.some((c) => String(c[0]).includes("proto-rel-cover.mdx"))).toBe(true);
   });
 });
 
-describe("buildPostSet — categories validation", () => {
+describe("buildPostSet - categories validation", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });

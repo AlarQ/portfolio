@@ -1,8 +1,8 @@
-# Spec — route-migration
+# Spec - route-migration
 
 > Pack 2 of the MUI → shadcn re-platform: wire the pack-1 design system (`pages/{Home,SinglePost,Author}`) into the live App Router routes, port the reading features the Figma frames lack, and delete the entire MUI/Emotion legacy surface.
 >
-> _Note: Security Engineer agent not spawned — spec config (`config.yml agents.propose`) overrides the propose agent set to `engineering/software-architect` only. Security scenarios below are derived from the CLAUDE.md MDX trust boundary, ADR-0001, and KB security rules (`security/input-validation.md`, `security/deps-and-config.md`)._
+> _Note: Security Engineer agent not spawned - spec config (`config.yml agents.propose`) overrides the propose agent set to `engineering/software-architect` only. Security scenarios below are derived from the CLAUDE.md MDX trust boundary, ADR-0001, and KB security rules (`security/input-validation.md`, `security/deps-and-config.md`)._
 
 ## Overview
 
@@ -18,7 +18,7 @@ Terms follow `CONTEXT.md`: **Post**, **Blog** as defined there. No API endpoints
 | OQ-2 | Shiki in light mode | **Code blocks stay dark islands** in both themes (common blog pattern; matches Figma code-block frame). One `--shiki-*` value set, re-homed to the token layer (FR-8); no `.dark`-keyed variant this pack. |
 | OQ-3 | Mono font | **Keep the `--font-geist-mono` next/font variable** as-is. No font token layer this pack; only Orbitron and Geist *sans* are dropped. |
 | OQ-4 | Category vocabulary | **Mapping is data, not free-form frontmatter.** A category vocabulary lives in `src/data/` (category name → `BadgeCategory` hue resolved in a presentation seam). The loader validates each frontmatter category against the vocabulary: unknown → build warning + category omitted (Post still publishes). |
-| OQ-5 | e2e color assertions | **Restate as token-resolution assertions**: assert the computed style equals the resolved semantic-token CSS variable, never a hardcoded rgb literal — survives future palette edits. |
+| OQ-5 | e2e color assertions | **Restate as token-resolution assertions**: assert the computed style equals the resolved semantic-token CSS variable, never a hardcoded rgb literal - survives future palette edits. |
 | OQ-6 | Pagination | **Presentational until post count demands it.** `Pagination` does not render when total pages ≤ 1; no `?page=` routing this pack. |
 
 ## Functional Requirements
@@ -35,7 +35,7 @@ A reader visiting `/blog/[slug]` gets `pages/SinglePost` composed with the real 
 **Scenarios:** post-page-renders, unknown-slug-404
 
 ### FR-3: Reading features preserved as storied `ds/` components
-Every reading affordance the live blog has today — Table of Contents, prev/next Post navigation, heading anchor links — is rebuilt as new `ds/` components on semantic tokens, Storybook-first per CLAUDE.md, with the existing e2e accessibility contracts (aria names, `#mobile-menu`, rehype-slug heading ids) intact.
+Every reading affordance the live blog has today - Table of Contents, prev/next Post navigation, heading anchor links - is rebuilt as new `ds/` components on semantic tokens, Storybook-first per CLAUDE.md, with the existing e2e accessibility contracts (aria names, `#mobile-menu`, rehype-slug heading ids) intact.
 
 **Scenarios:** toc-contract-preserved, prevnext-navigation, heading-anchors-preserved
 
@@ -45,7 +45,7 @@ The MDX body presentation (`mdxPresentationBlock/Text`, `Callout`) moves from MU
 **Scenarios:** mdx-body-token-styled, code-block-highlighted
 
 ### FR-5: Post model gains optional coverImage + categories
-A Post may declare `coverImage` and `categories` in MDX frontmatter, validated in the loader's pure core. Cards and the Post page degrade gracefully when either is absent — no placeholder stand-ins in production.
+A Post may declare `coverImage` and `categories` in MDX frontmatter, validated in the loader's pure core. Cards and the Post page degrade gracefully when either is absent - no placeholder stand-ins in production.
 
 **Data:** `post-frontmatter`
 **Scenarios:** cover-categories-render, cover-categories-absent, unknown-category-omitted
@@ -78,7 +78,7 @@ Unit + chromium e2e suites are updated for the new surface (color assertions res
 ## Data Model
 
 ### `post-frontmatter`
-MDX frontmatter of files under `content/posts/` — the Post collection's schema (no database exists). Parsed and validated in `buildPostSet` (`src/data/postLoader.ts`), the single validation gate.
+MDX frontmatter of files under `content/posts/` - the Post collection's schema (no database exists). Parsed and validated in `buildPostSet` (`src/data/postLoader.ts`), the single validation gate.
 
 **FRs:** FR-2, FR-5
 
@@ -87,12 +87,12 @@ MDX frontmatter of files under `content/posts/` — the Post collection's schema
 | title | string | yes | existing |
 | date | ISO date string | yes | existing |
 | dek | string | yes | existing |
-| coverImage | string | no | **new** — site-relative path (`/…`) to a static asset under `public/`; non-conforming value → build warning + field dropped |
-| categories | string[] | no | **new** — each entry must match the category vocabulary (`src/data/`); unknown entry → build warning + entry omitted, Post still publishes |
+| coverImage | string | no | **new** - site-relative path (`/…`) to a static asset under `public/`; non-conforming value → build warning + field dropped |
+| categories | string[] | no | **new** - each entry must match the category vocabulary (`src/data/`); unknown entry → build warning + entry omitted, Post still publishes |
 
 **Constraints**
 - Slug gate unchanged: filename must match `^[a-z0-9-]+$` or the candidate is skipped with a build warning (never joined to the filesystem).
-- `coverImage` must not be an external URL and must not contain `..` path segments — same trust posture as the slug gate.
+- `coverImage` must not be an external URL and must not contain `..` path segments - same trust posture as the slug gate.
 - Validation lives only in the loader's pure core; consumers (`generateStaticParams`, components) re-validate nothing.
 
 ## Scenarios
@@ -145,7 +145,7 @@ MDX frontmatter of files under `content/posts/` — the Post collection's schema
 ### mdx-body-token-styled
 - **Given** a Post body with paragraphs, lists, blockquotes, and a Callout
 - **When** the Post page renders
-- **Then** every element's colors/spacing resolve from semantic-token utilities — no MUI `sx`, no hex/rgb literals
+- **Then** every element's colors/spacing resolve from semantic-token utilities - no MUI `sx`, no hex/rgb literals
 
 ### code-block-highlighted
 - **Given** a Post body with a fenced code block
@@ -165,7 +165,7 @@ MDX frontmatter of files under `content/posts/` — the Post collection's schema
 ### cover-categories-absent
 - **Given** a Post with neither `coverImage` nor `categories`
 - **When** cards and the Post page render
-- **Then** layouts degrade gracefully — no broken image, no placeholder stand-in, no empty badge row
+- **Then** layouts degrade gracefully - no broken image, no placeholder stand-in, no empty badge row
 
 ### unknown-category-omitted
 - **Given** a Post whose frontmatter lists a category not in the vocabulary
@@ -175,7 +175,7 @@ MDX frontmatter of files under `content/posts/` — the Post collection's schema
 ### author-page-renders
 - **Given** `src/data/profile.ts` holds the owner's identity
 - **When** a reader visits `/author`
-- **Then** `pages/Author` renders with name and title from the profile module — no hardcoded identity
+- **Then** `pages/Author` renders with name and title from the profile module - no hardcoded identity
 
 ### author-nav-link
 - **Given** any page
@@ -204,7 +204,7 @@ MDX frontmatter of files under `content/posts/` — the Post collection's schema
 
 ### deps-removed-pins-exact
 - **Given** dependencies were removed from `package.json`
-- **When** the `depsPinned.test.ts` suites run (`src/components/ui/depsPinned.test.ts`, `src/storybook-tooling/depsPinned.test.ts` — both run in the pre-push gate)
+- **When** the `depsPinned.test.ts` suites run (`src/components/ui/depsPinned.test.ts`, `src/storybook-tooling/depsPinned.test.ts` - both run in the pre-push gate)
 - **Then** all remaining dependencies are exact-pinned and the lockfile is consistent
 
 ### preflight-reenabled
@@ -249,7 +249,7 @@ _The MDX trust boundary (CLAUDE.md, ADR-0001) is load-bearing: Posts are 100% ow
 ### sec-coverimage-path-validated
 - **Given** a Post frontmatter `coverImage` of an external URL or a value containing `..`
 - **When** the loader validates frontmatter
-- **Then** the value is rejected with a build warning and the field is dropped — no external fetch, no path traversal into `public/` siblings (input validation at the boundary, `security/input-validation.md`)
+- **Then** the value is rejected with a build warning and the field is dropped - no external fetch, no path traversal into `public/` siblings (input validation at the boundary, `security/input-validation.md`)
 
 ### sec-dep-removal-clean
 - **Given** the six MUI/Emotion packages and `framer-motion` are removed
@@ -274,7 +274,7 @@ sequenceDiagram
     Theme-->>Reader: .dark class applied, choice persisted
     Reader->>Post: click Post card → GET /blog/[slug]
     Post->>Loader: resolve slug (already-validated set)
-    Post-->>Reader: SinglePost — MDX body, ToC, anchors, prev/next
+    Post-->>Reader: SinglePost - MDX body, ToC, anchors, prev/next
     Reader->>Post: activate heading anchor
     Post-->>Reader: scroll to rehype-slug heading id
 ```

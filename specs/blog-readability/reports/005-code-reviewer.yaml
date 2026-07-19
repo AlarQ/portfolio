@@ -31,7 +31,7 @@ findings:
       document.fonts.ready)` right after `page.goto`, or move the `document.fonts.ready` await
       inside the `article.evaluate` callback before creating the canvas context.
     rationale: >
-      testing/test-quality.md (SHOULD) — a flaky test trains the team to ignore failures;
+      testing/test-quality.md (SHOULD) - a flaky test trains the team to ignore failures;
       pass/fail should not depend on unrelated network/font-load timing.
     impact: >
       Intermittent CI red/green on this test unrelated to any real regression in the 64ch
@@ -62,7 +62,7 @@ findings:
       output and assert the computed/rendered style reflects `1.125rem`/`1.7`, so the check
       exercises the actual consumption site rather than reading the constant back at itself.
     rationale: >
-      testing/test-quality.md (SHOULD) — assert a constant where it's consumed, not against
+      testing/test-quality.md (SHOULD) - assert a constant where it's consumed, not against
       its own literal.
     impact: >
       False confidence: stays green regardless of whether `proseTextSx` is actually wired into

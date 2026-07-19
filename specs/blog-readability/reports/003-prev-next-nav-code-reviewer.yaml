@@ -10,7 +10,7 @@ findings:
       src/data/postLoader.ts:60-62 has an explicit early-return branch
       (`if (index === -1) return {}`) for a slug not present in the ordered
       Post set. None of the four new describe blocks in
-      src/data/postLoader.test.ts exercise this path — the middle/boundary/
+      src/data/postLoader.test.ts exercise this path - the middle/boundary/
       single-Post/ordering-consistency tests all pass a slug known to exist
       in the fixture array.
     file: src/data/postLoader.ts
@@ -21,11 +21,11 @@ findings:
       return { prev: posts[index - 1], next: posts[index + 1] };
     fix_proposal: >
       Add a test in src/data/postLoader.test.ts, e.g.
-      "getAdjacentPosts — unknown slug: returns neither prev nor next, with
+      "getAdjacentPosts - unknown slug: returns neither prev nor next, with
       no error" that calls getAdjacentPosts(posts, "does-not-exist") over a
       multi-Post fixture array and asserts both prev/next are undefined.
     rationale: >
-      testing/coverage.md (SHOULD): "Test the boundaries — focus on edge
+      testing/coverage.md (SHOULD): "Test the boundaries - focus on edge
       cases, error paths, and integration points rather than happy-path-only
       coverage." This branch is a real error/edge path (guards against
       findIndex's -1 sentinel) that is currently reachable but has no test

@@ -15,11 +15,11 @@ export interface ProjectSummaryProps {
 }
 
 /**
- * `ds/` organism rendering the active Project's summary panel — the detail
+ * `ds/` organism rendering the active Project's summary panel - the detail
  * pane driven by `ProjectTabStrip`'s selection (FR-6, FR-7). Renders every
  * field from seam output only: Status tone/label via `projectPresentation`,
  * tech-stack hues via `techPresentation` (mirrors how `SinglePost` consumes
- * `categoryPresentation` for Post categories) — never a raw literal switch
+ * `categoryPresentation` for Post categories) - never a raw literal switch
  * here. Tech is grouped per Repo via `repoRolePresentation` + `techPresentation`.
  */
 export function ProjectSummary({ project }: ProjectSummaryProps) {

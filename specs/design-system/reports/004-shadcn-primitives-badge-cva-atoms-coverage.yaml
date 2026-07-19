@@ -12,7 +12,7 @@ findings:
       color remaining. The primary-purple recolor is verified (tokens.css
       --primary-600: #7f56d9, no hardcoded hex/stock-palette literals in
       src/components/ui/*.tsx). But no "Inter" reference exists anywhere in
-      src/ — src/app/layout.tsx still imports Geist, Geist_Mono, Orbitron from
+      src/ - src/app/layout.tsx still imports Geist, Geist_Mono, Orbitron from
       next/font/google, and nothing in this diff touches layout.tsx or adds an
       Inter font-family token.
     file: src/app/layout.tsx
@@ -21,7 +21,7 @@ findings:
       Wire Inter as the font used by these primitives (add next/font/google
       Inter import and apply as the font-family token consumed by
       src/components/ui/*), or explicitly amend the task's acceptance text to
-      drop the Inter requirement if the decision was to keep Geist — do not
+      drop the Inter requirement if the decision was to keep Geist - do not
       leave the acceptance criterion silently unmet.
     rationale: >
       Acceptance point 2 in the task's own Given/When/Then explicitly names
@@ -29,7 +29,7 @@ findings:
       every acceptance point to be `covered`, not partially met.
     impact: >
       Rendered primitives visually diverge from the approved Figma design
-      (wrong typeface) despite passing color-only checks — a reviewer or user
+      (wrong typeface) despite passing color-only checks - a reviewer or user
       comparing against Figma will see a mismatch this task claims to close.
     references: ["specs/design-system/tasks/004-shadcn-primitives-badge-cva-atoms.md#Acceptance"]
     confidence: high

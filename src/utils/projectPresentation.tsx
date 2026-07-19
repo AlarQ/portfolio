@@ -3,7 +3,7 @@ import type { StatusTone } from "@/components/ui/statusDotVariants";
 import type { RepoRole, Status, TechKey } from "@/data/projects";
 
 /**
- * Single seam resolving a Project's `Status` to its presentation triple —
+ * Single seam resolving a Project's `Status` to its presentation triple -
  * the analogue of `categoryPresentation`'s `Record<CategoryName, BadgeCategory>`.
  * `src/data/projects.ts` stays JSX/color-free; components ask this seam for
  * tone/label/dot and never encode a status→tone switch themselves.
@@ -25,7 +25,7 @@ export interface StatusPresentation {
 }
 
 /** Below this, a Project reads as too early to carry its Status's own tone. */
-// PROVISIONAL: 10 is a design-owner-agreed placeholder, not data-derived —
+// PROVISIONAL: 10 is a design-owner-agreed placeholder, not data-derived -
 // revisit once real product input on "too early" is available.
 const LOW_MVP_PROGRESS_THRESHOLD = 10;
 
@@ -37,7 +37,7 @@ export function isLowMvpProgress(mvpProgress: number): boolean {
 /**
  * Resolve a Project `Status` (+ optional `mvpProgress`) to its `{tone, label,
  * dot}` presentation triple. A non-exploring Project with low `mvpProgress`
- * also resolves to a `muted` tone — de-emphasis is a seam rule, not a
+ * also resolves to a `muted` tone - de-emphasis is a seam rule, not a
  * component branch (FR-3). `label` always reflects the Status's own text;
  * only `tone`/`dot` are muted by low `mvpProgress`.
  */
@@ -48,7 +48,7 @@ export function projectPresentation(status: Status, mvpProgress?: number): Statu
 }
 
 /**
- * Closed `TechKey → BadgeCategory` map — the tech-stack analogue of
+ * Closed `TechKey → BadgeCategory` map - the tech-stack analogue of
  * `CATEGORY_HUES`. Exhaustive `Record<TechKey, …>`: a `TechKey` added to
  * `data/projects.ts` without a matching hue here is a compile error.
  */
@@ -74,7 +74,7 @@ export function techPresentation(key: TechKey): BadgeCategory {
   return TECH_HUES[key];
 }
 
-/** Closed RepoRole → display label map — the role analogue of TECH_HUES.
+/** Closed RepoRole → display label map - the role analogue of TECH_HUES.
  *  Exhaustive: a RepoRole without a label here is a compile error. */
 const REPO_ROLE_LABELS: Record<RepoRole, string> = {
   frontend: "Frontend",

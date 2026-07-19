@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { BADGE_CATEGORIES, badgeCategoryVariants } from "./badgeVariants";
 
 /**
- * FR-6: Badge category styling as an exhaustive CVA taxonomy — the shadcn
+ * FR-6: Badge category styling as an exhaustive CVA taxonomy - the shadcn
  * analogue of `skillPresentation`'s `Record<IconKey, …>`. A missing category
  * is a compile error (BADGE_CATEGORIES is the closed union `Badge`'s
  * `category` prop is typed against), never a silent runtime fallback.

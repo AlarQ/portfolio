@@ -16,7 +16,7 @@ export default function ThanksPage() {
           Thanks for subscribing
         </h1>
         <p className="text-lg text-muted-foreground">
-          Check your inbox for a confirmation email — click the link there to complete your
+          Check your inbox for a confirmation email - click the link there to complete your
           subscription.
         </p>
       </main>

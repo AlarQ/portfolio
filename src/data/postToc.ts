@@ -6,7 +6,7 @@ import matter from "gray-matter";
 /**
  * One entry in a Post's Table of Contents: a `##` (depth 2) or `###` (depth 3)
  * section heading, its rendered plain text, and the slug `id` that the section
- * heading carries in the DOM. Carries no JSX/color — presentation lives in the
+ * heading carries in the DOM. Carries no JSX/color - presentation lives in the
  * `PostToc` component (ADR-0001 seam pattern).
  */
 export interface TocEntry {
@@ -22,7 +22,7 @@ const FENCE_MARKER = /^(```|~~~)/;
  * Strip the inline Markdown that a heading's rendered text node does NOT carry,
  * so the slug is fed the exact text `rehype-slug` sees (backtick-wrapped code
  * keeps its inner text, links keep their label, emphasis markers drop). Lone
- * underscores are preserved — `github-slugger` keeps them, so stripping them
+ * underscores are preserved - `github-slugger` keeps them, so stripping them
  * would break id parity with the DOM.
  */
 function headingText(raw: string): string {
@@ -40,7 +40,7 @@ function headingText(raw: string): string {
  * Pure core: derive a Post's ToC tree from its Markdown body. Reuses the exact
  * `github-slugger` instance-per-document that `rehype-slug` uses in the build
  * pipeline, so every `id` here matches the heading `id` rendered to the DOM
- * (including its de-duplication counter). No filesystem dependency — the impure
+ * (including its de-duplication counter). No filesystem dependency - the impure
  * rind hands it an already-read body.
  */
 export function extractPostToc(markdown: string): TocEntry[] {

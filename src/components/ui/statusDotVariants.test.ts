@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { STATUS_TONES, statusDotVariants } from "./statusDotVariants";
 
 /**
- * FR-6, FR-10: status-dot binds ONLY semantic Tailwind utility classes — no
+ * FR-6, FR-10: status-dot binds ONLY semantic Tailwind utility classes - no
  * hex, no `primitives` import, no Tailwind arbitrary-value colors
  * (`bg-[#...]`). Mirrors `badgeVariants.test.ts`'s exhaustiveness check.
  */

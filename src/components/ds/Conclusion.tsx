@@ -11,7 +11,7 @@ export interface ConclusionProps {
 /**
  * Bespoke molecule for an end-of-article closing block: a heading, closing
  * copy, and an optional CTA composing the shadcn `Button` primitive. Binds
- * only to semantic Tailwind classes — no raw hex/palette lookups
+ * only to semantic Tailwind classes - no raw hex/palette lookups
  * (`no-direct-palette-import`).
  */
 export function Conclusion({ heading, body, ctaLabel, ctaHref }: ConclusionProps) {

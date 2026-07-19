@@ -19,7 +19,7 @@ export const Default: Story = {
   },
 };
 
-/** Backend area — checks a second area reads consistently. */
+/** Backend area - checks a second area reads consistently. */
 export const Backend: Story = {
   args: {
     name: "Backend engineering",
@@ -27,7 +27,7 @@ export const Backend: Story = {
   },
 };
 
-/** Long name + headline — verifies the card wraps without clipping. */
+/** Long name + headline - verifies the card wraps without clipping. */
 export const LongContent: Story = {
   args: {
     name: "Distributed Systems & Platform Engineering Leadership",

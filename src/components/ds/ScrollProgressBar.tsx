@@ -6,10 +6,10 @@ export interface ScrollProgressBarProps {
 /**
  * Presentational mobile reading-progress bar (FR-1, blog-readability
  * Decision 5): a thin, non-interactive top bar reflecting whole-document
- * scroll progress. Owns no scroll subscription — `ArticleToc` (the client
+ * scroll progress. Owns no scroll subscription - `ArticleToc` (the client
  * organism) computes `progress` via `useScrollProgress` and passes it down.
  *
- * `md:hidden` — mobile-only; the desktop dot-rail (`TableOfContents`) is the
+ * `md:hidden` - mobile-only; the desktop dot-rail (`TableOfContents`) is the
  * only ToC affordance at `md` and up, never both at once.
  */
 export function ScrollProgressBar({ progress, reducedMotion = false }: ScrollProgressBarProps) {

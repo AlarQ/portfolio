@@ -12,8 +12,8 @@ export interface ProjectsProps {
 /**
  * `Pages/Projects` screen: lifts `selectedSlug` state and wires the
  * `ProjectTabStrip` organism to the active Project's `ProjectSummary` (FR-6).
- * Selection is entirely client-side — no `next/navigation` router call, no
- * URL change — swapping the summary is just a state update. Array order in
+ * Selection is entirely client-side - no `next/navigation` router call, no
+ * URL change - swapping the summary is just a state update. Array order in
  * `src/data/projects.ts` is authoritative: `projects[0]` is selected on load
  * with no interaction required. The summary swap wrapper uses only
  * `motion-safe:` transition utilities (FR-5, reduced-motion-swap): under

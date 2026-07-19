@@ -8,7 +8,6 @@ import type { Post } from "@/data/posts";
 import type { TocEntry } from "@/data/postToc";
 import { ArticleProse } from "./ArticleProse";
 import { ArticleToc } from "./ArticleToc";
-import { AuthorInfo } from "./AuthorInfo";
 import { Conclusion } from "./Conclusion";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
@@ -26,7 +25,7 @@ export interface PostLayoutProps {
   readonly categories?: readonly PostCardCategory[];
   /**
    * Injected nav for the `Header` (mirrors `pages/Home`'s `HomeProps.navItems`
-   * seam) — defaults to the real site-wide `navItems` so existing callers/tests
+   * seam) - defaults to the real site-wide `navItems` so existing callers/tests
    * need not supply it, while routes and stories can still pass a fixture.
    */
   readonly navItems?: readonly NavItem[];
@@ -34,14 +33,14 @@ export interface PostLayoutProps {
 
 /**
  * Bespoke `Bespoke -> Bespoke` organism composing the pack's molecules
- * (Task 005) — `Header`, `AuthorInfo`, `PageInfo`, `ArticleProse` (with hero),
+ * (Task 005) - `Header`, `PageInfo`, `ArticleProse` (with hero),
  * `TableOfContents`, category `Badge` row, `PrevNextNav`, `Conclusion`,
- * `Newsletter` — plus `Footer` around a Post's body content, aligned to the
+ * `Newsletter` - plus `Footer` around a Post's body content, aligned to the
  * Figma "Blog – Detail Blog" frame. Owns layout/ordering only; each molecule
  * owns its own rendering.
  *
  * `Header` renders here (not in the root layout) so each top-level page owns
- * exactly one nav instance — mirroring `pages/Home`, which renders its own
+ * exactly one nav instance - mirroring `pages/Home`, which renders its own
  * `Header` for the masthead. `activeHref="/"` is hardcoded rather than derived
  * from the real pathname: every Post detail route belongs to the single Blog
  * nav section (`navItems`'s one entry, now pointed at `/` per the inverted IA,
@@ -49,9 +48,9 @@ export interface PostLayoutProps {
  *
  * Layout is a `md:flex-row` split column (blog-readability Decision 6,
  * `Author.tsx`/`IdentityRail.tsx` precedent, not the prototype's fixed
- * `left-4`/`xl:` rail — `md` is the repo's only desktop/mobile breakpoint):
+ * `left-4`/`xl:` rail - `md` is the repo's only desktop/mobile breakpoint):
  * a sticky left rail column mounts `ArticleToc` (dot-rail desktop, progress
- * bar mobile — mutually exclusive by breakpoint), the prose column holds the
+ * bar mobile - mutually exclusive by breakpoint), the prose column holds the
  * rest of the molecule stack and keeps `scroll-mt-24` on its headings so an
  * anchor jump lands clear of any future sticky chrome.
  */
@@ -71,7 +70,6 @@ export function PostLayout({
       <div className="mx-auto flex w-full max-w-content flex-1 flex-col px-6 py-12 md:flex-row">
         {toc && toc.length > 0 ? <ArticleToc entries={toc} /> : null}
         <div className="flex min-w-0 flex-1 flex-col gap-8 [&_:is(h2,h3)]:scroll-mt-24">
-          <AuthorInfo name="Ernest Bednarczyk" title="Author" fallback="EB" />
           <PageInfo
             formattedDate={post.formattedDate}
             readingTimeMinutes={post.readingTimeMinutes}

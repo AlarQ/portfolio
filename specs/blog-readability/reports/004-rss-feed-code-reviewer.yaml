@@ -41,7 +41,7 @@ findings:
     category: deps-and-config
     title: New required SITE_URL env var is undocumented outside source comments
     description: >
-      SITE_URL is a new mandatory, build-breaking env var, documented only in a JSDoc comment in siteConfig.ts — no .env.example entry, no README/CONTEXT.md mention.
+      SITE_URL is a new mandatory, build-breaking env var, documented only in a JSDoc comment in siteConfig.ts - no .env.example entry, no README/CONTEXT.md mention.
 
     file: src/data/siteConfig.ts
     lines: "1-16"

@@ -3,14 +3,14 @@ import { buildProjectSet, filterProjectsWithBrief } from "./projectLoader";
 /**
  * A Project's build/delivery status. Presentation labels (`Exploring`,
  * `In progress`, `Shipped`) and tone resolution are owned by the presentation
- * seam (`projectPresentation.tsx`, task 003) — this module stays JSX/color/icon
+ * seam (`projectPresentation.tsx`, task 003) - this module stays JSX/color/icon
  * free (seam pattern, mirrors `posts.ts`/`domains.ts`).
  */
 export type Status = "exploring" | "in-progress" | "shipped";
 
 /**
  * Closed tech-stack vocabulary. Each key is resolved to a `BadgeCategory` hue
- * in the presentation seam (task 003) via an exhaustive `Record<TechKey, …>` —
+ * in the presentation seam (task 003) via an exhaustive `Record<TechKey, …>` -
  * a key outside this union is a compile error, never a runtime gap.
  */
 export type TechKey =
@@ -47,7 +47,7 @@ export interface ProjectRepo {
 
 /**
  * A single Project record: the domain data behind a Project summary card and
- * its Brief detail page. Authored directly in `projects` below — no CMS, no
+ * its Brief detail page. Authored directly in `projects` below - no CMS, no
  * MDX frontmatter parsing for this metadata (the Brief *body* is separate MDX
  * under `content/projects/`). Carries no JSX, color literal, or icon.
  */
@@ -64,7 +64,7 @@ export interface Project {
 }
 
 /**
- * The owner-curated, manually-ordered Project set — the single source of
+ * The owner-curated, manually-ordered Project set - the single source of
  * truth for the Project concept (FR-1) and, once run through
  * `buildProjectSet`, the authoritative validated slug set every downstream
  * layer consumes (FR-2). Array order is authoritative: the first entry is the
@@ -94,7 +94,7 @@ export const projects: readonly Project[] = [
     status: "in-progress",
     mvpProgress: 85,
     currentState:
-      "~320 commits, Docker deploy, JWT/Argon2 auth and OpenTelemetry tracing — the backbone behind Job Offer Box and the GTD app.",
+      "~320 commits, Docker deploy, JWT/Argon2 auth and OpenTelemetry tracing - the backbone behind Job Offer Box and the GTD app.",
     repos: [{ role: "backend", techKeys: ["rust", "axum", "postgres"] }],
     relatedPosts: [{ label: "Pour It Once", slug: "pour-it-once" }],
   },
@@ -102,7 +102,7 @@ export const projects: readonly Project[] = [
     title: "GTD App",
     slug: "gtd-app",
     tagline:
-      "A Getting-Things-Done PWA — quick capture, a 7-step processing wizard, and weekly review.",
+      "A Getting-Things-Done PWA - quick capture, a 7-step processing wizard, and weekly review.",
     status: "in-progress",
     mvpProgress: 60,
     currentState:
@@ -120,7 +120,7 @@ export const projects: readonly Project[] = [
     title: "Bondsmith",
     slug: "bondsmith",
     tagline:
-      "A spec-driven development workflow engine in Rust — phase contracts enforced in typed code, not by an LLM.",
+      "A spec-driven development workflow engine in Rust - phase contracts enforced in typed code, not by an LLM.",
     status: "in-progress",
     mvpProgress: 30,
     currentState:
@@ -132,7 +132,7 @@ export const projects: readonly Project[] = [
     title: "Potrzebnik",
     slug: "potrzebnik",
     tagline:
-      "A Next.js platform organized around 'needs' — public listings plus an authenticated management dashboard.",
+      "A Next.js platform organized around 'needs' - public listings plus an authenticated management dashboard.",
     status: "exploring",
     mvpProgress: 20,
     currentState:
@@ -149,7 +149,7 @@ export const projects: readonly Project[] = [
 ];
 
 /**
- * The validated, Brief-having Project set — computed once at module load so
+ * The validated, Brief-having Project set - computed once at module load so
  * `generateStaticParams`, `generateMetadata`, and the `/projects/[slug]` page
  * component all share a single `buildProjectSet`/`filterProjectsWithBrief`
  * pass instead of recomputing (and re-warning) on every call. Mirrors

@@ -67,8 +67,8 @@ The "not X, it's Y" structure, especially when repeated:
 
 - "It is not just about X, it's about Y"
 - "Not X specifically, but Y"
-- "The hardest part is not X — it is Y"
-- "This is not a nice-to-have — it is..."
+- "The hardest part is not X - it is Y"
+- "This is not a nice-to-have - it is..."
 
 One instance is fine. Two or more in the same text is a strong AI signal.
 
@@ -93,7 +93,7 @@ Citing unnamed sources to sound authoritative:
 
 ## 8. Overuse of Em Dashes
 
-AI uses em dashes (—) more often than most human writers, typically in a formulaic "punched up" sales-like way to emphasize a clause. Humans more commonly use commas or parentheses in the same spots.
+AI uses em dashes (-) more often than most human writers, typically in a formulaic "punched up" sales-like way to emphasize a clause. Humans more commonly use commas or parentheses in the same spots.
 
 ## 9. Passive and Weak Openers
 

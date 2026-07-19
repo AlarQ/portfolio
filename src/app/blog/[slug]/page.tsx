@@ -34,11 +34,11 @@ export default async function PostPage({ params }: PostPageProps) {
   // already-validated set, so only whitelisted paths can reach this call.
   const { default: PostBody } = await import(`../../../../content/posts/${slug}.mdx`);
 
-  // ToC derived from the same validated slug — no second slug gate (CLAUDE.md).
+  // ToC derived from the same validated slug - no second slug gate (CLAUDE.md).
   // pages/SinglePost owns the prose/ToC/nav layout; the route just hands off data.
   const toc = getPostToc(slug);
 
-  // Adjacency walks the loader's already-ordered, already-validated Post set —
+  // Adjacency walks the loader's already-ordered, already-validated Post set -
   // no independent slug source, no second gate (single slug-validation gate).
   const adjacency = getAdjacentPosts(getPosts(), slug);
 

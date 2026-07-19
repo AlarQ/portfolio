@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * Theme pill (Figma 614:396 dark / 614:974 light). The theme-appropriate
  * icon sits in a filled "knob" circle (the pill's inverse), driven purely by
  * semantic tokens + `dark:` variants. FR-7: wired to `next-themes`'
- * `setTheme` — activating it flips light↔dark via the `.dark` class
+ * `setTheme` - activating it flips light↔dark via the `.dark` class
  * mechanism. `className` merges onto the root so the mobile drawer can pass
  * positioning classes.
  */

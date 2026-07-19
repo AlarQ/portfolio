@@ -9,7 +9,7 @@ export interface TableOfContentsProps {
 }
 
 /**
- * Single source of truth for the ToC's accessible name — shared by this
+ * Single source of truth for the ToC's accessible name - shared by this
  * component, its unit test, and the route-level e2e contract
  * (`e2e/blog-toc.spec.ts`) so the string can't drift between levels.
  */
@@ -21,16 +21,16 @@ export const TOC_ACCESSIBLE_NAME = "Table of contents";
  * name stays hidden until its dot is hovered, keyboard-focused, or is the
  * scroll-spy-active section (`activeId`). Renders the build-time heading tree
  * (`TocEntry[]`) as a `<nav>` of in-page anchors, each linking to the `#id`
- * the single heading seam (rehype-slug, task 001) already rendered — it adds
+ * the single heading seam (rehype-slug, task 001) already rendered - it adds
  * no second heading render path (sec-toc-single-render-seam).
  *
  * The accessible name is exactly `Table of contents`, the contract
  * `e2e/blog-toc.spec.ts` asserts. Page-agnostic and token-bound: semantic
  * Tailwind utilities only, no router, and no scroll-spy/sticky here (the
- * client organism, `ArticleToc`, owns scroll-spy/progress/sticky — this
+ * client organism, `ArticleToc`, owns scroll-spy/progress/sticky - this
  * component only renders what it's told).
  *
- * Rail shows top-level (`##`, depth 2) sections only — `###` subsections are
+ * Rail shows top-level (`##`, depth 2) sections only - `###` subsections are
  * dropped here, not in the data layer, so `postToc.ts` still carries the full
  * tree for any future consumer that wants it.
  */

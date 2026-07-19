@@ -55,32 +55,32 @@ Compose the smaller Figma-specific elements (post card, newsletter, author-info,
 
 ## Approach
 - Compose Task 004's restyled primitives; no re-implementation (design.md `Bespoke → Primitives` one-way edge).
-- Representative-content stories (not exhaustive matrices — that's atoms-only per FR-7).
-- OWN the shared real-`Post` fixture: create `src/stories/fixtures/posts.ts` typed against the real `Post` from `src/data/posts.ts` (do not modify the type — FR-11). This is the single Post fixture; 006/007 import it, never invent ad-hoc Post shapes.
+- Representative-content stories (not exhaustive matrices - that's atoms-only per FR-7).
+- OWN the shared real-`Post` fixture: create `src/stories/fixtures/posts.ts` typed against the real `Post` from `src/data/posts.ts` (do not modify the type - FR-11). This is the single Post fixture; 006/007 import it, never invent ad-hoc Post shapes.
 
 ## Implementation Log
 
 chunks_spawned: 3
 
 **Chunk 1 (fixture + PostCard + AuthorInfo):**
-- Interface: `PostCard` takes a single `post: Post` prop (not destructured fields) per user confirmation. `AuthorInfo` takes minimal props `{ name, title?, avatarSrc?, fallback }` — renamed the initial `role` prop to `title` because Biome's `useValidAriaRole` a11y rule flagged a JSX prop literally named `role` as an (invalid) ARIA role attribute; `title` avoids the false-positive and reads just as well semantically.
+- Interface: `PostCard` takes a single `post: Post` prop (not destructured fields) per user confirmation. `AuthorInfo` takes minimal props `{ name, title?, avatarSrc?, fallback }` - renamed the initial `role` prop to `title` because Biome's `useValidAriaRole` a11y rule flagged a JSX prop literally named `role` as an (invalid) ARIA role attribute; `title` avoids the false-positive and reads just as well semantically.
 - `PostCard` wraps `next/link`'s `Link` around the shadcn `Card` (rather than giving `Card` an `asChild`/polymorphic prop, since Task 004's `Card` primitive has no `asChild` support and modifying it was out of scope).
-- Both molecules bind only to semantic Tailwind classes — zero raw hex/palette imports; `npm run lint` passes clean including `no-direct-palette-import`.
-- Tests follow the existing repo convention (`createRoot` + `act`, as in `previewThemeDecorator.test.tsx`) since `@testing-library/react` isn't a project dependency — no new dependency added.
+- Both molecules bind only to semantic Tailwind classes - zero raw hex/palette imports; `npm run lint` passes clean including `no-direct-palette-import`.
+- Tests follow the existing repo convention (`createRoot` + `act`, as in `previewThemeDecorator.test.tsx`) since `@testing-library/react` isn't a project dependency - no new dependency added.
 - Fixture `src/stories/fixtures/posts.ts` exports both `samplePost` (single) and `samplePosts` (array) typed against the real `Post`.
 
 **Chunk 2 (PageInfo + Conclusion + Newsletter):**
-- `PageInfo`: props `{ formattedDate: string; readingTimeMinutes: number; category?: string }` — reused `Post`'s existing field names, composed shadcn `Badge` for reading time + optional category, plain `<time>` for the date.
-- `Conclusion`: props `{ heading, body, ctaLabel?, ctaHref? }` — CTA composes shadcn `Button` with `asChild` wrapping a `next/link` `Link` (same pattern as PostCard's link usage), CTA optional (renders only when both label and href given).
-- `Newsletter`: props `{ heading, description?, ctaLabel? }` (default `"Subscribe"`) — composes shadcn `Input` (type=email) + `Button` inside a plain `<form>`, no submit handler wired (out of scope).
+- `PageInfo`: props `{ formattedDate: string; readingTimeMinutes: number; category?: string }` - reused `Post`'s existing field names, composed shadcn `Badge` for reading time + optional category, plain `<time>` for the date.
+- `Conclusion`: props `{ heading, body, ctaLabel?, ctaHref? }` - CTA composes shadcn `Button` with `asChild` wrapping a `next/link` `Link` (same pattern as PostCard's link usage), CTA optional (renders only when both label and href given).
+- `Newsletter`: props `{ heading, description?, ctaLabel? }` (default `"Subscribe"`) - composes shadcn `Input` (type=email) + `Button` inside a plain `<form>`, no submit handler wired (out of scope).
 - All three use `data-slot="badge"|"button"|"input"` selectors in tests, matching existing primitive markup.
 
 **Chunk 3 (AdsSpace + whole-diff refactor + final acceptance sweep):**
-- `AdsSpace`: zero-prop presentational placeholder per explicit user confirmation (no `slotId`/`variant` — YAGNI, no ad-network wiring). Composes shadcn `Card`/`CardContent` with `border-dashed`, renders literal `"Advertisement"` text.
-- Refactor: read the full task diff (662 lines). Found the `renderIntoDocument` DOM-mount test helper (+ `IS_REACT_ACT_ENVIRONMENT` bootstrap) copy-pasted verbatim across all 6 `.test.tsx` files — extracted to `src/components/ds/testUtils.tsx`, all 6 test files updated to import it. No other cross-molecule duplication reached the 3+ threshold (Card usage differs meaningfully between PostCard and AdsSpace; the CTA-via-asChild+Link pattern appears only once in Conclusion, so left alone).
-- Final acceptance sweep — all passing:
+- `AdsSpace`: zero-prop presentational placeholder per explicit user confirmation (no `slotId`/`variant` - YAGNI, no ad-network wiring). Composes shadcn `Card`/`CardContent` with `border-dashed`, renders literal `"Advertisement"` text.
+- Refactor: read the full task diff (662 lines). Found the `renderIntoDocument` DOM-mount test helper (+ `IS_REACT_ACT_ENVIRONMENT` bootstrap) copy-pasted verbatim across all 6 `.test.tsx` files - extracted to `src/components/ds/testUtils.tsx`, all 6 test files updated to import it. No other cross-molecule duplication reached the 3+ threshold (Card usage differs meaningfully between PostCard and AdsSpace; the CTA-via-asChild+Link pattern appears only once in Conclusion, so left alone).
+- Final acceptance sweep - all passing:
   - `npm run lint`: zero violations (incl. `no-direct-palette-import`) across all 6 molecules + fixture + testUtils.
   - `npm run type-check`: clean, confirms `posts.ts` fixture type-checks against the real `Post`.
-  - All 6 molecules have exactly one `Default` story each, titled `Molecules/<Name>` — matches Task 004's sidebar convention.
+  - All 6 molecules have exactly one `Default` story each, titled `Molecules/<Name>` - matches Task 004's sidebar convention.
   - `PostCard.stories.tsx` imports `samplePost` from `@/stories/fixtures/posts` (not an inline object).
   - `npx vitest run`: 175 passed / 1 skipped, no regressions anywhere in the repo.

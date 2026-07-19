@@ -10,7 +10,7 @@ export function clampMeterValue(value: number): number {
 
 /**
  * MVP-Progress meter atom (FR-6, D-8). The fill deliberately binds
- * `bg-primary` — NOT a Status hue (`bg-badge-*`/`bg-destructive`/etc.) — so
+ * `bg-primary` - NOT a Status hue (`bg-badge-*`/`bg-destructive`/etc.) - so
  * MVP Progress and Status read as two independent signals (spec.md
  * meter-legend-label). Legend/label content is Task 002 chunk 2, not here.
  */

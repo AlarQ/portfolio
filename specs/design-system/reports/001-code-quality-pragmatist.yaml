@@ -7,7 +7,7 @@ findings:
     category: maintainability
     title: Full Storybook build re-run in 3 places with no sharing
     description: >-
-      storybookBuild.test.ts, storybook-adapter.spec.ts and cascade-tie.spec.ts each invoke a fresh `storybook build` (the two e2e specs via storybookStaticServer, which still builds per call) — one boot-time assertion compiled 3x per CI run. Confirms/quantifies cq-001. Fix: build once in a Playwright globalSetup/vitest setup to a shared temp dir, or collapse storybookBuild.test.ts into the e2e adapter spec.
+      storybookBuild.test.ts, storybook-adapter.spec.ts and cascade-tie.spec.ts each invoke a fresh `storybook build` (the two e2e specs via storybookStaticServer, which still builds per call) - one boot-time assertion compiled 3x per CI run. Confirms/quantifies cq-001. Fix: build once in a Playwright globalSetup/vitest setup to a shared temp dir, or collapse storybookBuild.test.ts into the e2e adapter spec.
     file: src/storybook-tooling/storybookBuild.test.ts
     lines: null
     source: llm

@@ -15,7 +15,7 @@ export const Light: Story = {
 };
 
 /** Dark-active: per-story `theme` global drives the `withTheme` decorator
- * (see `.storybook/preview.tsx`) — the sun sits in the filled knob, moon is bare. */
+ * (see `.storybook/preview.tsx`) - the sun sits in the filled knob, moon is bare. */
 export const Dark: Story = {
   globals: { theme: "dark" },
 };

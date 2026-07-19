@@ -36,7 +36,7 @@ describe("Footer", () => {
     unmount();
   });
 
-  it("is prop-driven — renders custom links and copyright name", () => {
+  it("is prop-driven - renders custom links and copyright name", () => {
     const { container, unmount } = renderIntoDocument(
       <Footer links={[{ label: "Only", href: "#only", icon: "email" }]} copyrightName="Jane Doe" />
     );

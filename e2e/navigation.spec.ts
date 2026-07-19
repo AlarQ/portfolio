@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 /**
  * Navigation E2E against the single shadcn ds/Header (legacy MUI nav was
  * deleted). The site is blog-only: the nav exposes a single Blog link
- * pointed at "/" (the IA was inverted — the blog index now lives at "/" and
+ * pointed at "/" (the IA was inverted - the blog index now lives at "/" and
  * /blog 308-redirects there). Drawer mechanics (open/close/escape/backdrop)
  * and a11y are unchanged.
  */
@@ -54,7 +54,7 @@ test.describe("Navigation", () => {
 
       // Verify the drawer is not visible initially. The panel stays mounted
       // (it slides via a `translate-x` transform rather than unmounting), so
-      // its accessibility state — `aria-hidden` — is the source of truth, not
+      // its accessibility state - `aria-hidden` - is the source of truth, not
       // Playwright's `toBeVisible` (which ignores off-screen transforms).
       await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "true");
     });
@@ -94,7 +94,7 @@ test.describe("Navigation", () => {
       await page.click('button[aria-label="Open menu"]');
       await expect(page.locator("#mobile-menu")).toHaveAttribute("aria-hidden", "false");
 
-      // Click the Blog link in the drawer — the IA was inverted, so the Blog
+      // Click the Blog link in the drawer - the IA was inverted, so the Blog
       // nav item now points at the site root "/" (see src/data/navItems.ts).
       await page.click('#mobile-menu a[href="/"]');
 
@@ -105,7 +105,7 @@ test.describe("Navigation", () => {
     });
 
     // FR-6 (scenario author-nav-link): the same navItems.ts entry surfaces the
-    // Author link inside the mobile drawer — proving the single-source nav
+    // Author link inside the mobile drawer - proving the single-source nav
     // feeds both layouts.
     test("should show the Author link in the drawer", async ({ page }) => {
       await page.goto("/");
@@ -181,5 +181,5 @@ test.describe("Navigation", () => {
 // The former "Visual Effects" describe asserted the legacy MUI Navigation
 // component's own `backdrop-filter: blur(16px)` glass chrome. That component
 // was deleted in favor of the single shadcn ds/Header (task 006 lineage),
-// which has no equivalent blur/glassmorphism styling hook — so the test is
+// which has no equivalent blur/glassmorphism styling hook - so the test is
 // removed rather than ported; there is nothing behavioral left to assert.

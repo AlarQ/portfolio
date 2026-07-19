@@ -10,12 +10,12 @@ const CONTENT_PROJECTS_DIR = join(process.cwd(), "content", "projects");
  *
  * Validates every candidate's slug against the blog-identical
  * `^[a-z0-9-]+$` gate (FR-2, `./slug`). `projects.ts`'s owner-curated array is
- * authored directly in code — there is no filesystem read or frontmatter to
- * parse for this metadata — so the "raw input" here is simply the candidate
+ * authored directly in code - there is no filesystem read or frontmatter to
+ * parse for this metadata - so the "raw input" here is simply the candidate
  * `Project[]`. This is the single slug-validation gate for Projects, mirroring
  * `buildPostSet`: an invalid slug is skipped with a build warning and never
  * reaches a filesystem join (no `fs` import in this module). Filtering
- * preserves input order — the caller's declaration order is the authoritative
+ * preserves input order - the caller's declaration order is the authoritative
  * iteration order (first entry is the default-selected Project).
  */
 export function buildProjectSet(candidates: readonly Project[]): Project[] {
@@ -33,7 +33,7 @@ function isSlugValid(project: Project): boolean {
 /**
  * Checks whether an already-validated Project slug has a matching Brief body
  * under `content/projects/`. This is an EXISTENCE check for a single,
- * already-known candidate — never a directory scan (no `readdirSync`) — so it
+ * already-known candidate - never a directory scan (no `readdirSync`) - so it
  * cannot introduce a new slug into the route set; the enumerate-not-glob
  * authority stays solely with `buildProjectSet`/`projects.ts` (FR-8/FR-9).
  */
@@ -44,7 +44,7 @@ export function hasBrief(slug: string): boolean {
 /**
  * Filters an already-validated Project[] (`buildProjectSet` output) down to
  * those with a Brief body, warning once per Project skipped (FR-9,
- * missing-brief-warning) — mirrors the build-warning style of `isSlugValid`
+ * missing-brief-warning) - mirrors the build-warning style of `isSlugValid`
  * above / `postLoader.ts`'s `isSlugValid`. `briefExists` defaults to the real
  * filesystem check (`hasBrief`) but is injectable so this stays testable
  * without touching disk.
@@ -55,7 +55,7 @@ export function filterProjectsWithBrief(
 ): Project[] {
   return validatedProjects.filter((project) => {
     if (briefExists(project.slug)) return true;
-    console.warn(`[projects] no Brief found for "${project.slug}" — skipping its route`);
+    console.warn(`[projects] no Brief found for "${project.slug}" - skipping its route`);
     return false;
   });
 }

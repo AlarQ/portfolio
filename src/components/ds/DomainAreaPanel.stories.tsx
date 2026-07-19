@@ -38,17 +38,17 @@ export const Default: Story = {
   args: { domain: DOMAIN },
 };
 
-/** No Achievements — the Achievements group is omitted, not rendered blank. */
+/** No Achievements - the Achievements group is omitted, not rendered blank. */
 export const EmptyAchievements: Story = {
   args: { domain: { ...DOMAIN, achievements: [] } },
 };
 
-/** No Skills — the Skills group is omitted, not rendered blank. */
+/** No Skills - the Skills group is omitted, not rendered blank. */
 export const EmptySkills: Story = {
   args: { domain: { ...DOMAIN, skills: [] } },
 };
 
-/** Long achievement copy and many skills — checks wrapping and layout. */
+/** Long achievement copy and many skills - checks wrapping and layout. */
 export const LongContent: Story = {
   args: {
     domain: {

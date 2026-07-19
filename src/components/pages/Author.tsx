@@ -11,7 +11,7 @@ import { ownerProfile } from "@/data/profile";
 export interface AuthorProps {
   readonly posts: readonly Post[];
   /**
-   * Injected nav for the `Header` — supplied by the caller (the `/author`
+   * Injected nav for the `Header` - supplied by the caller (the `/author`
    * route passes the real `navItems`, stories pass a fixture) so this page
    * never depends on `src/stories/` and stays route-wireable, mirroring
    * `pages/Home`'s contract.
@@ -21,11 +21,11 @@ export interface AuthorProps {
 }
 
 /**
- * `Pages/Author` screen: a split layout — sticky identity rail (portrait,
+ * `Pages/Author` screen: a split layout - sticky identity rail (portrait,
  * name/title) beside a scrolling column of About, the
- * owner's Domain Areas (each a `DomainAreaPanel` — offering headline,
+ * owner's Domain Areas (each a `DomainAreaPanel` - offering headline,
  * Achievements, rated Skills), and the Posts list. Identity/bio come from
- * `src/data/profile.ts`; the Domain Areas from `src/data/domains.ts` — never
+ * `src/data/profile.ts`; the Domain Areas from `src/data/domains.ts` - never
  * hardcoded here (FR-6). Owns layout/ordering only; each organism owns its own
  * rendering.
  */

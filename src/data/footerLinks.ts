@@ -1,5 +1,5 @@
 /**
- * Footer link data for the site-wide `Footer` organism. Data tier only — no
+ * Footer link data for the site-wide `Footer` organism. Data tier only - no
  * JSX, no colors, no icon components. `FooterIconKey` is resolved to a concrete
  * icon element in the presentation seam (`utils/footerPresentation.tsx`).
  */
@@ -14,7 +14,7 @@ export interface FooterLink {
 /**
  * The `Footer` hardens external links automatically: any `href` beginning with
  * `http(s)` opens in a new tab with `rel="noopener noreferrer"`. There is no
- * per-link `external` flag to forget — protocol is the single source of truth.
+ * per-link `external` flag to forget - protocol is the single source of truth.
  */
 export const defaultFooterLinks: readonly FooterLink[] = [
   {

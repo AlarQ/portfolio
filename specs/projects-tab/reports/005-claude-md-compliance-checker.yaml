@@ -27,7 +27,7 @@ findings:
       Add a <script src="https://evil.example.com/x.js" /> / <iframe src="https://evil.example.com" />
       block to content/projects/portfolio-site.mdx (mirroring content/posts fixtures)
       so the assertion can actually fail if mdxPresentation.tsx's neutralizer
-      regresses. This mirrors the same gap already present in e2e/blog-security.spec.ts —
+      regresses. This mirrors the same gap already present in e2e/blog-security.spec.ts -
       consider fixing both together.
     rationale: A negative assertion that can never fail provides false-positive coverage in the FR-to-test map for FR-9's security scenario.
     impact: A regression in mdxPresentation.tsx's script/iframe neutralizer (e.g. an exhaustive Record losing an entry) would ship undetected by this suite.

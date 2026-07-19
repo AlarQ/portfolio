@@ -7,7 +7,7 @@ findings:
     category: threshold-magic
     title: Threshold value justified only by fitting the example, not a real design decision
     description: >
-      LOW_MVP_PROGRESS_THRESHOLD = 10 is chosen (per the task file's own notes) to be "the smallest round threshold that satisfies [mvpProgress:5 must be muted] without being arbitrary noise like 7 or 12" — i.e. reverse-engineered from a single test example rather than derived from any product/design requirement. This is exactly the kind of unexplained magic-number threshold that later needs re-justifying when someone asks "why 10 and not 15 or 20?".
+      LOW_MVP_PROGRESS_THRESHOLD = 10 is chosen (per the task file's own notes) to be "the smallest round threshold that satisfies [mvpProgress:5 must be muted] without being arbitrary noise like 7 or 12" - i.e. reverse-engineered from a single test example rather than derived from any product/design requirement. This is exactly the kind of unexplained magic-number threshold that later needs re-justifying when someone asks "why 10 and not 15 or 20?".
 
     file: src/utils/projectPresentation.tsx
     lines: "27-27"
@@ -18,7 +18,7 @@ findings:
     rationale: >
       frontend/components.md and general code-quality prelude favor explicit, justified constants over incidental ones; a threshold justified purely by "not looking arbitrary" is itself a smell.
 
-    impact: Low — cosmetic risk only; someone may need to revisit the threshold later without real guidance on why 10 was picked.
+    impact: Low - cosmetic risk only; someone may need to revisit the threshold later without real guidance on why 10 was picked.
     references: ["frontend/components.md"]
     confidence: medium
     review_status: accepted
@@ -29,7 +29,7 @@ findings:
     category: dry-violation
     title: mvpProgress muted-tone branch duplicated by call-site pass-through, not centralized guard
     description: >
-      Both ProjectSummary.tsx and ProjectTabStrip.tsx now pass `project.mvpProgress` positionally to `projectPresentation`. This is fine and matches the seam pattern, but there is no compile-time link ensuring every future consumer of `projectPresentation` remembers to forward `mvpProgress` — a new call site that omits the second argument silently reverts to un-muted behavior with no lint/type signal. This is a minor "premature-optional-param" smell: an easy way to forget the muting rule.
+      Both ProjectSummary.tsx and ProjectTabStrip.tsx now pass `project.mvpProgress` positionally to `projectPresentation`. This is fine and matches the seam pattern, but there is no compile-time link ensuring every future consumer of `projectPresentation` remembers to forward `mvpProgress` - a new call site that omits the second argument silently reverts to un-muted behavior with no lint/type signal. This is a minor "premature-optional-param" smell: an easy way to forget the muting rule.
 
     file: src/utils/projectPresentation.tsx
     lines: "39-43"
@@ -45,11 +45,11 @@ findings:
     rationale: >
       languages/typescript/type-safety.md favors encoding invariants in types; optional trailing params are easy to silently omit at new call sites.
 
-    impact: Low — a future third consumer could ship un-muted low-mvpProgress projects without any error, only a behavioral bug caught in review/QA.
+    impact: Low - a future third consumer could ship un-muted low-mvpProgress projects without any error, only a behavioral bug caught in review/QA.
     references: ["languages/typescript/type-safety.md"]
     confidence: low
     review_status: rejected
-    review_notes: "Rejected — optional/not required; only two call sites exist and the finding itself says the Pick<> refactor is a nice-to-have. Keep the simple (status, mvpProgress?) signature; revisit if a 3rd consumer appears. Not promoted to KB."
+    review_notes: "Rejected - optional/not required; only two call sites exist and the finding itself says the Pick<> refactor is a nice-to-have. Keep the simple (status, mvpProgress?) signature; revisit if a 3rd consumer appears. Not promoted to KB."
     source: llm
   - id: cqp-3
     severity: info
@@ -67,7 +67,7 @@ findings:
     rationale: >
       Small, focused changesets are easier to review and revert; mixing unrelated infra changes with a targeted bugfix violates the "small PR" spirit even though neither part is over-engineered on its own.
 
-    impact: Low — no functional risk, but harder git-blame/revert story if the coverage gate needs to be rolled back independently of the mvpProgress fix.
+    impact: Low - no functional risk, but harder git-blame/revert story if the coverage gate needs to be rolled back independently of the mvpProgress fix.
     references: ["testing/structure.md"]
     confidence: medium
     review_status: noted

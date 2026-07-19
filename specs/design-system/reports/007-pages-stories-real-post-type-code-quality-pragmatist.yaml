@@ -11,13 +11,13 @@ findings:
       `Pages.viewport.test.ts` asserts every story's `Mobile` export carries
       `parameters.viewport.defaultViewport === "iphone15"`. The code comment in
       `.storybook/preview.tsx` admits `@storybook/addon-viewport` is not installed, so this
-      viewport parameter is "inert config data" — Storybook will not actually resize the
+      viewport parameter is "inert config data" - Storybook will not actually resize the
       canvas to 390x844 for these stories. The test therefore proves a JS object shape, not
       that "its layout matches the Figma iPhone 15 mobile frame" as acceptance row 5 requires.
     file: .storybook/preview.tsx
     lines: "35-49"
     code_snippet: |
-      // No `@storybook/addon-viewport` is installed — this is inert config data
+      // No `@storybook/addon-viewport` is installed - this is inert config data
       // consumed only if that addon is later added
     fix_proposal: >
       Either install `@storybook/addon-viewport` (or Storybook's built-in viewport addon for
@@ -27,7 +27,7 @@ findings:
       a passing green test whose name overstates what it checks.
     rationale: >
       testing/principles.md requires testing real behavior. A test asserting object-shape
-      equality on unused config is a false-confidence signal — it will stay green forever
+      equality on unused config is a false-confidence signal - it will stay green forever
       even if the mobile layout regresses, because nothing ever renders at that viewport.
     impact: >
       Future readers (and the task's own acceptance table) will believe mobile reflow is
@@ -65,18 +65,18 @@ findings:
       TypeScript-level check that each Pages component's tree only renders imported
       `@/components/ds/*` elements (already partly proven by the existing render tests in
       `Home.test.tsx` etc. via `renderIntoDocument` + `container.querySelector`), and drop the
-      copy-string markers entirely — a copy change in `AdsSpace` or `PostCard` has nothing to
+      copy-string markers entirely - a copy change in `AdsSpace` or `PostCard` has nothing to
       do with whether `Pages/*` reimplements markup, and will falsely fail this test forever.
     rationale: >
       testing/principles.md: "test behavior, not implementation." Regex-scanning raw source
       text for someone else's copy strings tests neither this module's behavior nor its
-      structure — it tests accidental textual coincidence, and creates a maintenance trap
+      structure - it tests accidental textual coincidence, and creates a maintenance trap
       where unrelated modules can break this test.
     impact: >
       Any future copywriting change to `AdsSpace` or `PostCard` (owned by task 006, unrelated
       to this pack) will fail `Pages.structure.test.ts` with a confusing, unrelated error;
       conversely a real reimplementation using different but equivalent copy would pass
-      undetected — the test is both over- and under-sensitive.
+      undetected - the test is both over- and under-sensitive.
     references:
       - "testing/principles.md"
     confidence: high
@@ -91,7 +91,7 @@ findings:
       `Pages.fixtures.test.ts` adds a `SECRET_MARKERS` scan (`process.env`, `.env`, `API_KEY`,
       `SECRET`, `PASSWORD`, `TOKEN`, `Bearer `) over the committed, hand-written
       `src/stories/fixtures/posts.ts` and the four story files. Per this repo's own CLAUDE.md,
-      "Content is self-authored static data — there is no CMS, no database, no external
+      "Content is self-authored static data - there is no CMS, no database, no external
       input"; these fixtures are literal object literals the same author writes and reviews
       in the PR diff itself.
     file: src/components/pages/Pages.fixtures.test.ts
@@ -129,7 +129,7 @@ findings:
     file: src/components/pages/Home.stories.tsx
     lines: "31-49"
     code_snippet: |
-      // @ts-expect-error — Post requires `published`; omitting it must not compile.
+      // @ts-expect-error - Post requires `published`; omitting it must not compile.
       const invalidPost: Post = { ... };
       void invalidPost;
     fix_proposal: >
@@ -142,7 +142,7 @@ findings:
       and rendering variants for Storybook; embedding an unused, suppressed, dead-code type
       fixture mixes a type-safety test into a rendering artifact.
     impact: >
-      Low — cosmetic/organizational only; mild risk of a future refactor accidentally deleting
+      Low - cosmetic/organizational only; mild risk of a future refactor accidentally deleting
       or breaking the guard without noticing since it isn't grouped with the other guard tests
       (`Pages.fixtures.test.ts` already documents/verifies this same guardrail by scanning for
       its presence).

@@ -8,7 +8,7 @@ findings:
     title: accentBylineDark fails WCAG AA contrast against backgroundDark
     description: >
       frontend/accessibility.md (MUST: text/UI elements meet WCAG AA contrast
-      minimums) — accentBylineDark (#6941c6) against backgroundDark (#090d1f)
+      minimums) - accentBylineDark (#6941c6) against backgroundDark (#090d1f)
       computes to a ~2.91:1 contrast ratio, below the 4.5:1 AA threshold for
       normal text and even below the 3:1 threshold for large text/UI
       components. The task log states this value is a hand-pinned, unchanged

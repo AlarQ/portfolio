@@ -6,7 +6,7 @@ findings:
     severity: medium
     category: testing
     title: '[chromium] Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport'
-    description: 'Playwright test failed: e2e/blog.spec.ts:110 — Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport (project: chromium)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:110 - Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport (project: chromium)'
     file: e2e/blog.spec.ts
     lines: '110'
     source: tool
@@ -16,7 +16,7 @@ findings:
     severity: medium
     category: testing
     title: '[chromium] RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post'
-    description: 'Playwright test failed: e2e/feed.spec.ts:12 — RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post (project: chromium)'
+    description: 'Playwright test failed: e2e/feed.spec.ts:12 - RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post (project: chromium)'
     file: e2e/feed.spec.ts
     lines: '12'
     source: tool
@@ -26,7 +26,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view'
-    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:19 — Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:19 - Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view (project: firefox)'
     file: e2e/blog-anchors.spec.ts
     lines: '19'
     source: tool
@@ -36,7 +36,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog Post detail › renders the authored MDX body as HTML'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:15 — Blog Post detail › renders the authored MDX body as HTML (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:15 - Blog Post detail › renders the authored MDX body as HTML (project: firefox)'
     file: e2e/blog-detail.spec.ts
     lines: '15'
     source: tool
@@ -46,7 +46,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash'
-    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:32 — Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:32 - Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash (project: firefox)'
     file: e2e/blog-anchors.spec.ts
     lines: '32'
     source: tool
@@ -56,7 +56,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog Post detail › does not leak raw frontmatter into the rendered body'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:36 — Blog Post detail › does not leak raw frontmatter into the rendered body (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:36 - Blog Post detail › does not leak raw frontmatter into the rendered body (project: firefox)'
     file: e2e/blog-detail.spec.ts
     lines: '36'
     source: tool
@@ -66,7 +66,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:56 — Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:56 - Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images (project: firefox)'
     file: e2e/blog-detail.spec.ts
     lines: '56'
     source: tool
@@ -76,7 +76,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS'
-    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:19 — Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:19 - Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS (project: firefox)'
     file: e2e/blog-highlighting.spec.ts
     lines: '19'
     source: tool
@@ -86,7 +86,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog Post detail › returns the not-found response for a slug not in the Post set'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:81 — Blog Post detail › returns the not-found response for a slug not in the Post set (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:81 - Blog Post detail › returns the not-found response for a slug not in the Post set (project: firefox)'
     file: e2e/blog-detail.spec.ts
     lines: '81'
     source: tool
@@ -96,7 +96,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand)'
-    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:45 — Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand) (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:45 - Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand) (project: firefox)'
     file: e2e/blog-highlighting.spec.ts
     lines: '45'
     source: tool
@@ -106,7 +106,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs'
-    description: 'Playwright test failed: e2e/blog-nav.spec.ts:20 — Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-nav.spec.ts:20 - Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs (project: firefox)'
     file: e2e/blog-nav.spec.ts
     lines: '20'
     source: tool
@@ -116,7 +116,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank'
-    description: 'Playwright test failed: e2e/blog-security.spec.ts:17 — Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-security.spec.ts:17 - Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank (project: firefox)'
     file: e2e/blog-security.spec.ts
     lines: '17'
     source: tool
@@ -126,7 +126,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components'
-    description: 'Playwright test failed: e2e/blog-mdx-mapping.spec.ts:13 — Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-mdx-mapping.spec.ts:13 - Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components (project: firefox)'
     file: e2e/blog-mdx-mapping.spec.ts
     lines: '13'
     source: tool
@@ -136,7 +136,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog MDX body security › no third-party script or iframe is injected into the article'
-    description: 'Playwright test failed: e2e/blog-security.spec.ts:32 — Blog MDX body security › no third-party script or iframe is injected into the article (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-security.spec.ts:32 - Blog MDX body security › no third-party script or iframe is injected into the article (project: firefox)'
     file: e2e/blog-security.spec.ts
     lines: '32'
     source: tool
@@ -146,7 +146,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id'
-    description: 'Playwright test failed: e2e/blog-toc.spec.ts:46 — Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-toc.spec.ts:46 - Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id (project: firefox)'
     file: e2e/blog-toc.spec.ts
     lines: '46'
     source: tool
@@ -156,7 +156,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width'
-    description: 'Playwright test failed: e2e/blog-toc.spec.ts:67 — Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-toc.spec.ts:67 - Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width (project: firefox)'
     file: e2e/blog-toc.spec.ts
     lines: '67'
     source: tool
@@ -166,7 +166,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky'
-    description: 'Playwright test failed: e2e/blog-toc.spec.ts:19 — Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky (project: firefox)'
+    description: 'Playwright test failed: e2e/blog-toc.spec.ts:19 - Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky (project: firefox)'
     file: e2e/blog-toc.spec.ts
     lines: '19'
     source: tool
@@ -176,7 +176,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog index › lists the published Post'
-    description: 'Playwright test failed: e2e/blog.spec.ts:18 — Blog index › lists the published Post (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:18 - Blog index › lists the published Post (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '18'
     source: tool
@@ -186,7 +186,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog index › shows each item''s title, dek, date, and reading time'
-    description: 'Playwright test failed: e2e/blog.spec.ts:25 — Blog index › shows each item''s title, dek, date, and reading time (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:25 - Blog index › shows each item''s title, dek, date, and reading time (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '25'
     source: tool
@@ -196,7 +196,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog index › renders the lone Post as the featured item, not an empty section'
-    description: 'Playwright test failed: e2e/blog.spec.ts:41 — Blog index › renders the lone Post as the featured item, not an empty section (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:41 - Blog index › renders the lone Post as the featured item, not an empty section (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '41'
     source: tool
@@ -206,7 +206,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog navigation › shows a Blog entry in the desktop nav'
-    description: 'Playwright test failed: e2e/blog.spec.ts:51 — Blog navigation › shows a Blog entry in the desktop nav (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:51 - Blog navigation › shows a Blog entry in the desktop nav (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '51'
     source: tool
@@ -216,7 +216,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog navigation › shows a Blog entry in the mobile drawer'
-    description: 'Playwright test failed: e2e/blog.spec.ts:59 — Blog navigation › shows a Blog entry in the mobile drawer (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:59 - Blog navigation › shows a Blog entry in the mobile drawer (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '59'
     source: tool
@@ -226,7 +226,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog navigation › marks the Blog entry active on /blog'
-    description: 'Playwright test failed: e2e/blog.spec.ts:74 — Blog navigation › marks the Blog entry active on /blog (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:74 - Blog navigation › marks the Blog entry active on /blog (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '74'
     source: tool
@@ -236,7 +236,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Blog navigation › marks the Blog entry active on a Post detail route'
-    description: 'Playwright test failed: e2e/blog.spec.ts:84 — Blog navigation › marks the Blog entry active on a Post detail route (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:84 - Blog navigation › marks the Blog entry active on a Post detail route (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '84'
     source: tool
@@ -246,7 +246,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Post detail readability & a11y › sets the document title from the Post title via generateMetadata'
-    description: 'Playwright test failed: e2e/blog.spec.ts:103 — Post detail readability & a11y › sets the document title from the Post title via generateMetadata (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:103 - Post detail readability & a11y › sets the document title from the Post title via generateMetadata (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '103'
     source: tool
@@ -256,7 +256,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport'
-    description: 'Playwright test failed: e2e/blog.spec.ts:110 — Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:110 - Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '110'
     source: tool
@@ -266,7 +266,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport'
-    description: 'Playwright test failed: e2e/blog.spec.ts:134 — Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:134 - Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '134'
     source: tool
@@ -276,7 +276,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips'
-    description: 'Playwright test failed: e2e/blog.spec.ts:180 — Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:180 - Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '180'
     source: tool
@@ -286,7 +286,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll'
-    description: 'Playwright test failed: e2e/blog.spec.ts:161 — Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:161 - Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '161'
     source: tool
@@ -296,7 +296,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg)'
-    description: 'Playwright test failed: e2e/blog.spec.ts:200 — Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg) (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:200 - Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg) (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '200'
     source: tool
@@ -306,7 +306,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus'
-    description: 'Playwright test failed: e2e/blog.spec.ts:228 — Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:228 - Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '228'
     source: tool
@@ -316,7 +316,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion'
-    description: 'Playwright test failed: e2e/blog.spec.ts:250 — Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion (project: firefox)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:250 - Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion (project: firefox)'
     file: e2e/blog.spec.ts
     lines: '250'
     source: tool
@@ -326,7 +326,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] MUI/Tailwind coexistence (ADR-DS-2) › MUI styles are wrapped in @layer mui, declared last for cascade priority'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:17 — MUI/Tailwind coexistence (ADR-DS-2) › MUI styles are wrapped in @layer mui, declared last for cascade priority (project: firefox)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:17 - MUI/Tailwind coexistence (ADR-DS-2) › MUI styles are wrapped in @layer mui, declared last for cascade priority (project: firefox)'
     file: e2e/coexistence.spec.ts
     lines: '17'
     source: tool
@@ -336,7 +336,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] MUI/Tailwind coexistence (ADR-DS-2) › CssBaseline keeps body margin reset to 0 with Tailwind loaded'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:63 — MUI/Tailwind coexistence (ADR-DS-2) › CssBaseline keeps body margin reset to 0 with Tailwind loaded (project: firefox)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:63 - MUI/Tailwind coexistence (ADR-DS-2) › CssBaseline keeps body margin reset to 0 with Tailwind loaded (project: firefox)'
     file: e2e/coexistence.spec.ts
     lines: '63'
     source: tool
@@ -346,7 +346,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] existing routes render without regression (FR-1) › / redirects to /blog and renders without regression'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:99 — existing routes render without regression (FR-1) › / redirects to /blog and renders without regression (project: firefox)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:99 - existing routes render without regression (FR-1) › / redirects to /blog and renders without regression (project: firefox)'
     file: e2e/coexistence.spec.ts
     lines: '99'
     source: tool
@@ -356,7 +356,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] existing routes render without regression (FR-1) › /projects remains an intentional 404, no regression to a live route'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:110 — existing routes render without regression (FR-1) › /projects remains an intentional 404, no regression to a live route (project: firefox)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:110 - existing routes render without regression (FR-1) › /projects remains an intentional 404, no regression to a live route (project: firefox)'
     file: e2e/coexistence.spec.ts
     lines: '110'
     source: tool
@@ -366,7 +366,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] existing routes render without regression (FR-1) › /blog renders without console/page errors'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:115 — existing routes render without regression (FR-1) › /blog renders without console/page errors (project: firefox)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:115 - existing routes render without regression (FR-1) › /blog renders without console/page errors (project: firefox)'
     file: e2e/coexistence.spec.ts
     lines: '115'
     source: tool
@@ -376,7 +376,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:125 — existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors (project: firefox)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:125 - existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors (project: firefox)'
     file: e2e/coexistence.spec.ts
     lines: '125'
     source: tool
@@ -386,7 +386,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post'
-    description: 'Playwright test failed: e2e/feed.spec.ts:12 — RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post (project: firefox)'
+    description: 'Playwright test failed: e2e/feed.spec.ts:12 - RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post (project: firefox)'
     file: e2e/feed.spec.ts
     lines: '12'
     source: tool
@@ -396,7 +396,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Root route › redirects / to /blog'
-    description: 'Playwright test failed: e2e/home.spec.ts:12 — Root route › redirects / to /blog (project: firefox)'
+    description: 'Playwright test failed: e2e/home.spec.ts:12 - Root route › redirects / to /blog (project: firefox)'
     file: e2e/home.spec.ts
     lines: '12'
     source: tool
@@ -406,7 +406,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Desktop Navigation › should display the Blog navigation link'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:15 — Navigation › Desktop Navigation › should display the Blog navigation link (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:15 - Navigation › Desktop Navigation › should display the Blog navigation link (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '15'
     source: tool
@@ -416,7 +416,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Desktop Navigation › should mark the Blog link active on /blog'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:23 — Navigation › Desktop Navigation › should mark the Blog link active on /blog (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:23 - Navigation › Desktop Navigation › should mark the Blog link active on /blog (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '23'
     source: tool
@@ -426,7 +426,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Mobile Navigation › should display hamburger button'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:38 — Navigation › Mobile Navigation › should display hamburger button (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:38 - Navigation › Mobile Navigation › should display hamburger button (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '38'
     source: tool
@@ -436,7 +436,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Mobile Navigation › should open and close drawer'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:48 — Navigation › Mobile Navigation › should open and close drawer (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:48 - Navigation › Mobile Navigation › should open and close drawer (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '48'
     source: tool
@@ -446,7 +446,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Mobile Navigation › should navigate from drawer'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:72 — Navigation › Mobile Navigation › should navigate from drawer (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:72 - Navigation › Mobile Navigation › should navigate from drawer (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '72'
     source: tool
@@ -456,7 +456,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Mobile Navigation › should close drawer on backdrop click'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:87 — Navigation › Mobile Navigation › should close drawer on backdrop click (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:87 - Navigation › Mobile Navigation › should close drawer on backdrop click (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '87'
     source: tool
@@ -466,7 +466,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Mobile Navigation › should close drawer on Escape key'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:103 — Navigation › Mobile Navigation › should close drawer on Escape key (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:103 - Navigation › Mobile Navigation › should close drawer on Escape key (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '103'
     source: tool
@@ -476,7 +476,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Keyboard Navigation › should navigate links with Tab key on desktop'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:121 — Navigation › Keyboard Navigation › should navigate links with Tab key on desktop (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:121 - Navigation › Keyboard Navigation › should navigate links with Tab key on desktop (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '121'
     source: tool
@@ -486,7 +486,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Keyboard Navigation › should focus first link when mobile drawer opens'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:143 — Navigation › Keyboard Navigation › should focus first link when mobile drawer opens (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:143 - Navigation › Keyboard Navigation › should focus first link when mobile drawer opens (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '143'
     source: tool
@@ -496,7 +496,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Accessibility › should have nav landmark'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:177 — Navigation › Accessibility › should have nav landmark (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:177 - Navigation › Accessibility › should have nav landmark (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '177'
     source: tool
@@ -506,7 +506,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Accessibility › should have proper ARIA attributes'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:159 — Navigation › Accessibility › should have proper ARIA attributes (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:159 - Navigation › Accessibility › should have proper ARIA attributes (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '159'
     source: tool
@@ -516,7 +516,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Accessibility › should have aria-current on active page'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:185 — Navigation › Accessibility › should have aria-current on active page (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:185 - Navigation › Accessibility › should have aria-current on active page (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '185'
     source: tool
@@ -526,7 +526,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Navigation › Visual Effects › should have glassmorphism styling'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:201 — Navigation › Visual Effects › should have glassmorphism styling (project: firefox)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:201 - Navigation › Visual Effects › should have glassmorphism styling (project: firefox)'
     file: e2e/navigation.spec.ts
     lines: '201'
     source: tool
@@ -536,7 +536,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] Projects route › returns the not-found response for /projects'
-    description: 'Playwright test failed: e2e/projects.spec.ts:12 — Projects route › returns the not-found response for /projects (project: firefox)'
+    description: 'Playwright test failed: e2e/projects.spec.ts:12 - Projects route › returns the not-found response for /projects (project: firefox)'
     file: e2e/projects.spec.ts
     lines: '12'
     source: tool
@@ -546,7 +546,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view'
-    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:19 — Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:19 - Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view (project: webkit)'
     file: e2e/blog-anchors.spec.ts
     lines: '19'
     source: tool
@@ -556,7 +556,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash'
-    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:32 — Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:32 - Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash (project: webkit)'
     file: e2e/blog-anchors.spec.ts
     lines: '32'
     source: tool
@@ -566,7 +566,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog Post detail › renders the authored MDX body as HTML'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:15 — Blog Post detail › renders the authored MDX body as HTML (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:15 - Blog Post detail › renders the authored MDX body as HTML (project: webkit)'
     file: e2e/blog-detail.spec.ts
     lines: '15'
     source: tool
@@ -576,7 +576,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog Post detail › does not leak raw frontmatter into the rendered body'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:36 — Blog Post detail › does not leak raw frontmatter into the rendered body (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:36 - Blog Post detail › does not leak raw frontmatter into the rendered body (project: webkit)'
     file: e2e/blog-detail.spec.ts
     lines: '36'
     source: tool
@@ -586,7 +586,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:56 — Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:56 - Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images (project: webkit)'
     file: e2e/blog-detail.spec.ts
     lines: '56'
     source: tool
@@ -596,7 +596,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog Post detail › returns the not-found response for a slug not in the Post set'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:81 — Blog Post detail › returns the not-found response for a slug not in the Post set (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:81 - Blog Post detail › returns the not-found response for a slug not in the Post set (project: webkit)'
     file: e2e/blog-detail.spec.ts
     lines: '81'
     source: tool
@@ -606,7 +606,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS'
-    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:19 — Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:19 - Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS (project: webkit)'
     file: e2e/blog-highlighting.spec.ts
     lines: '19'
     source: tool
@@ -616,7 +616,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand)'
-    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:45 — Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand) (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:45 - Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand) (project: webkit)'
     file: e2e/blog-highlighting.spec.ts
     lines: '45'
     source: tool
@@ -626,7 +626,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components'
-    description: 'Playwright test failed: e2e/blog-mdx-mapping.spec.ts:13 — Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-mdx-mapping.spec.ts:13 - Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components (project: webkit)'
     file: e2e/blog-mdx-mapping.spec.ts
     lines: '13'
     source: tool
@@ -636,7 +636,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs'
-    description: 'Playwright test failed: e2e/blog-nav.spec.ts:20 — Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-nav.spec.ts:20 - Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs (project: webkit)'
     file: e2e/blog-nav.spec.ts
     lines: '20'
     source: tool
@@ -646,7 +646,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank'
-    description: 'Playwright test failed: e2e/blog-security.spec.ts:17 — Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-security.spec.ts:17 - Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank (project: webkit)'
     file: e2e/blog-security.spec.ts
     lines: '17'
     source: tool
@@ -656,7 +656,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog MDX body security › no third-party script or iframe is injected into the article'
-    description: 'Playwright test failed: e2e/blog-security.spec.ts:32 — Blog MDX body security › no third-party script or iframe is injected into the article (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-security.spec.ts:32 - Blog MDX body security › no third-party script or iframe is injected into the article (project: webkit)'
     file: e2e/blog-security.spec.ts
     lines: '32'
     source: tool
@@ -666,7 +666,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky'
-    description: 'Playwright test failed: e2e/blog-toc.spec.ts:19 — Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-toc.spec.ts:19 - Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky (project: webkit)'
     file: e2e/blog-toc.spec.ts
     lines: '19'
     source: tool
@@ -676,7 +676,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id'
-    description: 'Playwright test failed: e2e/blog-toc.spec.ts:46 — Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-toc.spec.ts:46 - Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id (project: webkit)'
     file: e2e/blog-toc.spec.ts
     lines: '46'
     source: tool
@@ -686,7 +686,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width'
-    description: 'Playwright test failed: e2e/blog-toc.spec.ts:67 — Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width (project: webkit)'
+    description: 'Playwright test failed: e2e/blog-toc.spec.ts:67 - Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width (project: webkit)'
     file: e2e/blog-toc.spec.ts
     lines: '67'
     source: tool
@@ -696,7 +696,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog index › lists the published Post'
-    description: 'Playwright test failed: e2e/blog.spec.ts:18 — Blog index › lists the published Post (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:18 - Blog index › lists the published Post (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '18'
     source: tool
@@ -706,7 +706,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog index › shows each item''s title, dek, date, and reading time'
-    description: 'Playwright test failed: e2e/blog.spec.ts:25 — Blog index › shows each item''s title, dek, date, and reading time (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:25 - Blog index › shows each item''s title, dek, date, and reading time (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '25'
     source: tool
@@ -716,7 +716,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog index › renders the lone Post as the featured item, not an empty section'
-    description: 'Playwright test failed: e2e/blog.spec.ts:41 — Blog index › renders the lone Post as the featured item, not an empty section (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:41 - Blog index › renders the lone Post as the featured item, not an empty section (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '41'
     source: tool
@@ -726,7 +726,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog navigation › shows a Blog entry in the mobile drawer'
-    description: 'Playwright test failed: e2e/blog.spec.ts:59 — Blog navigation › shows a Blog entry in the mobile drawer (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:59 - Blog navigation › shows a Blog entry in the mobile drawer (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '59'
     source: tool
@@ -736,7 +736,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog navigation › shows a Blog entry in the desktop nav'
-    description: 'Playwright test failed: e2e/blog.spec.ts:51 — Blog navigation › shows a Blog entry in the desktop nav (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:51 - Blog navigation › shows a Blog entry in the desktop nav (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '51'
     source: tool
@@ -746,7 +746,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog navigation › marks the Blog entry active on /blog'
-    description: 'Playwright test failed: e2e/blog.spec.ts:74 — Blog navigation › marks the Blog entry active on /blog (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:74 - Blog navigation › marks the Blog entry active on /blog (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '74'
     source: tool
@@ -756,7 +756,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] MUI sx background wins the cascade tie against a colliding Tailwind utility class'
-    description: 'Playwright test failed: e2e/cascade-tie.spec.ts:30 — MUI sx background wins the cascade tie against a colliding Tailwind utility class (project: firefox)'
+    description: 'Playwright test failed: e2e/cascade-tie.spec.ts:30 - MUI sx background wins the cascade tie against a colliding Tailwind utility class (project: firefox)'
     file: e2e/cascade-tie.spec.ts
     lines: '30'
     source: tool
@@ -766,7 +766,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Blog navigation › marks the Blog entry active on a Post detail route'
-    description: 'Playwright test failed: e2e/blog.spec.ts:84 — Blog navigation › marks the Blog entry active on a Post detail route (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:84 - Blog navigation › marks the Blog entry active on a Post detail route (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '84'
     source: tool
@@ -776,7 +776,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport'
-    description: 'Playwright test failed: e2e/blog.spec.ts:110 — Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:110 - Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '110'
     source: tool
@@ -786,7 +786,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Post detail readability & a11y › sets the document title from the Post title via generateMetadata'
-    description: 'Playwright test failed: e2e/blog.spec.ts:103 — Post detail readability & a11y › sets the document title from the Post title via generateMetadata (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:103 - Post detail readability & a11y › sets the document title from the Post title via generateMetadata (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '103'
     source: tool
@@ -796,7 +796,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport'
-    description: 'Playwright test failed: e2e/blog.spec.ts:134 — Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:134 - Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '134'
     source: tool
@@ -806,7 +806,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll'
-    description: 'Playwright test failed: e2e/blog.spec.ts:161 — Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:161 - Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '161'
     source: tool
@@ -816,7 +816,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips'
-    description: 'Playwright test failed: e2e/blog.spec.ts:180 — Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:180 - Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '180'
     source: tool
@@ -826,7 +826,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg)'
-    description: 'Playwright test failed: e2e/blog.spec.ts:200 — Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg) (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:200 - Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg) (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '200'
     source: tool
@@ -836,7 +836,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus'
-    description: 'Playwright test failed: e2e/blog.spec.ts:228 — Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:228 - Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '228'
     source: tool
@@ -846,7 +846,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion'
-    description: 'Playwright test failed: e2e/blog.spec.ts:250 — Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion (project: webkit)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:250 - Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion (project: webkit)'
     file: e2e/blog.spec.ts
     lines: '250'
     source: tool
@@ -856,7 +856,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] MUI/Tailwind coexistence (ADR-DS-2) › MUI styles are wrapped in @layer mui, declared last for cascade priority'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:17 — MUI/Tailwind coexistence (ADR-DS-2) › MUI styles are wrapped in @layer mui, declared last for cascade priority (project: webkit)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:17 - MUI/Tailwind coexistence (ADR-DS-2) › MUI styles are wrapped in @layer mui, declared last for cascade priority (project: webkit)'
     file: e2e/coexistence.spec.ts
     lines: '17'
     source: tool
@@ -866,7 +866,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] MUI/Tailwind coexistence (ADR-DS-2) › CssBaseline keeps body margin reset to 0 with Tailwind loaded'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:63 — MUI/Tailwind coexistence (ADR-DS-2) › CssBaseline keeps body margin reset to 0 with Tailwind loaded (project: webkit)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:63 - MUI/Tailwind coexistence (ADR-DS-2) › CssBaseline keeps body margin reset to 0 with Tailwind loaded (project: webkit)'
     file: e2e/coexistence.spec.ts
     lines: '63'
     source: tool
@@ -876,7 +876,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] existing routes render without regression (FR-1) › /projects remains an intentional 404, no regression to a live route'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:110 — existing routes render without regression (FR-1) › /projects remains an intentional 404, no regression to a live route (project: webkit)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:110 - existing routes render without regression (FR-1) › /projects remains an intentional 404, no regression to a live route (project: webkit)'
     file: e2e/coexistence.spec.ts
     lines: '110'
     source: tool
@@ -886,7 +886,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] existing routes render without regression (FR-1) › / redirects to /blog and renders without regression'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:99 — existing routes render without regression (FR-1) › / redirects to /blog and renders without regression (project: webkit)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:99 - existing routes render without regression (FR-1) › / redirects to /blog and renders without regression (project: webkit)'
     file: e2e/coexistence.spec.ts
     lines: '99'
     source: tool
@@ -896,7 +896,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] existing routes render without regression (FR-1) › /blog renders without console/page errors'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:115 — existing routes render without regression (FR-1) › /blog renders without console/page errors (project: webkit)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:115 - existing routes render without regression (FR-1) › /blog renders without console/page errors (project: webkit)'
     file: e2e/coexistence.spec.ts
     lines: '115'
     source: tool
@@ -906,7 +906,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:125 — existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors (project: webkit)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:125 - existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors (project: webkit)'
     file: e2e/coexistence.spec.ts
     lines: '125'
     source: tool
@@ -916,7 +916,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Root route › redirects / to /blog'
-    description: 'Playwright test failed: e2e/home.spec.ts:12 — Root route › redirects / to /blog (project: webkit)'
+    description: 'Playwright test failed: e2e/home.spec.ts:12 - Root route › redirects / to /blog (project: webkit)'
     file: e2e/home.spec.ts
     lines: '12'
     source: tool
@@ -926,7 +926,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post'
-    description: 'Playwright test failed: e2e/feed.spec.ts:12 — RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post (project: webkit)'
+    description: 'Playwright test failed: e2e/feed.spec.ts:12 - RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post (project: webkit)'
     file: e2e/feed.spec.ts
     lines: '12'
     source: tool
@@ -936,7 +936,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Desktop Navigation › should display the Blog navigation link'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:15 — Navigation › Desktop Navigation › should display the Blog navigation link (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:15 - Navigation › Desktop Navigation › should display the Blog navigation link (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '15'
     source: tool
@@ -946,7 +946,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Desktop Navigation › should mark the Blog link active on /blog'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:23 — Navigation › Desktop Navigation › should mark the Blog link active on /blog (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:23 - Navigation › Desktop Navigation › should mark the Blog link active on /blog (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '23'
     source: tool
@@ -956,7 +956,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Mobile Navigation › should display hamburger button'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:38 — Navigation › Mobile Navigation › should display hamburger button (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:38 - Navigation › Mobile Navigation › should display hamburger button (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '38'
     source: tool
@@ -966,7 +966,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Mobile Navigation › should open and close drawer'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:48 — Navigation › Mobile Navigation › should open and close drawer (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:48 - Navigation › Mobile Navigation › should open and close drawer (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '48'
     source: tool
@@ -976,7 +976,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Mobile Navigation › should navigate from drawer'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:72 — Navigation › Mobile Navigation › should navigate from drawer (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:72 - Navigation › Mobile Navigation › should navigate from drawer (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '72'
     source: tool
@@ -986,7 +986,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Mobile Navigation › should close drawer on Escape key'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:103 — Navigation › Mobile Navigation › should close drawer on Escape key (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:103 - Navigation › Mobile Navigation › should close drawer on Escape key (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '103'
     source: tool
@@ -996,7 +996,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Keyboard Navigation › should navigate links with Tab key on desktop'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:121 — Navigation › Keyboard Navigation › should navigate links with Tab key on desktop (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:121 - Navigation › Keyboard Navigation › should navigate links with Tab key on desktop (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '121'
     source: tool
@@ -1006,7 +1006,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Mobile Navigation › should close drawer on backdrop click'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:87 — Navigation › Mobile Navigation › should close drawer on backdrop click (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:87 - Navigation › Mobile Navigation › should close drawer on backdrop click (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '87'
     source: tool
@@ -1016,7 +1016,7 @@ findings:
     severity: medium
     category: testing
     title: '[firefox] next/image and next/font render without missing-mock console warnings'
-    description: 'Playwright test failed: e2e/storybook-adapter.spec.ts:25 — next/image and next/font render without missing-mock console warnings (project: firefox)'
+    description: 'Playwright test failed: e2e/storybook-adapter.spec.ts:25 - next/image and next/font render without missing-mock console warnings (project: firefox)'
     file: e2e/storybook-adapter.spec.ts
     lines: '25'
     source: tool
@@ -1026,7 +1026,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Keyboard Navigation › should focus first link when mobile drawer opens'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:143 — Navigation › Keyboard Navigation › should focus first link when mobile drawer opens (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:143 - Navigation › Keyboard Navigation › should focus first link when mobile drawer opens (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '143'
     source: tool
@@ -1036,7 +1036,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Accessibility › should have proper ARIA attributes'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:159 — Navigation › Accessibility › should have proper ARIA attributes (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:159 - Navigation › Accessibility › should have proper ARIA attributes (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '159'
     source: tool
@@ -1046,7 +1046,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Accessibility › should have nav landmark'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:177 — Navigation › Accessibility › should have nav landmark (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:177 - Navigation › Accessibility › should have nav landmark (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '177'
     source: tool
@@ -1056,7 +1056,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Accessibility › should have aria-current on active page'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:185 — Navigation › Accessibility › should have aria-current on active page (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:185 - Navigation › Accessibility › should have aria-current on active page (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '185'
     source: tool
@@ -1066,7 +1066,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Navigation › Visual Effects › should have glassmorphism styling'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:201 — Navigation › Visual Effects › should have glassmorphism styling (project: webkit)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:201 - Navigation › Visual Effects › should have glassmorphism styling (project: webkit)'
     file: e2e/navigation.spec.ts
     lines: '201'
     source: tool
@@ -1076,7 +1076,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] Projects route › returns the not-found response for /projects'
-    description: 'Playwright test failed: e2e/projects.spec.ts:12 — Projects route › returns the not-found response for /projects (project: webkit)'
+    description: 'Playwright test failed: e2e/projects.spec.ts:12 - Projects route › returns the not-found response for /projects (project: webkit)'
     file: e2e/projects.spec.ts
     lines: '12'
     source: tool
@@ -1086,7 +1086,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] MUI sx background wins the cascade tie against a colliding Tailwind utility class'
-    description: 'Playwright test failed: e2e/cascade-tie.spec.ts:30 — MUI sx background wins the cascade tie against a colliding Tailwind utility class (project: webkit)'
+    description: 'Playwright test failed: e2e/cascade-tie.spec.ts:30 - MUI sx background wins the cascade tie against a colliding Tailwind utility class (project: webkit)'
     file: e2e/cascade-tie.spec.ts
     lines: '30'
     source: tool
@@ -1096,7 +1096,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Chrome] Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport'
-    description: 'Playwright test failed: e2e/blog.spec.ts:110 — Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport (project: Mobile Chrome)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:110 - Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport (project: Mobile Chrome)'
     file: e2e/blog.spec.ts
     lines: '110'
     source: tool
@@ -1106,7 +1106,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Chrome] RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post'
-    description: 'Playwright test failed: e2e/feed.spec.ts:12 — RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post (project: Mobile Chrome)'
+    description: 'Playwright test failed: e2e/feed.spec.ts:12 - RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post (project: Mobile Chrome)'
     file: e2e/feed.spec.ts
     lines: '12'
     source: tool
@@ -1116,7 +1116,7 @@ findings:
     severity: medium
     category: testing
     title: '[webkit] next/image and next/font render without missing-mock console warnings'
-    description: 'Playwright test failed: e2e/storybook-adapter.spec.ts:25 — next/image and next/font render without missing-mock console warnings (project: webkit)'
+    description: 'Playwright test failed: e2e/storybook-adapter.spec.ts:25 - next/image and next/font render without missing-mock console warnings (project: webkit)'
     file: e2e/storybook-adapter.spec.ts
     lines: '25'
     source: tool
@@ -1126,7 +1126,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view'
-    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:19 — Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:19 - Blog heading ids and anchors › h2 carries a slug id and a hash URL resolves to and scrolls the heading into view (project: Mobile Safari)'
     file: e2e/blog-anchors.spec.ts
     lines: '19'
     source: tool
@@ -1136,7 +1136,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash'
-    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:32 — Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-anchors.spec.ts:32 - Blog heading ids and anchors › hovering a heading reveals a keyboard-focusable anchor with a visible focus ring, and activating it updates the URL hash (project: Mobile Safari)'
     file: e2e/blog-anchors.spec.ts
     lines: '32'
     source: tool
@@ -1146,7 +1146,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog Post detail › renders the authored MDX body as HTML'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:15 — Blog Post detail › renders the authored MDX body as HTML (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:15 - Blog Post detail › renders the authored MDX body as HTML (project: Mobile Safari)'
     file: e2e/blog-detail.spec.ts
     lines: '15'
     source: tool
@@ -1156,7 +1156,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog Post detail › does not leak raw frontmatter into the rendered body'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:36 — Blog Post detail › does not leak raw frontmatter into the rendered body (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:36 - Blog Post detail › does not leak raw frontmatter into the rendered body (project: Mobile Safari)'
     file: e2e/blog-detail.spec.ts
     lines: '36'
     source: tool
@@ -1166,7 +1166,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog Post detail › returns the not-found response for a slug not in the Post set'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:81 — Blog Post detail › returns the not-found response for a slug not in the Post set (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:81 - Blog Post detail › returns the not-found response for a slug not in the Post set (project: Mobile Safari)'
     file: e2e/blog-detail.spec.ts
     lines: '81'
     source: tool
@@ -1176,7 +1176,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images'
-    description: 'Playwright test failed: e2e/blog-detail.spec.ts:56 — Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-detail.spec.ts:56 - Blog Post detail › renders pre-rendered Mermaid diagrams as resolvable SVG images (project: Mobile Safari)'
     file: e2e/blog-detail.spec.ts
     lines: '56'
     source: tool
@@ -1186,7 +1186,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS'
-    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:19 — Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:19 - Blog build-time syntax highlighting › code-block-highlighted: fenced block renders highlighted with no runtime highlighting JS (project: Mobile Safari)'
     file: e2e/blog-highlighting.spec.ts
     lines: '19'
     source: tool
@@ -1196,7 +1196,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand)'
-    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:45 — Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand) (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-highlighting.spec.ts:45 - Blog build-time syntax highlighting › code-color-from-brand: a token color resolves from a --shiki-* var (brand) (project: Mobile Safari)'
     file: e2e/blog-highlighting.spec.ts
     lines: '45'
     source: tool
@@ -1206,7 +1206,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components'
-    description: 'Playwright test failed: e2e/blog-mdx-mapping.spec.ts:13 — Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-mdx-mapping.spec.ts:13 - Blog MDX → MUI mapping › headings, paragraphs, links and inline code render as mapped MUI components (project: Mobile Safari)'
     file: e2e/blog-mdx-mapping.spec.ts
     lines: '13'
     source: tool
@@ -1216,7 +1216,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs'
-    description: 'Playwright test failed: e2e/blog-nav.spec.ts:20 — Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-nav.spec.ts:20 - Blog Post navigation (single-Post set) › renders neither a Newer nor an Older link, and no error occurs (project: Mobile Safari)'
     file: e2e/blog-nav.spec.ts
     lines: '20'
     source: tool
@@ -1226,7 +1226,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank'
-    description: 'Playwright test failed: e2e/blog-security.spec.ts:17 — Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-security.spec.ts:17 - Blog MDX body security › external link in body renders rel=noopener noreferrer and target=_blank (project: Mobile Safari)'
     file: e2e/blog-security.spec.ts
     lines: '17'
     source: tool
@@ -1236,7 +1236,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog MDX body security › no third-party script or iframe is injected into the article'
-    description: 'Playwright test failed: e2e/blog-security.spec.ts:32 — Blog MDX body security › no third-party script or iframe is injected into the article (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-security.spec.ts:32 - Blog MDX body security › no third-party script or iframe is injected into the article (project: Mobile Safari)'
     file: e2e/blog-security.spec.ts
     lines: '32'
     source: tool
@@ -1246,7 +1246,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky'
-    description: 'Playwright test failed: e2e/blog-toc.spec.ts:19 — Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-toc.spec.ts:19 - Blog in-page Table of Contents (desktop) › lists the post''s headings in document order and is sticky (project: Mobile Safari)'
     file: e2e/blog-toc.spec.ts
     lines: '19'
     source: tool
@@ -1256,7 +1256,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id'
-    description: 'Playwright test failed: e2e/blog-toc.spec.ts:46 — Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-toc.spec.ts:46 - Blog in-page Table of Contents (desktop) › clicking a ToC link resolves the page to the matching heading id (project: Mobile Safari)'
     file: e2e/blog-toc.spec.ts
     lines: '46'
     source: tool
@@ -1266,7 +1266,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width'
-    description: 'Playwright test failed: e2e/blog-toc.spec.ts:67 — Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog-toc.spec.ts:67 - Blog in-page Table of Contents (mobile) › does not render the ToC aside and lets the prose span the full width (project: Mobile Safari)'
     file: e2e/blog-toc.spec.ts
     lines: '67'
     source: tool
@@ -1276,7 +1276,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog index › lists the published Post'
-    description: 'Playwright test failed: e2e/blog.spec.ts:18 — Blog index › lists the published Post (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:18 - Blog index › lists the published Post (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '18'
     source: tool
@@ -1286,7 +1286,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog index › renders the lone Post as the featured item, not an empty section'
-    description: 'Playwright test failed: e2e/blog.spec.ts:41 — Blog index › renders the lone Post as the featured item, not an empty section (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:41 - Blog index › renders the lone Post as the featured item, not an empty section (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '41'
     source: tool
@@ -1296,7 +1296,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog index › shows each item''s title, dek, date, and reading time'
-    description: 'Playwright test failed: e2e/blog.spec.ts:25 — Blog index › shows each item''s title, dek, date, and reading time (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:25 - Blog index › shows each item''s title, dek, date, and reading time (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '25'
     source: tool
@@ -1306,7 +1306,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog navigation › shows a Blog entry in the desktop nav'
-    description: 'Playwright test failed: e2e/blog.spec.ts:51 — Blog navigation › shows a Blog entry in the desktop nav (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:51 - Blog navigation › shows a Blog entry in the desktop nav (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '51'
     source: tool
@@ -1316,7 +1316,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog navigation › shows a Blog entry in the mobile drawer'
-    description: 'Playwright test failed: e2e/blog.spec.ts:59 — Blog navigation › shows a Blog entry in the mobile drawer (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:59 - Blog navigation › shows a Blog entry in the mobile drawer (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '59'
     source: tool
@@ -1326,7 +1326,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog navigation › marks the Blog entry active on a Post detail route'
-    description: 'Playwright test failed: e2e/blog.spec.ts:84 — Blog navigation › marks the Blog entry active on a Post detail route (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:84 - Blog navigation › marks the Blog entry active on a Post detail route (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '84'
     source: tool
@@ -1336,7 +1336,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Blog navigation › marks the Blog entry active on /blog'
-    description: 'Playwright test failed: e2e/blog.spec.ts:74 — Blog navigation › marks the Blog entry active on /blog (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:74 - Blog navigation › marks the Blog entry active on /blog (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '74'
     source: tool
@@ -1346,7 +1346,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Post detail readability & a11y › sets the document title from the Post title via generateMetadata'
-    description: 'Playwright test failed: e2e/blog.spec.ts:103 — Post detail readability & a11y › sets the document title from the Post title via generateMetadata (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:103 - Post detail readability & a11y › sets the document title from the Post title via generateMetadata (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '103'
     source: tool
@@ -1356,7 +1356,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport'
-    description: 'Playwright test failed: e2e/blog.spec.ts:110 — Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:110 - Post detail readability & a11y › constrains prose measure to ~60-75ch on a wide viewport (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '110'
     source: tool
@@ -1366,7 +1366,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll'
-    description: 'Playwright test failed: e2e/blog.spec.ts:161 — Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:161 - Post detail readability & a11y › contains code-block overflow on mobile with no body horizontal scroll (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '161'
     source: tool
@@ -1376,7 +1376,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport'
-    description: 'Playwright test failed: e2e/blog.spec.ts:134 — Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:134 - Post detail readability & a11y › prose column measure resolves to the 64ch theme token at desktop viewport (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '134'
     source: tool
@@ -1386,7 +1386,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips'
-    description: 'Playwright test failed: e2e/blog.spec.ts:180 — Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:180 - Post detail readability & a11y › exposes a valid heading hierarchy: one h1 title, body from h2, no skips (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '180'
     source: tool
@@ -1396,7 +1396,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg)'
-    description: 'Playwright test failed: e2e/blog.spec.ts:200 — Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg) (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:200 - Post detail readability & a11y › code text meets WCAG-AA contrast (shiki fg vs bg) (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '200'
     source: tool
@@ -1406,7 +1406,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus'
-    description: 'Playwright test failed: e2e/blog.spec.ts:228 — Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:228 - Post detail readability & a11y › in-prose link shows a visible focus ring on keyboard focus (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '228'
     source: tool
@@ -1416,7 +1416,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion'
-    description: 'Playwright test failed: e2e/blog.spec.ts:250 — Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/blog.spec.ts:250 - Post detail readability & a11y › respects prefers-reduced-motion by suppressing entrance motion (project: Mobile Safari)'
     file: e2e/blog.spec.ts
     lines: '250'
     source: tool
@@ -1426,7 +1426,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] MUI/Tailwind coexistence (ADR-DS-2) › MUI styles are wrapped in @layer mui, declared last for cascade priority'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:17 — MUI/Tailwind coexistence (ADR-DS-2) › MUI styles are wrapped in @layer mui, declared last for cascade priority (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:17 - MUI/Tailwind coexistence (ADR-DS-2) › MUI styles are wrapped in @layer mui, declared last for cascade priority (project: Mobile Safari)'
     file: e2e/coexistence.spec.ts
     lines: '17'
     source: tool
@@ -1436,7 +1436,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] MUI/Tailwind coexistence (ADR-DS-2) › CssBaseline keeps body margin reset to 0 with Tailwind loaded'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:63 — MUI/Tailwind coexistence (ADR-DS-2) › CssBaseline keeps body margin reset to 0 with Tailwind loaded (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:63 - MUI/Tailwind coexistence (ADR-DS-2) › CssBaseline keeps body margin reset to 0 with Tailwind loaded (project: Mobile Safari)'
     file: e2e/coexistence.spec.ts
     lines: '63'
     source: tool
@@ -1446,7 +1446,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] existing routes render without regression (FR-1) › / redirects to /blog and renders without regression'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:99 — existing routes render without regression (FR-1) › / redirects to /blog and renders without regression (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:99 - existing routes render without regression (FR-1) › / redirects to /blog and renders without regression (project: Mobile Safari)'
     file: e2e/coexistence.spec.ts
     lines: '99'
     source: tool
@@ -1456,7 +1456,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] existing routes render without regression (FR-1) › /projects remains an intentional 404, no regression to a live route'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:110 — existing routes render without regression (FR-1) › /projects remains an intentional 404, no regression to a live route (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:110 - existing routes render without regression (FR-1) › /projects remains an intentional 404, no regression to a live route (project: Mobile Safari)'
     file: e2e/coexistence.spec.ts
     lines: '110'
     source: tool
@@ -1466,7 +1466,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] existing routes render without regression (FR-1) › /blog renders without console/page errors'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:115 — existing routes render without regression (FR-1) › /blog renders without console/page errors (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:115 - existing routes render without regression (FR-1) › /blog renders without console/page errors (project: Mobile Safari)'
     file: e2e/coexistence.spec.ts
     lines: '115'
     source: tool
@@ -1476,7 +1476,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors'
-    description: 'Playwright test failed: e2e/coexistence.spec.ts:125 — existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/coexistence.spec.ts:125 - existing routes render without regression (FR-1) › /blog/[slug] (real slug) renders without console/page errors (project: Mobile Safari)'
     file: e2e/coexistence.spec.ts
     lines: '125'
     source: tool
@@ -1486,7 +1486,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post'
-    description: 'Playwright test failed: e2e/feed.spec.ts:12 — RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/feed.spec.ts:12 - RSS feed › GET /feed.xml returns 200, well-formed RSS/XML, with one item per published Post (project: Mobile Safari)'
     file: e2e/feed.spec.ts
     lines: '12'
     source: tool
@@ -1496,7 +1496,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Root route › redirects / to /blog'
-    description: 'Playwright test failed: e2e/home.spec.ts:12 — Root route › redirects / to /blog (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/home.spec.ts:12 - Root route › redirects / to /blog (project: Mobile Safari)'
     file: e2e/home.spec.ts
     lines: '12'
     source: tool
@@ -1506,7 +1506,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Desktop Navigation › should display the Blog navigation link'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:15 — Navigation › Desktop Navigation › should display the Blog navigation link (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:15 - Navigation › Desktop Navigation › should display the Blog navigation link (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '15'
     source: tool
@@ -1516,7 +1516,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Desktop Navigation › should mark the Blog link active on /blog'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:23 — Navigation › Desktop Navigation › should mark the Blog link active on /blog (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:23 - Navigation › Desktop Navigation › should mark the Blog link active on /blog (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '23'
     source: tool
@@ -1526,7 +1526,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Mobile Navigation › should display hamburger button'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:38 — Navigation › Mobile Navigation › should display hamburger button (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:38 - Navigation › Mobile Navigation › should display hamburger button (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '38'
     source: tool
@@ -1536,7 +1536,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Mobile Navigation › should open and close drawer'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:48 — Navigation › Mobile Navigation › should open and close drawer (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:48 - Navigation › Mobile Navigation › should open and close drawer (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '48'
     source: tool
@@ -1546,7 +1546,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Mobile Navigation › should navigate from drawer'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:72 — Navigation › Mobile Navigation › should navigate from drawer (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:72 - Navigation › Mobile Navigation › should navigate from drawer (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '72'
     source: tool
@@ -1556,7 +1556,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Mobile Navigation › should close drawer on backdrop click'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:87 — Navigation › Mobile Navigation › should close drawer on backdrop click (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:87 - Navigation › Mobile Navigation › should close drawer on backdrop click (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '87'
     source: tool
@@ -1566,7 +1566,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Mobile Navigation › should close drawer on Escape key'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:103 — Navigation › Mobile Navigation › should close drawer on Escape key (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:103 - Navigation › Mobile Navigation › should close drawer on Escape key (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '103'
     source: tool
@@ -1576,7 +1576,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Keyboard Navigation › should navigate links with Tab key on desktop'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:121 — Navigation › Keyboard Navigation › should navigate links with Tab key on desktop (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:121 - Navigation › Keyboard Navigation › should navigate links with Tab key on desktop (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '121'
     source: tool
@@ -1586,7 +1586,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Keyboard Navigation › should focus first link when mobile drawer opens'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:143 — Navigation › Keyboard Navigation › should focus first link when mobile drawer opens (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:143 - Navigation › Keyboard Navigation › should focus first link when mobile drawer opens (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '143'
     source: tool
@@ -1596,7 +1596,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Accessibility › should have proper ARIA attributes'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:159 — Navigation › Accessibility › should have proper ARIA attributes (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:159 - Navigation › Accessibility › should have proper ARIA attributes (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '159'
     source: tool
@@ -1606,7 +1606,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Accessibility › should have nav landmark'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:177 — Navigation › Accessibility › should have nav landmark (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:177 - Navigation › Accessibility › should have nav landmark (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '177'
     source: tool
@@ -1616,7 +1616,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Accessibility › should have aria-current on active page'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:185 — Navigation › Accessibility › should have aria-current on active page (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:185 - Navigation › Accessibility › should have aria-current on active page (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '185'
     source: tool
@@ -1626,7 +1626,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Navigation › Visual Effects › should have glassmorphism styling'
-    description: 'Playwright test failed: e2e/navigation.spec.ts:201 — Navigation › Visual Effects › should have glassmorphism styling (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/navigation.spec.ts:201 - Navigation › Visual Effects › should have glassmorphism styling (project: Mobile Safari)'
     file: e2e/navigation.spec.ts
     lines: '201'
     source: tool
@@ -1636,7 +1636,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] Projects route › returns the not-found response for /projects'
-    description: 'Playwright test failed: e2e/projects.spec.ts:12 — Projects route › returns the not-found response for /projects (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/projects.spec.ts:12 - Projects route › returns the not-found response for /projects (project: Mobile Safari)'
     file: e2e/projects.spec.ts
     lines: '12'
     source: tool
@@ -1646,7 +1646,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] MUI sx background wins the cascade tie against a colliding Tailwind utility class'
-    description: 'Playwright test failed: e2e/cascade-tie.spec.ts:30 — MUI sx background wins the cascade tie against a colliding Tailwind utility class (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/cascade-tie.spec.ts:30 - MUI sx background wins the cascade tie against a colliding Tailwind utility class (project: Mobile Safari)'
     file: e2e/cascade-tie.spec.ts
     lines: '30'
     source: tool
@@ -1656,7 +1656,7 @@ findings:
     severity: medium
     category: testing
     title: '[Mobile Safari] next/image and next/font render without missing-mock console warnings'
-    description: 'Playwright test failed: e2e/storybook-adapter.spec.ts:25 — next/image and next/font render without missing-mock console warnings (project: Mobile Safari)'
+    description: 'Playwright test failed: e2e/storybook-adapter.spec.ts:25 - next/image and next/font render without missing-mock console warnings (project: Mobile Safari)'
     file: e2e/storybook-adapter.spec.ts
     lines: '25'
     source: tool

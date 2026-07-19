@@ -1,11 +1,11 @@
 flowchart TB
-  subgraph apps["Apps — one domain crate each, written per app"]
+  subgraph apps["Apps - one domain crate each, written per app"]
     A["budget-app"]
     B["gtd-app"]
     C["repeat-app"]
     D["job-offer-app"]
   end
-  base["<b>The shared base — poured once</b><br/>shared · user · mailing · ai<br/>auth, sessions, RBAC, config, DB pool, email, OpenAPI"]
+  base["<b>The shared base - poured once</b><br/>shared · user · mailing · ai<br/>auth, sessions, RBAC, config, DB pool, email, OpenAPI"]
   A --> base
   B --> base
   C --> base
@@ -14,7 +14,7 @@ flowchart TB
   base --- rule
 
   %% Roles only. Colours are resolved per theme (light + dark) by
-  %% scripts/prerender-mermaid.ts — the diagram presentation seam. Do not add
+  %% scripts/prerender-mermaid.ts - the diagram presentation seam. Do not add
   %% classDef/style colour literals here; a role with no palette entry throws.
   class A,B,C,D build
   class base plan

@@ -20,10 +20,10 @@ findings:
       }
     fix_proposal: null
     rationale: >
-      Three independent copies of the same transform (generate-tokens.ts, tokens.test.ts, shikiVars.test.ts) can drift silently since none of them import from a shared source; a future primitive-naming edge case fixed in one copy won't propagate to the others. Not flagged as a drop-in auto-fix because the generator's kebab() is not currently exported for test consumption — extracting/exporting it is a judgment call, not a mechanical swap.
+      Three independent copies of the same transform (generate-tokens.ts, tokens.test.ts, shikiVars.test.ts) can drift silently since none of them import from a shared source; a future primitive-naming edge case fixed in one copy won't propagate to the others. Not flagged as a drop-in auto-fix because the generator's kebab() is not currently exported for test consumption - extracting/exporting it is a judgment call, not a mechanical swap.
 
     impact: >
-      Low — test-only helper, ~6 lines, pre-existing project pattern (this is already the second duplicate before this diff). Worth consolidating into a shared test util if a fourth copy ever appears, but not urgent.
+      Low - test-only helper, ~6 lines, pre-existing project pattern (this is already the second duplicate before this diff). Worth consolidating into a shared test util if a fourth copy ever appears, but not urgent.
 
     references:
       - scripts/generate-tokens.ts

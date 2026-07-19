@@ -8,7 +8,7 @@ import { ThemePill } from "./ThemePill";
  * Bespoke organism for the site-wide header: a navbar (brand + prop-driven
  * nav links + a visual-only theme pill) plus an optional "masthead" title
  * band when `title` is set. Presentational only; binds solely to semantic
- * Tailwind classes so it inverts light↔dark for free — no raw hex/palette
+ * Tailwind classes so it inverts light↔dark for free - no raw hex/palette
  * lookups (`no-direct-palette-import`).
  *
  * The theme pill is intentionally non-interactive for now (`aria-hidden`);
@@ -60,7 +60,7 @@ export function Header({
         </div>
       </div>
       {title ? (
-        // Masthead: compact one-liner — title + tagline share one baseline row
+        // Masthead: compact one-liner - title + tagline share one baseline row
         // separated by a slash, under a single bottom rule. `@container` keeps
         // the headline/tagline sized in `cqi` (band inline-size) so they scale
         // with the band rather than the viewport. Dense on purpose: the post

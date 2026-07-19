@@ -3,11 +3,11 @@ import { projects } from "./projects";
 
 /**
  * Asserts the owner-curated `projects` array is fully typed and carries only
- * plain data — no JSX, color literal, or icon reference (seam pattern,
+ * plain data - no JSX, color literal, or icon reference (seam pattern,
  * FR-1). Every field required by the `Project` contract is present with the
  * expected primitive/array shape.
  */
-describe("projects — data contract", () => {
+describe("projects - data contract", () => {
   it("declares each entry as a fully-typed Project with no JSX, color, or icon", () => {
     expect(projects.length).toBeGreaterThan(0);
 

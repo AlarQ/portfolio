@@ -19,7 +19,7 @@ type Story = StoryObj<typeof Author>;
 
 export const Default: Story = {};
 
-/** Figma "iPhone 15" mobile frame (390x844) — verifies the profile + grid reflow. */
+/** Figma "iPhone 15" mobile frame (390x844) - verifies the profile + grid reflow. */
 export const Mobile: Story = {
   parameters: mobileViewportParameters,
 };

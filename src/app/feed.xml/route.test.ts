@@ -13,7 +13,7 @@ vi.mock("@/data/siteConfig", () => ({
   getSiteUrl: vi.fn(),
 }));
 
-describe("GET /feed.xml — failure path never leaks internals", () => {
+describe("GET /feed.xml - failure path never leaks internals", () => {
   afterEach(() => {
     vi.resetModules();
     vi.restoreAllMocks();

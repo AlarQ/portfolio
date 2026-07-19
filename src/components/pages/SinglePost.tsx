@@ -15,7 +15,7 @@ export interface SinglePostProps {
   readonly coverImageUrl?: string;
   readonly coverImageAlt?: string;
   readonly categories?: readonly CategoryName[];
-  /** Injected nav for `PostLayout`'s `Header` — see `PostLayoutProps.navItems`. */
+  /** Injected nav for `PostLayout`'s `Header` - see `PostLayoutProps.navItems`. */
   readonly navItems?: readonly NavItem[];
 }
 
@@ -26,7 +26,7 @@ export interface SinglePostProps {
  * around a Post's body.
  *
  * This is the seam that resolves `categories` (vocabulary `CategoryName[]`,
- * loader output) into hued `Badge` props via `categoryPresentation` — the
+ * loader output) into hued `Badge` props via `categoryPresentation` - the
  * caller (the route) hands off plain loader data and never resolves color
  * itself (CLAUDE.md seam pattern).
  */

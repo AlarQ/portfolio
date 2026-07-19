@@ -5,9 +5,9 @@ import { describe, expect, it } from "vitest";
 
 /**
  * sec-deps-pinned-and-locked (spec.md), scoped to THIS pack's own dep influx
- * only — Tailwind v4, @tailwindcss/postcss, postcss, Storybook 9/10
+ * only - Tailwind v4, @tailwindcss/postcss, postcss, Storybook 9/10
  * (storybook, @storybook/nextjs), next-themes. Biome pinning is 003's
- * ownership (ADR-DS-6) and Radix/CVA/shadcn is 004's — asserting those here
+ * ownership (ADR-DS-6) and Radix/CVA/shadcn is 004's - asserting those here
  * would duplicate a check another task already owns.
  */
 describe("design-system pack's own new deps are pinned exact (sec-deps-pinned-and-locked)", () => {

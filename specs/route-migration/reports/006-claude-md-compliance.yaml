@@ -7,7 +7,7 @@ findings:
     category: claude-md-violation
     title: "ThemePill touch target likely below the 44x44 CSS px minimum"
     description: >
-      `ThemePill` is now an interactive `<button>` (previously decorative `aria-hidden` span), so the accessibility touch-target rule now applies to it. Its box is sized by `px-4 py-2` (8px vertical padding) around two `size-6` (24px) icons plus `gap-4` between them, giving an estimated rendered height near 40px and no explicit min-height/min-width — under the 44x44 CSS px minimum (48x48 preferred).
+      `ThemePill` is now an interactive `<button>` (previously decorative `aria-hidden` span), so the accessibility touch-target rule now applies to it. Its box is sized by `px-4 py-2` (8px vertical padding) around two `size-6` (24px) icons plus `gap-4` between them, giving an estimated rendered height near 40px and no explicit min-height/min-width - under the 44x44 CSS px minimum (48x48 preferred).
 
     file: src/components/ds/ThemePill.tsx
     lines: "20-32"

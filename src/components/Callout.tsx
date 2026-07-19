@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 
 /**
- * Emphasized prose callout for Post bodies — a tinted, left-accented panel that
+ * Emphasized prose callout for Post bodies - a tinted, left-accented panel that
  * sets a "human gate" aside from the surrounding phase bullets. Presentation-only
  * and token-bound: the accent (left border), tint (`bg-muted` wash), and title
  * slot all resolve through semantic Tailwind utilities, never a raw hex or
  * styling literal (the seam token rule in CLAUDE.md). Styled to sit beside `Pre`/`MdxImage`
- * in `mdxPresentationBlock` — same `my`, radius, and `border-border` idiom.
+ * in `mdxPresentationBlock` - same `my`, radius, and `border-border` idiom.
  */
 export function Callout({ title, children }: { title?: string; children?: ReactNode }) {
   return (

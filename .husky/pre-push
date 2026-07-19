@@ -19,6 +19,6 @@ npm audit --audit-level=high
 if command -v gitleaks >/dev/null 2>&1; then
   gitleaks git --redact --no-banner
 else
-  echo "[pre-push] gitleaks not installed — secret scan cannot run. Install it: brew install gitleaks"
+  echo "[pre-push] gitleaks not installed - secret scan cannot run. Install it: brew install gitleaks"
   exit 1
 fi

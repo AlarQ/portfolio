@@ -13,7 +13,7 @@ import { describe, expect, it } from "vitest";
 
 const SOURCE_PATH = join(import.meta.dirname, "ArticleProse.tsx");
 
-describe("ArticleProse — no second MDX render path (sec-no-second-mdx-render-path)", () => {
+describe("ArticleProse - no second MDX render path (sec-no-second-mdx-render-path)", () => {
   const source = readFileSync(SOURCE_PATH, "utf8");
 
   it("imports MDX rendering only from the single mdxPresentation seam, never an independent MDX compiler/parser", () => {

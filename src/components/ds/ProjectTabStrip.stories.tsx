@@ -66,7 +66,7 @@ export const AllStatuses: Story = {
   },
 };
 
-/** Long titles / many pills — the strip stays a one-row scroll-snap rail. */
+/** Long titles / many pills - the strip stays a one-row scroll-snap rail. */
 export const LongContent: Story = {
   args: {
     projects: LONG_PROJECTS,
@@ -96,7 +96,7 @@ export const LowMvpProgress: Story = {
   },
 };
 
-/** No Projects — the tablist renders with zero tabs, no crash. */
+/** No Projects - the tablist renders with zero tabs, no crash. */
 export const Empty: Story = {
   args: {
     projects: [],

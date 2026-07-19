@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 /**
  * Task 004 behavior 6: SOLE owner of the `Atoms/<ComponentName>` Storybook
- * sidebar convention for src/components/ui — no other task may re-assert it.
+ * sidebar convention for src/components/ui - no other task may re-assert it.
  */
 const uiDir = join(process.cwd(), "src/components/ui");
 const storyFiles = readdirSync(uiDir).filter((file) => file.endsWith(".stories.tsx"));

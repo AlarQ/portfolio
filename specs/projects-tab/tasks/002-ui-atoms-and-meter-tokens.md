@@ -34,13 +34,13 @@ pr_url: https://github.com/AlarQ/portfolio/pull/80
 ---
 
 ## Objective
-Add three dumb `ui/` primitives (`status-dot`, `tab-pill`, `meter`) with sibling stories covering meaningful states in both themes, plus exactly two new semantic dimension tokens in `tokens.ts` (regenerated into `tokens.css`) that the `meter` consumes — so the organisms have token-bound, story-verified building blocks.
+Add three dumb `ui/` primitives (`status-dot`, `tab-pill`, `meter`) with sibling stories covering meaningful states in both themes, plus exactly two new semantic dimension tokens in `tokens.ts` (regenerated into `tokens.css`) that the `meter` consumes - so the organisms have token-bound, story-verified building blocks.
 
 ## Implements
 | Kind      | Ref               |
 |-----------|-------------------|
 | FR        | FR-6, FR-10       |
-| Contract  | —                |
+| Contract  | -                |
 | Data      | `TechKey`         |
 | Scenarios | meter-legend-label |
 
@@ -56,15 +56,15 @@ Add three dumb `ui/` primitives (`status-dot`, `tab-pill`, `meter`) with sibling
 ## Approach
 - Follow the `badgeVariants.ts` precedent: `status-dot` owns the `StatusTone` variant union + token-bound styling (the seam in Task 003 maps `Status → StatusTone`).
 - Taxonomy `Atoms/…`; the two new dimension aliases resolve to primitive *names* via `satisfies`, then `npm run generate:tokens` regenerates `tokens.css` (never hand-edit).
-- Atoms stay dumb — no data, no seam, no ARIA tablist logic (that is Task 003's organism).
+- Atoms stay dumb - no data, no seam, no ARIA tablist logic (that is Task 003's organism).
 
 ## Implementation Log
 
 chunks_spawned: 2
 
-- `StatusTone = "muted" | "info" | "success"` in `src/components/ui/statusDotVariants.ts` (cva, follows `badgeVariants.ts`'s exhaustive-array-drives-union precedent). Chose these 3 because spec.md's `Status` domain is `exploring | in-progress | shipped`; `exploring` resolves to `muted`, `in-progress`/`shipped` cover `info`/`success`. Actual `Status → StatusTone` mapping is deferred to Task 003's seam. Tones bind existing semantic tokens only (`bg-muted-foreground`, `bg-badge-sky-fg`, `bg-badge-green-fg`) — no new color tokens needed.
+- `StatusTone = "muted" | "info" | "success"` in `src/components/ui/statusDotVariants.ts` (cva, follows `badgeVariants.ts`'s exhaustive-array-drives-union precedent). Chose these 3 because spec.md's `Status` domain is `exploring | in-progress | shipped`; `exploring` resolves to `muted`, `in-progress`/`shipped` cover `info`/`success`. Actual `Status → StatusTone` mapping is deferred to Task 003's seam. Tones bind existing semantic tokens only (`bg-muted-foreground`, `bg-badge-sky-fg`, `bg-badge-green-fg`) - no new color tokens needed.
 - `tab-pill` is a plain `<span>` + local `cva`; `selected` prop toggles `bg-primary`/`bg-secondary`. No ARIA tablist/roving-tabIndex logic (reserved for Task 003's organism).
 - `meter` renders a `data-slot="meter-group"` wrapper containing a `<div role="progressbar">` track (switched from `role="meter"` after biome's `useSemanticElements` flagged it) with a `bg-primary` fill sized via `style={{width}}`, plus a `data-slot="meter-legend"` `<p>` rendering `"{clamped}% to first usable release"`. `className` prop applies to the group wrapper (not the track) to keep the atom's sizing API stable. Exported pure helper `clampMeterValue` (0–100 clamp) as an independently-testable seam, verified via `react-dom/server`'s `renderToStaticMarkup` (`@testing-library/react` is not installed in this repo).
 - Exactly two new semantic dimension tokens added to `tokens.ts`: primitives `meterTrackHeight: "8px"` / `spaceMeterLegendGap: "6px"`, semantic aliases `--spacing-meter-track` / `--spacing-meter-legend-gap` (both `satisfies Record<string, DimensionPrimitiveName>`), consumed in `meter.tsx` as `h-meter-track` / `mt-meter-legend-gap`. `tokens.css` regenerated via `npm run generate:tokens` (never hand-edited); `tokens.test.ts` freshness check passes.
-- `lint:stories` confirmed green for all three atoms. Full suite (type-check, lint, lint:stories, 273 unit tests) green throughout both chunks. Refactor pass found no duplication worth extracting across the three atoms — each is small and single-concern, consistent with `badgeVariants.ts`.
-- 2026-07-12 — status-dot a11y addon panel verification (coverage-1) ATTEMPTED in light and dark but BLOCKED — evidence NOT obtained. `@storybook/addon-a11y` (10.4.6) IS configured in `.storybook/main.ts` and installed. Storybook manager UI served (HTTP 200; sidebar, StatusDot/All Tones story, and Accessibility tab all rendered), but the story-preview iframe webpack bundle never finished compiling — stuck at `38% building` with a recurring `Unhandled Rejection: TypeError: Cannot read properties of undefined (reading 'length')`, reproduced across two fresh `npm run storybook` instances (Node v26.4.0; cf. MEMORY note on Node 26 toolchain hangs). `iframe.html?id=atoms-statusdot--all-tones` timed out (HTTP 000). Consequently the a11y panel stayed on "Preparing accessibility scan / Please wait while the addon is initializing…" in both themes and produced NO violation counts for tones muted/info/success. No clean result is being claimed — the panel could not be read. The coverage-1 finding remains accepted as unautomatable (no axe/testing-library dep in-repo); this manual check is documented as blocked pending a working Storybook preview build.
+- `lint:stories` confirmed green for all three atoms. Full suite (type-check, lint, lint:stories, 273 unit tests) green throughout both chunks. Refactor pass found no duplication worth extracting across the three atoms - each is small and single-concern, consistent with `badgeVariants.ts`.
+- 2026-07-12 - status-dot a11y addon panel verification (coverage-1) ATTEMPTED in light and dark but BLOCKED - evidence NOT obtained. `@storybook/addon-a11y` (10.4.6) IS configured in `.storybook/main.ts` and installed. Storybook manager UI served (HTTP 200; sidebar, StatusDot/All Tones story, and Accessibility tab all rendered), but the story-preview iframe webpack bundle never finished compiling - stuck at `38% building` with a recurring `Unhandled Rejection: TypeError: Cannot read properties of undefined (reading 'length')`, reproduced across two fresh `npm run storybook` instances (Node v26.4.0; cf. MEMORY note on Node 26 toolchain hangs). `iframe.html?id=atoms-statusdot--all-tones` timed out (HTTP 000). Consequently the a11y panel stayed on "Preparing accessibility scan / Please wait while the addon is initializing…" in both themes and produced NO violation counts for tones muted/info/success. No clean result is being claimed - the panel could not be read. The coverage-1 finding remains accepted as unautomatable (no axe/testing-library dep in-repo); this manual check is documented as blocked pending a working Storybook preview build.

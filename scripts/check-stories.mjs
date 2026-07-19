@@ -1,4 +1,4 @@
-// Storybook-first gate (see CLAUDE.md "Component workflow — Storybook first"):
+// Storybook-first gate (see CLAUDE.md "Component workflow - Storybook first"):
 // every component in the storied tiers must ship a sibling *.stories.tsx.
 // Legacy components at the root of src/components/ are exempt until they
 // migrate into a tier.
@@ -33,4 +33,4 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
-console.log(`lint:stories — all components in [${STORIED_TIERS.join(", ")}] have stories.`);
+console.log(`lint:stories - all components in [${STORIED_TIERS.join(", ")}] have stories.`);

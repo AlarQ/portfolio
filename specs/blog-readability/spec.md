@@ -3,7 +3,7 @@ feature: blog-readability
 status: shipped
 ---
 
-# Blog Readability — Specification
+# Blog Readability - Specification
 
 Feature: `blog-readability` · Tier: medium · Track: feature
 
@@ -11,7 +11,7 @@ Feature: `blog-readability` · Tier: medium · Track: feature
 
 Improve readability and reader retention of the **Blog** (`/blog`, `/blog/[slug]`)
 by adding four Docusaurus-proven, framework-agnostic capabilities to the existing
-Next.js 16 (App Router, SSG) + React 19 + MUI 7 site — **without** migrating
+Next.js 16 (App Router, SSG) + React 19 + MUI 7 site - **without** migrating
 frameworks and **without** relaxing the owner-authored MDX trust boundary
 (ADR-0001, CLAUDE.md).
 
@@ -23,7 +23,7 @@ seam or `theme.ts` `brand` tokens, rendering in components.
 The four capabilities:
 
 1. **In-page Table of Contents** built from a Post's `##`/`###` headings.
-2. **Heading anchors** — stable `id`s + hover-revealed deep-links.
+2. **Heading anchors** - stable `id`s + hover-revealed deep-links.
 3. **Prev/next Post navigation** derived from the already-ordered Post set.
 4. **Typography pass** at the presentation seam, plus an **RSS feed** emitted at build.
 
@@ -31,11 +31,11 @@ The four capabilities:
 
 Decisions taken in a readability-focused grilling pass, grounded in typography
 research (line length 45–75 CPL, sweet spot ~66; body ≥16px, 18–20px better for
-long-form; line-height 1.5–1.7 — Baymard, UXPin; and the serif-vs-sans reading
-literature: Lund 1999 / Poole review / Ergonomics — **no reliable screen
+long-form; line-height 1.5–1.7 - Baymard, UXPin; and the serif-vs-sans reading
+literature: Lund 1999 / Poole review / Ergonomics - **no reliable screen
 readability advantage for serif**, so typeface class is a weak lever).
 
-1. **Typeface — locked to Geist Sans.** No font-family swap in this slice. The
+1. **Typeface - locked to Geist Sans.** No font-family swap in this slice. The
    evidence does not support serif as more readable on screen, and typeface class
    is a weaker lever than measure/size/line-height/contrast. A serif/aesthetic
    re-typeface, if ever wanted, is a separate identity decision (future ADR), not
@@ -49,44 +49,44 @@ readability advantage for serif**, so typeface class is a weak lever).
 3. **Body size / line-height → 18px (`1.125rem`) / `1.7`,** set once in
    `proseTextSx` (not per component). Tighter leading pairs better with the
    narrower `64ch` measure than the current `1.75`.
-4. **Contrast — body left as-is.** `slateLight #e2e8f0` on `backgroundDefault
+4. **Contrast - body left as-is.** `slateLight #e2e8f0` on `backgroundDefault
    #0a1118` ≈ 15:1 (exceeds AAA); changing it is pure churn. FR-4's contrast work
    is scoped to **only** sanity-checking the muted `slate #64748b` where it carries
    readable text (≈3.5:1, under AA); nudge lighter if it fails, defer if it is
    syntax-comment-only.
-5. **Mobile ToC — no section nav; a thin, non-interactive top reading-progress
+5. **Mobile ToC - no section nav; a thin, non-interactive top reading-progress
    bar is the only mobile reading affordance.** No collapsible/disclosure ToC,
    no link list. A ~34-char mobile measure has no room for a section nav; the
    bar (`ScrollProgressBar`, driven by `useScrollProgress`) reflects whole-
    document scroll % so a mobile reader still has a lightweight sense of
    progress. Confirms `toc-hidden-mobile` as a hard hide of the nav, now paired
    with `toc-progress-mobile`.
-6. **Desktop ToC layout — left sticky dot-rail in its own `md:flex-row`
-   column** (`max-w-content` split, `Author.tsx`/`IdentityRail.tsx` precedent —
+6. **Desktop ToC layout - left sticky dot-rail in its own `md:flex-row`
+   column** (`max-w-content` split, `Author.tsx`/`IdentityRail.tsx` precedent -
    not a leftover-margin gutter). Each chapter name stays hidden until its dot
    is hovered, keyboard-focused, or is the scroll-spy-active section
    (`aria-current="location"`). Prose stays `min-w-0 flex-1`, never below the
    `64ch` measure; because the rail is now a real column rather than a margin
-   gutter, prose shifts right-of-center (accepted trade-off — the alternative,
+   gutter, prose shifts right-of-center (accepted trade-off - the alternative,
    a fixed/overlaying rail, collides with prose at md–xl widths). **No** desktop
-   progress bar — the bar is mobile-only.
-7. **ToC scroll-spy — yes, cheap.** Active-heading highlight via
+   progress bar - the bar is mobile-only.
+7. **ToC scroll-spy - yes, cheap.** Active-heading highlight via
    `IntersectionObserver` (no scroll listener), surfaced as `aria-current=
    "location"` on the active link with its label reveal also triggered on
    `focus-visible` (keyboard parity with hover). Anchor jumps stay instant (no
    smooth-scroll); honor `usePrefersReducedMotion`. The mobile progress bar
-   reuses the same organism's `useScrollProgress` hook — one client organism
+   reuses the same organism's `useScrollProgress` hook - one client organism
    (`ArticleToc`) owns both behaviors so `reducedMotion` is read once, not
    per-child.
-8. **Heading anchor (FR-2) — plain `<a href="#id">`.** No clipboard/toast; the URL
+8. **Heading anchor (FR-2) - plain `<a href="#id">`.** No clipboard/toast; the URL
    updates on click and the reader copies from the address bar. Keeps the heading
    seam free of interaction JS.
-9. **Prev/next (FR-3) — title + "Newer post" / "Older post" caption** with a
+9. **Prev/next (FR-3) - title + "Newer post" / "Older post" caption** with a
    directional arrow (← newer, older →). No dek. Side-by-side on desktop, **stacked
    on mobile**. "Newer/Older" (not "Previous/Next") since adjacency is date order.
-10. **RSS domain (FR-6) — build-time `SITE_URL` env,** validated once with
+10. **RSS domain (FR-6) - build-time `SITE_URL` env,** validated once with
     `new URL(...)` in a single config module (`src/data/siteConfig.ts`), fail-fast
-    on missing/empty/malformed. **Not** `NEXT_PUBLIC_` — the feed is built server-
+    on missing/empty/malformed. **Not** `NEXT_PUBLIC_` - the feed is built server-
     side and the domain never needs to reach the client bundle.
 
 ## Functional Requirements
@@ -98,7 +98,7 @@ the ToC is a sticky left dot-rail beside the prose column, with section names
 revealed on hover/focus/active; on mobile the rail is not rendered at all and a
 thin, non-interactive top reading-progress bar is the only mobile reading
 affordance, so the prose column never crowds the 64ch measure. The ToC reflects
-the exact heading tree of the rendered Post — no hand-maintained list.
+the exact heading tree of the rendered Post - no hand-maintained list.
 
 **Data:** heading tree derived at build from the Post body
 **Scenarios:** toc-renders-from-headings, toc-sticky-desktop, toc-hidden-mobile,
@@ -110,7 +110,7 @@ exposes a hover-revealed anchor link so a reader can copy a URL that deep-links
 directly to that section. Navigating to `/blog/<slug>#<heading-id>` scrolls the
 matching heading into view. Heading `id`s are added by `rehype-slug` in the
 build-time MDX pipeline and flow to the DOM through the existing single heading
-presentation seam — no second render path is introduced.
+presentation seam - no second render path is introduced.
 
 **Scenarios:** anchor-deep-link-resolves, heading-id-stable, sec-toc-single-render-seam
 
@@ -124,8 +124,8 @@ slots render nothing rather than a dead link.
 **Scenarios:** prevnext-middle-post, prevnext-boundary-post, sec-prevnext-single-slug-gate
 
 ### FR-4: Typography and readability pass
-Long-form Post prose is refined at the presentation seam — measure, font size,
-heading rhythm, vertical spacing, contrast, and code-block readability — driven
+Long-form Post prose is refined at the presentation seam - measure, font size,
+heading rhythm, vertical spacing, contrast, and code-block readability - driven
 only by `brand` tokens in `theme.ts` and the `*Presentation` seams. No hex or JSX
 is added to data modules, and the single-brand-color-seam invariant is preserved.
 
@@ -151,7 +151,7 @@ localhost URLs to feed consumers.
 
 ## API Contracts
 
-### EP-FEED-GET — GET /feed.xml
+### EP-FEED-GET - GET /feed.xml
 **Auth:** none (public, static output)
 **FRs:** FR-5, FR-6
 
@@ -160,7 +160,7 @@ no request input. Body is an RSS 2.0 XML document.
 
 | Status | When | Body |
 |--------|------|------|
-| 200 | feed generated | `application/rss+xml` — `<rss>` with one `<item>` per Post `{ title, description, link, pubDate, guid }`, all fields XML-escaped |
+| 200 | feed generated | `application/rss+xml` - `<rss>` with one `<item>` per Post `{ title, description, link, pubDate, guid }`, all fields XML-escaped |
 | build fail | site-domain env missing/empty/malformed | build aborts with a developer-facing error; no client-facing output emitted (FR-6) |
 
 ## Scenarios
@@ -291,7 +291,7 @@ When /feed.xml is serialized
 Then those characters are XML-escaped at the single serialization point
 And the feed remains well-formed (no field escapes its element)
 ```
-_Threat: Tampering (MEDIUM) — RSS XML is an output boundary; escape even trusted source. (`security/input-validation.md`)_
+_Threat: Tampering (MEDIUM) - RSS XML is an output boundary; escape even trusted source. (`security/input-validation.md`)_
 
 ### sec-feed-domain-config-fail-fast
 ```gherkin
@@ -300,7 +300,7 @@ When the site is built
 Then the build fails fast with a developer-facing error
 And no feed with placeholder/localhost absolute URLs is emitted to production
 ```
-_Threat: Information disclosure (MEDIUM) — config from env, fail fast. (`security/secrets.md`)_
+_Threat: Information disclosure (MEDIUM) - config from env, fail fast. (`security/secrets.md`)_
 
 ### sec-feed-no-error-leak
 ```gherkin
@@ -309,7 +309,7 @@ When the failure surfaces
 Then internal stack traces, filesystem paths, and exception text stay in build logs only
 And no internal error detail is emitted into client-facing output
 ```
-_Threat: Information disclosure (LOW) — never expose internal error detail. (`security/secrets.md`)_
+_Threat: Information disclosure (LOW) - never expose internal error detail. (`security/secrets.md`)_
 
 ### sec-toc-single-render-seam
 ```gherkin
@@ -318,7 +318,7 @@ When heading text is rendered
 Then it flows through the existing single MDX presentation seam (mdxPresentation.tsx)
 And no second rehype/unified render path bypassing <script>/<iframe> neutralization is introduced
 ```
-_Threat: Elevation of privilege (HIGH if violated) — one render seam; owner-authored trust unchanged. (`security/authz.md`)_
+_Threat: Elevation of privilege (HIGH if violated) - one render seam; owner-authored trust unchanged. (`security/authz.md`)_
 
 ### sec-prevnext-single-slug-gate
 ```gherkin
@@ -327,7 +327,7 @@ When adjacency is derived
 Then it reuses buildPostSet's already-validated ordered set
 And it does not re-derive or re-validate slugs in a parallel gate
 ```
-_Threat: Elevation of privilege (LOW) — single slug-validation gate. (`security/authz.md`)_
+_Threat: Elevation of privilege (LOW) - single slug-validation gate. (`security/authz.md`)_
 
 ### sec-dep-hygiene
 ```gherkin
@@ -336,7 +336,7 @@ When the dependency lands
 Then it is pinned in package-lock.json from the official registry
 And it runs only in the build-time MDX pipeline, never against runtime request input
 ```
-_Threat: Tampering / supply chain (LOW) — dependency hygiene. (`security/deps-and-config.md`)_
+_Threat: Tampering / supply chain (LOW) - dependency hygiene. (`security/deps-and-config.md`)_
 
 ## User Flow
 

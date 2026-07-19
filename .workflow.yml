@@ -1,4 +1,4 @@
-# .workflow.yml — repo-mode workflow config for the portfolio repo.
+# .workflow.yml - repo-mode workflow config for the portfolio repo.
 # specs live in ./specs/<feature>/; gates + tiers are inline here.
 # (Repaired 2026-07-02: the older bootstrap wrote only `kind: repo-gate-pool`
 #  + gate_pool, which the current loader treats as a bound-repo marker and

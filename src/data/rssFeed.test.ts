@@ -15,7 +15,7 @@ function post(overrides: Partial<Post> = {}): Post {
   };
 }
 
-describe("buildRssItems — absolute URLs from injected domain", () => {
+describe("buildRssItems - absolute URLs from injected domain", () => {
   it("roots link and guid at the injected site domain, never relative or localhost", () => {
     // Given a configured site domain and a Post
     const posts = [post({ slug: "my-post" })];
@@ -30,7 +30,7 @@ describe("buildRssItems — absolute URLs from injected domain", () => {
   });
 });
 
-describe("buildRssItems — excludes unpublished Posts", () => {
+describe("buildRssItems - excludes unpublished Posts", () => {
   it("filters out posts with published: false while keeping published: true posts", () => {
     // Given one published and one unpublished Post
     const posts = [
@@ -48,7 +48,7 @@ describe("buildRssItems — excludes unpublished Posts", () => {
   });
 });
 
-describe("serializeRssFeed — XML-escapes special characters", () => {
+describe("serializeRssFeed - XML-escapes special characters", () => {
   it("escapes &, <, >, and quotes in title and description so the document stays well-formed", () => {
     // Given a Post whose title/dek contain XML-special characters
     const posts = [
@@ -69,7 +69,7 @@ describe("serializeRssFeed — XML-escapes special characters", () => {
   });
 });
 
-describe("buildRssItems — one item per published Post", () => {
+describe("buildRssItems - one item per published Post", () => {
   it("emits exactly one item per Post, carrying title, description, link, pubDate, guid", () => {
     // Given two published Posts
     const posts = [

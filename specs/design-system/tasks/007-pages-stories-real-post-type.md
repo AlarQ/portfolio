@@ -28,11 +28,11 @@ pr_url: https://github.com/AlarQ/portfolio/pull/53
 ---
 
 ## Objective
-Compose the four screen-level stories (Home, Blog Listing, Single Post, Author) from real organisms and type their fixtures as the actual `Post` from `src/data/posts.ts`, so a divergence is a compile error — the pack's cheap insurance against pack-2 rework (FR-8).
+Compose the four screen-level stories (Home, Blog Listing, Single Post, Author) from real organisms and type their fixtures as the actual `Post` from `src/data/posts.ts`, so a divergence is a compile error - the pack's cheap insurance against pack-2 rework (FR-8).
 
 > **Superseded (blog-first IA):** `Home` and `BlogListing` were later merged into
 > a single Figma-faithful `Home` (node `614:383`), since the blog index *is* the
-> front door under the blog-first IA (`ROADMAP.md`, DECIDED 2026-06-20) — one
+> front door under the blog-first IA (`ROADMAP.md`, DECIDED 2026-06-20) - one
 > screen, not two. The pack now has **three** Pages stories (Home, Single Post,
 > Author); `BlogListing.*` is deleted. See FR-8's merge note. The "each has
 > genuinely different layout" reasoning below no longer holds for those two.
@@ -47,13 +47,13 @@ Compose the four screen-level stories (Home, Blog Listing, Single Post, Author) 
 | # | Given | When | Then |
 |---|-------|------|------|
 | 1 | the four Pages stories (Home, Blog Listing, Single Post, Author) | Storybook renders them | each composes real organisms into a full screen under `Pages/` |
-| 2 | the Pages stories need Post data | their fixtures are authored | they reuse the shared `src/stories/fixtures/posts.ts` created in Task 005 (typed as the actual `Post` from `src/data/posts.ts` — slug, title, dek, date, readingTimeMinutes, formattedDate, published) and do NOT recreate a Post shape |
+| 2 | the Pages stories need Post data | their fixtures are authored | they reuse the shared `src/stories/fixtures/posts.ts` created in Task 005 (typed as the actual `Post` from `src/data/posts.ts` - slug, title, dek, date, readingTimeMinutes, formattedDate, published) and do NOT recreate a Post shape |
 | 3 | a page-composing component that accepts a Post | a fixture omits or renames a real `Post` field | TypeScript raises a compile error |
 | 4 | the fixtures | committed | they reuse only the already-public `Post` type and reference no `.env` value, credential, or non-public data |
 | 5 | a Pages story | rendered at mobile viewport width | its layout matches the Figma "iPhone 15" mobile frame (node `614:353`), not an ad-hoc breakpoint |
 
 ## Approach
-- Import the shared real-`Post` fixture from `src/stories/fixtures/posts.ts` (owned by Task 005); do NOT recreate it. The `Post` type itself is declared in `src/data/posts.ts` and must not be modified — FR-11.
+- Import the shared real-`Post` fixture from `src/stories/fixtures/posts.ts` (owned by Task 005); do NOT recreate it. The `Post` type itself is declared in `src/data/posts.ts` and must not be modified - FR-11.
 - The `invented-post-prop-rejected` compile-error guardrail lives here: a page-composing fixture that omits/renames a real `Post` field must fail `tsc --noEmit`. Mechanism: an inline `// @ts-expect-error` negative case within a Pages story (no separate fixture file), asserting the bad shape is rejected.
 - Compose Task 006 organisms into `Pages/` title-path stories.
 - Use the `@storybook/nextjs` `next/image`/`next/font` mocks (ADR-DS-1) so Pages match production image/font behavior.
@@ -73,9 +73,9 @@ Delegated to `engineering/frontend-developer`, split into 3 bounded-context chun
 **Chunk 2/3** (behaviors: compile-error guardrail, no-secrets fixture scan, mobile viewport):
 - `fixture_omitting_or_renaming_post_field_is_compile_error`: inline `@ts-expect-error` negative case in `Home.stories.tsx` (Post missing `slug`/`published`), mechanically verified by temporarily removing the comment and confirming `tsc` errors (`TS2739`), then restoring it.
 - `fixtures_reference_no_env_or_credential_only_public_post`: added env/secret/fetch scans to `Pages.fixtures.test.ts`.
-- `pages_stories_reflow_matches_figma_mobile_frame`: no viewport addon existed, so added a named `iphone15` (390x844) entry to `parameters.viewport.viewports` in `.storybook/preview.tsx` (Storybook's built-in mechanism, no new dependency) plus a `Mobile` story export per page. `Pages.viewport.test.ts` asserts the parameter is declared — proves the story *declares* the mobile frame, not a pixel-diff visual regression (no visual-snapshot tooling exists in this repo; true visual fidelity is a manual/PR-review concern).
+- `pages_stories_reflow_matches_figma_mobile_frame`: no viewport addon existed, so added a named `iphone15` (390x844) entry to `parameters.viewport.viewports` in `.storybook/preview.tsx` (Storybook's built-in mechanism, no new dependency) plus a `Mobile` story export per page. `Pages.viewport.test.ts` asserts the parameter is declared - proves the story *declares* the mobile frame, not a pixel-diff visual regression (no visual-snapshot tooling exists in this repo; true visual fidelity is a manual/PR-review concern).
 
-**Chunk 3/3 — final** (behavior: purity-lint pass; closing whole-diff refactor; acceptance re-verification):
-- Confirmed `npm run lint` (task 003's `no-direct-palette-import` gate) is clean across `src/components/pages/` — no new test needed, the passing lint run is the proof.
-- Whole-diff refactor: extracted the 4x-duplicated `{ viewport: { defaultViewport: "iphone15" } }` block into a shared `mobileViewportParameters` constant (`src/stories/mobileViewport.ts`), imported by all four stories; deduped `SinglePost`'s `Default`/`Mobile` body JSX into one `sampleBody` const. Left `Home`/`BlogListing`/`Author` as independent components — each has genuinely different layout, so a shared "PostGrid page" abstraction was deliberately not introduced (no-premature-abstraction).
-- Re-verified all 5 acceptance rows against actual runtime code (not just test presence) — all satisfied. Full suite 209 passed / 1 skipped, `type-check` clean, `lint` clean, production `build` succeeds with stories excluded from SSG (ADR-DS-1 holds — only `/`, `/blog`, `/blog/[slug]`, `/feed.xml`, `/_not-found` emitted).
+**Chunk 3/3 - final** (behavior: purity-lint pass; closing whole-diff refactor; acceptance re-verification):
+- Confirmed `npm run lint` (task 003's `no-direct-palette-import` gate) is clean across `src/components/pages/` - no new test needed, the passing lint run is the proof.
+- Whole-diff refactor: extracted the 4x-duplicated `{ viewport: { defaultViewport: "iphone15" } }` block into a shared `mobileViewportParameters` constant (`src/stories/mobileViewport.ts`), imported by all four stories; deduped `SinglePost`'s `Default`/`Mobile` body JSX into one `sampleBody` const. Left `Home`/`BlogListing`/`Author` as independent components - each has genuinely different layout, so a shared "PostGrid page" abstraction was deliberately not introduced (no-premature-abstraction).
+- Re-verified all 5 acceptance rows against actual runtime code (not just test presence) - all satisfied. Full suite 209 passed / 1 skipped, `type-check` clean, `lint` clean, production `build` succeeds with stories excluded from SSG (ADR-DS-1 holds - only `/`, `/blog`, `/blog/[slug]`, `/feed.xml`, `/_not-found` emitted).

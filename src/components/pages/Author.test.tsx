@@ -45,7 +45,7 @@ describe("Author", () => {
 
   it("sources the author identity from the profile module, not a hardcode", () => {
     // FR-6 no-hardcode guard: the rendered name/title must equal the values in
-    // `src/data/profile.ts`. Asserting `title` is load-bearing — the removed
+    // `src/data/profile.ts`. Asserting `title` is load-bearing - the removed
     // literal was `title="Author"`, so tracking `ownerProfile.title`
     // ("SOFTWARE ENGINEER") proves AuthorInfo is fed from the module, not the
     // old `<AuthorInfo name="Ernest Bednarczyk" title="Author">` hardcode.

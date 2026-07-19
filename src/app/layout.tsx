@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 
 /**
  * Figma light-look body font (Task 004, FR-2). Wired as the `--font-inter`
- * CSS variable and consumed by `body`'s `font-family` in `globals.css` —
+ * CSS variable and consumed by `body`'s `font-family` in `globals.css` -
  * the shadcn primitives (`src/components/ui/*.tsx`) never set their own
  * `font-family`, so they inherit Inter from the page seam rather than each
  * primitive re-declaring a font name.
@@ -38,16 +38,16 @@ export default function RootLayout({
       <body className={`${geistMono.variable} ${inter.variable}`}>
         {/* No global nav mount here (task 005, e2e-test-1): each top-level
             page (`pages/Home`, `ds/PostLayout`) renders its own `ds/Header` so
-            there is exactly one primary nav per page — mounting a second one
+            there is exactly one primary nav per page - mounting a second one
             globally previously produced a strict-mode duplicate "Blog" link. */}
         <ThemeProvider>{children}</ThemeProvider>
         {/* Vercel Web Analytics: cookieless, edge-hashed unique visitors
-            (per-day, not lifetime — see the "monitoring" chat). Default
+            (per-day, not lifetime - see the "monitoring" chat). Default
             `mode="auto"` loads a console-only debug script in `npm run dev`
             and only sends page views in production, so local visits never
             pollute the dashboard. Prod script + view endpoint are first-party
             (`/_vercel/insights/*`), so a future CSP (CLAUDE.md MDX trust
-            boundary) needs only `script-src 'self'` / `connect-src 'self'` —
+            boundary) needs only `script-src 'self'` / `connect-src 'self'` -
             no cross-origin allowlist, unlike Plausible/Fathom/Umami. Enable
             per-project in the Vercel dashboard → Analytics, then redeploy. */}
         <Analytics />

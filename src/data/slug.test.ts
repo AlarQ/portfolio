@@ -12,7 +12,7 @@ import { SLUG_PATTERN } from "./slug";
  * maintained copies.
  */
 
-describe("SLUG_PATTERN — shape", () => {
+describe("SLUG_PATTERN - shape", () => {
   it("accepts a valid slug and rejects uppercase, whitespace, and traversal segments", () => {
     expect(SLUG_PATTERN.test("valid-slug-123")).toBe(true);
     expect(SLUG_PATTERN.test("Has_Uppercase")).toBe(false);
@@ -21,7 +21,7 @@ describe("SLUG_PATTERN — shape", () => {
   });
 });
 
-describe("SLUG_PATTERN — shared identically by both loaders", () => {
+describe("SLUG_PATTERN - shared identically by both loaders", () => {
   it("buildPostSet rejects exactly the slugs SLUG_PATTERN rejects", () => {
     const badSlug = "Bad_Slug";
     expect(SLUG_PATTERN.test(badSlug)).toBe(false);

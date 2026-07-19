@@ -1,17 +1,17 @@
 flowchart TB
   subgraph validate["validate"]
-    subgraph p1["Phase 1 — deterministic gates"]
+    subgraph p1["Phase 1 - deterministic gates"]
       lint["lint"]
       types["type-check"]
       tests["tests"]
       fmt["format"]
     end
-    subgraph p2["Phase 2 — advisory agents"]
+    subgraph p2["Phase 2 - advisory agents"]
       sec["Security Engineer"]
       cq["Code-Quality Pragmatist"]
       arch["Software Architect"]
     end
-    subgraph p3["Phase 3 — coverage audit"]
+    subgraph p3["Phase 3 - coverage audit"]
       odium["Odium<br/>diff vs acceptance criteria"]
     end
   end

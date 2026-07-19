@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export interface Carousel {
-  /** Clamped, render-safe index — always within [0, length - 1] for a non-empty carousel. */
+  /** Clamped, render-safe index - always within [0, length - 1] for a non-empty carousel. */
   index: number;
   next: () => void;
   previous: () => void;

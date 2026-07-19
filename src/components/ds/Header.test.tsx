@@ -70,7 +70,7 @@ describe("Header", () => {
     const slash = container.querySelector("header h1 + span[aria-hidden]");
     expect(slash?.textContent).toBe("/");
 
-    // The tagline is a sibling <p>, not part of the h1 — associate it via
+    // The tagline is a sibling <p>, not part of the h1 - associate it via
     // aria-describedby so screen readers pair it with the title.
     const taglineId = heading?.getAttribute("aria-describedby");
     expect(taglineId).toBeTruthy();
