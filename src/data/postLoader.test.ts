@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { buildPostSet, getAdjacentPosts, type RawPostFile } from "./postLoader";
+import { buildPostSet, getAdjacentPosts, type RawPostFile, selectVisiblePosts } from "./postLoader";
 import type { Post } from "./posts";
 
 /**
@@ -79,9 +79,13 @@ describe("buildPostSet - ordering", () => {
   });
 });
 
-describe("buildPostSet - published by presence", () => {
-  it("includes a slug-valid file and marks it published (no separate draft flag)", () => {
-    // Given a single slug-valid file present in the set
+describe("buildPostSet - draft flag", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("marks a Post published when no draft key is present", () => {
+    // Given a slug-valid file with no `draft` frontmatter
     const files: RawPostFile[] = [
       rawFile("present.mdx", { title: "Present", dek: "d", date: "2026-02-02" }, "b"),
     ];
@@ -89,9 +93,83 @@ describe("buildPostSet - published by presence", () => {
     // When the pure core builds the set
     const posts = buildPostSet(files);
 
-    // Then it is included and published is true purely by its presence
+    // Then published is true (absent draft means published)
     expect(posts).toHaveLength(1);
     expect(posts[0].published).toBe(true);
+  });
+
+  it("marks a Post unpublished when draft: true", () => {
+    // Given a slug-valid file flagged draft: true (YAML boolean under JSON_SCHEMA)
+    const files: RawPostFile[] = [
+      rawFile("wip.mdx", { title: "WIP", dek: "d", date: "2026-02-02", draft: "true" }, "b"),
+    ];
+
+    // When the pure core builds the set
+    const posts = buildPostSet(files);
+
+    // Then the draft is not published
+    expect(posts).toHaveLength(1);
+    expect(posts[0].published).toBe(false);
+  });
+
+  it("marks a Post published when draft: false", () => {
+    // Given an explicit draft: false
+    const files: RawPostFile[] = [
+      rawFile("done.mdx", { title: "Done", dek: "d", date: "2026-02-02", draft: "false" }, "b"),
+    ];
+
+    // When the pure core builds the set
+    const posts = buildPostSet(files);
+
+    // Then published is true
+    expect(posts).toHaveLength(1);
+    expect(posts[0].published).toBe(true);
+  });
+
+  it("warns and treats a non-boolean draft as not-a-draft, still publishing", () => {
+    // Given a non-boolean draft value (a string "yes")
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const files: RawPostFile[] = [
+      rawFile("odd.mdx", { title: "Odd", dek: "d", date: "2026-02-02", draft: "yes" }, "b"),
+    ];
+
+    // When the pure core builds the set
+    const posts = buildPostSet(files);
+
+    // Then a warning names the file and the Post still publishes
+    expect(posts).toHaveLength(1);
+    expect(posts[0].published).toBe(true);
+    expect(warn.mock.calls.some((c) => String(c[0]).includes("odd.mdx"))).toBe(true);
+  });
+});
+
+describe("selectVisiblePosts", () => {
+  it("drops unpublished Posts and keeps published when includeDrafts is false", () => {
+    // Given a mix of published and unpublished Posts
+    const posts: Post[] = [
+      { ...fixturePost("live"), published: true },
+      { ...fixturePost("draft"), published: false },
+    ];
+
+    // When drafts are excluded (production)
+    const visible = selectVisiblePosts(posts, false);
+
+    // Then only the published Post survives
+    expect(visible.map((p) => p.slug)).toEqual(["live"]);
+  });
+
+  it("passes every Post through unchanged, order preserved, when includeDrafts is true", () => {
+    // Given a mix of published and unpublished Posts
+    const posts: Post[] = [
+      { ...fixturePost("live"), published: true },
+      { ...fixturePost("draft"), published: false },
+    ];
+
+    // When drafts are included (dev)
+    const visible = selectVisiblePosts(posts, true);
+
+    // Then all Posts pass through in order
+    expect(visible.map((p) => p.slug)).toEqual(["live", "draft"]);
   });
 });
 

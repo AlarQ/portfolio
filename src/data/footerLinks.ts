@@ -23,6 +23,6 @@ export const defaultFooterLinks: readonly FooterLink[] = [
     href: "https://www.linkedin.com/in/ernest-bednarczyk",
     icon: "linkedin",
   },
-  { label: "Email", href: "mailto:bednarczykernest5@gmail.com", icon: "email" },
+  { label: "Email", href: "mailto:contact@coldtake.dev", icon: "email" },
   { label: "RSS feed", href: "/feed.xml", icon: "rss" },
 ];

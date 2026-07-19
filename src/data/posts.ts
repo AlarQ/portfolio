@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { CategoryName } from "./categories";
-import { buildPostSet, type RawPostFile } from "./postLoader";
+import { buildPostSet, type RawPostFile, selectVisiblePosts } from "./postLoader";
 
 /**
  * A published blog Post's metadata.
@@ -33,6 +33,11 @@ const POSTS_DIR = join(process.cwd(), "content", "posts");
  * (readdir + read file) and hands raw files to the pure core `buildPostSet`,
  * which owns all validation, derivation, and ordering. Both the `/blog` index
  * and `/blog/[slug]` detail route consume this one source of truth.
+ *
+ * Draft gate: Posts with `draft: true` frontmatter (`published: false`) are
+ * visible only in the dev environment. In production (`pnpm build`) they are
+ * excluded here at the source, so they never reach the list, static params, or
+ * the RSS feed, and their `/blog/[slug]` URL 404s.
  */
 export function getPosts(): readonly Post[] {
   let filenames: string[];
@@ -54,7 +59,8 @@ export function getPosts(): readonly Post[] {
     }
   });
 
-  return buildPostSet(rawFiles);
+  const includeDrafts = process.env.NODE_ENV !== "production";
+  return selectVisiblePosts(buildPostSet(rawFiles), includeDrafts);
 }
 
 /**

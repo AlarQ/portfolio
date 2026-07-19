@@ -45,7 +45,7 @@ The owner's single current learning/exploration focus. Singular by design - exac
 _Avoid_: Interests, subjects, focus areas
 
 **Post**:
-A single published piece of writing on the **Blog**, authored as MDX. Self-contained - a Post references nothing itself, though a **Project** may reference Posts as its related deep-dives (the link points Project→Post, never the reverse). Published-only: a Post that exists is live (presence in `content/posts/` = published); there is no draft state in the model.
+A single published piece of writing on the **Blog**, authored as MDX. Self-contained - a Post references nothing itself, though a **Project** may reference Posts as its related deep-dives (the link points Project→Post, never the reverse). Published by default: a Post that exists is live unless its frontmatter sets `draft: true`. A `draft: true` Post is owner-authored, visible only in the dev environment (`pnpm dev`), and excluded from production builds, static params, and the RSS feed - its `/blog/[slug]` URL 404s in prod.
 _Avoid_: Article, entry, blog post, writing
 
 **Blog**:
@@ -69,7 +69,7 @@ _Avoid_: Journal, news, articles section
 > **Owner:** "Same **Domain Area**. The **Achievement** is proof I led 14 engineers; the **Skill** is the rating of that capability. Two views, one area."
 >
 > **Dev:** "A **Post** about my work on a **Project** - should it link to that Project?"
-> **Owner:** "No. A **Post** is standalone. It might mention a Project in prose, but the model doesn't connect them. And if a Post exists, it's published - I don't keep drafts in there."
+> **Owner:** "No. A **Post** is standalone. It might mention a Project in prose, but the model doesn't connect them. And a Post is published once it exists, unless I mark it `draft: true` to keep iterating on it locally - drafts never reach production."
 
 ## Configuration
 

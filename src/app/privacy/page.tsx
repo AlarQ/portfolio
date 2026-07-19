@@ -21,7 +21,11 @@ export default function PrivacyPage() {
         </p>
         <p className="text-lg text-muted-foreground">
           Every issue includes an unsubscribe link. You can also unsubscribe at any time by
-          contacting the site owner.
+          contacting{" "}
+          <a href="mailto:contact@coldtake.dev" className="underline hover:no-underline">
+            me
+          </a>
+          .
         </p>
       </main>
       <Footer />

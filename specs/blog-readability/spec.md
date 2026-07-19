@@ -149,6 +149,19 @@ localhost URLs to feed consumers.
 
 **Scenarios:** sec-feed-domain-config-fail-fast
 
+### FR-7: Draft Posts (dev-only visibility)
+A Post whose frontmatter sets `draft: true` (validated at the single loader gate:
+absent → published; boolean → taken as-is; non-boolean → warn + treat as
+published) is **visible only in the dev environment** (`process.env.NODE_ENV !==
+"production"`). Locally it renders in the Blog list and at its `/blog/[slug]` URL.
+In production it is excluded at the source (`getPosts` applies the pure
+`selectVisiblePosts` gate), so it never enters the list, `generateStaticParams`,
+or the RSS feed, and its detail URL 404s. Draft state is carried through the
+existing `Post.published` boolean (`published: !draft`) - no new `Post` field. All
+Posts remain 100% owner-authored, so the MDX trust boundary is untouched.
+
+**Scenarios:** draft-dev-visible, draft-prod-excluded, draft-non-boolean-warns
+
 ## API Contracts
 
 ### EP-FEED-GET - GET /feed.xml

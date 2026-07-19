@@ -89,11 +89,34 @@ function toPost(file: RawPostFile): Post {
     date,
     readingTimeMinutes: readingTime(body),
     formattedDate: formatDate(date),
-    published: true,
+    published: !validateDraft(file, data.draft),
     coverImage: validateCoverImage(file, data.coverImage),
     categories: validateCategories(file, data.categories),
     hnUrl: validateHnUrl(file, data.hnUrl),
   };
+}
+
+/**
+ * Filter the draft (unpublished) Posts out unless drafts are being included
+ * (dev environment). Pure - the NODE_ENV decision lives in the getPosts rind.
+ */
+export function selectVisiblePosts(posts: readonly Post[], includeDrafts: boolean): Post[] {
+  return includeDrafts ? [...posts] : posts.filter((p) => p.published);
+}
+
+/**
+ * Validate an optional `draft` flag at the single loader gate. Absent is legal
+ * (returns false, no warning); a boolean is taken as-is; anything else is warned
+ * + dropped (treated as not-a-draft, Post still publishes). Frontmatter is parsed
+ * under JSON_SCHEMA so a YAML `draft: true` arrives as a JS boolean.
+ */
+function validateDraft(file: RawPostFile, value: unknown): boolean {
+  if (value === undefined) return false;
+  if (typeof value === "boolean") return value;
+  console.warn(
+    `[posts] "${file.filename}": dropping draft "${String(value)}" - expected a boolean`
+  );
+  return false;
 }
 
 /**

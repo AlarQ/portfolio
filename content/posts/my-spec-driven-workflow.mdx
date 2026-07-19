@@ -42,13 +42,13 @@ phase starts in a fresh, isolated session and picks up the state the previous on
 left behind. No single context carries the whole feature from start to finish; each
 phase is bounded and resumable.
 
-<Diagram name="feature-flow" alt="The feature flow: a fixed Plan → Build → Verify → Ship chain of four stages. Plan holds explore then propose; Build holds implement; Verify holds validate, review-and-ship, then learn-from-reports; Ship holds validate-impl. Shipping is an inline step on the validate and review-and-ship paths. The stages run left to right in that order." />
+<Diagram name="feature-flow" alt="The feature flow: a fixed Plan → Build → Verify → Ship chain. Plan holds explore then propose; Build holds implement; Verify holds validate, review-and-ship, then learn-from-reports; Ship holds validate-impl. Shipping is an inline step on the validate and review-and-ship paths. The phases run left to right in that order." />
 
 Each command owns one phase of the flow. Here's what every phase is *for*:
 
 ### `explore` - capture requirements, size the work
 
-This phase runs a relentless ["grill" interview](https://github.com/mattpocock/skills/tree/main/skills/engineering/grill-with-docs) to pin down intent. It then grounds that intent in the domain: it updates `CONTEXT.md` - the project's living domain glossary, the canonical vocabulary the model has to speak - and writes ADRs for the hard-to-reverse, surprising calls. Finally it infers the **tier** - how much ceremony the feature earns - and the rest of the feature config once, up front (the full set of dials is spelled out in *The spec config* below).
+This phase runs a relentless ["grill" interview](https://github.com/mattpocock/skills/tree/main/skills/engineering/grill-with-docs) to pin down intent. It then grounds that intent in the domain: it updates `CONTEXT.md` - the project's living domain glossary, the canonical vocabulary the model has to speak - and writes ADRs for the hard-to-reverse, surprising calls. Finally it infers the **tier** and feature config once, up front (the tier dials are spelled out in *The spec config* below).
 
 ### `propose` - turn intent into a contract
 
@@ -66,7 +66,7 @@ caught after `implement` costs a rebuild.
 
 ### `implement` - build one task, test-first
 
-This phase builds exactly one eligible task, on its own branch, through a red-green-refactor loop; the next eligible task is picked off the **dependency graph** - the build order already set in `propose`. It runs inline or hands off to a specialized implementer agent, driving the task `todo → in-progress → implemented` and opening a draft PR.
+This phase builds exactly one eligible task, on its own branch, through a red-green-refactor loop; the next eligible task is picked off the **dependency graph** - the build order already set in `propose`. It runs inline or routes to the implementer agent named in the task, driving the task `todo → in-progress → implemented` and opening a draft PR.
 
 <Callout title="[Human gate] Draft-PR review">
 This is the first place in the implementation phase where I stop and read code. I open the draft PR, pull the diff
@@ -85,7 +85,7 @@ it ships inline, no separate step.
 ### `review-and-ship` - rule on the findings, then ship
 
 The findings from the `validate` phase get addressed in two ways: automatic and manual. Structural mappings I built into the process route mechanical findings to automatic fixes; everything else is delegated to me for manual approval.
-The **AUTO bucket** clears itself first: mechanical findings (formatting, unused import) and coverage gaps are fixed. Everything else is grouped by code region and presented for accept or reject, one region at a time, and a reasoned rejection can be promoted into a reusable knowledge-base (KB) rule on the spot. Then it ships inline: one commit covering the applied fixes, a push, and the draft PR flipped to ready - into a feature integration branch, so the feature comes together as a reviewable whole before it reaches `main`. Shipping is the tail of this phase now, not a command of its own; the task lands `review → done` and shipped in one move.
+The **AUTO bucket** clears itself first: mechanical findings (formatting, unused import) and coverage gaps are fixed. Everything else is grouped by code region and presented for accept or reject, one region at a time, and a reasoned rejection can be promoted into a reusable knowledge-base (KB) rule on the spot. Then it ships inline: one commit covering the applied fixes, a push, and the draft PR flipped to ready - into the feature integration branch, so the feature accrues as a reviewable whole before it reaches `main`. Shipping is the tail of this phase now, not a command of its own; the task lands `review → done` and shipped in one move.
 
 ### `learn-from-reports` - never the same mistake twice
 
@@ -124,7 +124,6 @@ post - built as a feature through the same flow - used this config:
 tier: medium            # small | medium | large  - how much ceremony the feature earns
 track: feature          # feature | technical
 branch_strategy: per-task
-validate_scope: per-task # per-task | per-spec | both  - when the gates run
 tags: [blog, mdx, ssg, nextjs, content]
 gates: [lint, format-check, type-check, unit-test, e2e-test]
 agents:
@@ -172,11 +171,11 @@ panel of specialized review agents in parallel, each looking at the diff through
 one lens. Their findings, plus the gate results, are what `review-and-ship` then
 walks me through:
 
-<Diagram name="validate-panel" alt="The validate phase runs three tracks in parallel, all feeding review-and-ship. Track 1, deterministic gates: lint, type-check, tests, format. Track 2, advisory agents: Security Engineer, Code-Quality Pragmatist, Software Architect. Track 3, coverage audit: the coverage auditor checking the diff against acceptance criteria. Every node flows into review-and-ship." />
+<Diagram name="validate-panel" alt="The validate phase runs three phases in parallel, all feeding review-and-ship. Phase 1, deterministic gates: lint, type-check, tests, format. Phase 2, advisory agents: Security Engineer, Code-Quality Pragmatist, Software Architect. Phase 3, coverage audit: Odium checking the diff against acceptance criteria. Every node flows into review-and-ship." />
 
 The gates are mechanical: lint, type-check, tests, format, run before any agent
 weighs in. The advisory agents each read the diff through one lens (security, code
-quality, architecture), and a coverage auditor checks it against the task's acceptance
+quality, architecture), and **Odium** checks it against the task's acceptance
 criteria. Everything lands in `review-and-ship`, where I rule on the
 disagreements instead of grading my own homework.
 
@@ -187,24 +186,27 @@ knowledge base, split by topic directory - `architecture/`, `testing/`,
 `security/`, `frontend/`, `languages/`, `style/`, and a few more. One store, so a
 rule has exactly one home and gets cited the same way everywhere.
 
-## Nothing is invisible
+## The system watches itself
 
 Every phase leaves a trail on disk, so the containment is inspectable after the
 fact.
 
-- A running log tracks each feature's lifecycle: task transitions, tests going
-  red then green, when coverage checks start and finish, gates skipped, the
-  tier the feature was assigned, and the PR's journey from draft to ready.
-- Every task keeps a record of its gate findings - what was flagged, how
-  severe, whether a tool or an agent raised it, how confident it was, and
-  whether I accepted, rejected, or noted it.
-- Once a feature is fully built, an audit report says whether it's genuinely
-  complete or needs another pass.
+- `specs/<feature>/.monitor.jsonl` records what happens across a feature's
+  lifecycle: task transitions, TDD red and green, coverage-audit start and finish,
+  gate skips, the inferred tier, and PR lifecycle (`pr_opened_draft`, `pr_ready`).
+- `specs/<feature>/reports/<task-id>-<gate-name>.yaml` holds the per-task gate
+  findings. Each finding carries a `severity`, a `category`, a `source` of `tool`
+  or `llm`, a `confidence`, and a `review_status` of `pending`, `accepted`,
+  `rejected`, or `noted`.
+- `reports/spec-audit-<timestamp>.md` records the spec-completion audit with a
+  `verdict` of `complete` or `reopen`.
 
-On top of that sits a learning loop: recurring findings and reasoned rejections
-across past runs get mined for patterns general enough to reuse, and those
-patterns turn into knowledge-base rules. The next run starts with the rule
-already in place, so the same mistake gets caught one phase earlier.
+On top of that sits a learning loop. `/learn-from-reports` mines those reports
+across runs for recurring categories, reasoned rejections, and accepted fixes
+general enough to reuse, then promotes them into the knowledge base under
+`master-brain/general-knowledge-base/<category>/` (updating the `_index.md`). The
+next run starts with the rule already in place, so the same mistake gets caught
+one phase earlier.
 
 <Diagram name="learning-loop" alt="The learning loop: LLM actions are recorded to .monitor.jsonl and reports/*.yaml; those feed review-and-ship (accept or reject); review-and-ship feeds learn-from-reports; that promotes KB rules; and the KB rules feed back into LLM actions so the same mistake is caught earlier next run." />
 
