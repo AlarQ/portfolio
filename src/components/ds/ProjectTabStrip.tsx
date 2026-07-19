@@ -71,7 +71,7 @@ export function ProjectTabStrip({ projects, selectedSlug, onSelectSlug }: Projec
           type="button"
           aria-label="Scroll left"
           onClick={() => scrollByAmount(-1)}
-          className="shrink-0 rounded-full border border-border bg-background p-2 text-foreground shadow-sm"
+          className="shrink-0 rounded-full border border-border bg-background p-2 text-foreground shadow-sm md:hidden"
         >
           ‹
         </button>
@@ -79,7 +79,7 @@ export function ProjectTabStrip({ projects, selectedSlug, onSelectSlug }: Projec
           ref={railRef}
           role="tablist"
           aria-label="Projects"
-          className="flex w-full flex-nowrap gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex w-full flex-nowrap gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-visible md:snap-none"
         >
           {projects.map((project, index) => {
             const isSelected = project.slug === selectedSlug;
@@ -113,12 +113,12 @@ export function ProjectTabStrip({ projects, selectedSlug, onSelectSlug }: Projec
           type="button"
           aria-label="Scroll right"
           onClick={() => scrollByAmount(1)}
-          className="shrink-0 rounded-full border border-border bg-background p-2 text-foreground shadow-sm"
+          className="shrink-0 rounded-full border border-border bg-background p-2 text-foreground shadow-sm md:hidden"
         >
           ›
         </button>
       </div>
-      <div className="mt-2 flex justify-center gap-1.5">
+      <div className="mt-2 flex justify-center gap-1.5 md:hidden">
         {projects.map((project) => (
           <span
             key={project.slug}
