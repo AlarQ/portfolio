@@ -23,6 +23,9 @@ test.describe("Blog in-page Table of Contents (route composition)", () => {
   test("resolves the locked accessible name and links every heading id in document order", async ({
     page,
   }) => {
+    // The dot-rail is desktop-only (display:none on mobile, asserted below), so
+    // pin a desktop viewport - otherwise this runs hidden on the Mobile project.
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto(POST_PATH);
 
     const toc = page.getByRole("navigation", { name: TOC_ACCESSIBLE_NAME });
@@ -42,7 +45,7 @@ test.describe("Blog in-page Table of Contents (route composition)", () => {
     expect(tocHrefs).toEqual(headingIds.map((id) => `#${id}`));
 
     // Human-readable order sanity: the first section is the post's first ##.
-    await expect(toc.getByRole("link").first()).toHaveText("The boundary I keep pushing out");
+    await expect(toc.getByRole("link").first()).toHaveText("The Feature flow");
   });
 
   // Restores `toc-sticky-desktop` (blog-readability spec), dropped by task 004's

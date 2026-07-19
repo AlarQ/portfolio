@@ -189,6 +189,6 @@ describe("no-direct-palette-import lint gate (FR-3)", () => {
     const pkg = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf-8"));
 
     expect(pkg.devDependencies["@biomejs/biome"]).toMatch(/^\d+\.\d+\.\d+$/);
-    expect(existsSync(join(repoRoot, "package-lock.json"))).toBe(true);
+    expect(existsSync(join(repoRoot, "pnpm-lock.yaml"))).toBe(true);
   });
 });

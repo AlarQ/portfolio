@@ -42,7 +42,7 @@ All E2E tests are located in the `e2e/` directory:
 Run all E2E tests in headless mode (default):
 
 ```bash
-npm run test:e2e
+pnpm test:e2e
 ```
 
 ### Run Tests in UI Mode
@@ -50,7 +50,7 @@ npm run test:e2e
 Open the Playwright Test UI to see tests run in real-time with a visual interface:
 
 ```bash
-npm run test:e2e:ui
+pnpm test:e2e:ui
 ```
 
 The UI mode allows you to:
@@ -64,7 +64,7 @@ The UI mode allows you to:
 Step through tests with the Playwright Inspector:
 
 ```bash
-npm run test:e2e:debug
+pnpm test:e2e:debug
 ```
 
 This opens a browser and pauses execution so you can:
@@ -78,7 +78,7 @@ This opens a browser and pauses execution so you can:
 Run tests with visible browsers:
 
 ```bash
-npm run test:e2e:headed
+pnpm test:e2e:headed
 ```
 
 ### Run Specific Test File
@@ -86,7 +86,7 @@ npm run test:e2e:headed
 Run tests from a single file:
 
 ```bash
-npx playwright test e2e/home.spec.ts
+pnpm exec playwright test e2e/home.spec.ts
 ```
 
 ### Run Tests in Specific Browser
@@ -94,9 +94,9 @@ npx playwright test e2e/home.spec.ts
 Run tests only in a specific browser:
 
 ```bash
-npx playwright test --project=chromium
-npx playwright test --project=firefox
-npx playwright test --project=webkit
+pnpm exec playwright test --project=chromium
+pnpm exec playwright test --project=firefox
+pnpm exec playwright test --project=webkit
 ```
 
 ### View Test Reports
@@ -104,7 +104,7 @@ npx playwright test --project=webkit
 After running tests, view the HTML report:
 
 ```bash
-npx playwright show-report
+pnpm exec playwright show-report
 ```
 
 This opens a detailed report showing:
@@ -445,7 +445,7 @@ test("contribution graph loads", async ({ page }) => {
 **Solutions**:
 1. Check if port 3000 is already in use: `lsof -i :3000`
 2. Kill process on port 3000: `kill -9 <PID>`
-3. Check if `npm run dev` works manually
+3. Check if `pnpm dev` works manually
 4. Increase timeout in `playwright.config.ts`
 
 ### Browser Not Installed
@@ -454,12 +454,12 @@ test("contribution graph loads", async ({ page }) => {
 
 **Solution**: Install browsers:
 ```bash
-npx playwright install
+pnpm exec playwright install
 ```
 
 For CI, install all browsers:
 ```bash
-npx playwright install --with-deps
+pnpm exec playwright install --with-deps
 ```
 
 ### Tests Pass Locally But Fail in CI
@@ -481,7 +481,7 @@ npx playwright install --with-deps
 When a test fails, Playwright generates a trace file. View it:
 
 ```bash
-npx playwright show-trace trace.zip
+pnpm exec playwright show-trace trace.zip
 ```
 
 This opens the Playwright Trace Viewer where you can:
@@ -495,8 +495,8 @@ This opens the Playwright Trace Viewer where you can:
 Update to the latest version:
 
 ```bash
-npm install -D @playwright/test@latest
-npx playwright install --with-deps
+pnpm add -D @playwright/test@latest
+pnpm exec playwright install --with-deps
 ```
 
 ---

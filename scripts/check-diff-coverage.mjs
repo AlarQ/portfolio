@@ -1,7 +1,7 @@
 // Diff-coverage gate (see .husky/pre-push): the lines this branch adds/changes
 // under src/ must be >= COVERAGE_MIN% covered by the Vitest unit suite. Legacy
 // untested code is ignored - only branch-new coverable lines count. Reads the
-// lcov report produced by `npm run test:coverage` and the git diff against the
+// lcov report produced by `pnpm test:coverage` and the git diff against the
 // merge-base with origin/main. Non-zero exit aborts the push.
 
 import { execFileSync } from "node:child_process";
@@ -109,9 +109,7 @@ const main = () => {
   }
 
   if (!existsSync(LCOV_PATH)) {
-    console.error(
-      `[check-diff-coverage] ${LCOV_PATH} missing - run \`npm run test:coverage\` first.`
-    );
+    console.error(`[check-diff-coverage] ${LCOV_PATH} missing - run \`pnpm test:coverage\` first.`);
     process.exit(1);
   }
   const lcov = parseLcov();

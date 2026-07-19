@@ -20,7 +20,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 4,
 
   webServer: {
-    command: "npm run dev",
+    command: "pnpm dev",
     url: "http://localhost:3000",
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,

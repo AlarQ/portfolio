@@ -1,0 +1,6 @@
+# pnpm 11 reads settings here (no longer the "pnpm" field in package.json).
+# allowBuilds gates which deps may run install/build scripts.
+allowBuilds:
+  core-js-pure: false
+  esbuild: true
+  sharp: true

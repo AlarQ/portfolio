@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 /**
  * FR-1 (`home-index-renders`). `/` now serves the Blog index (ADR-RM-4:
  * inverted IA) fed by the real Post loader over `content/posts/`
- * (`my-spec-driven-workflow.mdx`, `second-post.mdx`). Asserts real content +
+ * (`pour-it-once.mdx`, `my-spec-driven-workflow.mdx`). Asserts real content +
  * newest-first ordering only - theme/light-default is asserted by a later
  * task (006), badge-hue correctness by an earlier one.
  */
@@ -15,14 +15,14 @@ test.describe("/ renders the Blog index (FR-1)", () => {
     const articles = page.locator("article");
     await expect(articles).toHaveCount(2);
 
-    // `content/posts/my-spec-driven-workflow.mdx` is dated after
-    // `second-post.mdx` - newest-first means it renders first.
+    // `content/posts/pour-it-once.mdx` (2026-07-14) is dated after
+    // `my-spec-driven-workflow.mdx` (2026-06-15) - newest-first means it renders first.
     const firstArticleText = await articles.nth(0).innerText();
     const secondArticleText = await articles.nth(1).innerText();
 
-    expect(firstArticleText).toContain("Bounded Chaos");
-    expect(firstArticleText).toContain("You can't make an LLM deterministic");
-    expect(secondArticleText).toContain("The Seam Pattern");
+    expect(firstArticleText).toContain("Pour It Once");
+    expect(firstArticleText).toContain("compiler-fenced base");
+    expect(secondArticleText).toContain("Bounded Chaos");
   });
 
   test("/blog 308-redirects to / and renders without regression", async ({ page }) => {
