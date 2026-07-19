@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.23](https://github.com/AlarQ/portfolio/compare/v0.1.22...v0.1.23) (2026-07-19)
+
+
+### Bug Fixes
+
+* tighten spacing and drop eyebrow on post end-card newsletter ([1a66422](https://github.com/AlarQ/portfolio/commit/1a66422337904ee5a7d7d72e956eb8b24646fcd3))
+
 ## [0.1.22](https://github.com/AlarQ/portfolio/compare/v0.1.21...v0.1.22) (2026-07-19)
 
 
