@@ -15,9 +15,6 @@ describe("projects - data contract", () => {
       expect(typeof entry.title).toBe("string");
       expect(typeof entry.slug).toBe("string");
       expect(typeof entry.tagline).toBe("string");
-      expect(["exploring", "in-progress", "shipped"]).toContain(entry.status);
-      expect(entry.mvpProgress).toBeGreaterThanOrEqual(0);
-      expect(entry.mvpProgress).toBeLessThanOrEqual(100);
       expect(typeof entry.currentState).toBe("string");
       expect(Array.isArray(entry.repos)).toBe(true);
       const seenRoles = new Set<string>();

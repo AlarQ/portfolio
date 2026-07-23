@@ -9,8 +9,6 @@ function project(overrides: Partial<Project>): Project {
     title: overrides.title ?? "Project",
     slug: overrides.slug ?? "project",
     tagline: "",
-    status: overrides.status ?? "in-progress",
-    mvpProgress: overrides.mvpProgress ?? 50,
     currentState: "",
     repos: [],
     relatedPosts: [],

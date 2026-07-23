@@ -6,8 +6,6 @@ const PROJECT: Project = {
   title: "Portfolio Site",
   slug: "portfolio-site",
   tagline: "A statically-generated portfolio and blog.",
-  status: "in-progress",
-  mvpProgress: 80,
   currentState: "Building the Projects tab on top of the existing seam-pattern architecture.",
   repos: [
     {
@@ -32,8 +30,29 @@ const meta: Meta<typeof ProjectSummary> = {
 export default meta;
 type Story = StoryObj<typeof ProjectSummary>;
 
-/** Full summary: title, tagline, Status, MVP meter, current state, tech badges, related posts. */
+/** Full summary: title, tagline, current state, tech badges, related posts. */
 export const Default: Story = {
+  args: { project: PROJECT },
+};
+
+/** With an inline Brief body rendered under the summary. */
+export const WithBrief: Story = {
+  args: {
+    project: PROJECT,
+    brief: (
+      <>
+        <h2>Why this project exists</h2>
+        <p>
+          A fixture paragraph standing in for a real MDX Brief body, to check the inline layout
+          without importing real `.mdx` content into a page-agnostic story.
+        </p>
+      </>
+    ),
+  },
+};
+
+/** No Brief body for this Project - the inline Brief section is omitted. */
+export const NoBrief: Story = {
   args: { project: PROJECT },
 };
 
@@ -45,33 +64,6 @@ export const LongContent: Story = {
       title: "A Much Longer Project Title That Might Wrap Across Multiple Lines",
       tagline:
         "A tagline long enough to wrap across several lines to verify the summary layout stays legible and doesn't clip or overflow its container.",
-    },
-  },
-};
-
-/** `status: "exploring"` - the seam resolves a muted tone (exploring-muted-tone). */
-export const Exploring: Story = {
-  args: {
-    project: {
-      ...PROJECT,
-      status: "exploring",
-      mvpProgress: 15,
-      currentState: "Still scoping the approach.",
-    },
-  },
-};
-
-/**
- * Non-exploring status with low `mvpProgress` - the seam still resolves a
- * muted tone (FR-3: de-emphasis isn't limited to `status: "exploring"`).
- */
-export const LowMvpProgress: Story = {
-  args: {
-    project: {
-      ...PROJECT,
-      status: "in-progress",
-      mvpProgress: 5,
-      currentState: "Just started - too early to carry the in-progress tone.",
     },
   },
 };

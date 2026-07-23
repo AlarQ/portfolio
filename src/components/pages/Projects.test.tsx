@@ -9,8 +9,6 @@ const PROJECTS: readonly Project[] = [
     title: "Alpha",
     slug: "alpha",
     tagline: "The first project.",
-    status: "in-progress",
-    mvpProgress: 50,
     currentState: "",
     repos: [],
     relatedPosts: [],
@@ -19,8 +17,6 @@ const PROJECTS: readonly Project[] = [
     title: "Beta",
     slug: "beta",
     tagline: "The second project.",
-    status: "exploring",
-    mvpProgress: 10,
     currentState: "",
     repos: [],
     relatedPosts: [],
@@ -29,7 +25,7 @@ const PROJECTS: readonly Project[] = [
 
 describe("Projects page", () => {
   it("shows the first Project's summary on initial render with no interaction", () => {
-    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} briefs={{}} />);
 
     expect(container.textContent).toContain("Alpha");
     expect(container.textContent).toContain("The first project.");
@@ -39,7 +35,7 @@ describe("Projects page", () => {
   });
 
   it("clicking a different pill swaps the summary client-side, with no navigation", () => {
-    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} briefs={{}} />);
 
     const betaTab = [...container.querySelectorAll('[role="tab"]')].find((el) =>
       el.textContent?.includes("Beta")
@@ -57,7 +53,7 @@ describe("Projects page", () => {
   });
 
   it("wraps the summary swap in a motion-safe-only transition (instant under prefers-reduced-motion)", () => {
-    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} briefs={{}} />);
 
     const wrapper = container.querySelector('[data-testid="project-summary-swap"]');
     expect(wrapper).not.toBeNull();
@@ -70,7 +66,7 @@ describe("Projects page", () => {
   });
 
   it("wires the active tab's aria-controls to a rendered tabpanel via matching id/aria-labelledby", () => {
-    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} briefs={{}} />);
 
     const alphaTab = container.querySelector('[role="tab"][aria-selected="true"]') as HTMLElement;
     expect(alphaTab).toBeTruthy();
