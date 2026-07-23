@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.26](https://github.com/AlarQ/portfolio/compare/v0.1.25...v0.1.26) (2026-07-23)
+
+
+### Features
+
+* inline Project Brief into /projects tab ([#90](https://github.com/AlarQ/portfolio/issues/90)) ([7842f38](https://github.com/AlarQ/portfolio/commit/7842f388688b8064762c28aa9519538ee568d715))
+
 ## [0.1.25](https://github.com/AlarQ/portfolio/compare/v0.1.24...v0.1.25) (2026-07-19)
 
 ## [0.1.24](https://github.com/AlarQ/portfolio/compare/v0.1.23...v0.1.24) (2026-07-19)
