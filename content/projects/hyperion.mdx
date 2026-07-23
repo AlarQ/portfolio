@@ -1,0 +1,9 @@
+PROTOTYPE — throwaway Brief body proving a Project page can host the same
+`<Diagram>` seam already used in Posts. If kept, drop this comment and write
+real Brief prose.
+
+Hyperion is a shared Rust/Axum backend monolith. Four product apps sit on top
+of one base, poured once, so auth, sessions, and the DB pool are never
+duplicated per app.
+
+<Diagram name="hyperion-foundation" alt="Four app binaries - budget-app, gtd-app, repeat-app, and job-offer-app - sit in a top row, each pointing down to a single shared base node. The base, poured once, holds the shared, user, mailing, and ai crates and provides auth, sessions, RBAC, config, the DB pool, email, and OpenAPI. A rule note attached to the base reads: apps depend on the base, never the reverse; domain crates meet only through shared traits; the compiler refuses to build a crossed edge." />

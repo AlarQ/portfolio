@@ -66,6 +66,10 @@ When adding a domain concept, follow this layering: type+data in `src/data/`, an
 
 `CONTEXT.md` is the domain glossary (Project, MVP Progress, Domain Area, Achievement, Skill, Reading, Topic) with the precise meaning of each term and deliberately-rejected synonyms. Read it before naming anything.
 
+### Diagrams
+
+Every Mermaid diagram (`content/diagrams/*.mmd`) uses the **one** palette owned by `scripts/prerender-mermaid.ts` - category Badge hues in light, Shiki token colors in dark, resolved from `src/theme/tokens.ts` primitives (same seam pattern as Design tokens above). A `.mmd` declares structure + a semantic role per node (`class x plan`) and never a color literal; `classDef`/`style` lines are stripped if present. Do not introduce a second palette, inline `classDef` colors, or a one-off style for a single diagram (including Project Briefs) - add a new role to `LIGHT_ROLES`/`DARK_ROLES` in that script if an existing hue doesn't fit, then re-run `pnpm prerender:mermaid`. Render with `<Diagram name="..." alt="..." />` (`src/components/Diagram.tsx`), never `rehype-mermaid` at build time (breaks the Vercel image, see the script's header comment).
+
 ## Component workflow - Storybook first
 
 Every visual component is developed and verified in Storybook **before** it is wired into an app route. Order is mandatory, not advisory:
