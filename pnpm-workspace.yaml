@@ -4,3 +4,11 @@ allowBuilds:
   core-js-pure: false
   esbuild: true
   sharp: true
+
+# Transitive advisories with no fixed parent release yet (pnpm audit --audit-level
+# high is a pre-push gate). Drop an entry once the parent ships the fix itself.
+overrides:
+  postcss: '>=8.5.12'
+  sharp: '>=0.35.0'
+  fast-uri: '>=3.1.4'
+  brace-expansion: '>=1.1.16'
