@@ -8,8 +8,6 @@ function project(overrides: Partial<Project>): Project {
     title: "Project",
     slug: "project",
     tagline: "",
-    status: "in-progress",
-    mvpProgress: 50,
     currentState: "",
     repos: [],
     relatedPosts: [],
@@ -18,9 +16,9 @@ function project(overrides: Partial<Project>): Project {
 }
 
 const PROJECTS: readonly Project[] = [
-  project({ title: "Portfolio Site", slug: "portfolio-site", status: "in-progress" }),
-  project({ title: "Weekend Sketch", slug: "weekend-sketch", status: "exploring" }),
-  project({ title: "Shipped Thing", slug: "shipped-thing", status: "shipped" }),
+  project({ title: "Portfolio Site", slug: "portfolio-site" }),
+  project({ title: "Weekend Sketch", slug: "weekend-sketch" }),
+  project({ title: "Shipped Thing", slug: "shipped-thing" }),
 ];
 
 const LONG_PROJECTS: readonly Project[] = [
@@ -57,41 +55,11 @@ export const Interactive: Story = {
   },
 };
 
-/** Every Status tone represented, first pill (in-progress) selected by default. */
-export const AllStatuses: Story = {
-  args: {
-    projects: PROJECTS,
-    selectedSlug: PROJECTS[0]?.slug ?? "",
-    onSelectSlug: () => {},
-  },
-};
-
 /** Long titles / many pills - the strip stays a one-row scroll-snap rail. */
 export const LongContent: Story = {
   args: {
     projects: LONG_PROJECTS,
     selectedSlug: LONG_PROJECTS[3]?.slug ?? "",
-    onSelectSlug: () => {},
-  },
-};
-
-/**
- * A non-exploring pill with low `mvpProgress` still resolves a muted dot
- * (FR-3: de-emphasis isn't limited to `status: "exploring"`).
- */
-export const LowMvpProgress: Story = {
-  args: {
-    projects: [
-      project({
-        title: "Portfolio Site",
-        slug: "portfolio-site",
-        status: "in-progress",
-        mvpProgress: 5,
-      }),
-      project({ title: "Weekend Sketch", slug: "weekend-sketch", status: "exploring" }),
-      project({ title: "Shipped Thing", slug: "shipped-thing", status: "shipped" }),
-    ],
-    selectedSlug: "portfolio-site",
     onSelectSlug: () => {},
   },
 };

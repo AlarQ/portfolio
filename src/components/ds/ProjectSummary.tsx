@@ -1,30 +1,28 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Meter } from "@/components/ui/meter";
-import { StatusDot } from "@/components/ui/status-dot";
 import type { Project } from "@/data/projects";
-import {
-  projectPresentation,
-  repoRolePresentation,
-  techPresentation,
-} from "@/utils/projectPresentation";
+import { repoRolePresentation, techPresentation } from "@/utils/projectPresentation";
 
 export interface ProjectSummaryProps {
   readonly project: Project;
+  /** Pre-rendered `content/projects/<slug>.mdx` Brief body, rendered
+   *  server-side by the `/projects` route and threaded down, since this
+   *  component runs client-side under `pages/Projects` and can't touch `fs`.
+   *  Undefined when the Project has no Brief. */
+  readonly brief?: ReactNode;
 }
 
 /**
  * `ds/` organism rendering the active Project's summary panel - the detail
  * pane driven by `ProjectTabStrip`'s selection (FR-6, FR-7). Renders every
- * field from seam output only: Status tone/label via `projectPresentation`,
- * tech-stack hues via `techPresentation` (mirrors how `SinglePost` consumes
- * `categoryPresentation` for Post categories) - never a raw literal switch
- * here. Tech is grouped per Repo via `repoRolePresentation` + `techPresentation`.
+ * field from seam output only: tech-stack hues via `techPresentation`
+ * (mirrors how `SinglePost` consumes `categoryPresentation` for Post
+ * categories) - never a raw literal switch here. Tech is grouped per Repo via
+ * `repoRolePresentation` + `techPresentation`.
  */
-export function ProjectSummary({ project }: ProjectSummaryProps) {
-  const { tone, label } = projectPresentation(project.status, project.mvpProgress);
-
+export function ProjectSummary({ project, brief }: ProjectSummaryProps) {
   return (
     <section aria-labelledby="project-summary-heading" className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
@@ -34,14 +32,13 @@ export function ProjectSummary({ project }: ProjectSummaryProps) {
         <p className="text-muted-foreground">{project.tagline}</p>
       </div>
 
-      <div className="flex items-center gap-2">
-        <StatusDot tone={tone} />
-        <span className="text-sm font-medium text-foreground">{label}</span>
-      </div>
-
-      <Meter value={project.mvpProgress} />
-
       <p className="text-foreground">{project.currentState}</p>
+
+      {brief && (
+        <div className="flex flex-col gap-4 border-t border-border pt-6 text-foreground [&_p]:leading-relaxed [&>h2]:text-xl [&>h2]:font-semibold">
+          {brief}
+        </div>
+      )}
 
       {project.repos.length > 0 && (
         <div className="flex flex-col gap-3">

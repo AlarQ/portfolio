@@ -1,0 +1,46 @@
+flowchart LR
+  subgraph before["Before - Microservices (learning project)"]
+    fe["Frontend"]
+    gw["BFF Gateway"]
+    us["User Service"]
+    ss["Subscription Service"]
+    ais["AI Service"]
+    kafka["Kafka<br/>event bus"]
+    fe --> gw
+    gw --> us
+    gw --> ss
+    gw --> ais
+    us -.-> kafka
+    ss -.-> kafka
+    ais -.-> kafka
+  end
+
+  subgraph after["After - Cargo Workspace Monorepo"]
+    BA["budget-app"]
+    GTD["gtd-app"]
+    REPEAT["repeat-app"]
+    JOB["job-offer-app"]
+    base["<b>Shared base - poured once</b><br/>shared · user · mailing · ai<br/>auth, sessions, RBAC, config, DB pool, email, OpenAPI"]
+    jobbox["job_offer_box<br/>(job-offer-app only)"]
+    sub["subscription<br/>(standalone crate, not yet wired to an app)"]
+    BA --> base
+    GTD --> base
+    REPEAT --> base
+    JOB --> base
+    JOB --> jobbox
+    rule["Apps depend on the base, never the reverse.<br/>Domain crates meet only through shared traits.<br/>The compiler refuses a crossed edge."]
+    base --- rule
+    base --- sub
+  end
+
+  %% Roles only. Colours are resolved per theme (light + dark) by
+  %% scripts/prerender-mermaid.ts - the diagram presentation seam. Do not add
+  %% classDef/style colour literals here; a role with no palette entry throws.
+  class fe,gw gate
+  class us,ss,ais build
+  class kafka loop
+  class BA,GTD,REPEAT,JOB build
+  class base plan
+  class jobbox audit
+  class sub sink
+  class rule verify

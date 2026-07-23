@@ -17,8 +17,6 @@ function project(overrides: Partial<Project>): Project {
     title: "Sample Project",
     slug: "sample-project",
     tagline: "A sample project.",
-    status: "in-progress",
-    mvpProgress: 50,
     currentState: "Building the core loop.",
     repos: [{ role: "backend", techKeys: ["typescript"] }],
     relatedPosts: [],

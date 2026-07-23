@@ -55,7 +55,7 @@ export function filterProjectsWithBrief(
 ): Project[] {
   return validatedProjects.filter((project) => {
     if (briefExists(project.slug)) return true;
-    console.warn(`[projects] no Brief found for "${project.slug}" - skipping its route`);
+    console.warn(`[projects] no Brief found for "${project.slug}" - skipping its inline Brief`);
     return false;
   });
 }

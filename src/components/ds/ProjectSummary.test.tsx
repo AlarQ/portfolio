@@ -7,8 +7,6 @@ const PROJECT: Project = {
   title: "Portfolio Site",
   slug: "portfolio-site",
   tagline: "A statically-generated portfolio and blog.",
-  status: "in-progress",
-  mvpProgress: 80,
   currentState: "Building the Projects tab.",
   repos: [{ role: "frontend", techKeys: ["nextjs", "react"] }],
   relatedPosts: [{ label: "Building the tablist", slug: "building-the-tablist" }],
@@ -24,22 +22,10 @@ describe("ProjectSummary", () => {
     unmount();
   });
 
-  it("renders Status via the presentation seam (tone + label) and current state", () => {
+  it("renders the current state", () => {
     const { container, unmount } = renderIntoDocument(<ProjectSummary project={PROJECT} />);
 
-    expect(container.textContent).toContain("In progress");
-    expect(container.querySelector('[data-slot="status-dot"][data-tone="info"]')).not.toBeNull();
     expect(container.textContent).toContain(PROJECT.currentState);
-
-    unmount();
-  });
-
-  it("renders the MVP-progress meter fed project.mvpProgress", () => {
-    const { container, unmount } = renderIntoDocument(<ProjectSummary project={PROJECT} />);
-
-    const meter = container.querySelector('[data-slot="meter"]');
-    expect(meter).not.toBeNull();
-    expect(meter?.getAttribute("aria-valuenow")).toBe("80");
 
     unmount();
   });
@@ -93,6 +79,24 @@ describe("ProjectSummary", () => {
     expect(link).not.toBeUndefined();
     expect(link?.getAttribute("href")).toBe("/blog/building-the-tablist");
     expect(container.querySelectorAll('[data-slot="card"]')).toHaveLength(1);
+
+    unmount();
+  });
+
+  it("renders the Brief content inline when brief is provided", () => {
+    const { container, unmount } = renderIntoDocument(
+      <ProjectSummary project={PROJECT} brief={<p>Brief prose content.</p>} />
+    );
+
+    expect(container.textContent).toContain("Brief prose content.");
+
+    unmount();
+  });
+
+  it("omits the inline Brief section when brief is undefined", () => {
+    const { container, unmount } = renderIntoDocument(<ProjectSummary project={PROJECT} />);
+
+    expect(container.textContent).not.toContain("Brief prose content.");
 
     unmount();
   });

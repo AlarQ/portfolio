@@ -7,8 +7,6 @@ const PROJECTS: readonly Project[] = [
     title: "Portfolio Site",
     slug: "portfolio-site",
     tagline: "This site - a statically-generated portfolio and blog.",
-    status: "in-progress",
-    mvpProgress: 80,
     currentState: "Building the Projects tab.",
     repos: [{ role: "frontend", techKeys: ["nextjs", "react", "typescript"] }],
     relatedPosts: [],
@@ -17,8 +15,6 @@ const PROJECTS: readonly Project[] = [
     title: "Weekend Sketch",
     slug: "weekend-sketch",
     tagline: "An early-stage exploration.",
-    status: "exploring",
-    mvpProgress: 15,
     currentState: "Sketching the idea.",
     repos: [{ role: "frontend", techKeys: ["react"] }],
     relatedPosts: [],
@@ -27,8 +23,6 @@ const PROJECTS: readonly Project[] = [
     title: "Shipped Thing",
     slug: "shipped-thing",
     tagline: "A completed project.",
-    status: "shipped",
-    mvpProgress: 100,
     currentState: "Live and maintained.",
     repos: [{ role: "backend", techKeys: ["node"] }],
     relatedPosts: [],
@@ -39,7 +33,7 @@ const meta: Meta<typeof Projects> = {
   title: "Pages/Projects",
   component: Projects,
   tags: ["autodocs"],
-  args: { projects: PROJECTS },
+  args: { projects: PROJECTS, briefs: { "portfolio-site": <p>Fixture brief text.</p> } },
 };
 
 export default meta;

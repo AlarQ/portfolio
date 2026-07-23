@@ -1,6 +1,14 @@
 # MDX for Project Briefs
 
-Status: accepted
+Status: superseded
+
+**2026-07 update:** the separate `/projects/[slug]` route described below was removed. The
+Brief still renders through the same MDX pipeline/seam this ADR establishes, but is now
+pre-rendered server-side in `src/app/projects/page.tsx` and rendered inline in the
+`/projects` tab-strip panel (via `ProjectSummary`'s `brief` prop) instead of at its own
+route - the owner decided a separate page added friction with no benefit for a single-Brief
+site. The MDX-reuse rationale, the slug-validation-gate ownership, and the trust-boundary
+consequences below are otherwise still accurate and still apply.
 
 The **Projects** section (see `features/projects-tab.md`, prototype variant C) presents each **Project** as a scannable brief. A **Project Brief** is defined in `CONTEXT.md` as "the owner-authored, on-site description page for a single Project - rendered from MDX. Each Project has exactly one Brief." We now commit to building that page for v1: each Project gets a real `/projects/[slug]` route whose long-form body is an **MDX file** under `content/projects/`, reusing the blog's MDX pipeline and presentation seam ([ADR-0001](0001-mdx-for-blog-posts.md)).
 

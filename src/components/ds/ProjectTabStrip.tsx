@@ -2,10 +2,8 @@
 
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { useRef } from "react";
-import { StatusDot } from "@/components/ui/status-dot";
 import { TabPill } from "@/components/ui/tab-pill";
 import type { Project } from "@/data/projects";
-import { projectPresentation } from "@/utils/projectPresentation";
 
 export interface ProjectTabStripProps {
   readonly projects: readonly Project[];
@@ -18,10 +16,9 @@ export interface ProjectTabStripProps {
  * (FR-5, FR-7): roving `tabIndex` (only the selected tab is `0`, every other
  * tab is `-1`), Arrow Left/Right + Home/End keyboard navigation per the ARIA
  * APG tablist pattern, and `aria-selected` tracking. Composed from the
- * `TabPill` atom (visual selected state) and `status-dot` (per-Project
- * Status tone) - both resolved via the `projectPresentation` seam, never
- * inline here. Presentational: selection is fully controlled by the caller
- * via `selectedSlug`/`onSelectSlug` (mirrors `Pagination`'s controlled shape).
+ * `TabPill` atom (visual selected state). Presentational: selection is fully
+ * controlled by the caller via `selectedSlug`/`onSelectSlug` (mirrors
+ * `Pagination`'s controlled shape).
  */
 export function ProjectTabStrip({ projects, selectedSlug, onSelectSlug }: ProjectTabStripProps) {
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -83,7 +80,6 @@ export function ProjectTabStrip({ projects, selectedSlug, onSelectSlug }: Projec
         >
           {projects.map((project, index) => {
             const isSelected = project.slug === selectedSlug;
-            const { tone } = projectPresentation(project.status, project.mvpProgress);
 
             return (
               <button
@@ -102,7 +98,6 @@ export function ProjectTabStrip({ projects, selectedSlug, onSelectSlug }: Projec
                 className="shrink-0 snap-start"
               >
                 <TabPill selected={isSelected} className="gap-2">
-                  <StatusDot tone={tone} />
                   {project.title}
                 </TabPill>
               </button>
