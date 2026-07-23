@@ -11,7 +11,7 @@ everything into one Cargo workspace: one deployable per app, compiler-enforced
 boundaries between domain crates, and a shared base - auth, sessions, DB pool,
 email, AI - poured once instead of copied per service.
 
-<Diagram name="hyperion-monorepo-migration" alt="Two side-by-side diagrams. On the left, the old microservices shape: a frontend calls a BFF gateway, which fans out to a user service, a subscription service, and an AI service, all communicating over a Kafka event bus. On the right, the current Cargo workspace: four app binaries - budget-app, gtd-app, repeat-app, and job-offer-app - each depend on one shared base of crates (shared, user, mailing, ai) providing auth, sessions, RBAC, config, the DB pool, email, and OpenAPI. job-offer-app additionally depends on its own job_offer_box crate; a standalone subscription crate sits in the workspace but isn't yet wired into an app. A rule note on the shared base reads: apps depend on the base, never the reverse; domain crates meet only through shared traits; the compiler refuses a crossed edge." />
+<Diagram name="hyperion-monorepo-migration" alt="Two side-by-side diagrams. On the left, the old microservices shape: a frontend calls a BFF gateway, which fans out to a user service, a subscription service, and an AI service, all communicating over a Kafka event bus. On the right, the current Cargo workspace: four app binaries - budget-app, gtd-app, repeat-app, and job-offer-app - each depend on a single Hyperion Core." />
 
 Moving to a monorepo didn't mean giving up modularity - it's still the whole
 point. Domain crates stay decoupled from each other by the compiler, not by

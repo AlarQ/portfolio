@@ -20,17 +20,11 @@ flowchart LR
     GTD["gtd-app"]
     REPEAT["repeat-app"]
     JOB["job-offer-app"]
-    base["<b>Shared base - poured once</b><br/>shared · user · mailing · ai<br/>auth, sessions, RBAC, config, DB pool, email, OpenAPI"]
-    jobbox["job_offer_box<br/>(job-offer-app only)"]
-    sub["subscription<br/>(standalone crate, not yet wired to an app)"]
+    base["<b>Hyperion Core</b><br/><i>lib</i>"]
     BA --> base
     GTD --> base
     REPEAT --> base
     JOB --> base
-    JOB --> jobbox
-    rule["Apps depend on the base, never the reverse.<br/>Domain crates meet only through shared traits.<br/>The compiler refuses a crossed edge."]
-    base --- rule
-    base --- sub
   end
 
   %% Roles only. Colours are resolved per theme (light + dark) by
@@ -41,6 +35,3 @@ flowchart LR
   class kafka loop
   class BA,GTD,REPEAT,JOB build
   class base plan
-  class jobbox audit
-  class sub sink
-  class rule verify
