@@ -1,9 +1,8 @@
-# Pre-render Mermaid diagrams to committed SVGs and stage them, so a `.mmd`
-# edit and its rendered `.svg` land in the same commit. Runs a local Chromium
-# (via mermaid-isomorphic) and is idempotent - unchanged diagrams are skipped
-# fast. Keeps Mermaid rendering OUT of `next build` so Vercel's browserless
-# build image stays green.
-pnpm prerender:mermaid && git add public/diagrams
+# Pre-render Excalidraw diagrams to committed SVGs and stage them, so a
+# `.diagram.ts` edit and its rendered `.svg` land in the same commit. Idempotent
+# - unchanged diagrams are skipped fast. Keeps diagram rendering OUT of
+# `next build` so Vercel's browserless build image stays green.
+pnpm prerender:diagrams && git add public/diagrams
 
 # Secret scan (sec-secret-scan-blocks-build): block a commit that stages a
 # detectable secret before it ever lands in history. Runs gitleaks over the

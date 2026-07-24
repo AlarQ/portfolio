@@ -28,7 +28,7 @@ export function MdxImage({ alt, ...props }: ComponentPropsWithoutRef<"img">) {
   // a light/dark SVG pair (`/diagrams/<name>-{light,dark}.svg`) rather than a
   // single image.
   return (
-    // biome-ignore lint/performance/noImgElement: pre-rendered Mermaid SVG from the MDX body, not an app-rendered image
+    // biome-ignore lint/performance/noImgElement: pre-rendered diagram SVG from the MDX body, not an app-rendered image
     <img alt={alt ?? ""} className={cn(MDX_FRAME_CLASS, "block h-auto")} {...props} />
   );
 }

@@ -51,19 +51,19 @@ test.describe("Blog Post detail", () => {
   });
 
   /**
-   * REGRESSION GUARD: pre-rendered Mermaid diagrams ship as committed SVGs.
-   * The Vercel browserless-build fix replaced in-build `rehype-mermaid` (which
-   * launched headless Chromium during `next build`) with a pre-commit step that
-   * renders `content/diagrams/*.mmd` → `public/diagrams/*-{light,dark}.svg`,
-   * referenced from the Post body via the `<Diagram>` component
-   * (src/components/Diagram.tsx). A diagram is a theme-tracking figure: a LIGHT
-   * SVG (visible in light mode, carries the accessible description) and a DARK
-   * SVG (aria-hidden twin, swapped in via the `.dark` class). This pins the
-   * rendered contract: for each of the four diagrams both SVGs render as
-   * `<img>` and - crucially - actually resolve (200), so a missing/unbuilt
-   * diagram fails here instead of silently 404-ing in prod.
+   * REGRESSION GUARD: pre-rendered Excalidraw diagrams ship as committed SVGs.
+   * The Vercel browserless-build fix replaced in-build live rendering with a
+   * pre-commit step that builds `content/diagrams/*.diagram.ts` →
+   * `public/diagrams/*-{light,dark}.svg`, referenced from the Post body via
+   * the `<Diagram>` component (src/components/Diagram.tsx). A diagram is a
+   * theme-tracking figure: a LIGHT SVG (visible in light mode, carries the
+   * accessible description) and a DARK SVG (aria-hidden twin, swapped in via
+   * the `.dark` class). This pins the rendered contract: for each of the four
+   * diagrams both SVGs render as `<img>` and - crucially - actually resolve
+   * (200), so a missing/unbuilt diagram fails here instead of silently
+   * 404-ing in prod.
    */
-  test("renders pre-rendered Mermaid diagrams as resolvable light+dark SVG images", async ({
+  test("renders pre-rendered Excalidraw diagrams as resolvable light+dark SVG images", async ({
     page,
   }) => {
     await page.goto("/blog/my-spec-driven-workflow");

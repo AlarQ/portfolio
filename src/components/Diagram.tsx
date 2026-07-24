@@ -4,12 +4,12 @@ import { cn } from "@/lib/utils";
 import { MDX_FRAME_CLASS } from "@/utils/mdxPresentationBlock";
 
 /**
- * Renders a pre-rendered Mermaid diagram as a theme-tracking figure: a LIGHT
+ * Renders a pre-rendered diagram as a theme-tracking figure: a LIGHT
  * SVG shown in light mode and a DARK SVG shown in dark mode (`public/diagrams/
  * <name>-light.svg` / `<name>-dark.svg`), swapped by the `.dark` class the site
  * theme toggle drives - no client JS. The two SVGs are rendered from ONE
- * `content/diagrams/<name>.mmd` at commit time (see `scripts/prerender-mermaid.ts`,
- * the diagram presentation seam); Mermaid is not rendered during `next build`
+ * `content/diagrams/<name>.diagram.ts` at commit time (see `scripts/prerender-diagrams.ts`,
+ * the diagram presentation seam); diagrams are not rendered during `next build`
  * (that launched a headless Chromium and broke Vercel's browserless image).
  *
  * The frame's `bg-background` is white in light and `#090d1f` in dark - the same
@@ -33,7 +33,7 @@ export function Diagram({ name, alt }: { name: string; alt: string }) {
     const svgPath = join(process.cwd(), "public", "diagrams", `${name}-${theme}.svg`);
     if (!existsSync(svgPath)) {
       throw new Error(
-        `[Diagram] missing ${theme} diagram "${name}": expected ${svgPath}. Run \`npm run prerender:mermaid\`.`
+        `[Diagram] missing ${theme} diagram "${name}": expected ${svgPath}. Run \`pnpm prerender:diagrams\`.`
       );
     }
   }
@@ -45,14 +45,14 @@ export function Diagram({ name, alt }: { name: string; alt: string }) {
       className={cn(MDX_FRAME_CLASS, "overflow-x-auto bg-background")}
     >
       {/* Accessible name lives on the figure (theme-independent); both imgs are decorative. */}
-      {/* biome-ignore lint/performance/noImgElement: pre-rendered Mermaid SVG from the MDX body, not an app-rendered image */}
+      {/* biome-ignore lint/performance/noImgElement: pre-rendered diagram SVG from the MDX body, not an app-rendered image */}
       <img
         src={`/diagrams/${name}-light.svg`}
         alt=""
         aria-hidden="true"
         className="mx-auto block h-auto max-w-full dark:hidden"
       />
-      {/* biome-ignore lint/performance/noImgElement: pre-rendered Mermaid SVG from the MDX body, not an app-rendered image */}
+      {/* biome-ignore lint/performance/noImgElement: pre-rendered diagram SVG from the MDX body, not an app-rendered image */}
       <img
         src={`/diagrams/${name}-dark.svg`}
         alt=""

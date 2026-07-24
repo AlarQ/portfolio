@@ -73,11 +73,10 @@ const shikiCssVarTheme = {
 // loader (`postLoader.ts`) reads that same frontmatter independently via
 // gray-matter for Post metadata - two reads of one file, each now frontmatter-aware.
 //
-// Mermaid is NOT rendered here. `rehype-mermaid` launched a headless Chromium
-// during `next build`, which broke Vercel's browserless build image. Diagrams
-// are now pre-rendered to committed SVGs by a pre-commit step
-// (`scripts/prerender-mermaid.mjs`) and referenced from Post bodies via the
-// `<Diagram>` component - so `next build` runs no browser. The only MDX plugin
+// Diagrams are NOT rendered here. Diagrams are pre-rendered to committed SVGs
+// by a pre-commit step (`scripts/prerender-diagrams.ts`) and referenced from
+// Post bodies via the `<Diagram>` component - so `next build` runs no
+// browser. The only MDX plugin
 // left that touches code is `rehype-pretty-code`, which highlights js/ts/bash/
 // etc. fences with Shiki. Its options object is plain JSON, so it survives the
 // Turbopack serializable-tuple boundary (see note above).
