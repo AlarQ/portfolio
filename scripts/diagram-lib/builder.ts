@@ -64,27 +64,31 @@ export class Builder {
       roundness: { type: 3 },
       boundElements: [{ type: "text", id: tid }],
     });
+    const fontSize = 16;
+    const lineHeight = 1.25;
+    const lines = label.split("\n").length;
+    const textHeight = lines * fontSize * lineHeight;
     this.elements.push({
       ...BASE,
       id: tid,
       type: "text",
       x: x + 8,
-      y: y + h / 2 - 12,
+      y: y + h / 2 - textHeight / 2,
       width: w - 16,
-      height: 24,
+      height: textHeight,
       strokeColor: text,
       backgroundColor: "transparent",
       strokeWidth: 1,
       roundness: null,
       boundElements: [],
       text: label,
-      fontSize: 16,
+      fontSize,
       fontFamily: 1, // Virgil (hand-drawn)
       textAlign: "center",
       verticalAlign: "middle",
       containerId: rid,
       originalText: label,
-      lineHeight: 1.25,
+      lineHeight,
     });
     return { id: rid, x, y, w, h };
   }
