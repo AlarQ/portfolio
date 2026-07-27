@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.32](https://github.com/AlarQ/portfolio/compare/v0.1.31...v0.1.32) (2026-07-27)
+
+
+### Bug Fixes
+
+* hamburger ([9476ffc](https://github.com/AlarQ/portfolio/commit/9476ffcc55b6c4534b9931f4a21ea005d87ee15c))
+
 ## [0.1.31](https://github.com/AlarQ/portfolio/compare/v0.1.30...v0.1.31) (2026-07-27)
 
 
