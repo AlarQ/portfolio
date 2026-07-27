@@ -19,6 +19,7 @@ const TECH_HUES: Record<TechKey, BadgeCategory> = {
   node: "green",
   claude: "violet",
   rust: "orange",
+  tokio: "sky",
   axum: "rose",
   postgres: "indigo",
 };

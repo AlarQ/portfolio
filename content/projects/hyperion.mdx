@@ -1,22 +1,25 @@
-Hyperion started as a set of Rust microservices - a user service, a subscription
-service, and an AI service, each behind its own backend-for-frontend gateway -
-built deliberately as a learning project in microservices system design, not to
-ship a product.
+Hyperion started as a set of Rust microservices — a deliberate exercise in
+distributed system design, not a product.
 
-That shape was fine for learning, but the operational cost (Kafka wiring,
-per-service deploys, duplicated auth/DB-pool code) wasn't worth it once the
-goal changed to something real and maintainable long-term. Rather than
-running several small services I could barely keep up with alone, I moved
-everything into one Cargo workspace: one deployable per app, compiler-enforced
-boundaries between domain crates, and a shared base - auth, sessions, DB pool,
-email, AI - poured once instead of copied per service.
+That shape was fine for learning. It let me experiment with observability,
+tracing, and the other quirks of a distributed ecosystem. But the operational
+cost (Kafka wiring, per-service deploys, duplicated auth/DB-pool code) wasn't
+worth it once the goal changed to something real and maintainable long-term.
+
+So I moved everything into one Cargo workspace: one deployable per app, and a
+shared base — auth, sessions, DB pool, email, AI — written once instead of
+copied per service. The boundaries between domain crates are enforced by the
+compiler rather than by convention: a crate can only reach what it declares in
+its own `[dependencies]`, and Cargo rejects a dependency cycle outright. An
+import that would violate the architecture fails the build.
 
 <Diagram name="hyperion-monorepo-migration" alt="Two side-by-side diagrams. On the left, the old microservices shape: a frontend calls a BFF gateway, which fans out to a user service, a subscription service, and an AI service, all communicating over a Kafka event bus. On the right, the current Cargo workspace: four app binaries - budget-app, gtd-app, repeat-app, and job-offer-app - each depend on a single Hyperion Core." />
 
-Moving to a monorepo didn't mean giving up modularity - it's still the whole
-point. Domain crates stay decoupled from each other by the compiler, not by
-convention, so any of them could be pulled back out into its own service later
-if a real scaling need ever shows up. The workspace's own docs are built the
-same way: a Next.js docs app renders the crate and architecture docs (with the
-same diagram pipeline used here) as a single browsable book, kept next to the
-code instead of drifting in a wiki.
+Moving to a monorepo didn't mean giving up modularity — it's still the whole
+point. Domain crates stay decoupled from each other, so any of them could be
+pulled back out into its own service later if a real scaling need shows up.
+
+The docs live under the same rule. A Next.js app renders the crate and
+architecture docs (through the same diagram pipeline used here) as one
+browsable book, versioned with the code it describes — so a crate rename breaks
+the doc build instead of quietly rotting in a wiki.

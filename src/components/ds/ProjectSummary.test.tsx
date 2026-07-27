@@ -7,7 +7,6 @@ const PROJECT: Project = {
   title: "Portfolio Site",
   slug: "portfolio-site",
   tagline: "A statically-generated portfolio and blog.",
-  currentState: "Building the Projects tab.",
   repos: [{ role: "frontend", techKeys: ["nextjs", "react"] }],
   relatedPosts: [{ label: "Building the tablist", slug: "building-the-tablist" }],
 };
@@ -18,14 +17,6 @@ describe("ProjectSummary", () => {
 
     expect(container.textContent).toContain(PROJECT.title);
     expect(container.textContent).toContain(PROJECT.tagline);
-
-    unmount();
-  });
-
-  it("renders the current state", () => {
-    const { container, unmount } = renderIntoDocument(<ProjectSummary project={PROJECT} />);
-
-    expect(container.textContent).toContain(PROJECT.currentState);
 
     unmount();
   });

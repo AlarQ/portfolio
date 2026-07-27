@@ -2,11 +2,15 @@ import { describe, expect, it, vi } from "vitest";
 import type { Project } from "@/data/projects";
 import { buildBriefs } from "./page";
 
-// Stands in for the real `content/projects/hyperion.mdx` Brief body so
+// Stand in for the real `content/projects/*.mdx` Brief bodies so
 // `ProjectsPage`'s default import path is exercised without needing an
 // MDX-capable loader in the vitest environment.
 vi.mock("../../../content/projects/hyperion.mdx", () => ({
   default: () => "Hyperion Brief body",
+}));
+
+vi.mock("../../../content/projects/bondsmith.mdx", () => ({
+  default: () => "Bondsmith Brief body",
 }));
 
 function project(overrides: Partial<Project>): Project {
@@ -14,7 +18,6 @@ function project(overrides: Partial<Project>): Project {
     title: "Sample Project",
     slug: "sample-project",
     tagline: "A sample project.",
-    currentState: "Building the core loop.",
     repos: [],
     relatedPosts: [],
     ...overrides,

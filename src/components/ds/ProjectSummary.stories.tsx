@@ -6,7 +6,6 @@ const PROJECT: Project = {
   title: "Portfolio Site",
   slug: "portfolio-site",
   tagline: "A statically-generated portfolio and blog.",
-  currentState: "Building the Projects tab on top of the existing seam-pattern architecture.",
   repos: [
     {
       role: "frontend",
@@ -30,7 +29,7 @@ const meta: Meta<typeof ProjectSummary> = {
 export default meta;
 type Story = StoryObj<typeof ProjectSummary>;
 
-/** Full summary: title, tagline, current state, tech badges, related posts. */
+/** Full summary: title, tagline, tech badges, related posts. */
 export const Default: Story = {
   args: { project: PROJECT },
 };

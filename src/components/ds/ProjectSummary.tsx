@@ -32,8 +32,6 @@ export function ProjectSummary({ project, brief }: ProjectSummaryProps) {
         <p className="text-muted-foreground">{project.tagline}</p>
       </div>
 
-      <p className="text-foreground">{project.currentState}</p>
-
       {brief && (
         <div className="flex flex-col gap-4 border-t border-border pt-6 text-foreground [&_p]:leading-relaxed [&>h2]:text-xl [&>h2]:font-semibold">
           {brief}

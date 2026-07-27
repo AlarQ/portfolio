@@ -18,6 +18,7 @@ export type TechKey =
   | "node"
   | "claude"
   | "rust"
+  | "tokio"
   | "axum"
   | "postgres";
 
@@ -47,7 +48,6 @@ export interface Project {
   readonly title: string;
   readonly slug: string;
   readonly tagline: string;
-  readonly currentState: string;
   readonly repos: readonly ProjectRepo[];
   readonly relatedPosts: readonly RelatedPostRef[];
 }
@@ -65,9 +65,7 @@ export const projects: readonly Project[] = [
     slug: "hyperion",
     tagline:
       "A shared Rust/Axum backend monolith powering several product apps over one Postgres and OpenAPI contract.",
-    currentState:
-      "~320 commits, Docker deploy, JWT/Argon2 auth and OpenTelemetry tracing - the backbone behind Job Offer Box and the GTD app.",
-    repos: [{ role: "backend", techKeys: ["rust", "axum", "postgres"] }],
+    repos: [{ role: "backend", techKeys: ["rust", "tokio", "axum", "postgres"] }],
     relatedPosts: [{ label: "Pour It Once", slug: "pour-it-once" }],
   },
   {
@@ -75,10 +73,8 @@ export const projects: readonly Project[] = [
     slug: "bondsmith",
     tagline:
       "A spec-driven development workflow engine in Rust - phase contracts enforced in typed code, not by an LLM.",
-    currentState:
-      "Building the enforcement spine (state store, workspace infra) with swappable LLM runtime adapters.",
     repos: [{ role: "backend", techKeys: ["rust"] }],
-    relatedPosts: [],
+    relatedPosts: [{ label: "Bounded Chaos", slug: "bounded-chaos" }],
   },
 ];
 
