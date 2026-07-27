@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.28](https://github.com/AlarQ/portfolio/compare/v0.1.27...v0.1.28) (2026-07-27)
+
+
+### Features
+
+* replace Mermaid with Excalidraw for diagram rendering ([#91](https://github.com/AlarQ/portfolio/issues/91)) ([98aad94](https://github.com/AlarQ/portfolio/commit/98aad94605b698670ebbfdc626a9c8b11a48318b))
+
 ## [0.1.27](https://github.com/AlarQ/portfolio/compare/v0.1.26...v0.1.27) (2026-07-23)
 
 ## [0.1.26](https://github.com/AlarQ/portfolio/compare/v0.1.25...v0.1.26) (2026-07-23)
