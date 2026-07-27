@@ -1,0 +1,183 @@
+---
+title: "Rust Resepcts Your Time, Dude"
+dek: The first week with the borrow checker is punishment, and it buys something. rustc doesn't just reject the code - it explains why and attaches the patch. In an AI workflow that output stops being a courtesy and becomes a gate the model runs against itself.
+date: 2026-07-27
+categories: ["Engineering", "AI"]
+draft: true
+---
+
+My first week of Rust ended with a function I could not compile. Twelve lines, a
+`Vec`, one loop. I had read the ownership chapter twice and I still could not
+convince the compiler that I was allowed to touch my own data. The thing that
+eventually got me through it was the error message itself, which had already told
+me - in the first run, before I started guessing - which borrow was still alive and
+where it got used later.
+
+That is the part people leave out of the learning-curve conversation. The curve is
+real. Ownership, lifetimes, and the trait system are genuinely harder than what
+most languages ask of you on day one, and pretending otherwise sells nobody
+anything. But the tuition buys a compiler that behaves differently from the ones
+I've worked with elsewhere: **rustc doesn't just reject your code, it diagnoses it
+and hands you the patch.** Most of the time the patch is correct as written.
+
+I care about this more now than I did two years ago, because I'm not the only one
+reading those messages anymore. A model is. And a compiler that explains itself
+precisely is a validator an agent can loop against without me in the room.
+
+## What a bad error message actually costs
+
+I write Scala too, and it's a language I like. It's also where I learned what a
+vague diagnostic costs you, because the cost is not the ten seconds of confusion.
+It's that the message gives you nothing to act on, so you go back to bisecting your
+own code by hand.
+
+The canonical example is a type mismatch where the two types are printed
+identically. The Scala bug tracker has carried
+[one of these since 2012](https://github.com/scala/bug/issues/6522) - `found` and
+`required` render as the same string, and the compiler has just told you those two
+identical things don't match. There's a
+[2.13 case](https://github.com/scala/bug/issues/10960) with the same shape
+(`found: Maybe[A]`, `required: Maybe[B]`) on code that compiled fine one version
+earlier, and Scala 3 has
+[its own variants](https://github.com/scala/scala3/issues/14739) where the printed
+`Found`/`Required` pair points nowhere near the real problem.
+
+Implicit resolution is the other one. `could not find implicit value for parameter`
+names the type it wanted and stops there - it doesn't tell you which import would
+have supplied it. Its worse cousin is
+[diverging implicit expansion](https://github.com/scala/bug/issues/12282), which
+reports the search it gave up on (`diverging implicit expansion for type
+Arbitrary[(Long, Long)] starting with method arbContainer2`) and leaves you to work
+out that the fix is one derivation import three files away.
+
+To be fair to Scala: `@implicitNotFound` and `@implicitAmbiguous` exist precisely so
+a library author can replace the generic message with a useful one, and Scala 3's
+diagnostics are a real improvement over 2.13. But that's the tell. The good message
+is something a library author opts into. In Rust it's the compiler's default
+posture.
+
+None of these messages are *wrong*. They're accurate and unusable, which is the
+worst combination, because you can't even file a bug against them. You just quietly
+lose twenty minutes.
+
+## What rustc says instead
+
+Here's the shape of a Rust diagnostic. This is the borrow-checker error everyone
+meets in their first week:
+
+```
+error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immutable
+ --> src/main.rs:4:5
+  |
+3 |     let first = &v[0];
+  |                  - immutable borrow occurs here
+4 |     v.push(4);
+  |     ^^^^^^^^^ mutable borrow occurs here
+5 |     println!("{first}");
+  |               ------- immutable borrow later used here
+```
+
+Read what's in there. A stable machine-readable code (`E0502`, and
+`rustc --explain E0502` prints a page on it). The exact span that failed. And -
+this is the part that does the work - the two *other* spans that explain the
+failure: where the conflicting borrow started, and where it's used later. That last
+line is the whole reason the error exists: it shows you the lifetime that makes the
+rule bite, instead of announcing that a rule was broken.
+
+Compare the information content with `found X, required X`. One tells you a fact
+about your program. The other tells you the compiler is unhappy.
+
+## The suggestion is usually the fix
+
+Then there's the part that surprised me. Rust doesn't stop at the diagnosis:
+
+```
+error[E0308]: mismatched types
+ --> src/main.rs:2:21
+  |
+2 |     let s: String = "hello";
+  |            ------   ^^^^^^^ expected `String`, found `&str`
+  |            |
+  |            expected due to this
+  |
+help: try using a conversion method
+  |
+2 |     let s: String = "hello".to_string();
+  |                            ++++++++++++
+```
+
+That `help` block is a rendered diff with the insertion marked, and most of the
+time you can apply it verbatim and move on. Add a
+`&`, add `.clone()`, add the missing trait bound, add the `use` line for the trait
+whose method you called. The compiler worked out the fix while it was working out
+the complaint, and it decided to show you both.
+
+That's also why the tooling around it works as well as it does. `cargo fix` applies
+the machine-applicable suggestions across the whole crate. `cargo clippy --fix`
+does the same for the lint layer, where the suggestions get opinionated - collapse
+this `match` into an `if let`, this `unwrap_or_else(|| ...)` wants `unwrap_or_default`.
+None of that is a separate ecosystem project reverse-engineering compiler text. The
+suggestions are structured data the compiler emits; `--error-format=json` gives you
+every diagnostic with its spans and its `suggested_replacement` string, and the
+tools are just consumers of it.
+
+Two things fall out of that. The obvious one: my dumbest mistakes cost me a
+keystroke instead of a lookup. The one I didn't see coming: a diagnostic that
+carries a machine-applicable patch is a diagnostic a *program* can act on. And I
+have a program that would like to act on it.
+
+## A gate the model can run
+
+In [Bounded Chaos](/blog/bounded-chaos) I described the deterministic gates my
+workflow runs before a task is allowed to be `done` - lint, format, type-check,
+tests. The point of a gate is that it doesn't have an opinion and can't be argued
+with. The model either passes it or doesn't.
+
+A statically typed, compiled language hands you one of those gates for free, and it
+is a much bigger gate than it looks. Every function signature is an assertion the
+model wrote down and now has to satisfy. Every enum it matches on is exhaustively
+checked. Every borrow it took is verified against every other borrow in scope. In a
+dynamic language, the equivalent claims are checked at runtime by tests the model
+also wrote - which means the model is grading its own homework twice. `cargo check`
+is the one participant in the loop with no incentive to agree with anything.
+
+The quality of the messages is what turns that gate from a pass/fail into a
+teacher. A model handed `error: type error at line 40` gets one bit of information
+and starts guessing, and a guessing loop is how you burn forty thousand tokens
+producing something plausible and wrong. A model handed the E0502 above gets the
+rule, the two conflicting spans, and the reason the rule applies here, which is
+enough to edit the actual defect. Where a suggestion is attached, the loop
+degenerates to applying it, and the iteration ends on the next pass.
+
+<Callout title="The compiler proves shape, not behavior">
+A green `cargo check` means the program is internally consistent. It doesn't mean
+the program does what the task asked for. Types rule out a category of wrong - the
+category that's cheapest to catch, and the one models fail at most mechanically -
+and everything above that line is still on the tests, the acceptance criteria, and
+me. A compiler gate that made me skip the human review would be a worse deal than
+no gate at all.
+</Callout>
+
+There's a second-order effect I only noticed after a few features. Because the
+compile step is cheap and total, the model can take the specified-task loop all the
+way to green before I see anything. What lands in the draft PR isn't a first
+attempt; it's the attempt that survived the type system. The floor on what reaches
+my review moved up, and it moved up without me writing a single new rule.
+
+## Where this is going
+
+I'm not claiming Rust is the pleasant language. Compile times are what they are,
+the trait-heavy async ecosystem will still hand you a page-long error about a future
+that isn't `Send`, and there are days the borrow checker is right and I still resent
+it. The learning curve is a real cost you pay in real weeks.
+
+What I am claiming is that the thing which makes those weeks survivable - a
+compiler that explains its reasoning and attaches a patch - turns out to be the
+same property that makes the language good to hand an agent. That wasn't designed
+for this. Rust's diagnostics were built for humans learning a hard language, back
+when the loop had a person in it.
+
+So the criterion I now apply when picking a language for work I intend to hand off:
+not how fast I can write it, but how much its compiler tells whoever gets it wrong.
+That's a question I never used to ask, and it's the one that decides how long the
+loop runs.

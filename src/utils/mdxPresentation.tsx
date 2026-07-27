@@ -66,7 +66,7 @@ export const mdxComponents: MDXComponents = {
   iframe: NoIframe,
   // Owner-authored emphasized callout (trust boundary unchanged - owner-only).
   Callout,
-  // Owner-authored pre-rendered Mermaid diagram (build-time SVG, no browser in
+  // Owner-authored pre-rendered diagram (build-time SVG, no browser in
   // CI). Trust boundary unchanged - the SVG source is owner-authored .mmd.
   Diagram,
 };

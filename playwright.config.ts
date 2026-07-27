@@ -14,7 +14,7 @@ export default defineConfig({
 
   // Local default (`undefined`) spawns one worker per core (~6 here). That
   // oversubscribes CPU when heavier engines (WebKit/Gecko) render the heavy
-  // Post-detail page (shiki + Mermaid + fonts) concurrently, pushing the
+  // Post-detail page (shiki + diagrams + fonts) concurrently, pushing the
   // `load` event past navigationTimeout → false timeouts. Cap at 4 so heavy
   // engines don't starve. CI stays serial.
   workers: process.env.CI ? 1 : 4,

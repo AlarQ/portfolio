@@ -67,3 +67,6 @@ yarn-error.log*
 .monitor-context
 specs/**/.monitor.jsonl
 storybook-static/
+
+# Diagram render-validate loop preview PNGs (see scripts/prerender-diagrams.ts)
+.diagram-preview/

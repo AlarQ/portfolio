@@ -15,7 +15,6 @@ describe("projects - data contract", () => {
       expect(typeof entry.title).toBe("string");
       expect(typeof entry.slug).toBe("string");
       expect(typeof entry.tagline).toBe("string");
-      expect(typeof entry.currentState).toBe("string");
       expect(Array.isArray(entry.repos)).toBe(true);
       const seenRoles = new Set<string>();
       for (const repo of entry.repos) {

@@ -13,6 +13,14 @@
 @import "tailwindcss";
 
 /*
+ * Excalidraw-rendered diagram SVGs inline base64 font data URIs; Tailwind's
+ * automatic content scan otherwise treats stray substrings in that blob as
+ * arbitrary-value class candidates and emits invalid CSS. These are prebuilt
+ * static assets with no class names to extract, so exclude them from scanning.
+ */
+@source not "../../public/diagrams";
+
+/*
  * Bind Tailwind's `dark:` variant to the `.dark` class the theme toggle drives
  * (Storybook decorator + app both toggle `.dark` on the root), NOT the default
  * `prefers-color-scheme` media query which follows the OS. Required so

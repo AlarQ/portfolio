@@ -1,0 +1,143 @@
+---
+title: "The Model Doesn't Matter Anymore"
+dek: Every time a run falls apart, the reflex is to wait for the next model. But the failures I actually hit are context and cost, and neither one is a capability problem. Build the drivetrain instead - small specified tasks, and the expensive model only where the decisions are.
+date: 2026-07-27
+categories: ["AI", "Workflow"]
+draft: true
+---
+
+There's a move we can observe in AI dev area made whenever a long run goes sideways. The agent
+loses the thread somewhere past the fiftieth tool call, starts re-reading files it
+already read, contradicts a decision it made forty minutes earlier. Conclusion: the model first
+thought is that the model isn't good enough yet. Next release. Bigger context,
+better reasoning, and this stops happening.
+
+It never stops happening. Two model generations later I hit the same wall in the
+same place, just further down the road. The failure was never that the model
+couldn't reason about the problem; hand it that same task cold, in a clean
+session, with the constraints written down, and it lands it. The failure was that
+by the time it got there, it was reasoning through eighty thousand tokens of
+its own exhaust.
+
+So I make a different bet: **stop buying horsepower and start building the
+drivetrain.** The engine on the market today is already bigger than what I put
+through it. What's missing is everything between the engine and the wheels - the
+gearbox that decides which model does which job, and the shafts that deliver a
+task small enough to actually finish. Power that never reaches the ground isn't
+power.
+
+What follows is why the capability argument is settled, why the two real limits
+are structural rather than a matter of waiting, and how I pick a gear per task.
+
+## The engine is already big enough
+
+Take the tasks I hand a model on an ordinary day. Write a failing test from a
+written acceptance criterion. Add a field through a data layer and its two
+callers. Port a component to a new prop shape. Read a diff and tell me what it
+breaks. Every current frontier model clears all of that, and so do several models
+you can rent for a fraction of the price.
+
+I can't remember the last time I read a bad result and concluded the model lacked
+the raw ability. The bad results have a different shape. It had four files' worth
+of relevant context and I'd given it forty. It was seventy tool calls deep and the
+instruction it needed had scrolled out of the part of the window it still weighs
+properly. It was asked for "the auth refactor" when it needed a task.
+
+Those are all things I did to it.
+
+## Context is the thing that doesn't scale
+
+A language model is a non-deterministic machine that picks the next token from a
+probability distribution, one token at a time, conditioned on everything already
+in the window. Nothing in that loop guarantees the ninety-thousandth token gets
+weighed the way the ninetieth did. In practice it doesn't. Quality degrades as the
+window fills - instructions get diluted, earlier decisions get outvoted by later
+noise, and the model starts behaving like something with a memory it half trusts.
+
+A larger context window moves that boundary outward. It doesn't remove it. A
+million-token window buys a bigger safe zone and a bigger unsafe zone right behind
+it, and the run that used to rot at hour two now rots at hour five with five hours
+of billed tokens behind it. That's a better deal, not a different problem. The
+next model won't fix it either, because it isn't a defect that gets patched; it's
+what the architecture does.
+
+Which makes waiting a strategy that never pays out. You wait for a release, get a
+bigger safe zone, fill it, and land in the same place with a larger bill.
+
+## The unit of work is the fix
+
+The lever that actually moves is the size and clarity of what I hand over. If a
+task is small enough and specified well enough that the model never has to hold
+the whole system in its head, context never gets the chance to rot. Not because
+the model got better at long contexts, but because I stopped writing long ones.
+
+That's the machinery I described in [Bounded Chaos](/blog/bounded-chaos), read
+from a different angle. The spec, the vertical slices, the dependency graph, the
+phase boundaries where every session starts fresh and picks up state from disk -
+I built those as containment, to keep a model I don't trust from talking its way
+past the walls. They turn out to be the drivetrain too. A feature cut into eight
+tasks with written acceptance criteria is eight short runs, and a short run is one
+that finishes in the part of the window the model still reads properly.
+
+Concretely, the unit I aim for is a task where the answer to "what do you need to
+read" is three or four files, the acceptance criteria are written before the work
+starts, and the definition of done is a test that fails now. Everything above that
+line - which slices, in what order, against which contract - is planning, and
+planning is a separate job.
+
+## Not every task deserves the expensive model
+
+Once the work arrives in units that size, the second thing shows up: most of those
+units don't need the best model on the market. That's the gear selection, and it's
+where the cost curve bends.
+
+The decisions cluster in a small number of places. Cutting a feature into slices,
+choosing the contract, sequencing the dependency graph, ruling on a review finding
+- get one of those wrong and every task downstream inherits the mistake, and the
+cost of the error is a rebuild, not a retry. That work gets the most capable model
+I can point at it, and I read the output myself. It's also, by volume, the
+cheapest part of the day. Planning is a few thousand tokens of careful thinking;
+the volume all lives downstream of it.
+
+Then there's the rest, which is most of it. Write the test suite for a contract
+that's already written down. Apply a rename across one application layer. Fill in
+the repository methods the trait already declares. These are well-defined
+mechanical jobs where the thinking already happened upstream, and the open-weight
+models - hosted by any of the shops renting them out at a fraction of frontier
+pricing - do them at a quality I'll ship. The work is bounded, the criteria are
+explicit, and there's a failing test standing at the exit.
+
+<Callout title="Cheap models are not a discount on planning">
+This only holds one direction. A cheap model on a vague task is more expensive
+than a frontier model on a specified one - it burns a full loop, produces
+something plausible and wrong, and I pay again to find out. The savings come from
+the spec, not from the price per token. If a task isn't specified well enough for
+the cheap model, it isn't specified well enough, and that's a planning bug I'd
+rather find before I spend anything on it.
+</Callout>
+
+The billing consequence is that cost per feature turns into a property of how I
+route, not a number the vendor sets. When the frontier price goes up - and it goes
+up every release - it goes up on the fraction of the work where the decisions live,
+not on the volume. That's a bill I can plan around.
+
+## Where this is going
+
+I'm not running this cleanly yet. The routing in my flow is a field on a task that
+names an implementer agent, and I still pick it by hand more often than the system
+picks it for me. Three things are missing.
+
+**Routing is a judgment call, not a rule.** I decide per task which tier it earns.
+That decision should fall out of the task's own shape - its file budget, whether
+its criteria are written, whether a failing test exists - the same way the gate set
+already falls out of a task's languages.
+**I can't compare models on my own work.** I have gate results and review findings
+per task, but nothing that tells me a cheap model's pass rate on the mechanical
+tier versus a frontier model's. Without that, tier assignment is a guess I feel
+good about.
+**One runtime, one vendor.** Routing across providers means an abstraction over
+providers, which is the provider-neutral core I'm building Bondsmith for.
+
+None of those need a smarter model. They need the parts between the engine and the
+wheels, which is the whole point. Stop shopping for horsepower; build the
+drivetrain.

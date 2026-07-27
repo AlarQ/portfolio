@@ -8,7 +8,6 @@ function project(overrides: Partial<Project>): Project {
     title: "Project",
     slug: "project",
     tagline: "",
-    currentState: "",
     repos: [],
     relatedPosts: [],
     ...overrides,

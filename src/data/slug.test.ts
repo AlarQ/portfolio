@@ -42,7 +42,6 @@ describe("SLUG_PATTERN - shared identically by both loaders", () => {
         title: "T",
         slug: badSlug,
         tagline: "t",
-        currentState: "s",
         repos: [],
         relatedPosts: [],
       },

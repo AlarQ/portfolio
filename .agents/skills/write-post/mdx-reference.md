@@ -48,7 +48,7 @@ Props: `title?` (string), `children` (the body). Use it the way the corpus does 
 
 ### `<Diagram>`
 
-A pre-rendered, theme-aware Mermaid diagram (build-time SVG - no browser at runtime).
+A pre-rendered, theme-aware Excalidraw diagram (build-time SVG - no browser at runtime).
 
 ```mdx
 <Diagram name="task-states" alt="A task's state machine: from the start a task enters todo or blocked; blocked moves to todo once its dependency is done; ..." />
@@ -58,9 +58,9 @@ Props: `name` (string, must match `^[a-z0-9-]+$`), `alt` (string). The `alt` is 
 
 **Diagram workflow** (required whenever you use `<Diagram>`):
 
-1. Author the source at `content/diagrams/<name>.mmd` in Mermaid syntax.
-2. Assign **roles, not colours** - the theme palette is injected per-theme by `scripts/prerender-mermaid.ts` (the diagram presentation seam). Use `class <nodes> plan | build | verify` role classes as the existing `.mmd` files do; never hardcode hex.
-3. Run `pnpm prerender:mermaid` to generate `public/diagrams/<name>-light.svg` and `-dark.svg`. A `<Diagram>` whose SVGs are missing throws at build.
+1. Author the source at `content/diagrams/<name>.excalidraw` - a native Excalidraw JSON scene, hand-editable in any Excalidraw client and LLM-editable as JSON. Invoke the `excalidraw-diagram` skill for the full authoring workflow (design methodology + mandatory render-validate loop).
+2. Colours come from the light palette only - see `content/diagrams/_palette.excalidraw` (a swatch reference sheet; copy shapes from it rather than picking colours freehand) and `.claude/skills/excalidraw-diagram/references/palette.md`. The scene is authored in light; the dark SVG is derived automatically by an exhaustive hex swap, and any off-palette hex fails the render.
+3. Run `pnpm prerender:diagrams` to generate `public/diagrams/<name>-light.svg` and `-dark.svg`. A `<Diagram>` whose SVGs are missing throws at build.
 
 ## Trust boundary (do not cross)
 
@@ -69,5 +69,5 @@ Post bodies are rendered as **trusted content** - this holds ONLY because every 
 ## Pre-ship check
 
 - Slug matches `^[a-z0-9-]+$`; `title` / `dek` / `date` present and `date` is ISO.
-- Any `<Diagram name>` has both prerendered SVGs (`pnpm prerender:mermaid` ran).
+- Any `<Diagram name>` has both prerendered SVGs (`pnpm prerender:diagrams` ran).
 - `pnpm build` renders the Post with no `[posts]` frontmatter warning in the log.
