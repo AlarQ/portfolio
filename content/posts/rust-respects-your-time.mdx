@@ -1,26 +1,25 @@
 ---
 title: "Rust Respects Your Time, Dude"
-dek: The first week with the borrow checker is punishment, and it buys every week after it. rustc doesn't just reject the code - it explains why and attaches the patch, so the twenty minutes a vague error would have cost you never get spent. In an AI workflow that same output stops being a courtesy and becomes a gate the model runs against itself.
+dek: The first hour with the borrow checker is punishment, and it buys every week after it. rustc doesn't just reject the code - it explains why and attaches the patch, so the twenty minutes a vague error would have cost you never get spent. In an AI workflow that same output stops being a courtesy and becomes a gate the model runs against itself.
 date: 2026-07-27
 categories: ["Engineering", "AI"]
 draft: true
 ---
 
-My first week of Rust ended with a function I could not compile. Twelve lines, a
-`Vec`, one loop. I had read the ownership chapter twice and I still could not
-convince the compiler that I was allowed to touch my own data. The thing that
+My first hour of Rust ended with a code snippet I could not compile. I had read the
+ownership chapter once and I still could not convince the compiler that I was
+allowed to touch my own data. The thing that
 eventually got me through it was the error message itself, which had already told
 me - in the first run, before I started guessing - which borrow was still alive and
 where it got used later.
 
 That is the part people leave out of the learning-curve conversation. The curve is
 real. Ownership, lifetimes, and the trait system are genuinely harder than what
-most languages ask of you on day one, and pretending otherwise sells nobody
-anything. What nobody told me is that the bill arrives up front and the language
-spends the rest of your time giving it back: **rustc doesn't just reject your code,
-it diagnoses it and hands you the patch.** Most of the time the patch is correct as
-written. You pay in weeks and you get repaid in the twenty-minute holes you never
-fall into.
+most languages ask of you on day one. What nobody told me is that the bill arrives
+up front and the language spends the rest of your time giving it back: **rustc
+doesn't just reject your code, it diagnoses it and hands you the patch.** Most of
+the time the patch is correct as written. You pay in weeks and you get repaid in
+the thousands of twenty-minute holes you never fall into.
 
 I care about this more now than I did two years ago, because I'm not the only one
 reading those messages anymore. A model is. And a compiler that explains itself
@@ -28,39 +27,24 @@ precisely is a validator an agent can loop against without me in the room.
 
 ## What a bad error message actually costs
 
-I write Scala too, and it's a language I like. It's also where I learned what a
-vague diagnostic costs you, because the cost is not the ten seconds of confusion.
+I write Scala too, and it's a language I like. What drew me in was the functional
+approach - it lined up neatly with the applied mathematics I studied at university,
+so the notation felt like something I already knew. It's also, unfortunately, where
+I learned what a vague diagnostic costs you, because the cost is not the ten seconds
+of confusion.
 It's that the message gives you nothing to act on, so you go back to bisecting your
 own code by hand.
 
-The canonical example is a type mismatch where the two types are printed
-identically. The Scala bug tracker has carried
+One example is a type mismatch where the two types are printed identically. The
+Scala bug tracker has carried
 [one of these since 2012](https://github.com/scala/bug/issues/6522) - `found` and
 `required` render as the same string, and the compiler has just told you those two
-identical things don't match. There's a
-[2.13 case](https://github.com/scala/bug/issues/10960) with the same shape
-(`found: Maybe[A]`, `required: Maybe[B]`) on code that compiled fine one version
-earlier, and Scala 3 has
-[its own variants](https://github.com/scala/scala3/issues/14739) where the printed
-`Found`/`Required` pair points nowhere near the real problem.
+identical things don't match.
 
-Implicit resolution is the other one. `could not find implicit value for parameter`
-names the type it wanted and stops there - it doesn't tell you which import would
-have supplied it. Its worse cousin is
-[diverging implicit expansion](https://github.com/scala/bug/issues/12282), which
-reports the search it gave up on (`diverging implicit expansion for type
-Arbitrary[(Long, Long)] starting with method arbContainer2`) and leaves you to work
-out that the fix is one derivation import three files away.
-
-To be fair to Scala: `@implicitNotFound` and `@implicitAmbiguous` exist precisely so
-a library author can replace the generic message with a useful one, and Scala 3's
-diagnostics are a real improvement over 2.13. But that's the tell. The good message
-is something a library author opts into. In Rust it's the compiler's default
-posture.
-
-None of these messages are *wrong*. They're accurate and unusable, which is the
-worst combination, because you can't even file a bug against them. You just quietly
-lose twenty minutes.
+When a message like that lands, I want to yell at the terminal: this job is hard
+enough without you making it harder. The message isn't *wrong*, though. It's
+accurate and unusable, which is the worst combination, because you can't even file
+a bug against it. You just quietly lose twenty minutes.
 
 ## What rustc says instead
 
@@ -151,30 +135,18 @@ rule, the two conflicting spans, and the reason the rule applies here, which is
 enough to edit the actual defect. Where a suggestion is attached, the loop
 degenerates to applying it, and the iteration ends on the next pass.
 
-<Callout title="The compiler proves shape, not behavior">
-A green `cargo check` means the program is internally consistent. It doesn't mean
-the program does what the task asked for. Types rule out a category of wrong - the
-category that's cheapest to catch, and the one models fail at most mechanically -
-and everything above that line is still on the tests, the acceptance criteria, and
-me. A compiler gate that made me skip the human review would be a worse deal than
-no gate at all.
-</Callout>
-
-There's a second-order effect I only noticed after a few features. Because the
-compile step is cheap and total, the model can take the specified-task loop all the
-way to green before I see anything. What lands in the draft PR isn't a first
-attempt; it's the attempt that survived the type system. The floor on what reaches
-my review moved up, and it moved up without me writing a single new rule. The time
-that buys back is mine, not the model's.
-
 ## Where this is going
 
 I'm not claiming Rust is the pleasant language, and I'm aware "respects your time"
 is a strange thing to say about a language you can wait ninety seconds to build.
 Compile times are what they are, the trait-heavy async ecosystem will still hand
 you a page-long error about a future that isn't `Send`, and there are days the
-borrow checker is right and I still resent it. The learning curve is a real cost
-you pay in real weeks. The trade is that the waiting is scheduled and the
+borrow checker is right and I still resent it. And rustc has its own
+accurate-and-unusable
+[moments](https://github.com/rust-lang/rust/issues/112985). The difference is that
+these are the edges rather than the default, and each one is a filed bug rather than
+something a library author was supposed to opt out of. The learning curve is a real
+cost you pay in real weeks. The trade is that the waiting is scheduled and the
 debugging isn't: I know what a cold build costs me, and I never know what an
 afternoon of `found X, required X` costs until it's gone.
 
