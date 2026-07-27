@@ -1,7 +1,7 @@
 {
   "type": "excalidraw",
   "version": 2,
-  "source": "prerender-diagrams",
+  "source": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor",
   "elements": [
     {
       "angle": 0,
@@ -12,10 +12,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 37,
+      "versionNonce": 1063427552,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176262721,
       "link": null,
       "locked": false,
       "id": "rect-1",
@@ -34,7 +34,9 @@
           "type": "text",
           "id": "text-2"
         }
-      ]
+      ],
+      "index": "a0",
+      "frameId": null
     },
     {
       "angle": 0,
@@ -45,17 +47,17 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 38,
+      "versionNonce": 1494475232,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176262722,
       "link": null,
       "locked": false,
       "id": "text-2",
       "type": "text",
-      "x": 48,
+      "x": 82.15201568603516,
       "y": 85,
-      "width": 164,
+      "width": 95.69596862792969,
       "height": 20,
       "strokeColor": "#5925dc",
       "backgroundColor": "transparent",
@@ -68,7 +70,10 @@
       "verticalAlign": "middle",
       "containerId": "rect-1",
       "originalText": "LLM actions",
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "index": "a1",
+      "frameId": null,
+      "autoResize": true
     },
     {
       "angle": 0,
@@ -79,10 +84,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 424895968,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "rect-3",
@@ -101,7 +106,9 @@
           "type": "text",
           "id": "text-4"
         }
-      ]
+      ],
+      "index": "a2",
+      "frameId": null
     },
     {
       "angle": 0,
@@ -112,10 +119,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 1684432928,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "text-4",
@@ -135,7 +142,10 @@
       "verticalAlign": "middle",
       "containerId": "rect-3",
       "originalText": ".monitor.jsonl\nreports/*.yaml",
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "index": "a3",
+      "frameId": null,
+      "autoResize": true
     },
     {
       "angle": 0,
@@ -146,10 +156,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 1235986912,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "rect-5",
@@ -168,7 +178,9 @@
           "type": "text",
           "id": "text-6"
         }
-      ]
+      ],
+      "index": "a4",
+      "frameId": null
     },
     {
       "angle": 0,
@@ -179,10 +191,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 933520416,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "text-6",
@@ -202,7 +214,10 @@
       "verticalAlign": "middle",
       "containerId": "rect-5",
       "originalText": "review-and-ship\naccept / reject",
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "index": "a5",
+      "frameId": null,
+      "autoResize": true
     },
     {
       "angle": 0,
@@ -213,10 +228,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 1314614752,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "rect-7",
@@ -235,7 +250,9 @@
           "type": "text",
           "id": "text-8"
         }
-      ]
+      ],
+      "index": "a6",
+      "frameId": null
     },
     {
       "angle": 0,
@@ -246,10 +263,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 1774379040,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "text-8",
@@ -269,7 +286,10 @@
       "verticalAlign": "middle",
       "containerId": "rect-7",
       "originalText": "learn-from\nreports",
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "index": "a7",
+      "frameId": null,
+      "autoResize": true
     },
     {
       "angle": 0,
@@ -280,10 +300,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 812823008,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "rect-9",
@@ -302,7 +322,9 @@
           "type": "text",
           "id": "text-10"
         }
-      ]
+      ],
+      "index": "a8",
+      "frameId": null
     },
     {
       "angle": 0,
@@ -313,10 +335,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 1253170208,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "text-10",
@@ -336,7 +358,10 @@
       "verticalAlign": "middle",
       "containerId": "rect-9",
       "originalText": "KB rules",
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "index": "a9",
+      "frameId": null,
+      "autoResize": true
     },
     {
       "angle": 0,
@@ -347,10 +372,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 1459713504,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "arrow-11",
@@ -385,7 +410,11 @@
         "gap": 4
       },
       "startArrowhead": null,
-      "endArrowhead": "arrow"
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null,
+      "index": "aA",
+      "frameId": null,
+      "boundElements": []
     },
     {
       "angle": 0,
@@ -396,10 +425,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 744577056,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "arrow-12",
@@ -434,7 +463,11 @@
         "gap": 4
       },
       "startArrowhead": null,
-      "endArrowhead": "arrow"
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null,
+      "index": "aB",
+      "frameId": null,
+      "boundElements": []
     },
     {
       "angle": 0,
@@ -445,10 +478,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 1192737248,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "arrow-13",
@@ -483,7 +516,11 @@
         "gap": 4
       },
       "startArrowhead": null,
-      "endArrowhead": "arrow"
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null,
+      "index": "aC",
+      "frameId": null,
+      "boundElements": []
     },
     {
       "angle": 0,
@@ -494,10 +531,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 583095328,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "arrow-14",
@@ -532,7 +569,11 @@
         "gap": 4
       },
       "startArrowhead": null,
-      "endArrowhead": "arrow"
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null,
+      "index": "aD",
+      "frameId": null,
+      "boundElements": []
     },
     {
       "angle": 0,
@@ -543,17 +584,17 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 1673887200,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "arrow-15",
       "type": "arrow",
       "x": 1000,
       "y": 95,
-      "width": -780,
+      "width": 780,
       "height": 0,
       "strokeColor": "#344054",
       "backgroundColor": "transparent",
@@ -573,7 +614,11 @@
       "startBinding": null,
       "endBinding": null,
       "startArrowhead": null,
-      "endArrowhead": "arrow"
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null,
+      "index": "aE",
+      "frameId": null,
+      "boundElements": []
     },
     {
       "angle": 0,
@@ -584,10 +629,10 @@
       "opacity": 100,
       "groupIds": [],
       "seed": 1,
-      "version": 1,
-      "versionNonce": 1,
+      "version": 2,
+      "versionNonce": 1136775200,
       "isDeleted": false,
-      "updated": 1,
+      "updated": 1785176256560,
       "link": null,
       "locked": false,
       "id": "cap-16",
@@ -607,12 +652,17 @@
       "verticalAlign": "middle",
       "containerId": null,
       "originalText": "caught earlier next run",
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "index": "aF",
+      "frameId": null,
+      "autoResize": true
     }
   ],
   "appState": {
-    "viewBackgroundColor": "transparent",
-    "gridSize": null
+    "gridSize": 20,
+    "gridStep": 5,
+    "gridModeEnabled": false,
+    "viewBackgroundColor": "transparent"
   },
   "files": {}
 }
