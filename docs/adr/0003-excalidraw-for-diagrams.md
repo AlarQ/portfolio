@@ -1,6 +1,6 @@
 # Excalidraw for Diagrams
 
-Status: accepted
+Status: superseded by ADR-0004
 
 **Supersedes** the diagram-rendering decision noted in [ADR-0001](0001-mdx-for-blog-posts.md) (pre-rendered, theme-aware Mermaid SVGs via `scripts/prerender-mermaid.ts` and `<Diagram>`). Diagrams are now authored as role-tagged Excalidraw builder specs (`content/diagrams/*.diagram.ts`) instead of Mermaid source (`content/diagrams/*.mmd`); `<Diagram name="..." alt="..." />` (`src/components/Diagram.tsx`) is unchanged as the render seam.
 

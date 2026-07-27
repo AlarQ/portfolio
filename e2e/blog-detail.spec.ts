@@ -53,7 +53,7 @@ test.describe("Blog Post detail", () => {
   /**
    * REGRESSION GUARD: pre-rendered Excalidraw diagrams ship as committed SVGs.
    * The Vercel browserless-build fix replaced in-build live rendering with a
-   * pre-commit step that builds `content/diagrams/*.diagram.ts` →
+   * pre-commit step that builds `content/diagrams/*.excalidraw` →
    * `public/diagrams/*-{light,dark}.svg`, referenced from the Post body via
    * the `<Diagram>` component (src/components/Diagram.tsx). A diagram is a
    * theme-tracking figure: a LIGHT SVG (visible in light mode, carries the

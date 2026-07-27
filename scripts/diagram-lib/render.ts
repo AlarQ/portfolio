@@ -1,8 +1,9 @@
 // Renders one Excalidraw scene to an SVG string via a headless Chromium page
 // that loads `@excalidraw/excalidraw`'s `exportToSvg` from esm.sh - ported
-// from `scripts/prototype-excalidraw.ts`. Colours are already resolved into
-// the scene per theme by `Builder` (see `palette.ts`), so this module never
-// uses Excalidraw's `exportWithDarkMode` - each theme gets its own scene.
+// from `scripts/prototype-excalidraw.ts`. The light scene is authored
+// directly; the dark scene is derived from it via `theme.ts`'s hex swap
+// (see `palette.ts`), so this module never uses Excalidraw's
+// `exportWithDarkMode` - each theme gets its own fully-coloured scene.
 
 import { chromium } from "playwright";
 import type { ThemeName } from "./palette.ts";
@@ -86,4 +87,22 @@ export async function closeRenderer(): Promise<void> {
   const browser = await browserPromise;
   browserPromise = null;
   await browser.close();
+}
+
+/**
+ * Screenshot a rendered SVG string to a PNG file at 2x device scale, so the
+ * LLM render-validate loop has an image the Read tool can view (Read renders
+ * PNG, not SVG). Reuses the same shared headless browser as `renderSceneToSvg`.
+ */
+export async function rasterizeSvg(svg: string, outPath: string): Promise<void> {
+  const browser = await getBrowser();
+  const page = await browser.newPage({ deviceScaleFactor: 2 });
+  try {
+    await page.setContent(`<html><body style="margin:0">${svg}</body></html>`);
+    const el = await page.$("svg");
+    if (!el) throw new Error("rasterizeSvg: no <svg> element found in content");
+    await el.screenshot({ path: outPath });
+  } finally {
+    await page.close();
+  }
 }

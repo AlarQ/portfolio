@@ -8,7 +8,7 @@ import { MDX_FRAME_CLASS } from "@/utils/mdxPresentationBlock";
  * SVG shown in light mode and a DARK SVG shown in dark mode (`public/diagrams/
  * <name>-light.svg` / `<name>-dark.svg`), swapped by the `.dark` class the site
  * theme toggle drives - no client JS. The two SVGs are rendered from ONE
- * `content/diagrams/<name>.diagram.ts` at commit time (see `scripts/prerender-diagrams.ts`,
+ * `content/diagrams/<name>.excalidraw` at commit time (see `scripts/prerender-diagrams.ts`,
  * the diagram presentation seam); diagrams are not rendered during `next build`
  * (that launched a headless Chromium and broke Vercel's browserless image).
  *

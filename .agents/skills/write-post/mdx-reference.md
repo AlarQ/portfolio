@@ -58,8 +58,8 @@ Props: `name` (string, must match `^[a-z0-9-]+$`), `alt` (string). The `alt` is 
 
 **Diagram workflow** (required whenever you use `<Diagram>`):
 
-1. Author the source at `content/diagrams/<name>.diagram.ts` as an Excalidraw builder spec.
-2. Assign **roles, not colours** - the theme palette is injected per-theme by `scripts/diagram-lib/palette.ts` (the diagram presentation seam). Tag nodes with semantic roles (e.g. `plan` | `build` | `verify`) as the existing `.diagram.ts` specs do; never hardcode hex.
+1. Author the source at `content/diagrams/<name>.excalidraw` - a native Excalidraw JSON scene, hand-editable in any Excalidraw client and LLM-editable as JSON. Invoke the `excalidraw-diagram` skill for the full authoring workflow (design methodology + mandatory render-validate loop).
+2. Colours come from the light palette only - see `content/diagrams/_palette.excalidraw` (a swatch reference sheet; copy shapes from it rather than picking colours freehand) and `.claude/skills/excalidraw-diagram/references/palette.md`. The scene is authored in light; the dark SVG is derived automatically by an exhaustive hex swap, and any off-palette hex fails the render.
 3. Run `pnpm prerender:diagrams` to generate `public/diagrams/<name>-light.svg` and `-dark.svg`. A `<Diagram>` whose SVGs are missing throws at build.
 
 ## Trust boundary (do not cross)

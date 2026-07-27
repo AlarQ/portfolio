@@ -1,52 +1,48 @@
 // Pre-render Excalidraw diagrams to committed SVGs - one LIGHT + one DARK per
-// spec, so a Post diagram tracks the page theme like a first-class figure.
+// scene, so a Post diagram tracks the page theme like a first-class figure.
 //
 // Why this exists: `exportToSvg` needs a real DOM (headless Chromium), and
 // Vercel's build image has no browser/system libs, so this render step stays
 // OUT of `next build` and runs as a local, pre-commit step instead (mirrors
 // the Mermaid pipeline it replaces - see `docs/adr/0003-excalidraw-for-diagrams.md`):
-// render `content/diagrams/*.diagram.ts` → `public/diagrams/<name>-{light,dark}.svg`
+// render `content/diagrams/*.excalidraw` → `public/diagrams/<name>-{light,dark}.svg`
 // here, commit the SVGs, and let `<Diagram>` reference them as static files.
 //
-// Each `.diagram.ts` is a role-tagged builder spec (CLAUDE.md "diagram presentation
-// seam" applied to diagrams): it lays out boxes/containers/arrows via `Builder`,
-// tagging every shape with a semantic ROLE (`plan`, `build`, ...), never a colour.
-// `scripts/diagram-lib/palette.ts` resolves role → colour per theme from
-// `src/theme/tokens.ts` primitives - the only colour source. A role with no
-// palette entry is a compile error (the palette's role table is exhaustive).
+// Each `.excalidraw` file is a native Excalidraw scene, authored in the LIGHT
+// palette (hand-editable in any Excalidraw client, or as raw JSON by an LLM -
+// see `docs/adr/0004-native-excalidraw-source.md`). The dark scene is derived
+// by `scripts/diagram-lib/theme.ts`'s exhaustive hex swap; an off-palette
+// colour throws rather than silently rendering (`scripts/diagram-lib/palette.ts`).
 //
-// Idempotent: a diagram is re-rendered only when its spec file, any
+// Files starting with `_` (e.g. `_palette.excalidraw`, a swatch reference
+// sheet) are skipped - they are authoring aids, not renderable diagrams.
+//
+// Idempotent: a diagram is re-rendered only when its source file, any
 // `scripts/diagram-lib/*.ts` file, this script, OR `src/theme/tokens.ts` (where
 // the primitive hexes live) is newer than the committed `.svg`.
 
 import { existsSync } from "node:fs";
-import { mkdir, readdir, stat, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { Builder as BuilderClass } from "./diagram-lib/builder.ts";
-import { Builder } from "./diagram-lib/builder.ts";
 import type { ThemeName } from "./diagram-lib/palette.ts";
-import { closeRenderer, renderSceneToSvg } from "./diagram-lib/render.ts";
+import { closeRenderer, rasterizeSvg, renderSceneToSvg } from "./diagram-lib/render.ts";
+import { toDarkScene } from "./diagram-lib/theme.ts";
 
 const THIS_FILE = fileURLToPath(import.meta.url);
 const ROOT = resolve(dirname(THIS_FILE), "..");
 const SRC_DIR = join(ROOT, "content", "diagrams");
 const OUT_DIR = join(ROOT, "public", "diagrams");
+const PREVIEW_DIR = join(ROOT, ".diagram-preview");
 const LIB_DIR = join(ROOT, "scripts", "diagram-lib");
 const TOKENS_FILE = join(ROOT, "src", "theme", "tokens.ts");
 
 const THEMES: ThemeName[] = ["light", "dark"];
 
-interface DiagramSpec {
-  name: string;
-  alt: string;
-  build: (b: BuilderClass) => void;
-}
-
-// An SVG is stale when missing, or older than its spec source or the shared
+// An SVG is stale when missing, or older than its source scene or the shared
 // engine mtime (the newest of this script, every diagram-lib/*.ts file, and
-// tokens.ts, where the primitive hexes live) - so a palette or builder edit
-// re-renders every diagram even if no spec changed.
+// tokens.ts, where the primitive hexes live) - so a palette engine edit
+// re-renders every diagram even if no scene changed.
 async function isStale(srcPath: string, outPath: string, engineMtime: number): Promise<boolean> {
   if (!existsSync(outPath)) return true;
   const [src, out] = await Promise.all([stat(srcPath), stat(outPath)]);
@@ -68,15 +64,25 @@ function failBrowser(error: unknown): void {
   process.exitCode = 1;
 }
 
+interface StaleJob {
+  srcPath: string;
+  outPath: string;
+  previewPath: string;
+  base: string;
+  theme: ThemeName;
+}
+
 async function main(): Promise<void> {
   if (!existsSync(SRC_DIR)) {
     console.log(`[prerender-diagrams] no ${SRC_DIR} - nothing to render`);
     return;
   }
 
-  const sourceFiles = (await readdir(SRC_DIR)).filter((n) => n.endsWith(".diagram.ts")).sort();
+  const sourceFiles = (await readdir(SRC_DIR))
+    .filter((n) => n.endsWith(".excalidraw") && !n.startsWith("_"))
+    .sort();
   if (sourceFiles.length === 0) {
-    console.log("[prerender-diagrams] no .diagram.ts files - nothing to render");
+    console.log("[prerender-diagrams] no .excalidraw files - nothing to render");
     return;
   }
 
@@ -88,23 +94,17 @@ async function main(): Promise<void> {
   const engineStats = await Promise.all(engineFiles.map((f) => stat(f)));
   const engineMtime = Math.max(...engineStats.map((s) => s.mtimeMs));
 
-  const stale: Array<{
-    srcPath: string;
-    outPath: string;
-    base: string;
-    theme: ThemeName;
-    spec: DiagramSpec;
-  }> = [];
+  const stale: StaleJob[] = [];
   let total = 0;
   for (const filename of sourceFiles) {
     const srcPath = join(SRC_DIR, filename);
-    const mod = (await import(srcPath)) as DiagramSpec;
-    const base = mod.name;
+    const base = filename.slice(0, -".excalidraw".length);
     for (const theme of THEMES) {
       total += 1;
       const outPath = join(OUT_DIR, `${base}-${theme}.svg`);
+      const previewPath = join(PREVIEW_DIR, `${base}-${theme}.png`);
       if (await isStale(srcPath, outPath, engineMtime)) {
-        stale.push({ srcPath, outPath, base, theme, spec: mod });
+        stale.push({ srcPath, outPath, previewPath, base, theme });
       }
     }
   }
@@ -115,14 +115,40 @@ async function main(): Promise<void> {
   }
 
   await mkdir(OUT_DIR, { recursive: true });
+  await mkdir(PREVIEW_DIR, { recursive: true });
 
+  // Parse each stale source once (a scene backs both its light and dark job).
+  const parsed = new Map<string, object>();
   let failed = false;
+
   for (const job of stale) {
-    const b = new Builder(job.theme);
-    job.spec.build(b);
+    let lightScene = parsed.get(job.srcPath);
+    if (lightScene === undefined) {
+      try {
+        const raw = await readFile(job.srcPath, "utf8");
+        lightScene = JSON.parse(raw) as object;
+        parsed.set(job.srcPath, lightScene);
+      } catch (error) {
+        console.error(
+          `[prerender-diagrams] failed to parse ${job.srcPath.replace(`${ROOT}/`, "")}: ${describe(error)}`
+        );
+        failed = true;
+        continue;
+      }
+    }
+
+    let scene: object;
+    try {
+      scene = job.theme === "dark" ? toDarkScene(lightScene) : lightScene;
+    } catch (error) {
+      console.error(`[prerender-diagrams] ${job.base}-${job.theme}: ${describe(error)}`);
+      failed = true;
+      continue;
+    }
+
     let svg: string;
     try {
-      svg = await renderSceneToSvg(b.scene(), job.theme);
+      svg = await renderSceneToSvg(scene, job.theme);
     } catch (error) {
       failBrowser(error);
       failed = true;
@@ -132,6 +158,15 @@ async function main(): Promise<void> {
     console.log(
       `[prerender-diagrams] rendered ${job.base}-${job.theme} → ${job.outPath.replace(`${ROOT}/`, "")}`
     );
+
+    try {
+      await rasterizeSvg(svg, job.previewPath);
+    } catch (error) {
+      console.error(
+        `[prerender-diagrams] preview PNG failed for ${job.base}-${job.theme}: ${describe(error)}`
+      );
+      failed = true;
+    }
   }
 
   await closeRenderer();
