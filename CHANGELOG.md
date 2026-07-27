@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.30](https://github.com/AlarQ/portfolio/compare/v0.1.29...v0.1.30) (2026-07-27)
+
+
+### Bug Fixes
+
+* grammar ([e8ce364](https://github.com/AlarQ/portfolio/commit/e8ce364f617a670dbfbdf13adcb89e57393ccb9b))
+
 ## [0.1.29](https://github.com/AlarQ/portfolio/compare/v0.1.28...v0.1.29) (2026-07-27)
 
 
