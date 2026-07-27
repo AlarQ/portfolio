@@ -16,7 +16,7 @@ is a hard block.
 The engine is also the driver. For each creative beat it spawns a fresh,
 disposable worker session, runs every deterministic step itself, and owns the
 run state on disk, including a two-write `in_flight` marker so a crash mid-beat
-is recoverable rather than ambiguous. Judgement happens inside the
+is recoverable rather than ambiguous. Judgment happens inside the
 worker; the rules, gates, and artifacts live outside it.
 
 That split is what makes the runtime swappable. The `.flow` contracts and the

@@ -2,8 +2,7 @@
 title: "Rust Respects Your Time, Dude"
 dek: The first hour with the borrow checker is punishment, and it buys every week after it. rustc doesn't just reject the code - it explains why and attaches the patch, so the twenty minutes a vague error would have cost you never get spent. In an AI workflow that same output stops being a courtesy and becomes a gate the model runs against itself.
 date: 2026-07-27
-categories: ["Engineering", "AI"]
-draft: true
+categories: ["Rust", "Engineering", "AI"]
 ---
 
 My first hour of Rust ended with a code snippet I could not compile. I had read the
@@ -102,9 +101,8 @@ That's also why the tooling around it works as well as it does. `cargo fix` appl
 the machine-applicable suggestions across the whole crate. `cargo clippy --fix`
 does the same for the lint layer, where the suggestions get opinionated - collapse
 this `match` into an `if let`, this `unwrap_or_else(|| ...)` wants `unwrap_or_default`.
-None of that is a separate ecosystem project reverse-engineering compiler text. The
-suggestions are structured data the compiler emits; `--error-format=json` gives you
-every diagnostic with its spans and its `suggested_replacement` string, and the
+The suggestions are structured data the compiler emits; `--error-format=json` gives
+you every diagnostic with its spans and its `suggested_replacement` string, and the
 tools are just consumers of it.
 
 Two things fall out of that. The obvious one: my dumbest mistakes cost me a
@@ -137,8 +135,8 @@ degenerates to applying it, and the iteration ends on the next pass.
 
 ## Where this is going
 
-I'm not claiming Rust is the pleasant language, and I'm aware "respects your time"
-is a strange thing to say about a language you can wait ninety seconds to build.
+I'm not claiming Rust is without similar flaws, and I'm aware "respects your time"
+is a strange thing to say about a language you can wait ninety seconds to build in.
 Compile times are what they are, the trait-heavy async ecosystem will still hand
 you a page-long error about a future that isn't `Send`, and there are days the
 borrow checker is right and I still resent it. And rustc has its own
@@ -150,12 +148,10 @@ cost you pay in real weeks. The trade is that the waiting is scheduled and the
 debugging isn't: I know what a cold build costs me, and I never know what an
 afternoon of `found X, required X` costs until it's gone.
 
-What I am claiming is that the thing which makes those weeks survivable - a
-compiler that explains its reasoning and attaches a patch - turns out to be the
-same property that makes the language good to hand an agent. That wasn't designed
-for this. Rust's diagnostics were built for humans learning a hard language, back
-when the loop had a person in it.
+My point is also that the thing which makes those fixes survivable turns out to
+be the same property that makes the language good to hand an agent.
 
 So the criterion I now apply when picking a language for work I intend to hand off:
-not how fast I can write it, but how much its compiler tells whoever gets it wrong.
+not how fast I can write it, but how much its compiler explains to whoever gets it
+wrong.
 Every language spends your time. This one tells you where it went.

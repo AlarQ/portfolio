@@ -1,5 +1,5 @@
 import { act } from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { sampleNavItems } from "@/stories/fixtures/nav";
 import { HeaderMobileMenu } from "./HeaderMobileMenu";
 import { renderIntoDocument } from "./testUtils";
@@ -144,6 +144,29 @@ describe("HeaderMobileMenu", () => {
     expect(document.body.style.overflow).toBe("");
 
     unmount();
+  });
+
+  it("moves focus to the drawer panel itself, not to its first link", () => {
+    vi.useFakeTimers();
+    try {
+      const { container, unmount } = renderIntoDocument(
+        <HeaderMobileMenu items={sampleNavItems} />
+      );
+
+      click(trigger(container));
+      const panel = drawer();
+      expect(panel?.getAttribute("tabindex")).toBe("-1");
+
+      // Focus is deferred behind a timer so the panel is painted before it lands.
+      act(() => {
+        vi.advanceTimersByTime(200);
+      });
+      expect(document.activeElement).toBe(panel);
+
+      unmount();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("keeps the theme pill non-interactive (aria-hidden)", () => {

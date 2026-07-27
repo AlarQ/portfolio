@@ -40,7 +40,7 @@ export function HeaderMobileMenu({ items, activeHref }: HeaderMobileMenuProps) {
     triggerRef.current?.focus();
   }, []);
 
-  const firstLinkRef = useDrawerA11y(isOpen, closeDrawer);
+  const panelRef = useDrawerA11y(isOpen, closeDrawer);
 
   // The drawer stays mounted (once `mounted`) so the panel can transition
   // between its off-screen and open positions - a slide, not a pop. `isOpen`
@@ -59,12 +59,14 @@ export function HeaderMobileMenu({ items, activeHref }: HeaderMobileMenuProps) {
       />
       <div
         id="mobile-menu"
+        ref={panelRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
         inert={!isOpen}
         aria-hidden={!isOpen}
-        className={`fixed inset-y-0 right-0 z-50 flex w-[80%] max-w-drawer flex-col gap-8 bg-background px-6 pt-8 text-foreground transition-transform duration-300 ${
+        className={`fixed inset-y-0 right-0 z-50 flex w-[80%] max-w-drawer flex-col gap-8 bg-background px-6 pt-8 text-foreground transition-transform duration-300 focus:outline-none ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -76,7 +78,7 @@ export function HeaderMobileMenu({ items, activeHref }: HeaderMobileMenuProps) {
         >
           <X className="size-8" />
         </button>
-        <div ref={firstLinkRef} className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           {items.map((item) => {
             const active = item.href === activeHref;
             return (

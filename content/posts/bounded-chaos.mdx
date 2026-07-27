@@ -27,8 +27,8 @@ promoted rule is territory reclaimed from chance.
 
 This post walks the one flow I run for real feature work, end to end. It's a set
 of skills and review agents that turn a loose intent into a reviewed,
-shipped pull request. Each phase is another wall of the vessel; I'll walk what every phase is
-for and the state machine the work moves through.
+shipped pull request. Each phase is another wall of the vessel; I'll walk through what every phase
+is for and the state machine the work moves through.
 
 ## The feature flow
 
@@ -85,7 +85,7 @@ it ships inline, no separate step.
 ### `review-and-ship` - rule on the findings, then ship
 
 The findings from the `validate` phase get addressed in two ways: automatic and manual. Structural mappings I built into the process route mechanical findings to automatic fixes; everything else is delegated to me for manual approval.
-The **AUTO bucket** clears itself first: mechanical findings (formatting, unused import) and coverage gaps are fixed. Everything else is grouped by code region and presented for accept or reject, one region at a time, and a reasoned rejection can be promoted into a reusable knowledge-base (KB) rule on the spot. Then it ships inline: one commit covering the applied fixes, a push, and the draft PR flipped to ready - into the feature integration branch, so the feature accrues as a reviewable whole before it reaches `main`. Shipping is the tail of this phase now, not a command of its own; the task lands `review → done` and shipped in one move.
+The **AUTO bucket** clears itself first: mechanical findings (formatting, unused import) and coverage gaps are fixed. Everything else is grouped by code region and presented for acceptance or rejection, one region at a time, and a reasoned rejection can be promoted into a reusable knowledge-base (KB) rule on the spot. Then it ships inline: one commit covering the applied fixes, a push, and the draft PR flipped to ready - into the feature integration branch, so the feature accrues as a reviewable whole before it reaches `main`. Shipping is the tail of this phase now, not a command of its own; the task lands `review → done` and shipped in one move.
 
 ### `learn-from-reports` - never the same mistake twice
 
@@ -173,8 +173,8 @@ walks me through:
 
 <Diagram name="validate-panel" alt="The validate phase runs three phases in parallel, all feeding review-and-ship. Phase 1, deterministic gates: lint, type-check, tests, format. Phase 2, advisory agents: Security Engineer, Code-Quality Pragmatist, Software Architect. Phase 3, coverage audit: Odium checking the diff against acceptance criteria. Every node flows into review-and-ship." />
 
-The gates are mechanical: lint, type-check, tests, format, run before any agent
-weighs in. The advisory agents each read the diff through one lens (security, code
+The gates are mechanical - lint, type-check, tests, format - and they run before
+any agent weighs in. The advisory agents each read the diff through one lens (security, code
 quality, architecture), and **Odium** checks it against the task's acceptance
 criteria. Everything lands in `review-and-ship`, where I rule on the
 disagreements instead of grading my own homework.
@@ -195,7 +195,7 @@ fact.
   transitions, TDD red and green, coverage-audit start and finish, gate skips, the
   inferred tier, and PR lifecycle.
 - A **findings report** per task and gate holds what the gate found. Each finding
-  carries a severity, a category, a source of tool or model, a confidence, and a
+  carries a severity, a category, a source (tool or model), a confidence, and a
   review status - pending, accepted, rejected, or noted.
 - An **audit record** captures the spec-completion verdict: complete, or reopen.
 
@@ -243,7 +243,7 @@ every call. I can't see them, can't trim them, and I pay for the tokens.
 
 **Bondsmith** is the answer I'm building. It's a provider-neutral core - a Rust
 binary, plus a set of target-neutral `.flow` contracts - that drives
-this same workflow across swappable runtime adapters. Two adapters are planned:
-*migrate* the Claude Code flow I run today into the first, and *build* a second from
+this same workflow across swappable runtime adapters. Two adapters are planned: the
+first *migrates* the Claude Code flow I run today; the second is *built* from
 scratch for [Pi](https://pi.dev), a minimal agent harness. The point is that the
 *process* outlives any one model or vendor: swap the adapter, keep the scaffold. More on Bondsmith soon.

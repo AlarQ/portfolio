@@ -6,8 +6,10 @@ import { type RefObject, useEffect, useRef } from "react";
  * rendering so the generic drawer a11y is one named seam rather than three
  * inline effects tangled into the markup.
  *
- * Attach the returned ref to the element whose first `<a>` should receive
- * focus when the drawer opens.
+ * Attach the returned ref to the drawer panel itself (`tabIndex={-1}`): focus
+ * lands on the panel, not on its first link. Focusing a link programmatically
+ * makes Safari paint its UA focus ring around that link on plain touch opens,
+ * which reads as a stray blue box; the panel carries `focus:outline-none`.
  */
 export function useDrawerA11y(
   isOpen: boolean,
@@ -27,14 +29,14 @@ export function useDrawerA11y(
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  // Focus first link when drawer opens
+  // Move focus into the drawer when it opens
   useEffect(() => {
     if (isOpen && containerRef.current) {
       // Small delay to ensure drawer is rendered
-      setTimeout(() => {
-        const firstLink = containerRef.current?.querySelector("a");
-        firstLink?.focus();
+      const timer = setTimeout(() => {
+        containerRef.current?.focus({ preventScroll: true });
       }, 100);
+      return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
