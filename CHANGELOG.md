@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.29](https://github.com/AlarQ/portfolio/compare/v0.1.28...v0.1.29) (2026-07-27)
+
+
+### Features
+
+* rust post ([dd02e32](https://github.com/AlarQ/portfolio/commit/dd02e326ea8d1f5f9cae44dbf5905f0d2f9c102c))
+
 ## [0.1.28](https://github.com/AlarQ/portfolio/compare/v0.1.27...v0.1.28) (2026-07-27)
 
 
