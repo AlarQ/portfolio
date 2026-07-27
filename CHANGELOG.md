@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.31](https://github.com/AlarQ/portfolio/compare/v0.1.30...v0.1.31) (2026-07-27)
+
+
+### Bug Fixes
+
+* title ([66d5e52](https://github.com/AlarQ/portfolio/commit/66d5e52dca3b30a9d5145ac3f665ef68ca253e33))
+
 ## [0.1.30](https://github.com/AlarQ/portfolio/compare/v0.1.29...v0.1.30) (2026-07-27)
 
 
