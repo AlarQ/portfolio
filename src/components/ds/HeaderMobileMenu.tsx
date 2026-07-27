@@ -66,7 +66,7 @@ export function HeaderMobileMenu({ items, activeHref }: HeaderMobileMenuProps) {
         aria-label="Site menu"
         inert={!isOpen}
         aria-hidden={!isOpen}
-        className={`fixed inset-y-0 right-0 z-50 flex w-[80%] max-w-drawer flex-col gap-8 bg-background px-6 pt-8 text-foreground transition-transform duration-300 focus:outline-none ${
+        className={`fixed inset-y-0 right-0 z-50 flex w-[56%] max-w-drawer flex-col gap-8 bg-background px-6 pt-8 text-foreground transition-transform duration-300 focus:outline-none ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
