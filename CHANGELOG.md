@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.34](https://github.com/AlarQ/portfolio/compare/v0.1.33...v0.1.34) (2026-08-10)
+
 ## [0.1.33](https://github.com/AlarQ/portfolio/compare/v0.1.32...v0.1.33) (2026-07-28)
 
 ## [0.1.32](https://github.com/AlarQ/portfolio/compare/v0.1.31...v0.1.32) (2026-07-27)
