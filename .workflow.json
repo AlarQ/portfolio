@@ -1,0 +1,55 @@
+{
+  "gate_pool": [
+    {
+      "name": "lint",
+      "command": "npm run lint",
+      "blocking": true
+    },
+    {
+      "name": "format-check",
+      "command": "npm run format:check",
+      "blocking": true
+    },
+    {
+      "name": "type-check",
+      "command": "npm run type-check",
+      "blocking": true
+    },
+    {
+      "name": "unit-test",
+      "command": "npm run test:unit",
+      "blocking": true
+    },
+    {
+      "name": "e2e-test",
+      "command": "npm run test:e2e",
+      "blocking": false
+    }
+  ],
+  "languages": ["typescript", "nextjs"],
+  "warm_dirs": ["node_modules"],
+  "domain": {
+    "project": "portfolio",
+    "project_path": "./",
+    "contexts": [
+      {
+        "name": "portfolio",
+        "docs": "CONTEXT.md",
+        "subdomain": "core",
+        "edges": [
+          {
+            "to": "*",
+            "direction": "outbound",
+            "pattern": "separate-ways",
+            "owner": "self",
+            "shape": "content is curated and self-authored (CONTEXT.md:3); no API, no backend, no codegen, no shared model with any other context in the portfolio"
+          }
+        ],
+        "observed": {
+          "business_logic": "active-record",
+          "architecture": "layered"
+        }
+      }
+    ]
+  }
+}
