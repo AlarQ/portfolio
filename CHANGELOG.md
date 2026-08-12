@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.38](https://github.com/AlarQ/portfolio/compare/v0.1.37...v0.1.38) (2026-08-12)
+
+
+### Documentation
+
+* add DDD domain pointer block to CLAUDE.md ([59af335](https://github.com/AlarQ/portfolio/commit/59af335079ef42c34027cce3da329695da9c8ea0))
+
 ## [0.1.37](https://github.com/AlarQ/portfolio/compare/v0.1.36...v0.1.37) (2026-08-12)
 
 ## [0.1.36](https://github.com/AlarQ/portfolio/compare/v0.1.35...v0.1.36) (2026-08-12)
