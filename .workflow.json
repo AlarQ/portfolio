@@ -30,7 +30,6 @@
   "warm_dirs": ["node_modules"],
   "domain": {
     "project": "portfolio",
-    "project_path": "./",
     "contexts": [
       {
         "name": "portfolio",
