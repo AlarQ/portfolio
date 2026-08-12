@@ -16,6 +16,31 @@ The MDX render pipeline renders raw HTML/JSX from Post bodies **as trusted conte
 - **MDX body hardening** lives at the presentation seam (`src/utils/mdxPresentation.tsx`): external links carry `rel="noopener noreferrer"`, and `<script>`/`<iframe>` are mapped to no-render neutralizers so a body cannot embed live third-party active content. Active-content neutralization is belt-and-suspenders across two seams: the component map here catches Markdown/hast elements, and the `rehypeNeutralizeActiveContent` AST plugin (wired in `next.config.ts`) strips `<script>`/`<iframe>` authored as explicit JSX, which bypasses the component map.
 - **If this ever changes** - accepting any external, PR-submitted, or otherwise untrusted MDX - the trust assumption breaks (Elevation of Privilege). Before merging such a change you MUST introduce `rehype-sanitize` in the MDX pipeline **and** a Content-Security-Policy. Do not relax the "owner-authored only" rule without both.
 
+## Domain
+
+This repo hosts one bounded context, **`portfolio/portfolio`** - the portfolio site's own language.
+
+Its ubiquitous language, context statement, subdomain type and edges are in [`CONTEXT.md`](CONTEXT.md).
+
+**Rules**
+
+- **Read the context doc before naming anything.** New types, functions, routes, columns, files
+  and UI copy take their words from the glossary there. If the word you need is not in it, that is
+  a modelling question, not a naming preference.
+- **Use this language when talking to me, too.** Explanations, plans, commit messages and PR
+  descriptions use the context's terms - do not paraphrase them into synonyms in prose while the
+  code uses the real term.
+- **A term marked `[published]` is owned by its supplier context and may not be redefined here.**
+  If the meaning here disagrees with the supplier's, that is a finding to raise - not a local
+  decision to make.
+
+**Where the rules live**
+
+- Convention (normative): `~/.claude/skills/context-map/CONVENTION.md`
+- Neighbouring contexts and the edges to them: `~/Desktop/projects/CONTEXT-MAP.md`
+  (generated; `~/Desktop/projects/CONTEXT-MAP-README.md` explains how to read it)
+
+
 ## Commands
 
 ```bash
