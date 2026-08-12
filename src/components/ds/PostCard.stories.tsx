@@ -35,3 +35,12 @@ export const WithoutImageOrCategories: Story = {
     post: samplePost,
   },
 };
+
+export const WithoutDek: Story = {
+  args: {
+    post: samplePost,
+    coverImageUrl: samplePostCoverImageUrl,
+    categories: samplePostCategories,
+    showDek: false,
+  },
+};

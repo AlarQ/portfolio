@@ -66,7 +66,7 @@ export const projects: readonly Project[] = [
     tagline:
       "A shared Rust/Axum backend monolith powering several product apps over one Postgres and OpenAPI contract.",
     repos: [{ role: "backend", techKeys: ["rust", "tokio", "axum", "postgres"] }],
-    relatedPosts: [{ label: "Pour It Once", slug: "pour-it-once" }],
+    relatedPosts: [],
   },
   {
     title: "Bondsmith",
@@ -74,7 +74,7 @@ export const projects: readonly Project[] = [
     tagline:
       "A spec-driven development workflow engine in Rust - phase contracts enforced in typed code, not by an LLM.",
     repos: [{ role: "backend", techKeys: ["rust"] }],
-    relatedPosts: [{ label: "Bounded Chaos", slug: "bounded-chaos" }],
+    relatedPosts: [],
   },
 ];
 

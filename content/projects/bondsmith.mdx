@@ -1,8 +1,8 @@
 Bondsmith is the workflow engine I run my own feature work through: a Rust
-binary, `flowctl`, that drives a spec-driven flow from exploration to shipped
-code and refuses to advance when the work doesn't hold up.
+CLI that drives a spec-driven flow from exploration to shipped code and
+refuses to advance when the work doesn't hold up.
 
-<Diagram name="bondsmith-architecture" alt="The Bondsmith Cargo workspace. Two consumers sit on top: the flowctl CLI, a thin clap shell, and bondsmith-web, a read-only Dioxus desktop Dashboard still in progress, drawn dashed. Both depend on bondsmith-core and never the reverse. Inside core, three stacked layers point downward: infrastructure - git, gate runner, state store, worker launchers, clock - implements the ports of application, the Driver and its six IO ports, which in turn evaluates against domain, the pure zero-IO layer of flow contracts, postconditions, flow state, and findings. An arch-lint test fails the build if any of those arrows is crossed." />
+<Diagram name="bondsmith-architecture" alt="The Bondsmith Cargo workspace. Two consumers sit on top: the flowctl CLI, a thin clap shell, and bondsmith-web, a read-only Dioxus desktop Dashboard still in progress, drawn dashed. Both depend on bondsmith-core. Inside core, three stacked layers point downward: infrastructure - git, gate runner, state store, worker launchers, clock - implements the ports of application, the Driver and its six IO ports, which in turn evaluates against domain, the pure zero-IO layer of flow contracts, postconditions, flow state, and findings." />
 
 The premise is that an LLM is non-deterministic by construction, so the answer
 isn't to trust it harder. It's to make everything around it deterministic. A
@@ -13,25 +13,4 @@ is a hard block.
 
 <Diagram name="feature-flow" alt="The feature flow: a fixed Plan → Build → Verify → Ship chain. Plan holds explore then propose; Build holds implement; Verify holds validate, review-and-ship, then learn-from-reports; Ship holds validate-impl. Shipping is an inline step on the validate and review-and-ship paths. The phases run left to right in that order." />
 
-The engine is also the driver. For each creative beat it spawns a fresh,
-disposable worker session, runs every deterministic step itself, and owns the
-run state on disk, including a two-write `in_flight` marker so a crash mid-beat
-is recoverable rather than ambiguous. Judgment happens inside the
-worker; the rules, gates, and artifacts live outside it.
-
-That split is what makes the runtime swappable. The `.flow` contracts and the
-postconditions are target-neutral; the only place the core knows which runtime
-it's on is an enumerated launcher switch: `claude -p` or `pi run`. Claude Code
-is the work reality and gets used for its native parallel subagents in exactly
-one phase, the review fan-out; Pi is the personal target, thin enough to
-control the whole envelope around the model. Everywhere else both targets run
-the same beats.
-
-Architecturally it's a Cargo workspace with a one-way dependency: `flowctl` and
-the Dioxus dashboard both depend on `core`, never the reverse, and
-`core/tests/arch_lint.rs` fails the build if that layering is crossed. Inside
-`core`, `domain/` is pure and IO-free, `application/` holds the driver and its
-six port traits, and `infrastructure/` supplies the implementations. The prose
-gets the same treatment: an mdBook under `docs/` is the authoritative design,
-and every implementation step writes its entry to the log before it counts as
-done.
+**A deep-dive post on this is coming. Stay tuned.**

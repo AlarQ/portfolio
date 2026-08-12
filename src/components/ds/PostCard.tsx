@@ -14,6 +14,8 @@ export interface PostCardProps {
   readonly post: Post;
   readonly coverImageUrl?: string;
   readonly categories?: readonly PostCardCategory[];
+  /** Set false to omit the dek text (defaults to shown). */
+  readonly showDek?: boolean;
 }
 
 /**
@@ -24,7 +26,7 @@ export interface PostCardProps {
  * presentation-only props layered on top of `Post` - the Post data model
  * itself carries neither field.
  */
-export function PostCard({ post, coverImageUrl, categories }: PostCardProps) {
+export function PostCard({ post, coverImageUrl, categories, showDek = true }: PostCardProps) {
   return (
     <Link href={`/blog/${post.slug}`} className="block no-underline">
       <article className="flex w-full flex-col gap-8">
@@ -46,7 +48,9 @@ export function PostCard({ post, coverImageUrl, categories }: PostCardProps) {
                 <ArrowUpRightIcon className="size-6 text-foreground" />
               </span>
             </div>
-            <p className="w-full text-base leading-6 text-muted-foreground">{post.dek}</p>
+            {showDek && (
+              <p className="w-full text-base leading-6 text-muted-foreground">{post.dek}</p>
+            )}
           </div>
           {categories && categories.length > 0 && (
             <div className="flex w-full flex-wrap items-start gap-2">

@@ -95,6 +95,7 @@ export function Home({ posts, navItems, activeHref = "/blog" }: HomeProps) {
                     post={post}
                     coverImageUrl={post.coverImage}
                     categories={toPostCardCategories(post)}
+                    showDek={false}
                   />
                 </div>
               ))}
