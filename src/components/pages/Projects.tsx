@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { MediaBlockVariants } from "@/components/prototype-media/MediaBlockVariants";
 import { ProjectSummary } from "@/components/ds/ProjectSummary";
 import { ProjectTabStrip } from "@/components/ds/ProjectTabStrip";
 import type { Project } from "@/data/projects";
@@ -51,6 +52,10 @@ export function Projects({ projects, briefs }: ProjectsProps) {
           className="motion-safe:transition-opacity motion-safe:duration-200 motion-reduce:transition-none"
         >
           <ProjectSummary project={selectedProject} brief={briefs[selectedProject.slug]} />
+          {/* PROTOTYPE - throwaway (wayfinder #96): media-block variants. */}
+          <Suspense fallback={null}>
+            <MediaBlockVariants />
+          </Suspense>
         </div>
       )}
     </div>
