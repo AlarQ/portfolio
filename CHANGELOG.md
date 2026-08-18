@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.1.39](https://github.com/AlarQ/portfolio/compare/v0.1.38...v0.1.39) (2026-08-18)
+
+
+### Documentation
+
+* **specs:** add expanded /projects spec from wayfinder map [#95](https://github.com/AlarQ/portfolio/issues/95) ([5d8fe1f](https://github.com/AlarQ/portfolio/commit/5d8fe1f14d80b52ce4912e5114ad09f04ad0fb66)), closes [#107](https://github.com/AlarQ/portfolio/issues/107)
+
 ## [0.1.38](https://github.com/AlarQ/portfolio/compare/v0.1.37...v0.1.38) (2026-08-12)
 
 
