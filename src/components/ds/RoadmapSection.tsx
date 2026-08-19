@@ -27,7 +27,7 @@ function FeatureRow({ feature }: { readonly feature: Feature }) {
 /**
  * `ds/` organism rendering a Project's Roadmap (FR-11): two ordered lists in
  * authored order - `toward` Features, then a visible `<Milestone> · N of M
- * shipped` divider (with an `After <Milestone>` `h3` heading when `beyond`
+ * shipped` divider rendered as a centred pill chip between two hairlines (with an `After <Milestone>` `h3` heading when `beyond`
  * is non-empty), then `beyond` Features. Two `<ol>`s rather than one
  * continuous list so the divider and heading aren't swallowed into either
  * group's list semantics for screen-reader users - no board/two-column
@@ -57,9 +57,13 @@ export function RoadmapSection({ progress }: RoadmapSectionProps) {
         ))}
       </ol>
 
-      <p className="mt-2 flex items-center gap-2 border-t border-border pt-2 text-sm font-medium text-foreground">
-        <StatusDot tone={milestoneDividerPresentation(progress)} />
-        {milestoneName} · {shippedToward} of {totalToward} shipped
+      <p className="my-2 flex items-center gap-3">
+        <span aria-hidden="true" className="h-px flex-1 bg-primary" />
+        <span className="inline-flex items-center gap-2 rounded-pill border border-primary px-3 py-0.5 text-xs font-semibold tracking-wide text-primary">
+          <StatusDot tone={milestoneDividerPresentation(progress)} />
+          {milestoneName} · {shippedToward} of {totalToward} shipped
+        </span>
+        <span aria-hidden="true" className="h-px flex-1 bg-border" />
       </p>
 
       {beyond.length > 0 && (
