@@ -3,7 +3,7 @@
  * The level → visual resolution (label + Badge hue) lives in the sibling
  * `src/utils/skillPresentation.tsx` seam via an exhaustive
  * `Record<SkillLevel, …>`; this module stays JSX/color/icon-free (seam
- * pattern, mirrors `src/data/projects.ts`). Adding a level here is a compile
+ * pattern, mirrors `src/data/projects/index.ts`). Adding a level here is a compile
  * error until the seam maps it.
  */
 export type SkillLevel = "expert" | "proficient";

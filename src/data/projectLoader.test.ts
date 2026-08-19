@@ -1,6 +1,11 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { buildProjectSet, filterProjectsWithBrief } from "./projectLoader";
-import type { Project } from "./projects";
+import {
+  applyProjectAuthoringRules,
+  buildProjectSet,
+  filterProjectsWithBrief,
+  isAnimatedWebpHeader,
+} from "./projectLoader";
+import type { Capability, Project } from "./projects";
 
 /**
  * Unit tests for the pure core `buildProjectSet(candidates): Project[]`.
@@ -19,9 +24,16 @@ function project(overrides: Partial<Project>): Project {
     tagline: "A sample project.",
     repos: [{ role: "backend", techKeys: ["typescript"] }],
     relatedPosts: [],
+    capabilities: [],
+    roadmap: {
+      milestoneName: "MVP",
+      features: [{ name: "A feature", status: "shipped", phase: "toward" }],
+    },
     ...overrides,
   };
 }
+
+const noopDeps = { mediaExists: () => true, readMediaHeader: () => null };
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -140,5 +152,239 @@ describe("filterProjectsWithBrief", () => {
     expect(result.map((p) => p.slug)).toEqual(["present-brief"]);
     expect(warnSpy).toHaveBeenCalledTimes(1);
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("missing-brief"));
+  });
+});
+
+/**
+ * `applyProjectAuthoringRules` - the FR-5 build-time Capability-media/Roadmap
+ * checks. Every dependency is injected so tests never touch the real
+ * filesystem.
+ */
+describe("applyProjectAuthoringRules - clip-cap-warning", () => {
+  it("warns and still publishes a Project with more than 5 clips", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const clipCapability = (n: number): Capability => ({
+      text: `clip ${n}`,
+      media: {
+        kind: "clip",
+        clip: `clip-${n}.mp4`,
+        poster: `poster-${n}.webp`,
+        label: `Clip ${n}`,
+        description: `Description ${n}`,
+      },
+    });
+    const candidates = [
+      project({ capabilities: Array.from({ length: 6 }, (_, i) => clipCapability(i)) }),
+    ];
+
+    const result = applyProjectAuthoringRules(candidates, noopDeps);
+
+    expect(result).toHaveLength(1);
+    expect(result[0]?.capabilities).toHaveLength(6);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("exceeds the 5-clip budget"));
+  });
+});
+
+describe("applyProjectAuthoringRules - media-filename-rejected", () => {
+  it("warns and strips a clip filename containing a traversal segment, never joining it to a path", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const mediaExists = vi.fn(() => true);
+    const candidates = [
+      project({
+        capabilities: [
+          {
+            text: "text",
+            media: {
+              kind: "clip",
+              clip: "../x.mp4",
+              poster: "poster.webp",
+              label: "Clip",
+              description: "desc",
+            },
+          },
+        ],
+      }),
+    ];
+
+    const result = applyProjectAuthoringRules(candidates, { ...noopDeps, mediaExists });
+
+    expect(result[0]?.capabilities[0]).toEqual({ text: "text" });
+    expect(mediaExists).not.toHaveBeenCalledWith(expect.anything(), "../x.mp4");
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('rejecting clip filename "../x.mp4"')
+    );
+  });
+});
+
+describe("applyProjectAuthoringRules - gif-rejected", () => {
+  it("warns and strips a still authored as a .gif", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const candidates = [
+      project({
+        capabilities: [{ text: "text", media: { kind: "still", still: "a.gif", alt: "An alt" } }],
+      }),
+    ];
+
+    const result = applyProjectAuthoringRules(candidates, noopDeps);
+
+    expect(result[0]?.capabilities[0]).toEqual({ text: "text" });
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('rejecting still filename "a.gif"')
+    );
+  });
+});
+
+describe("applyProjectAuthoringRules - missing-poster-warns-not-drops", () => {
+  it("warns and keeps the Capability when a poster is missing on disk", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const candidates = [
+      project({
+        capabilities: [
+          {
+            text: "text",
+            media: {
+              kind: "clip",
+              clip: "clip.mp4",
+              poster: "poster.webp",
+              label: "Clip",
+              description: "desc",
+            },
+          },
+        ],
+      }),
+    ];
+
+    const result = applyProjectAuthoringRules(candidates, {
+      ...noopDeps,
+      mediaExists: () => false,
+    });
+
+    expect(result[0]?.capabilities[0]?.media).toBeDefined();
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('poster "poster.webp" not found'));
+  });
+});
+
+describe("applyProjectAuthoringRules - empty-beyond-warning", () => {
+  it("warns when a Roadmap has no beyond Features", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const candidates = [
+      project({
+        roadmap: {
+          milestoneName: "MVP",
+          features: [{ name: "a", status: "shipped", phase: "toward" }],
+        },
+      }),
+    ];
+
+    applyProjectAuthoringRules(candidates, noopDeps);
+
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('no "beyond" Features'));
+  });
+});
+
+describe("applyProjectAuthoringRules - missing-description-warning", () => {
+  it("warns when a clip has an empty description", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const candidates = [
+      project({
+        capabilities: [
+          {
+            text: "text",
+            media: {
+              kind: "clip",
+              clip: "clip.mp4",
+              poster: "poster.webp",
+              label: "Clip",
+              description: "  ",
+            },
+          },
+        ],
+      }),
+    ];
+
+    applyProjectAuthoringRules(candidates, noopDeps);
+
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("empty description"));
+  });
+});
+
+describe("applyProjectAuthoringRules - alt-empty-string-allowed", () => {
+  it("does not warn about a still whose alt is exactly the empty string", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const candidates = [
+      project({
+        capabilities: [{ text: "text", media: { kind: "still", still: "a.webp", alt: "" } }],
+      }),
+    ];
+
+    const result = applyProjectAuthoringRules(candidates, noopDeps);
+
+    expect(result[0]?.capabilities[0]?.media).toEqual({ kind: "still", still: "a.webp", alt: "" });
+    expect(warnSpy).not.toHaveBeenCalledWith(expect.stringContaining("whitespace-only alt"));
+  });
+
+  it("warns about a still whose alt is whitespace-only", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const candidates = [
+      project({
+        capabilities: [{ text: "text", media: { kind: "still", still: "a.webp", alt: "   " } }],
+      }),
+    ];
+
+    applyProjectAuthoringRules(candidates, noopDeps);
+
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("whitespace-only alt"));
+  });
+});
+
+describe("applyProjectAuthoringRules - animated-webp", () => {
+  it("warns when the poster header decodes as an animated WebP", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const animatedHeader = new TextEncoder().encode("RIFF....WEBPVP8X\0\0\0\0\0\0\0\0\0ANIM");
+    const candidates = [
+      project({
+        capabilities: [
+          {
+            text: "text",
+            media: {
+              kind: "clip",
+              clip: "clip.mp4",
+              poster: "poster.webp",
+              label: "Clip",
+              description: "desc",
+            },
+          },
+        ],
+      }),
+    ];
+
+    applyProjectAuthoringRules(candidates, { ...noopDeps, readMediaHeader: () => animatedHeader });
+
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("is an animated WebP"));
+  });
+});
+
+describe("isAnimatedWebpHeader", () => {
+  it("returns false for a header too short to inspect", () => {
+    expect(isAnimatedWebpHeader(new Uint8Array(4))).toBe(false);
+  });
+
+  it("returns false for a static (non-animated) WebP header", () => {
+    const header = new TextEncoder().encode("RIFF....WEBPVP8 ....................");
+    expect(isAnimatedWebpHeader(header)).toBe(false);
+  });
+
+  it("returns true when the VP8X animation flag bit is set", () => {
+    const bytes = new Uint8Array(32);
+    bytes.set(new TextEncoder().encode("RIFF"), 0);
+    bytes.set(new TextEncoder().encode("WEBP"), 8);
+    bytes.set(new TextEncoder().encode("VP8X"), 12);
+    bytes[20] = 0x02;
+    expect(isAnimatedWebpHeader(bytes)).toBe(true);
+  });
+
+  it("returns true when an ANIM chunk tag appears in the header bytes", () => {
+    const header = new TextEncoder().encode("RIFF....WEBPVP8XZZZZZZZZZZANIM");
+    expect(isAnimatedWebpHeader(header)).toBe(true);
   });
 });

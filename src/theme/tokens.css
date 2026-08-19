@@ -97,6 +97,8 @@
   --badge-orange-fg: var(--category-orange-fg);
   --badge-rose-bg: var(--category-rose-bg);
   --badge-rose-fg: var(--category-rose-fg);
+  --overlay: var(--heading-light);
+  --overlay-foreground: var(--white);
 
   /* dimension primitives */
   --content-measure: 1216px;
@@ -137,6 +139,8 @@
   --popover: var(--card-dark);
   --popover-foreground: var(--heading-dark);
   --border: var(--border-dark);
+  --overlay: var(--white);
+  --overlay-foreground: var(--heading-dark);
 }
 
 @theme inline {
@@ -175,6 +179,8 @@
   --color-badge-orange-fg: var(--badge-orange-fg);
   --color-badge-rose-bg: var(--badge-rose-bg);
   --color-badge-rose-fg: var(--badge-rose-fg);
+  --color-overlay: var(--overlay);
+  --color-overlay-foreground: var(--overlay-foreground);
   --container-content: var(--content-measure);
   --container-drawer: var(--drawer-measure);
   --radius-pill: var(--pill-radius);

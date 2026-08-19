@@ -1,4 +1,3 @@
-import { act } from "react";
 import { describe, expect, it } from "vitest";
 import { renderIntoDocument } from "@/components/ds/testUtils";
 import type { Project } from "@/data/projects";
@@ -11,6 +10,11 @@ const PROJECTS: readonly Project[] = [
     tagline: "The first project.",
     repos: [],
     relatedPosts: [],
+    capabilities: [],
+    roadmap: {
+      milestoneName: "MVP",
+      features: [{ name: "Ship it", status: "shipped", phase: "toward" }],
+    },
   },
   {
     title: "Beta",
@@ -18,63 +22,54 @@ const PROJECTS: readonly Project[] = [
     tagline: "The second project.",
     repos: [],
     relatedPosts: [],
+    capabilities: [],
+    roadmap: {
+      milestoneName: "MVP",
+      features: [{ name: "Ship it", status: "planned", phase: "toward" }],
+    },
   },
 ];
 
 describe("Projects page", () => {
-  it("shows the first Project's summary on initial render with no interaction", () => {
-    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} briefs={{}} />);
+  it("renders one card per Project, in array order (array-order-authoritative)", () => {
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
 
-    expect(container.textContent).toContain("Alpha");
+    const titles = Array.from(container.querySelectorAll("a")).map((el) => el.textContent);
+    expect(titles).toEqual(["Alpha", "Beta"]);
     expect(container.textContent).toContain("The first project.");
-    expect(container.textContent).not.toContain("The second project.");
-
-    unmount();
-  });
-
-  it("clicking a different pill swaps the summary client-side, with no navigation", () => {
-    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} briefs={{}} />);
-
-    const betaTab = [...container.querySelectorAll('[role="tab"]')].find((el) =>
-      el.textContent?.includes("Beta")
-    ) as HTMLElement;
-    expect(betaTab).toBeTruthy();
-
-    act(() => {
-      betaTab.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
-
     expect(container.textContent).toContain("The second project.");
-    expect(container.textContent).not.toContain("The first project.");
 
     unmount();
   });
 
-  it("wraps the summary swap in a motion-safe-only transition (instant under prefers-reduced-motion)", () => {
-    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} briefs={{}} />);
+  it("links each card to its detail route", () => {
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
 
-    const wrapper = container.querySelector('[data-testid="project-summary-swap"]');
-    expect(wrapper).not.toBeNull();
-    const classes = wrapper?.className.split(/\s+/) ?? [];
-    expect(classes).toContain("motion-safe:transition-opacity");
-    expect(classes).toContain("motion-safe:duration-200");
-    expect(classes).not.toContain("transition-opacity");
+    const links = Array.from(container.querySelectorAll("a")).map((a) => a.getAttribute("href"));
+    expect(links).toContain("/projects/alpha");
+    expect(links).toContain("/projects/beta");
 
     unmount();
   });
 
-  it("wires the active tab's aria-controls to a rendered tabpanel via matching id/aria-labelledby", () => {
-    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} briefs={{}} />);
+  it("renders the Milestone Progress figure and no meter/progressbar on the index", () => {
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
 
-    const alphaTab = container.querySelector('[role="tab"][aria-selected="true"]') as HTMLElement;
-    expect(alphaTab).toBeTruthy();
-    const controlsId = alphaTab.getAttribute("aria-controls");
-    expect(controlsId).toBe("project-panel-alpha");
+    expect(container.querySelector('[data-slot="milestone-figure"]')?.textContent).toBe(
+      "MVP reached"
+    );
+    expect(container.querySelector('[role="progressbar"]')).toBeNull();
+    expect(container.querySelector('[role="tablist"]')).toBeNull();
 
-    const panel = container.querySelector(`#${controlsId}`);
-    expect(panel).not.toBeNull();
-    expect(panel?.getAttribute("role")).toBe("tabpanel");
-    expect(panel?.getAttribute("aria-labelledby")).toBe(alphaTab.id);
+    unmount();
+  });
+
+  it("renders the FR-14 intro copy", () => {
+    const { container, unmount } = renderIntoDocument(<Projects projects={PROJECTS} />);
+
+    expect(container.textContent).toContain(
+      "Projects I'm building right now - what each one lets you do, how far it is toward its next milestone, and how it's built. Open a project for the full brief."
+    );
 
     unmount();
   });

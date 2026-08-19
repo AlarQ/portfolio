@@ -44,6 +44,8 @@ describe("SLUG_PATTERN - shared identically by both loaders", () => {
         tagline: "t",
         repos: [],
         relatedPosts: [],
+        capabilities: [],
+        roadmap: { milestoneName: "MVP", features: [] },
       },
     ];
     expect(buildProjectSet(projects)).toHaveLength(0);

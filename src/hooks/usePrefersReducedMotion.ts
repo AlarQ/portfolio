@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+function subscribe(onStoreChange: () => void): () => void {
+  const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+  query.addEventListener("change", onStoreChange);
+  return () => query.removeEventListener("change", onStoreChange);
+}
+
+function getSnapshot(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 /**
- * Track the `prefers-reduced-motion` user setting. Starts `false` so server and
- * first client render agree, then reads (and subscribes to) the media query on
- * mount - so an emulated or toggled preference is reflected deterministically.
+ * Track the `prefers-reduced-motion` user setting via `useSyncExternalStore`,
+ * so the client subscribes directly to the media query's live value instead
+ * of a `useState`+`useEffect` copy that can go stale between renders.
+ * `serverSnapshot` (default `false`) is returned during SSR/hydration so the
+ * server and first client render agree - callers that need "no motion until
+ * proven otherwise" (e.g. `ClipRow`) pass `true` explicitly.
  */
-export function usePrefersReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduced(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
-
-  return reduced;
+export function usePrefersReducedMotion(serverSnapshot = false): boolean {
+  return useSyncExternalStore(subscribe, getSnapshot, () => serverSnapshot);
 }

@@ -25,6 +25,9 @@ describe("projects - data contract", () => {
         seenRoles.add(repo.role);
       }
       expect(Array.isArray(entry.relatedPosts)).toBe(true);
+      expect(Array.isArray(entry.capabilities)).toBe(true);
+      expect(typeof entry.roadmap.milestoneName).toBe("string");
+      expect(Array.isArray(entry.roadmap.features)).toBe(true);
 
       // No JSX (React elements are plain objects with a $$typeof symbol) and
       // no nested objects carrying color/icon fields anywhere on the record.

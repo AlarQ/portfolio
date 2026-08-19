@@ -1,4 +1,4 @@
-import { techPresentation } from "./projectPresentation";
+import { FEATURE_STATUS_TONES, techPresentation } from "./projectPresentation";
 
 /**
  * Type-only fixture (never imported at runtime) proving the
@@ -9,3 +9,11 @@ import { techPresentation } from "./projectPresentation";
  */
 // @ts-expect-error - "vue" is not a member of the closed TechKey union
 techPresentation("vue");
+
+/**
+ * status-tone-exhaustive: `FEATURE_STATUS_TONES` is a closed
+ * `Record<FeatureStatus, StatusTone>` - an unlisted key access is a compile
+ * error, not `undefined` at runtime.
+ */
+// @ts-expect-error - "archived" is not a member of the closed FeatureStatus union
+void FEATURE_STATUS_TONES.archived;
