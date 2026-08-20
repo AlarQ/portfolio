@@ -1,0 +1,22 @@
+# PROTOTYPE (throwaway) - D2 translation of content/diagrams/task-states.excalidraw
+#
+# FINDING (layout, not style): auto-layout does not know about the ~640px prose
+# column. `direction: right` with the full edge labels renders 1924x154 -> 49px
+# tall in the column, illegible. `direction: down` renders 338x1251 - a ribbon
+# taller than the viewport. What fits is `direction: right` with SHORT edge
+# labels, which is an authoring constraint on .d2 sources, not a theme choice.
+direction: right
+
+blocked: blocked { class: state-wait }
+todo: todo { class: state }
+wip: in-progress { class: state }
+implemented: implemented { class: state }
+review: review { class: state-wait }
+done: done { class: terminal }
+
+blocked -> todo: dep done { class: edge }
+todo -> wip: implement { class: edge }
+wip -> implemented: tests pass { class: edge }
+implemented -> review: gates fail { class: edge }
+implemented -> done: gates pass { class: edge }
+review -> done: resolved { class: edge }

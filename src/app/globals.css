@@ -104,3 +104,29 @@ body {
     color-scheme: dark;
   }
 }
+
+/* PROTOTYPE (throwaway, branch prototype/d2-diagrams) - issue #116.
+   One D2 look variant visible at a time, keyed off `data-dvariant` on <html>
+   (set by PrototypeDiagramSwitcher); `a` is the default before it mounts.
+   `x` is today's Excalidraw render, kept in the deck for direct comparison. */
+.dproto {
+  display: none;
+}
+html:not(.dark) .dproto-a-light,
+html.dark .dproto-a-dark {
+  display: block;
+}
+html[data-dvariant] .dproto-a-light,
+html[data-dvariant] .dproto-a-dark {
+  display: none;
+}
+html[data-dvariant="a"]:not(.dark) .dproto-a-light,
+html[data-dvariant="a"].dark .dproto-a-dark,
+html[data-dvariant="b"]:not(.dark) .dproto-b-light,
+html[data-dvariant="b"].dark .dproto-b-dark,
+html[data-dvariant="c"]:not(.dark) .dproto-c-light,
+html[data-dvariant="c"].dark .dproto-c-dark,
+html[data-dvariant="x"]:not(.dark) .dproto-x-light,
+html[data-dvariant="x"].dark .dproto-x-dark {
+  display: block;
+}

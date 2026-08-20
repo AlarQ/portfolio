@@ -1,0 +1,23 @@
+# PROTOTYPE (throwaway) - D2 translation of content/diagrams/bondsmith-architecture.excalidraw
+# Style comes from a variant prelude concatenated in front of this file by
+# scripts/prototype-d2-render.ts - this source carries STRUCTURE + semantic classes only.
+# NOTE: `|md|` blocks render as a bare foreignObject with NO shape box in D2, so
+# two-line labels are plain "\n" labels, not markdown.
+direction: down
+
+cli: "flowctl (CLI)\nthin clap shell: argv, ports, exit code" { class: consumer }
+web: "bondsmith-web (Dashboard)\nDioxus desktop, read-only - in progress" { class: planned }
+
+core: bondsmith-core - all the substance, layer-first {
+  class: container
+
+  infra: "infrastructure - the port implementations\ngit / gate runner / state store / worker launchers / clock" { class: layer-infra }
+  app: "application - the Driver + six IO ports\nrun_beat: precondition gate, launch worker, capture, postcondition gate" { class: layer-app }
+  domain: "domain - pure, zero IO\nflow contracts / postconditions / flow state / findings" { class: layer-domain }
+
+  infra -> app: implements the ports { class: edge }
+  app -> domain: evaluates against { class: edge }
+}
+
+cli -> core.infra { class: edge }
+web -> core.infra { class: edge }

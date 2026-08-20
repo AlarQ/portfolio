@@ -22,12 +22,58 @@ import { MDX_FRAME_CLASS } from "@/utils/mdxPresentationBlock";
  * fs"). A missing/invalid diagram THROWS at build time - fail-fast, never an
  * empty box in a shipped page.
  */
+
+/**
+ * PROTOTYPE (throwaway, branch prototype/d2-diagrams) - issue #116.
+ * For the two prototyped scenes, ship every D2 look variant plus today's
+ * Excalidraw render and let `PrototypeDiagramSwitcher` pick one via the
+ * `data-dvariant` attribute on <html> (CSS gate in globals.css). SSG-safe:
+ * no searchParams, no dynamic rendering.
+ */
+const PROTOTYPE_D2_SCENES = new Set(["bondsmith-architecture", "task-states"]);
+const PROTOTYPE_D2_VARIANTS = ["a", "b", "c"] as const;
+
+function PrototypeD2Figure({ name, alt }: { name: string; alt: string }) {
+  return (
+    <figure
+      role="img"
+      aria-label={alt}
+      className={cn(MDX_FRAME_CLASS, "overflow-x-auto bg-background")}
+    >
+      {PROTOTYPE_D2_VARIANTS.flatMap((variant) =>
+        (["light", "dark"] as const).map((theme) => (
+          // biome-ignore lint/performance/noImgElement: prototype diagram SVG
+          <img
+            key={`${variant}-${theme}`}
+            src={`/diagrams/prototype/${name}-${variant}-${theme}.svg`}
+            alt=""
+            aria-hidden="true"
+            className={`dproto dproto-${variant}-${theme} mx-auto h-auto max-w-full`}
+          />
+        ))
+      )}
+      {(["light", "dark"] as const).map((theme) => (
+        // biome-ignore lint/performance/noImgElement: prototype diagram SVG
+        <img
+          key={`x-${theme}`}
+          src={`/diagrams/${name}-${theme}.svg`}
+          alt=""
+          aria-hidden="true"
+          className={`dproto dproto-x-${theme} mx-auto h-auto max-w-full`}
+        />
+      ))}
+    </figure>
+  );
+}
+
 const DIAGRAM_NAME_PATTERN = /^[a-z0-9-]+$/;
 
 export function Diagram({ name, alt }: { name: string; alt: string }) {
   if (!DIAGRAM_NAME_PATTERN.test(name)) {
     throw new Error(`[Diagram] invalid name "${name}": must match ${DIAGRAM_NAME_PATTERN}`);
   }
+
+  if (PROTOTYPE_D2_SCENES.has(name)) return <PrototypeD2Figure name={name} alt={alt} />;
 
   for (const theme of ["light", "dark"] as const) {
     const svgPath = join(process.cwd(), "public", "diagrams", `${name}-${theme}.svg`);

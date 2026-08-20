@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import { getSiteUrl } from "@/data/siteConfig";
+import { PrototypeDiagramSwitcher } from "@/components/PrototypeDiagramSwitcher";
 import { ThemeProvider } from "@/theme/ThemeProvider";
 import "./globals.css";
 
@@ -40,7 +41,11 @@ export default function RootLayout({
             page (`pages/Home`, `ds/PostLayout`) renders its own `ds/Header` so
             there is exactly one primary nav per page - mounting a second one
             globally previously produced a strict-mode duplicate "Blog" link. */}
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          {/* PROTOTYPE (throwaway, prototype/d2-diagrams) - issue #116 */}
+          <PrototypeDiagramSwitcher />
+        </ThemeProvider>
         {/* Vercel Web Analytics: cookieless, edge-hashed unique visitors
             (per-day, not lifetime - see the "monitoring" chat). Default
             `mode="auto"` loads a console-only debug script in `npm run dev`

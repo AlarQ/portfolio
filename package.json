@@ -33,7 +33,8 @@
     "release:first": "commit-and-tag-version --first-release",
     "release:minor": "commit-and-tag-version --release-as minor",
     "release:major": "commit-and-tag-version --release-as major",
-    "release:patch": "commit-and-tag-version --release-as patch"
+    "release:patch": "commit-and-tag-version --release-as patch",
+    "prototype:d2": "node --experimental-strip-types scripts/prototype-d2-render.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -67,6 +68,7 @@
     "@storybook/addon-docs": "10.4.6",
     "@storybook/nextjs": "10.4.6",
     "@tailwindcss/postcss": "4.3.2",
+    "@terrastruct/d2": "^0.1.33",
     "@types/js-yaml": "^4.0.9",
     "@types/mdx": "2.0.14",
     "@types/node": "^20",
