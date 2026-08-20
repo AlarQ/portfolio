@@ -1,0 +1,14 @@
+# PROTOTYPE (throwaway) - D2 translation of content/diagrams/learning-loop.excalidraw
+direction: right
+
+work: model works { class: planned-solid }
+log: "event log\n+ findings" { class: planned-solid }
+review: "I review\naccept / reject" { class: planned-solid }
+mine: mine the findings { class: planned-solid }
+rules: new rules { class: planned-solid }
+
+work -> log { class: edge }
+log -> review { class: edge }
+review -> mine { class: edge }
+mine -> rules { class: edge }
+rules -> work: caught earlier next run { class: edge-feedback }

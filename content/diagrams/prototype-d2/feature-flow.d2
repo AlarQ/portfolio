@@ -1,0 +1,32 @@
+# PROTOTYPE (throwaway) - D2 translation of content/diagrams/feature-flow.excalidraw
+direction: right
+
+plan: Plan {
+  class: container
+  explore: "explore\ncapture requirements, size the work" { class: state }
+  propose: "propose\nturn intent into a contract" { class: state }
+  explore -> propose { class: edge }
+}
+
+build: Build {
+  class: container
+  implement: "implement\nbuild one task, test-first" { class: layer-domain }
+}
+
+verify: Verify {
+  class: container
+  validate: "validate\nstop trusting one perspective" { class: planned-solid }
+  review: "review-and-ship\nrule on findings, ship inline" { class: planned-solid }
+  learn: "learn-from-reports\nnever the same mistake twice" { class: planned-solid }
+  validate -> review { class: edge }
+  review -> learn { class: edge }
+}
+
+ship: Ship {
+  class: container
+  impl: "validate-impl\nfinal spec-completion audit" { class: layer-infra }
+}
+
+plan.propose -> build.implement { class: edge }
+build.implement -> verify.validate { class: edge }
+verify.learn -> ship.impl { class: edge }

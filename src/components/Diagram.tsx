@@ -30,8 +30,15 @@ import { MDX_FRAME_CLASS } from "@/utils/mdxPresentationBlock";
  * `data-dvariant` attribute on <html> (CSS gate in globals.css). SSG-safe:
  * no searchParams, no dynamic rendering.
  */
-const PROTOTYPE_D2_SCENES = new Set(["bondsmith-architecture", "task-states"]);
-const PROTOTYPE_D2_VARIANTS = ["a", "b", "c"] as const;
+const PROTOTYPE_D2_SCENES = new Set([
+  "bondsmith-architecture",
+  "task-states",
+  "feature-flow",
+  "validate-panel",
+  "learning-loop",
+  "hyperion-monorepo-migration",
+]);
+const PROTOTYPE_D2_VARIANTS = ["a"] as const;
 
 function PrototypeD2Figure({ name, alt }: { name: string; alt: string }) {
   return (

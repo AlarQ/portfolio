@@ -8,8 +8,6 @@ import { useCallback, useEffect, useState } from "react";
 
 export const PROTOTYPE_VARIANTS = [
   { key: "a", name: "Tinted - today's palette" },
-  { key: "b", name: "Ink - monochrome + one accent" },
-  { key: "c", name: "Slab - no fills, 2px rules" },
   { key: "x", name: "Excalidraw (today, for comparison)" },
 ] as const;
 

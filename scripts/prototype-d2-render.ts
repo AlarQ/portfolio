@@ -54,7 +54,9 @@ const tinted = (c: Palette) => cls(`
   state: { style: { fill: "${c.indigoBg}"; stroke: "${c.indigoFg}"; stroke-width: 1; border-radius: 8; font-color: "${c.text}" } }
   state-wait: { style: { fill: "${c.orangeBg}"; stroke: "${c.orangeFg}"; stroke-width: 1; border-radius: 8; font-color: "${c.text}" } }
   terminal: { style: { fill: "${c.greenBg}"; stroke: "${c.greenFg}"; stroke-width: 1; border-radius: 8; font-color: "${c.text}" } }
+  planned-solid: { style: { fill: "${c.violetBg}"; stroke: "${c.violetFg}"; stroke-width: 1; border-radius: 8; font-color: "${c.text}" } }
   edge: { style: { stroke: "${c.muted}"; stroke-width: 1; font-color: "${c.muted}"; font-size: 13 } }
+  edge-feedback: { style: { stroke: "${c.muted}"; stroke-width: 1; stroke-dash: 4; font-color: "${c.muted}"; font-size: 13 } }
 `);
 
 // B - INK: near-monochrome. Everything is surface + hairline border; ONE accent
@@ -69,7 +71,9 @@ const ink = (c: Palette) => cls(`
   state: { style: { fill: "${c.bg}"; stroke: "${c.border}"; stroke-width: 1; border-radius: 6; font-color: "${c.text}" } }
   state-wait: { style: { fill: "${c.surface}"; stroke: "${c.border}"; stroke-width: 1; stroke-dash: 4; border-radius: 6; font-color: "${c.muted}" } }
   terminal: { style: { fill: "${c.bg}"; stroke: "${c.indigoFg}"; stroke-width: 2; border-radius: 6; font-color: "${c.text}" } }
+  planned-solid: { style: { fill: "${c.surface}"; stroke: "${c.border}"; stroke-width: 1; border-radius: 6; font-color: "${c.text}" } }
   edge: { style: { stroke: "${c.border}"; stroke-width: 1; font-color: "${c.muted}"; font-size: 13 } }
+  edge-feedback: { style: { stroke: "${c.border}"; stroke-width: 1; stroke-dash: 4; font-color: "${c.muted}"; font-size: 13 } }
 `);
 
 // C - SLAB: no fills at all. Sharp corners, 2px borders, bold labels - the
@@ -84,14 +88,18 @@ const slab = (c: Palette) => cls(`
   state: { style: { fill: transparent; stroke: "${c.text}"; stroke-width: 2; border-radius: 0; bold: true; font-color: "${c.text}" } }
   state-wait: { style: { fill: transparent; stroke: "${c.muted}"; stroke-width: 2; stroke-dash: 5; border-radius: 0; font-color: "${c.muted}" } }
   terminal: { style: { fill: transparent; stroke: "${c.greenFg}"; stroke-width: 2; border-radius: 0; bold: true; font-color: "${c.text}" } }
+  planned-solid: { style: { fill: transparent; stroke: "${c.text}"; stroke-width: 2; border-radius: 0; font-color: "${c.text}" } }
   edge: { style: { stroke: "${c.text}"; stroke-width: 2; font-color: "${c.muted}"; font-size: 13 } }
+  edge-feedback: { style: { stroke: "${c.text}"; stroke-width: 2; stroke-dash: 5; font-color: "${c.muted}"; font-size: 13 } }
 `);
 
+// Variant A won (issue #116). `ink`/`slab` stay in the file as the record of what
+// was rejected, but only the chosen look is rendered now.
 export const VARIANTS = {
   a: { name: "Tinted - today's palette", prelude: tinted },
-  b: { name: "Ink - monochrome + one accent", prelude: ink },
-  c: { name: "Slab - no fills, 2px rules", prelude: slab },
 } as const;
+void ink;
+void slab;
 
 const config = (c: Palette) => `vars: {
   d2-config: {

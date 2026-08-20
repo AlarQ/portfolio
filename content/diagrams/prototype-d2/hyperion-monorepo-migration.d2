@@ -1,0 +1,52 @@
+# PROTOTYPE (throwaway) - D2 translation of content/diagrams/hyperion-monorepo-migration.excalidraw
+# The hardest scene: a side-by-side BEFORE/AFTER. Two top-level containers is the
+# only handle D2 gives for "these are two panels" - there is no side-by-side primitive.
+direction: right
+
+before: "Before - Microservices (learning project)" {
+  class: container
+  direction: down
+  fe: Frontend { class: consumer }
+  bff: BFF Gateway { class: layer-domain }
+  user: User Service { class: layer-domain }
+  sub: "Subscription\nService" { class: layer-domain }
+  ai: AI Service { class: layer-domain }
+  kafka: "Kafka\nevent bus" { class: planned-solid }
+
+  fe -> bff { class: edge }
+  bff -> user { class: edge }
+  bff -> sub { class: edge }
+  bff -> ai { class: edge }
+  user -> kafka { class: edge-feedback }
+  sub -> kafka { class: edge-feedback }
+  ai -> kafka { class: edge-feedback }
+  note: One app onboarded { class: layer-infra }
+}
+
+after: "After - Cargo Workspace Monorepo" {
+  class: container
+  direction: down
+  repeatfe: repeat-FE { class: consumer }
+  gtdfe: gtd-FE { class: consumer }
+  budgetfe: budget-FE { class: consumer }
+  jobfe: "job-offer-box-FE" { class: consumer }
+
+  repeatbe: repeat-BE { class: layer-domain }
+  gtdbe: gtd-BE { class: layer-domain }
+  budgetbe: budget-BE { class: layer-domain }
+  jobbe: "job-offer-box-BE" { class: layer-domain }
+
+  core: "Hyperion\ncore crates" { class: planned-solid }
+
+  repeatfe -> repeatbe { class: edge }
+  gtdfe -> gtdbe { class: edge }
+  budgetfe -> budgetbe { class: edge }
+  jobfe -> jobbe { class: edge }
+
+  repeatbe -> core { class: edge }
+  gtdbe -> core { class: edge }
+  budgetbe -> core { class: edge }
+  jobbe -> core { class: edge }
+
+  note: 4 apps onboarded { class: layer-infra }
+}

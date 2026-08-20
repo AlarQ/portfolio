@@ -1,0 +1,32 @@
+# PROTOTYPE (throwaway) - D2 translation of content/diagrams/validate-panel.excalidraw
+direction: right
+
+validate: validate {
+  class: container
+
+  p1: "Phase 1 - deterministic gates" {
+    class: container
+    lint: lint { class: layer-app }
+    types: type-check { class: layer-app }
+    tests: tests { class: layer-app }
+    format: format { class: layer-app }
+  }
+
+  p2: "Phase 2 - advisory agents" {
+    class: container
+    sec: Security Engineer { class: planned-solid }
+    cqp: "Code-Quality Pragmatist" { class: planned-solid }
+    arch: Software Architect { class: planned-solid }
+  }
+
+  p3: "Phase 3 - coverage audit" {
+    class: container
+    odium: "Odium\ndiff vs acceptance criteria" { class: layer-infra }
+  }
+}
+
+ship: review-and-ship { class: terminal }
+
+validate.p1 -> ship { class: edge }
+validate.p2 -> ship { class: edge }
+validate.p3 -> ship { class: edge }
