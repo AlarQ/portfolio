@@ -13,7 +13,7 @@ compiler rather than by convention: a crate can only reach what it declares as
 a dependency, and Cargo rejects a dependency cycle outright. An import that
 would violate the architecture fails the build.
 
-<Diagram name="hyperion-monorepo-migration" alt="Two side-by-side diagrams. On the left, the old microservices shape: a frontend calls a BFF gateway, which fans out to a user service, a subscription service, and an AI service, all communicating over a Kafka event bus. On the right, the current Cargo workspace: four frontends - repeat-FE, gtd-FE, budget-FE, and job-offer-box-FE - each sit above their own backend - repeat-BE, gtd-BE, budget-BE, and job-offer-box-BE - and all four backends depend on a single set of Hyperion core crates." />
+<Diagram name="hyperion-monorepo-migration" alt="Two stacked panels. The upper panel is the old microservices shape, with one app onboarded: a frontend calls a BFF gateway, which fans out to a user service, a subscription service, and an AI service, all communicating over a Kafka event bus. The lower panel is the current Cargo workspace, with four apps onboarded: four frontends - repeat-FE, gtd-FE, budget-FE, and job-offer-box-FE - each feed their own backend - repeat-BE, gtd-BE, budget-BE, and job-offer-box-BE - and all four backends depend on a single set of Hyperion core crates." />
 
 Moving to a monorepo didn't mean giving up modularity - it's still the whole
 point. Domain crates stay decoupled from each other, so any of them could be

@@ -1,0 +1,20 @@
+# The feature flow: a fixed Plan -> Build -> Verify -> Ship chain. Phase
+# containers in a row render 2626px wide, so the chain flows DOWN; the phase is
+# carried by each step's name, not by a container per phase (containers group,
+# they never lay out rows).
+direction: down
+
+explore: "explore (Plan)\ncapture requirements, size the work" { class: [node; stepper] }
+propose: "propose (Plan)\nturn intent into a contract" { class: [node; stepper] }
+implement: "implement (Build)\nbuild one task, test-first" { class: [emphasis; stepper] }
+validate: "validate (Verify)\nstop trusting one perspective" { class: [node; stepper] }
+review: "review-and-ship (Verify)\nrule on findings, ship inline" { class: [node; stepper] }
+learn: "learn-from-reports (Verify)\nnever the same mistake twice" { class: [node; stepper] }
+impl: "validate-impl (Ship)\nfinal spec-completion audit" { class: [terminal; stepper] }
+
+explore -> propose { class: edge }
+propose -> implement { class: edge }
+implement -> validate { class: edge }
+validate -> review { class: edge }
+review -> learn { class: edge }
+learn -> impl { class: edge }

@@ -1,0 +1,23 @@
+# The Bondsmith Cargo workspace: two consumers over one core, and core's three
+# layers pointing downward. The class vocabulary is closed and hue-per-role, so
+# the layers are told apart by NESTING AND ORDER, not by three colours.
+direction: down
+
+cli: "flowctl (CLI)\nthin clap shell: argv, ports, exit code" { class: node }
+web: "bondsmith-web (Dashboard)\nDioxus desktop, read-only - in progress" { class: [node; planned] }
+
+core: "bondsmith-core - all the substance, layer-first" {
+  class: group
+
+  infra: "infrastructure - the port implementations\ngit / gate runner / state store / worker launchers / clock" { class: node }
+  app: "application - the Driver + six IO ports\nrun_beat: precondition gate, launch worker, capture, postcondition gate" { class: node }
+  domain: "domain - pure, zero IO\nflow contracts / postconditions / flow state / findings" { class: emphasis }
+
+  infra -> app: "implements the ports" { class: edge }
+  app -> domain: "evaluates against" { class: edge }
+}
+
+# Both consumers point at the crate boundary, not at a layer inside it: an arrow
+# into a nested shape is routed THROUGH the container's own title.
+cli -> core { class: edge }
+web -> core { class: edge }

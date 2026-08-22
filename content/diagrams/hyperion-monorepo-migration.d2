@@ -1,0 +1,49 @@
+# Before / after: microservices, then the Cargo workspace monorepo. Two sibling
+# containers are the only handle D2 gives for "two panels" - they stack rather
+# than sit side by side, so each panel says which side of the move it is.
+direction: right
+
+before: "Before - Microservices (learning project)" {
+  class: group
+  fe: "Frontend" { class: node }
+  bff: "BFF Gateway" { class: node }
+  user: "User Service" { class: node }
+  sub: "Subscription\nService" { class: node }
+  ai: "AI Service" { class: node }
+  kafka: "Kafka\nevent bus" { class: emphasis }
+  note: "One app onboarded" { class: node }
+
+  fe -> bff { class: edge }
+  bff -> user { class: edge }
+  bff -> sub { class: edge }
+  bff -> ai { class: edge }
+  user -> kafka { class: edge-feedback }
+  sub -> kafka { class: edge-feedback }
+  ai -> kafka { class: edge-feedback }
+}
+
+after: "After - Cargo Workspace Monorepo" {
+  class: group
+  repeatfe: "repeat-FE" { class: node }
+  gtdfe: "gtd-FE" { class: node }
+  budgetfe: "budget-FE" { class: node }
+  jobfe: "job-offer-box-FE" { class: node }
+
+  repeatbe: "repeat-BE" { class: node }
+  gtdbe: "gtd-BE" { class: node }
+  budgetbe: "budget-BE" { class: node }
+  jobbe: "job-offer-box-BE" { class: node }
+
+  core: "Hyperion\ncore crates" { class: emphasis }
+  note: "4 apps onboarded" { class: terminal }
+
+  repeatfe -> repeatbe { class: edge }
+  gtdfe -> gtdbe { class: edge }
+  budgetfe -> budgetbe { class: edge }
+  jobfe -> jobbe { class: edge }
+
+  repeatbe -> core { class: edge }
+  gtdbe -> core { class: edge }
+  budgetbe -> core { class: edge }
+  jobbe -> core { class: edge }
+}

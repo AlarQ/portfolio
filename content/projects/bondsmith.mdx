@@ -11,6 +11,6 @@ feature moves through a fixed chain of phases, each one a typed contract with
 homework, and there is no assert-and-warn escape hatch: a failed postcondition
 is a hard block.
 
-<Diagram name="feature-flow" alt="The feature flow: a fixed Plan → Build → Verify → Ship chain. Plan holds explore then propose; Build holds implement; Verify holds validate, review-and-ship, then learn-from-reports; Ship holds validate-impl. Shipping is an inline step on the validate and review-and-ship paths. The phases run left to right in that order." />
+<Diagram name="feature-flow" alt="The feature flow: a fixed Plan → Build → Verify → Ship chain, read top to bottom. Plan holds explore then propose; Build holds implement; Verify holds validate, review-and-ship, then learn-from-reports; Ship holds validate-impl. Each step names its phase, and shipping is an inline step on the validate and review-and-ship paths." />
 
 **A deep-dive post on this is coming. Stay tuned.**

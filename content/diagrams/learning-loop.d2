@@ -1,0 +1,14 @@
+# The learning loop - a cycle, flowed down so it fits the prose column.
+direction: down
+
+work: "model works" { class: [node; stepper] }
+log: "event log\n+ findings" { class: [node; stepper] }
+review: "I review\naccept / reject" { class: [emphasis; stepper] }
+mine: "mine the findings" { class: [node; stepper] }
+rules: "new rules" { class: [terminal; stepper] }
+
+work -> log { class: edge }
+log -> review { class: edge }
+review -> mine { class: edge }
+mine -> rules { class: edge }
+rules -> work: "caught earlier next run" { class: edge-feedback }

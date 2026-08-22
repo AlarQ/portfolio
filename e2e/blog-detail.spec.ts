@@ -51,9 +51,9 @@ test.describe("Blog Post detail", () => {
   });
 
   /**
-   * REGRESSION GUARD: pre-rendered Excalidraw diagrams ship as committed SVGs.
+   * REGRESSION GUARD: pre-rendered D2 diagrams ship as committed SVGs.
    * The Vercel browserless-build fix replaced in-build live rendering with a
-   * pre-commit step that builds `content/diagrams/*.excalidraw` →
+   * pre-commit step that builds `content/diagrams/*.d2` →
    * `public/diagrams/*-{light,dark}.svg`, referenced from the Post body via
    * the `<Diagram>` component (src/components/Diagram.tsx). A diagram is a
    * theme-tracking figure: a LIGHT SVG (visible in light mode, carries the
@@ -63,9 +63,7 @@ test.describe("Blog Post detail", () => {
    * (200), so a missing/unbuilt diagram fails here instead of silently
    * 404-ing in prod.
    */
-  test("renders pre-rendered Excalidraw diagrams as resolvable light+dark SVG images", async ({
-    page,
-  }) => {
+  test("renders pre-rendered D2 diagrams as resolvable light+dark SVG images", async ({ page }) => {
     await page.goto("/blog/my-spec-driven-workflow");
 
     const names = ["feature-flow", "task-states", "validate-panel", "learning-loop"];

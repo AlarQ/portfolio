@@ -4,7 +4,9 @@
 // so the polyfill lives here once for every test file rather than being
 // duplicated per-suite (see the pre-existing local copy in
 // `theme/ThemeProvider.test.tsx`, guarded so it no-ops once this runs first).
-if (!window.matchMedia) {
+// Guarded on `window` too: a suite that opts into the `node` environment (the
+// D2 diagram freshness test) has no DOM at all.
+if (typeof window !== "undefined" && !window.matchMedia) {
   window.matchMedia = ((query: string) => ({
     matches: false,
     media: query,

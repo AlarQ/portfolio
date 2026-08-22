@@ -1,0 +1,27 @@
+# The exemplar board: one scene exercising every class in the closed vocabulary,
+# both edge kinds, a container, and the stepper idiom. It is rendered like any
+# other scene - a broken class definition in the prelude surfaces here first -
+# but it is EXEMPT from the aspect budget, and `Diagram.tsx`'s `^[a-z0-9-]+$`
+# slug regex rejects a leading underscore, so it can never be embedded in a page.
+#
+# Rules it demonstrates:
+#   - a node id is a short stable slug; the label is ALWAYS explicit
+#   - role class first, modifiers after: `class: [node; planned]`
+#   - a source carries structure + classes, never a colour
+direction: down
+
+start: "node - the default box" { class: node }
+key: "emphasis - the load-bearing one" { class: emphasis }
+soon: "planned - a modifier, composed onto a role" { class: [node; planned] }
+end: "terminal - an end state" { class: terminal }
+
+boundary: "group - a container / boundary" {
+  class: group
+  inner: "a node inside a boundary" { class: node }
+}
+
+start -> key: "edge" { class: edge }
+key -> soon { class: edge }
+soon -> boundary.inner { class: edge }
+boundary.inner -> end { class: edge }
+end -> start: "edge-feedback" { class: edge-feedback }

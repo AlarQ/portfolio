@@ -1,18 +1,19 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { cn } from "@/lib/utils";
-import { MDX_FRAME_CLASS } from "@/utils/mdxPresentationBlock";
 
 /**
  * Renders a pre-rendered diagram as a theme-tracking figure: a LIGHT
  * SVG shown in light mode and a DARK SVG shown in dark mode (`public/diagrams/
  * <name>-light.svg` / `<name>-dark.svg`), swapped by the `.dark` class the site
  * theme toggle drives - no client JS. The two SVGs are rendered from ONE
- * `content/diagrams/<name>.excalidraw` at commit time (see `scripts/prerender-diagrams.ts`,
- * the diagram presentation seam); diagrams are not rendered during `next build`
- * (that launched a headless Chromium and broke Vercel's browserless image).
+ * `content/diagrams/<name>.d2` at commit time (see `scripts/prerender-diagrams.ts`,
+ * the diagram presentation seam, and ADR-0005); diagrams are not rendered during
+ * `next build` - D2 runs only in the pre-commit hook, so Vercel's build image
+ * only ever sees committed SVGs.
  *
- * The frame's `bg-background` is white in light and `#090d1f` in dark - the same
+ * There is no frame border or padding around the figure: D2's own `pad` is the
+ * breathing room, and a second frame around a sharp-edged diagram is exactly
+ * what reads unsharp. `bg-background` is white in light and `#090d1f` in dark - the same
  * backgrounds the two SVGs bake in - so the figure melts into the page in both
  * themes instead of punching a light/dark box into the prose.
  *
@@ -39,11 +40,7 @@ export function Diagram({ name, alt }: { name: string; alt: string }) {
   }
 
   return (
-    <figure
-      role="img"
-      aria-label={alt}
-      className={cn(MDX_FRAME_CLASS, "overflow-x-auto bg-background")}
-    >
+    <figure role="img" aria-label={alt} className="overflow-x-auto bg-background">
       {/* Accessible name lives on the figure (theme-independent); both imgs are decorative. */}
       {/* biome-ignore lint/performance/noImgElement: pre-rendered diagram SVG from the MDX body, not an app-rendered image */}
       <img

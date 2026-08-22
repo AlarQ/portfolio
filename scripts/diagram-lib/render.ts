@@ -1,108 +1,171 @@
-// Renders one Excalidraw scene to an SVG string via a headless Chromium page
-// that loads `@excalidraw/excalidraw`'s `exportToSvg` from esm.sh - ported
-// from `scripts/prototype-excalidraw.ts`. The light scene is authored
-// directly; the dark scene is derived from it via `theme.ts`'s hex swap
-// (see `palette.ts`), so this module never uses Excalidraw's
-// `exportWithDarkMode` - each theme gets its own fully-coloured scene.
+/**
+ * The D2 render core - pure enough to be tested: source text in, SVG text and
+ * gate failures out, no filesystem. `scripts/prerender-diagrams.ts` wraps it
+ * with the reading and writing; `src/theme/diagrams.test.ts` wraps it with a
+ * byte-comparison against the committed SVGs (the same freshness guarantee
+ * `tokens.test.ts` gives generated `tokens.css`).
+ *
+ * Three gates live here, all of them cheap and all of them fatal (issue #122):
+ * no colour literal in a source, a closed class vocabulary, and an aspect
+ * budget. They collect rather than throw - see `renderScene`.
+ */
+import { D2 } from "@terrastruct/d2";
+import { CLASS_VOCABULARY, prelude, type ThemeName } from "./theme.ts";
 
-import { chromium } from "playwright";
-import type { ThemeName } from "./palette.ts";
+export const THEMES: ThemeName[] = ["light", "dark"];
 
-const EXCALIDRAW_VERSION = "0.17.6";
-const EXCALIDRAW_ESM = `https://esm.sh/@excalidraw/excalidraw@${EXCALIDRAW_VERSION}`;
-const ASSETS = `https://esm.sh/@excalidraw/excalidraw@${EXCALIDRAW_VERSION}/dist/excalidraw-assets`;
+/** Widest a scene may render before it stops being legible in the prose column. */
+export const MAX_ASPECT_RATIO = 2;
 
-// esm.sh's build bakes `@excalidraw/excalidraw@undefined` into the SVG's
-// @font-face src, so the hand-drawn Virgil/Cascadia fonts 404 and text falls
-// back to a serif. Fetch each woff2 once and inline it as a base64 data URI
-// so the committed SVG is self-contained (no runtime font fetch, works
-// offline / on Vercel).
-const fontCache = new Map<string, string>();
-async function inlineFonts(svg: string): Promise<string> {
-  const urls = new Set([...svg.matchAll(/url\("([^"]+\.woff2)"\)/g)].map((m) => m[1]));
-  let out = svg;
-  for (const url of urls) {
-    const file = url.split("/").pop() as string;
-    if (!fontCache.has(file)) {
-      const buf = Buffer.from(await (await fetch(`${ASSETS}/${file}`)).arrayBuffer());
-      fontCache.set(file, `data:font/woff2;base64,${buf.toString("base64")}`);
+const VOCABULARY = new Set<string>(CLASS_VOCABULARY);
+
+// A colour literal is a hex triplet/quad or any CSS colour function; the named
+// keywords are the ones an author would plausibly reach for by hand.
+const HEX_LITERAL = /#[0-9a-fA-F]{3,8}\b/;
+const COLOUR_FUNCTION = /\b(?:rgba?|hsla?|oklch|oklab|lab|lch|color)\s*\(/;
+const COLOUR_KEYWORD =
+  /\b(?:white|black|red|green|blue|yellow|orange|purple|violet|indigo|pink|gray|grey|silver|teal|cyan|magenta|brown|navy|olive|maroon|lime|aqua|fuchsia)\b/i;
+
+/** `class: foo`, `class: [foo; bar]`, and the `*.class: foo` form. */
+const CLASS_ASSIGNMENT = /(?:^|[\s.*])class\s*:\s*(\[[^\]]*\]|[A-Za-z0-9_-]+)/g;
+
+/**
+ * `#` opens a D2 comment only when followed by whitespace; a colour literal is
+ * `#` glued to its digits. So this strips prose (including issue refs like
+ * "# see #122") without ever hiding a hex.
+ */
+function stripComment(line: string): string {
+  return line.replace(/(^|\s)#(\s.*)?$/, "$1");
+}
+
+/** Gate 1 - a source may not contain a colour. Reported per line, with the line. */
+export function checkNoColourLiteral(scene: string, source: string): string[] {
+  const failures: string[] = [];
+  source.split("\n").forEach((line, index) => {
+    const code = stripComment(line);
+    const hit =
+      code.match(HEX_LITERAL)?.[0] ??
+      code.match(COLOUR_FUNCTION)?.[0] ??
+      // A colour keyword only counts inside a style value - a label is free to
+      // say "the green path".
+      (/\b(?:fill|stroke|font-color)\s*:/.test(code) ? code.match(COLOUR_KEYWORD)?.[0] : undefined);
+    if (hit !== undefined) {
+      failures.push(
+        `content/diagrams/${scene}.d2:${index + 1} - colour literal "${hit}"; use a class from the vocabulary (${CLASS_VOCABULARY.join(", ")})`
+      );
     }
-    out = out.split(`url("${url}")`).join(`url("${fontCache.get(file) as string}")`);
-  }
-  return out;
-}
-
-// Mermaid emits `width="100%"`; mirror that normalization here so a
-// referenced `<img>` renders at the diagram's natural size instead of
-// stretching to fill the prose column (the `<img>` `max-width: 100%` still
-// downscales over-wide diagrams on narrow columns).
-function normalizeSvgSize(svg: string): string {
-  const viewBox = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
-  if (!viewBox) return svg;
-  const [, width, height] = viewBox;
-  return svg.replace(/(<svg\b[^>]*?)\swidth="100%"/, `$1 width="${width}" height="${height}"`);
-}
-
-let browserPromise: ReturnType<typeof chromium.launch> | null = null;
-function getBrowser() {
-  if (!browserPromise) browserPromise = chromium.launch();
-  return browserPromise;
-}
-
-/** Render a finished Excalidraw scene to a self-contained SVG string for one theme. */
-export async function renderSceneToSvg(scene: object, theme: ThemeName): Promise<string> {
-  const browser = await getBrowser();
-  const page = await browser.newPage();
-  try {
-    // exportToSvg needs a real DOM; a blank about:blank page is enough.
-    await page.goto("about:blank");
-    const { elements, files } = scene as { elements: unknown[]; files?: unknown };
-    const svg = await page.evaluate(
-      async ({ esm, elements, files, theme }) => {
-        const mod = await import(/* @vite-ignore */ esm);
-        const exportToSvg = (mod.default ?? mod).exportToSvg;
-        const result = await exportToSvg({
-          elements,
-          files: files ?? null,
-          appState: {
-            exportBackground: false,
-            exportWithDarkMode: false,
-            theme,
-            viewBackgroundColor: "transparent",
-          },
-        });
-        return result.outerHTML as string;
-      },
-      { esm: EXCALIDRAW_ESM, elements, files, theme }
-    );
-    return normalizeSvgSize(await inlineFonts(svg));
-  } finally {
-    await page.close();
-  }
-}
-
-/** Close the shared headless browser; call once after all renders are done. */
-export async function closeRenderer(): Promise<void> {
-  if (!browserPromise) return;
-  const browser = await browserPromise;
-  browserPromise = null;
-  await browser.close();
+  });
+  return failures;
 }
 
 /**
- * Screenshot a rendered SVG string to a PNG file at 2x device scale, so the
- * LLM render-validate loop has an image the Read tool can view (Read renders
- * PNG, not SVG). Reuses the same shared headless browser as `renderSceneToSvg`.
+ * Gate 2 - every class named in a source is in the closed vocabulary. D2
+ * silently ignores an unknown class, so a typo'd `class: termnal` would render
+ * an unstyled box that still looks plausible; the set is only closed if it is
+ * enforced.
  */
-export async function rasterizeSvg(svg: string, outPath: string): Promise<void> {
-  const browser = await getBrowser();
-  const page = await browser.newPage({ deviceScaleFactor: 2 });
-  try {
-    await page.setContent(`<html><body style="margin:0">${svg}</body></html>`);
-    const el = await page.$("svg");
-    if (!el) throw new Error("rasterizeSvg: no <svg> element found in content");
-    await el.screenshot({ path: outPath });
-  } finally {
-    await page.close();
+export function checkClassVocabulary(scene: string, source: string): string[] {
+  const failures: string[] = [];
+  source.split("\n").forEach((line, index) => {
+    for (const match of stripComment(line).matchAll(CLASS_ASSIGNMENT)) {
+      const raw = match[1];
+      const names = raw.startsWith("[")
+        ? raw
+            .slice(1, -1)
+            .split(";")
+            .map((n) => n.trim())
+            .filter(Boolean)
+        : [raw];
+      for (const name of names) {
+        if (!VOCABULARY.has(name)) {
+          failures.push(
+            `content/diagrams/${scene}.d2:${index + 1} - unknown class "${name}"; the vocabulary is closed (${CLASS_VOCABULARY.join(", ")})`
+          );
+        }
+      }
+    }
+  });
+  return failures;
+}
+
+/** The intrinsic size the WASM build only records in the viewBox. */
+function readViewBox(svg: string): { width: number; height: number } | undefined {
+  const match = svg.match(/viewBox="0 0 (\d+) (\d+)"/);
+  if (match === null) return undefined;
+  return { width: Number(match[1]), height: Number(match[2]) };
+}
+
+/**
+ * The WASM build emits an outer `<svg>` carrying a viewBox but NO width/height,
+ * which collapses to zero height inside `<img class="h-auto">`. Stamp the
+ * intrinsic size back on so the SVG is a valid standalone asset, not one that
+ * only works inside this site's component.
+ */
+function withIntrinsicSize(svg: string, size: { width: number; height: number }): string {
+  if (/<svg[^>]*\swidth="/.test(svg)) return svg;
+  return svg.replace(/<svg /, `<svg width="${size.width}" height="${size.height}" `);
+}
+
+export interface Fonts {
+  regular: Uint8Array;
+  bold: Uint8Array;
+}
+
+export interface SceneResult {
+  /** One SVG per theme; a theme is absent when it failed a gate or the compile. */
+  svgs: Partial<Record<ThemeName, string>>;
+  failures: string[];
+}
+
+/**
+ * Render one scene in both themes. Failures COLLECT rather than throw: a
+ * crashed `D2` instance is poisoned (every later call answers "Go program has
+ * already exited"), so callers render each scene with its own instance - which
+ * is exactly what this function does - and report every scene's real problem.
+ *
+ * `exemptFromAspect` is for the `_`-prefixed exemplar board only. A budget with
+ * an exemption list is not a budget.
+ */
+export async function renderScene(
+  scene: string,
+  source: string,
+  fonts: Fonts,
+  options: { exemptFromAspect?: boolean } = {}
+): Promise<SceneResult> {
+  const failures = [...checkNoColourLiteral(scene, source), ...checkClassVocabulary(scene, source)];
+  if (failures.length > 0) return { svgs: {}, failures };
+
+  const d2 = new D2();
+  const svgs: Partial<Record<ThemeName, string>> = {};
+  for (const theme of THEMES) {
+    try {
+      const result = await d2.compile(prelude(theme) + source, {
+        options: {
+          layout: "elk",
+          themeID: 0,
+          pad: 24,
+          sketch: false,
+          fontRegular: fonts.regular,
+          fontBold: fonts.bold,
+        },
+      });
+      const svg = await d2.render(result.diagram, result.renderOptions);
+      const size = readViewBox(svg);
+      if (size === undefined) {
+        failures.push(`${scene}-${theme}: rendered SVG has no viewBox`);
+        continue;
+      }
+      const ratio = size.width / size.height;
+      if (options.exemptFromAspect !== true && ratio > MAX_ASPECT_RATIO) {
+        failures.push(
+          `${scene}-${theme}: ${size.width}x${size.height} is ${ratio.toFixed(2)}:1, over the ${MAX_ASPECT_RATIO}:1 aspect budget - it will be illegible in the ~640px prose column. Flow the chain down: \`direction: down\` and the \`stepper\` modifier on every node.`
+        );
+        continue;
+      }
+      svgs[theme] = withIntrinsicSize(svg, size);
+    } catch (error) {
+      failures.push(`${scene}-${theme}: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
+  return { svgs, failures };
 }

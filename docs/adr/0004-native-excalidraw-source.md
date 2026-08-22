@@ -1,6 +1,6 @@
 # Native `.excalidraw` Source for Diagrams
 
-Status: accepted
+Status: superseded by [ADR-0005](0005-d2-for-diagrams.md)
 
 **Supersedes** [ADR-0003](0003-excalidraw-for-diagrams.md) (role-tagged `content/diagrams/*.diagram.ts` builder specs compiled by `scripts/diagram-lib/builder.ts`). Diagrams are now authored as native `content/diagrams/<name>.excalidraw` JSON scenes; `<Diagram name="..." alt="..." />` (`src/components/Diagram.tsx`) is unchanged as the render seam.
 

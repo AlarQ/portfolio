@@ -1,180 +1,101 @@
-// Pre-render Excalidraw diagrams to committed SVGs - one LIGHT + one DARK per
-// scene, so a Post diagram tracks the page theme like a first-class figure.
+// Pre-render D2 diagrams to committed SVGs - one LIGHT + one DARK per scene, so
+// a diagram tracks the page theme like a first-class figure (ADR-0005).
 //
-// Why this exists: `exportToSvg` needs a real DOM (headless Chromium), and
-// Vercel's build image has no browser/system libs, so this render step stays
-// OUT of `next build` and runs as a local, pre-commit step instead (mirrors
-// the Mermaid pipeline it replaces - see `docs/adr/0003-excalidraw-for-diagrams.md`):
-// render `content/diagrams/*.excalidraw` → `public/diagrams/<name>-{light,dark}.svg`
-// here, commit the SVGs, and let `<Diagram>` reference them as static files.
+// Pipeline: `content/diagrams/<name>.d2` (structure + semantic classes, never a
+// colour) + the theme prelude resolved from `src/theme/tokens.ts`
+// (`scripts/diagram-lib/theme.ts`) -> `public/diagrams/<name>-{light,dark}.svg`,
+// committed and staged by the pre-commit hook. D2 runs HERE and nowhere else:
+// no CI step, nothing in `next build`, so Vercel's build image only ever sees
+// committed SVGs.
 //
-// Each `.excalidraw` file is a native Excalidraw scene, authored in the LIGHT
-// palette (hand-editable in any Excalidraw client, or as raw JSON by an LLM -
-// see `docs/adr/0004-native-excalidraw-source.md`). The dark scene is derived
-// by `scripts/diagram-lib/theme.ts`'s exhaustive hex swap; an off-palette
-// colour throws rather than silently rendering (`scripts/diagram-lib/palette.ts`).
+// Every scene is re-rendered on every run, not just the ones that changed: the
+// gates in `diagram-lib/render.ts` are cross-cutting, and a prelude edit breaks
+// scenes that are not in the staged diff. The render is byte-deterministic, so
+// re-rendering an unchanged scene rewrites identical bytes and stages nothing.
 //
-// Files starting with `_` (e.g. `_palette.excalidraw`, a swatch reference
-// sheet) are skipped - they are authoring aids, not renderable diagrams.
-//
-// Idempotent: a diagram is re-rendered only when its source file, any
-// `scripts/diagram-lib/*.ts` file, this script, OR `src/theme/tokens.ts` (where
-// the primitive hexes live) is newer than the committed `.svg`.
+// This module is the I/O shell: reading, writing, and the exit code. The gates
+// and the render itself live in `diagram-lib/render.ts`, which is what
+// `src/theme/diagrams.test.ts` re-runs to prove the committed SVGs are fresh.
 
-import { existsSync } from "node:fs";
-import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { ThemeName } from "./diagram-lib/palette.ts";
-import { closeRenderer, rasterizeSvg, renderSceneToSvg } from "./diagram-lib/render.ts";
-import { toDarkScene } from "./diagram-lib/theme.ts";
+import { primitives } from "../src/theme/tokens.ts";
+import { type PreviewJob, writePreviews } from "./diagram-lib/preview.ts";
+import { renderScene } from "./diagram-lib/render.ts";
 
-const THIS_FILE = fileURLToPath(import.meta.url);
-const ROOT = resolve(dirname(THIS_FILE), "..");
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const SRC_DIR = join(ROOT, "content", "diagrams");
 const OUT_DIR = join(ROOT, "public", "diagrams");
+const FONT_DIR = join(ROOT, "scripts", "diagram-lib", "fonts");
 const PREVIEW_DIR = join(ROOT, ".diagram-preview");
-const LIB_DIR = join(ROOT, "scripts", "diagram-lib");
-const TOKENS_FILE = join(ROOT, "src", "theme", "tokens.ts");
 
-const THEMES: ThemeName[] = ["light", "dark"];
-
-// An SVG is stale when missing, or older than its source scene or the shared
-// engine mtime (the newest of this script, every diagram-lib/*.ts file, and
-// tokens.ts, where the primitive hexes live) - so a palette engine edit
-// re-renders every diagram even if no scene changed.
-async function isStale(srcPath: string, outPath: string, engineMtime: number): Promise<boolean> {
-  if (!existsSync(outPath)) return true;
-  const [src, out] = await Promise.all([stat(srcPath), stat(outPath)]);
-  return src.mtimeMs > out.mtimeMs || engineMtime > out.mtimeMs;
-}
-
-function describe(reason: unknown): string {
-  return reason instanceof Error ? reason.message : String(reason);
-}
-
-function failBrowser(error: unknown): void {
-  const message = describe(error);
-  console.error(`[prerender-diagrams] browser render failed: ${message}`);
-  if (/launch|executable|browser/i.test(message)) {
-    console.error(
-      "[prerender-diagrams] install the browser: pnpm exec playwright install chromium"
-    );
-  }
-  process.exitCode = 1;
-}
-
-interface StaleJob {
-  srcPath: string;
-  outPath: string;
-  previewPath: string;
-  base: string;
-  theme: ThemeName;
-}
+// `--preview` also rasterizes each SVG to a gitignored PNG at prose-column
+// width, so the authoring loop has something the Read tool can look at. Opt-in:
+// it is the one step that needs a browser, and the pre-commit hook never asks
+// for it.
+const wantPreviews = process.argv.includes("--preview");
+const PAGE_BACKGROUND = { light: primitives.white, dark: primitives.backgroundDark };
 
 async function main(): Promise<void> {
-  if (!existsSync(SRC_DIR)) {
-    console.log(`[prerender-diagrams] no ${SRC_DIR} - nothing to render`);
+  const sources = (await readdir(SRC_DIR)).filter((n) => n.endsWith(".d2")).sort();
+  if (sources.length === 0) {
+    console.log("[prerender-diagrams] no .d2 sources - nothing to render");
     return;
   }
 
-  const sourceFiles = (await readdir(SRC_DIR))
-    .filter((n) => n.endsWith(".excalidraw") && !n.startsWith("_"))
-    .sort();
-  if (sourceFiles.length === 0) {
-    console.log("[prerender-diagrams] no .excalidraw files - nothing to render");
-    return;
-  }
-
-  // The effective engine mtime is the newest of this script, every
-  // diagram-lib/*.ts file, and tokens.ts; any of those edits invalidates
-  // every SVG.
-  const libFiles = (await readdir(LIB_DIR)).filter((n) => n.endsWith(".ts"));
-  const engineFiles = [THIS_FILE, TOKENS_FILE, ...libFiles.map((n) => join(LIB_DIR, n))];
-  const engineStats = await Promise.all(engineFiles.map((f) => stat(f)));
-  const engineMtime = Math.max(...engineStats.map((s) => s.mtimeMs));
-
-  const stale: StaleJob[] = [];
-  let total = 0;
-  for (const filename of sourceFiles) {
-    const srcPath = join(SRC_DIR, filename);
-    const base = filename.slice(0, -".excalidraw".length);
-    for (const theme of THEMES) {
-      total += 1;
-      const outPath = join(OUT_DIR, `${base}-${theme}.svg`);
-      const previewPath = join(PREVIEW_DIR, `${base}-${theme}.png`);
-      if (await isStale(srcPath, outPath, engineMtime)) {
-        stale.push({ srcPath, outPath, previewPath, base, theme });
-      }
-    }
-  }
-
-  if (stale.length === 0) {
-    console.log(`[prerender-diagrams] ${total} diagram(s) up to date - skipping`);
-    return;
-  }
+  const [regular, bold] = await Promise.all([
+    readFile(join(FONT_DIR, "Inter-Regular.ttf")),
+    readFile(join(FONT_DIR, "Inter-Bold.ttf")),
+  ]);
+  const fonts = { regular: new Uint8Array(regular), bold: new Uint8Array(bold) };
 
   await mkdir(OUT_DIR, { recursive: true });
-  await mkdir(PREVIEW_DIR, { recursive: true });
+  if (wantPreviews) await mkdir(PREVIEW_DIR, { recursive: true });
+  const failures: string[] = [];
+  const previews: PreviewJob[] = [];
 
-  // Parse each stale source once (a scene backs both its light and dark job).
-  const parsed = new Map<string, object>();
-  let failed = false;
-
-  for (const job of stale) {
-    let lightScene = parsed.get(job.srcPath);
-    if (lightScene === undefined) {
-      try {
-        const raw = await readFile(job.srcPath, "utf8");
-        lightScene = JSON.parse(raw) as object;
-        parsed.set(job.srcPath, lightScene);
-      } catch (error) {
-        console.error(
-          `[prerender-diagrams] failed to parse ${job.srcPath.replace(`${ROOT}/`, "")}: ${describe(error)}`
-        );
-        failed = true;
-        continue;
+  for (const filename of sources) {
+    const scene = filename.slice(0, -".d2".length);
+    const source = await readFile(join(SRC_DIR, filename), "utf8");
+    // `_`-prefixed sources are the exemplar board: rendered like any other scene
+    // (so a broken class definition surfaces), exempt from the aspect budget
+    // only, and unembeddable - `Diagram.tsx`'s slug regex rejects a leading `_`.
+    const result = await renderScene(scene, source, fonts, {
+      exemptFromAspect: scene.startsWith("_"),
+    });
+    failures.push(...result.failures);
+    for (const [theme, svg] of Object.entries(result.svgs)) {
+      const outPath = join(OUT_DIR, `${scene}-${theme}.svg`);
+      await writeFile(outPath, svg, "utf8");
+      if (wantPreviews) {
+        previews.push({
+          svg,
+          outPath: join(PREVIEW_DIR, `${scene}-${theme}.png`),
+          background: PAGE_BACKGROUND[theme as keyof typeof PAGE_BACKGROUND],
+        });
       }
-    }
-
-    let scene: object;
-    try {
-      scene = job.theme === "dark" ? toDarkScene(lightScene) : lightScene;
-    } catch (error) {
-      console.error(`[prerender-diagrams] ${job.base}-${job.theme}: ${describe(error)}`);
-      failed = true;
-      continue;
-    }
-
-    let svg: string;
-    try {
-      svg = await renderSceneToSvg(scene, job.theme);
-    } catch (error) {
-      failBrowser(error);
-      failed = true;
-      continue;
-    }
-    await writeFile(job.outPath, svg, "utf8");
-    console.log(
-      `[prerender-diagrams] rendered ${job.base}-${job.theme} → ${job.outPath.replace(`${ROOT}/`, "")}`
-    );
-
-    try {
-      await rasterizeSvg(svg, job.previewPath);
-    } catch (error) {
-      console.error(
-        `[prerender-diagrams] preview PNG failed for ${job.base}-${job.theme}: ${describe(error)}`
-      );
-      failed = true;
+      console.log(`[prerender-diagrams] ${scene}-${theme}  ${(svg.length / 1024).toFixed(1)} KB`);
     }
   }
 
-  await closeRenderer();
-  if (failed) process.exitCode = 1;
+  if (wantPreviews) {
+    await writePreviews(previews);
+    console.log(`[prerender-diagrams] ${previews.length} preview PNG(s) in .diagram-preview/`);
+  }
+
+  if (failures.length > 0) {
+    for (const failure of failures) console.error(`[prerender-diagrams] ${failure}`);
+    console.error(`[prerender-diagrams] ${failures.length} failure(s)`);
+    process.exitCode = 1;
+  }
 }
 
-main().catch(async (error) => {
-  console.error(`[prerender-diagrams] unexpected error: ${describe(error)}`);
+await main().catch((error) => {
+  console.error(
+    `[prerender-diagrams] unexpected error: ${error instanceof Error ? error.message : String(error)}`
+  );
   process.exitCode = 1;
-  await closeRenderer();
 });
+// The Go WASM runtime keeps the event loop alive; exit explicitly.
+process.exit(process.exitCode ?? 0);

@@ -1,0 +1,19 @@
+# A task's state machine. `planned` is not used here - these are waiting states,
+# not unbuilt ones; the wait is carried by the edge labels.
+# A left-to-right chain blows past the prose column
+# (1647x154, 10.7:1), so the chain flows DOWN with the pinned stepper width.
+direction: down
+
+blocked: "blocked" { class: [node; stepper] }
+todo: "todo" { class: [node; stepper] }
+wip: "in-progress" { class: [node; stepper] }
+implemented: "implemented" { class: [emphasis; stepper] }
+review: "review" { class: [node; stepper] }
+done: "done" { class: [terminal; stepper] }
+
+blocked -> todo: "dep done" { class: edge }
+todo -> wip: "implement" { class: edge }
+wip -> implemented: "tests pass" { class: edge }
+implemented -> review: "gates fail" { class: edge }
+implemented -> done: "gates pass" { class: edge }
+review -> done: "resolved" { class: edge }

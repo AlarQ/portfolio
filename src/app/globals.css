@@ -13,7 +13,7 @@
 @import "tailwindcss";
 
 /*
- * Excalidraw-rendered diagram SVGs inline base64 font data URIs; Tailwind's
+ * D2-rendered diagram SVGs inline base64 font data URIs; Tailwind's
  * automatic content scan otherwise treats stray substrings in that blob as
  * arbitrary-value class candidates and emits invalid CSS. These are prebuilt
  * static assets with no class names to extract, so exclude them from scanning.

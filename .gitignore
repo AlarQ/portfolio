@@ -68,5 +68,5 @@ yarn-error.log*
 specs/**/.monitor.jsonl
 storybook-static/
 
-# Diagram render-validate loop preview PNGs (see scripts/prerender-diagrams.ts)
+# Diagram authoring-loop preview PNGs (`pnpm prerender:diagrams --preview`)
 .diagram-preview/
