@@ -1,0 +1,18 @@
+direction: down
+
+cli: "flowctl (CLI)\nthin clap shell: argv, ports, exit code" { class: node }
+web: "bondsmith-web\nDioxus desktop, read-only - in progress" { class: node }
+
+core: "bondsmith-core - all the substance, layer-first" {
+  class: group
+
+  infra: "infrastructure\ngit / gate runner / state store / clock" { class: node }
+  app: "application\nDriver + six IO ports" { class: node }
+  domain: "domain\npure, zero IO - contracts, state, findings" { class: emphasis }
+
+  infra -> app: "implements the ports" { class: edge }
+  app -> domain: "evaluates against" { class: edge }
+}
+
+cli -> core { class: edge }
+web -> core { class: edge }

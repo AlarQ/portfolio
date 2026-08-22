@@ -1,0 +1,15 @@
+direction: down
+
+blocked: "blocked" { class: node }
+todo: "todo" { class: node }
+wip: "in-progress" { class: node }
+implemented: "implemented" { class: emphasis }
+review: "review" { class: node }
+done: "done" { class: terminal }
+
+blocked -> todo: "dep done" { class: edge }
+todo -> wip: "implement" { class: edge }
+wip -> implemented: "tests pass" { class: edge }
+implemented -> review: "gates fail" { class: edge }
+implemented -> done: "gates pass" { class: edge }
+review -> done: "resolved" { class: edge }

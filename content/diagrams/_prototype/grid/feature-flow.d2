@@ -1,0 +1,23 @@
+# Grid-stack take on the chain: the container packs the steps with a fixed gap
+# instead of letting the layout engine leave ~110px between ranks. Order carries
+# the flow; the arrows are short connectors, not long runs.
+chain: "" {
+  grid-rows: 7
+  grid-gap: 14
+  class: group
+
+  explore: "explore" { class: node }
+  propose: "propose" { class: node }
+  implement: "implement" { class: emphasis }
+  validate: "validate" { class: node }
+  review: "review-and-ship" { class: node }
+  learn: "learn-from-reports" { class: node }
+  impl: "validate-impl" { class: terminal }
+
+  explore -> propose { class: edge }
+  propose -> implement { class: edge }
+  implement -> validate { class: edge }
+  validate -> review { class: edge }
+  review -> learn { class: edge }
+  learn -> impl { class: edge }
+}

@@ -1,0 +1,34 @@
+direction: right
+
+validate: "validate" {
+  class: group
+
+  p1: "Phase 1 - deterministic gates" {
+    class: group
+    lint: "lint" { class: node }
+    types: "type-check" { class: node }
+    tests: "tests" { class: node }
+    format: "format" { class: node }
+  }
+
+  p2: "Phase 2 - advisory agents" {
+    class: group
+    sec: "Security Engineer" { class: node }
+    cqp: "Code-Quality Pragmatist" { class: node }
+    arch: "Software Architect" { class: node }
+  }
+
+  p3: "Phase 3 - coverage audit" {
+    class: group
+    odium: |md
+      ## Odium
+      diff vs acceptance criteria
+    | { class: emphasis }
+  }
+}
+
+ship: "review-and-ship" { class: terminal }
+
+validate.p1 -> ship { class: edge }
+validate.p2 -> ship { class: edge }
+validate.p3 -> ship { class: edge }

@@ -1,0 +1,37 @@
+direction: down
+
+explore: |md
+  ## explore
+  Plan · capture requirements, size the work
+| { class: node }
+propose: |md
+  ## propose
+  Plan · turn intent into a contract
+| { class: node }
+implement: |md
+  ## implement
+  Build · one task, test-first
+| { class: emphasis }
+validate: |md
+  ## validate
+  Verify · stop trusting one perspective
+| { class: node }
+review: |md
+  ## review-and-ship
+  Verify · rule on findings, ship inline
+| { class: node }
+learn: |md
+  ## learn-from-reports
+  Verify · never the same mistake twice
+| { class: node }
+impl: |md
+  ## validate-impl
+  Ship · final spec-completion audit
+| { class: terminal }
+
+explore -> propose { class: edge }
+propose -> implement { class: edge }
+implement -> validate { class: edge }
+validate -> review { class: edge }
+review -> learn { class: edge }
+learn -> impl { class: edge }

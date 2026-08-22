@@ -34,7 +34,8 @@
     "release:first": "commit-and-tag-version --first-release",
     "release:minor": "commit-and-tag-version --release-as minor",
     "release:major": "commit-and-tag-version --release-as major",
-    "release:patch": "commit-and-tag-version --release-as patch"
+    "release:patch": "commit-and-tag-version --release-as patch",
+    "proto:diagrams": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/prototype-diagram-variants.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

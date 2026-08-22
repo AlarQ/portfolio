@@ -1,0 +1,16 @@
+direction: down
+
+explore: "explore\ncapture requirements, size the work" { class: node }
+propose: "propose\nturn intent into a contract" { class: node }
+implement: "implement\nbuild one task, test-first" { class: emphasis }
+validate: "validate\nstop trusting one perspective" { class: node }
+review: "review-and-ship\nrule on findings, ship inline" { class: node }
+learn: "learn-from-reports\nnever the same mistake twice" { class: node }
+impl: "validate-impl\nfinal spec-completion audit" { class: terminal }
+
+explore -> propose: "Plan" { class: edge }
+propose -> implement: "Build" { class: edge }
+implement -> validate: "Verify" { class: edge }
+validate -> review { class: edge }
+review -> learn { class: edge }
+learn -> impl: "Ship" { class: edge }

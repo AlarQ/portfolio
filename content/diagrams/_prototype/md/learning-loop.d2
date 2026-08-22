@@ -1,0 +1,19 @@
+direction: down
+
+work: "model works" { class: node }
+log: |md
+  ## event log
+  findings captured per run
+| { class: node }
+review: |md
+  ## I review
+  accept / reject
+| { class: emphasis }
+mine: "mine the findings" { class: node }
+rules: "new rules" { class: terminal }
+
+work -> log { class: edge }
+log -> review { class: edge }
+review -> mine { class: edge }
+mine -> rules { class: edge }
+rules -> work: "caught earlier next run" { class: edge-feedback }
