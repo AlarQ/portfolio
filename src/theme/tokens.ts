@@ -253,6 +253,8 @@ export const semanticLight = {
   "--badge-orange-fg": "categoryOrangeFg",
   "--badge-rose-bg": "categoryRoseBg",
   "--badge-rose-fg": "categoryRoseFg",
+  "--overlay": "headingLight",
+  "--overlay-foreground": "white",
 } as const satisfies Record<string, PrimitiveName>;
 
 /**
@@ -275,6 +277,8 @@ export const semanticDark = {
   "--popover": "cardDark",
   "--popover-foreground": "headingDark",
   "--border": "borderDark",
+  "--overlay": "white",
+  "--overlay-foreground": "headingDark",
 } as const satisfies Record<string, PrimitiveName>;
 
 /**

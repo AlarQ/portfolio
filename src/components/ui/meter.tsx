@@ -9,23 +9,35 @@ export function clampMeterValue(value: number): number {
 }
 
 /**
- * MVP-Progress meter atom (FR-6, D-8). The fill deliberately binds
+ * Milestone Progress meter atom (FR-8). The fill deliberately binds
  * `bg-primary` - NOT a Status hue (`bg-badge-*`/`bg-destructive`/etc.) - so
- * MVP Progress and Status read as two independent signals (spec.md
- * meter-legend-label). Legend/label content is Task 002 chunk 2, not here.
+ * Milestone Progress and Feature Status read as two independent signals.
+ * `legend` is required, authored by the caller (e.g. `milestoneLegend()`) -
+ * this atom carries no hardcoded copy of its own (meter-legend-required).
  */
-function Meter({ className, value, ...props }: React.ComponentProps<"div"> & { value: number }) {
+function Meter({
+  className,
+  value,
+  legend,
+  ...props
+}: React.ComponentProps<"div"> & { value: number; legend: string }) {
   const clamped = clampMeterValue(value);
 
   return (
-    <div data-slot="meter-group" className={cn("w-full", className)} {...props}>
+    <div
+      data-slot="meter-group"
+      className={cn("flex w-full items-center gap-3", className)}
+      {...props}
+    >
       <div
         data-slot="meter"
         role="progressbar"
         aria-valuenow={clamped}
         aria-valuemin={0}
         aria-valuemax={100}
-        className="h-meter-track w-full overflow-hidden rounded-full bg-secondary"
+        aria-label={legend}
+        aria-valuetext={legend}
+        className="h-meter-track flex-1 overflow-hidden rounded-full bg-secondary"
       >
         <div
           data-slot="meter-fill"
@@ -33,8 +45,8 @@ function Meter({ className, value, ...props }: React.ComponentProps<"div"> & { v
           style={{ width: `${clamped}%` }}
         />
       </div>
-      <p data-slot="meter-legend" className="mt-meter-legend-gap text-muted-foreground text-sm">
-        {clamped}% to first usable release
+      <p data-slot="meter-legend" className="text-muted-foreground text-sm">
+        {legend}
       </p>
     </div>
   );

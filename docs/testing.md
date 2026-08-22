@@ -2,7 +2,7 @@
 
 This document explains how to run and write end-to-end tests using Playwright for the portfolio website.
 
-> **Note - blog-only surface.** The live routes are `/blog`, `/blog/[slug]`, plus `/` (which 307-redirects to `/blog`); `/projects` returns 404. Code snippets below that `goto("/")` or reference a projects page are **illustrative Playwright patterns**, not claims about current routes - see the `e2e/*.spec.ts` files for the real, current assertions.
+> **Note - live routes.** The live routes are `/`, `/blog`, `/blog/[slug]`, `/author`, `/projects`, and `/projects/[slug]` (`/` 307-redirects to `/blog`). `/projects` is an SSG index of `ProjectCard`s; `/projects/[slug]` is a per-Project detail route (header → Capabilities → Roadmap → Brief) - see `e2e/projects-index.spec.ts`, `e2e/projects-detail.spec.ts`, and `e2e/projects-media.spec.ts` (the last runs against a static Storybook build, not the live app - see that file for why). Code snippets below are illustrative Playwright patterns, not claims about current routes - see the `e2e/*.spec.ts` files for the real, current assertions.
 
 ## Table of Contents
 
@@ -30,7 +30,9 @@ Playwright is used for end-to-end testing of the Next.js portfolio website. It t
 
 All E2E tests are located in the `e2e/` directory:
 - `e2e/home.spec.ts` - Root route `/` → `/blog` redirect
-- `e2e/projects.spec.ts` - Asserts `/projects` returns 404 (route removed)
+- `e2e/projects-index.spec.ts` - `/projects` index cards, order, nav active state, FR-14 intro copy
+- `e2e/projects-detail.spec.ts` - `/projects/[slug]` detail order, Milestone Progress meter, Roadmap jump link, 404 on an unknown slug
+- `e2e/projects-media.spec.ts` - `ClipRow`/`MediaFrame` a11y and playback-policy checks, run against a static Storybook build (no real Project has a clip yet)
 - `e2e/blog.spec.ts`, `e2e/blog-detail.spec.ts` - Blog index and Post detail tests
 
 ---

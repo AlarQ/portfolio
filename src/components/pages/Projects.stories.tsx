@@ -9,6 +9,14 @@ const PROJECTS: readonly Project[] = [
     tagline: "This site - a statically-generated portfolio and blog.",
     repos: [{ role: "frontend", techKeys: ["nextjs", "react", "typescript"] }],
     relatedPosts: [],
+    capabilities: [],
+    roadmap: {
+      milestoneName: "MVP",
+      features: [
+        { name: "Ship it", status: "shipped", phase: "toward" },
+        { name: "Polish it", status: "in-progress", phase: "toward" },
+      ],
+    },
   },
   {
     title: "Weekend Sketch",
@@ -16,6 +24,11 @@ const PROJECTS: readonly Project[] = [
     tagline: "An early-stage exploration.",
     repos: [{ role: "frontend", techKeys: ["react"] }],
     relatedPosts: [],
+    capabilities: [],
+    roadmap: {
+      milestoneName: "MVP",
+      features: [{ name: "Ship it", status: "planned", phase: "toward" }],
+    },
   },
   {
     title: "Shipped Thing",
@@ -23,6 +36,11 @@ const PROJECTS: readonly Project[] = [
     tagline: "A completed project.",
     repos: [{ role: "backend", techKeys: ["node"] }],
     relatedPosts: [],
+    capabilities: [],
+    roadmap: {
+      milestoneName: "MVP",
+      features: [{ name: "Ship it", status: "shipped", phase: "toward" }],
+    },
   },
 ];
 
@@ -30,11 +48,11 @@ const meta: Meta<typeof Projects> = {
   title: "Pages/Projects",
   component: Projects,
   tags: ["autodocs"],
-  args: { projects: PROJECTS, briefs: { "portfolio-site": <p>Fixture brief text.</p> } },
+  args: { projects: PROJECTS },
 };
 
 export default meta;
 type Story = StoryObj<typeof Projects>;
 
-/** First Project selected by default; click a pill to swap the summary. */
+/** Cards in authored array order: 0%, in-progress, and 100% figures. */
 export const Default: Story = {};
